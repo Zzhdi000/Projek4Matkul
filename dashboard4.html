@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Informasi Akademik (SIAKAD)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 font-sans">
+
+    <header class="bg-blue-800 text-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="bg-white p-2 rounded-full">
+                    <div class="w-8 h-8 bg-blue-800 rounded-full flex items-center justify-center text-xs font-bold">LOGO</div>
+                </div>
+                <h1 class="text-xl font-bold tracking-wider">SIAKAD UNIVERSITAS</h1>
+            </div>
+            <div class="flex items-center space-x-4">
+                <span class="hidden md:inline">Halo, <strong>Budi Santoso</strong></span>
+                <img class="w-10 h-10 rounded-full border-2 border-white" src="https://via.placeholder.com/150" alt="User Profile">
+            </div>
+        </div>
+    </header>
+
+    <div class="flex min-h-screen">
+        <aside class="w-64 bg-white shadow-lg hidden md:block">
+            <nav class="mt-10 px-4">
+                <a href="#" class="flex items-center py-3 px-4 bg-blue-50 text-blue-700 rounded-lg mb-2">
+                    <i class="fas fa-home mr-3"></i> Dashboard
+                </a>
+                <a href="#" class="flex items-center py-3 px-4 text-gray-600 hover:bg-gray-100 rounded-lg mb-2 transition">
+                    <i class="fas fa-user-graduate mr-3"></i> Profil Mahasiswa
+                </a>
+                <a href="#" class="flex items-center py-3 px-4 text-gray-600 hover:bg-gray-100 rounded-lg mb-2 transition">
+                    <i class="fas fa-book mr-3"></i> KRS Online
+                </a>
+                <a href="#" class="flex items-center py-3 px-4 text-gray-600 hover:bg-gray-100 rounded-lg mb-2 transition">
+                    <i class="fas fa-file-invoice mr-3"></i> Transkrip Nilai
+                </a>
+                <a href="#" class="flex items-center py-3 px-4 text-gray-600 hover:bg-gray-100 rounded-lg mb-2 transition">
+                    <i class="fas fa-money-bill-wave mr-3"></i> Pembayaran UKT
+                </a>
+                <hr class="my-4">
+                <a href="#" class="flex items-center py-3 px-4 text-red-500 hover:bg-red-50 rounded-lg transition">
+                    <i class="fas fa-sign-out-alt mr-3"></i> Keluar
+                </a>
+            </nav>
+        </aside>
+
+        <main class="flex-1 p-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-blue-500">
+                    <p class="text-gray-500 text-sm">IPK Kumulatif</p>
+                    <h3 class="text-2xl font-bold">3.85</h3>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-green-500">
+                    <p class="text-gray-500 text-sm">SKS Diselesaikan</p>
+                    <h3 class="text-2xl font-bold">84 / 144</h3>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-yellow-500">
+                    <p class="text-gray-500 text-sm">Status Keuangan</p>
+                    <h3 class="text-2xl font-bold text-green-600">LUNAS</h3>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+                <div class="p-5 border-b flex justify-between items-center">
+                    <h2 class="text-lg font-semibold text-gray-700">Jadwal Kuliah Hari Ini</h2>
+                    <button class="text-blue-600 text-sm font-medium">Lihat Semua</button>
+                </div>
+                <div class="p-5">
+                    <table class="w-full text-left">
+                        <thead>
+                            <tr class="text-gray-400 text-sm uppercase">
+                                <th class="pb-3">Mata Kuliah</th>
+                                <th class="pb-3">Waktu</th>
+                                <th class="pb-3">Ruang</th>
+                                <th class="pb-3">Dosen</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-600">
+                            <tr class="border-b hover:bg-gray-50 transition">
+                                <td class="py-4 font-medium">Pemrograman Web 2</td>
+                                <td class="py-4">08:00 - 10:30</td>
+                                <td class="py-4">Lab Komp 01</td>
+                                <td class="py-4">Dr. Ahmad Subarjo</td>
+                            </tr>
+                            <tr class="border-b hover:bg-gray-50 transition">
+                                <td class="py-4 font-medium">Kecerdasan Buatan</td>
+                                <td class="py-4">13:00 - 15:30</td>
+                                <td class="py-4">Gedung C.302</td>
+                                <td class="py-4">Siti Aminah, M.T.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="bg-white border-t py-4 mt-auto">
+        <div class="container mx-auto px-6 text-center text-gray-500 text-sm">
+            &copy; 2026 Sistem Informasi Akademik Terpadu. All rights reserved.
+        </div>
+    </footer>
+
+</body>
+</html>

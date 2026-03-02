@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Siswa - SIAKAD</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-50">
+
+    <div class="flex h-screen">
+        <aside class="w-64 bg-slate-900 text-white p-6 hidden md:block">
+            <div class="mb-10 text-xl font-bold border-b border-slate-700 pb-4">SIAKAD SMAN</div>
+            <nav class="space-y-4">
+                <a href="#" class="block p-3 rounded-lg bg-blue-600 text-white"><i class="fas fa-th-large mr-3"></i> Dashboard</a>
+                <a href="#" class="block p-3 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition"><i class="fas fa-calendar-alt mr-3"></i> Jadwal Pelajaran</a>
+                <a href="#" class="block p-3 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition"><i class="fas fa-graduation-cap mr-3"></i> Nilai & Rapor</a>
+                <a href="#" class="block p-3 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition"><i class="fas fa-check-circle mr-3"></i> Presensi</a>
+                <a href="#" class="block p-3 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition"><i class="fas fa-user mr-3"></i> Profil</a>
+            </nav>
+        </aside>
+
+        <main class="flex-1 overflow-y-auto">
+            <header class="bg-white p-4 flex justify-between items-center shadow-sm">
+                <h2 class="text-xl font-semibold text-gray-700">Selamat Datang, Budi!</h2>
+                <div class="flex items-center space-x-4">
+                    <i class="fas fa-bell text-gray-500 cursor-pointer"></i>
+                    <img src="https://via.placeholder.com/40" class="rounded-full border" alt="Avatar">
+                </div>
+            </header>
+
+            <div class="p-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-blue-500">
+                        <p class="text-sm text-gray-500">Rata-rata Nilai</p>
+                        <h3 class="text-2xl font-bold">88.5 / 100</h3>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-green-500">
+                        <p class="text-sm text-gray-500">Kehadiran</p>
+                        <h3 class="text-2xl font-bold">98%</h3>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-yellow-500">
+                        <p class="text-sm text-gray-500">Tugas Belum Selesai</p>
+                        <h3 class="text-2xl font-bold">2 Tugas</h3>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="lg:col-span-2 bg-white p-6 rounded-xl shadow-sm">
+                        <h3 class="font-bold text-gray-700 mb-4">Jadwal Hari Ini</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between p-4 border rounded-lg hover:bg-blue-50">
+                                <div>
+                                    <p class="font-bold text-gray-800">Matematika</p>
+                                    <p class="text-sm text-gray-500">07:00 - 08:30 | Pak Budi</p>
+                                </div>
+                                <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold">Berlangsung</span>
+                            </div>
+                            <div class="flex items-center justify-between p-4 border rounded-lg">
+                                <div>
+                                    <p class="font-bold text-gray-800">Bahasa Inggris</p>
+                                    <p class="text-sm text-gray-500">08:45 - 10:15 | Ms. Sarah</p>
+                                </div>
+                                <span class="bg-gray-100 text-gray-500 px-3 py-1 rounded-full text-xs font-bold">Akan Datang</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl shadow-sm">
+                        <h3 class="font-bold text-gray-700 mb-4">Pengumuman</h3>
+                        <ul class="space-y-4">
+                            <li class="border-b pb-2">
+                                <p class="text-sm font-semibold text-blue-800">Libur Nasional</p>
+                                <p class="text-xs text-gray-500">Besok sekolah libur memperingati hari raya...</p>
+                            </li>
+                            <li class="border-b pb-2">
+                                <p class="text-sm font-semibold text-blue-800">Ujian Tengah Semester</p>
+                                <p class="text-xs text-gray-500">Jadwal UTS akan dibagikan lusa.</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+</body>
+</html>

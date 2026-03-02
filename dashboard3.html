@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard Mahasiswa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-slate-100 flex min-h-screen">
+
+    <aside class="w-64 bg-white border-r p-6 flex flex-col justify-between">
+        <div>
+            <div class="text-blue-900 font-bold text-xl mb-10 flex items-center">
+                <i class="fas fa-graduation-cap mr-2"></i> SIAKAD PTI
+            </div>
+            <nav class="space-y-4">
+                <a href="#" class="flex items-center p-3 bg-blue-50 text-blue-800 rounded-xl font-bold">
+                    <i class="fas fa-home mr-3"></i> Dashboard
+                </a>
+                <a href="#" class="flex items-center p-3 text-gray-500 hover:bg-gray-50 rounded-xl">
+                    <i class="fas fa-book mr-3"></i> KRS Online
+                </a>
+                <a href="#" class="flex items-center p-3 text-gray-500 hover:bg-gray-50 rounded-xl">
+                    <i class="fas fa-chart-line mr-3"></i> Transkrip Nilai
+                </a>
+            </nav>
+        </div>
+        <a href="index.html" class="text-red-500 font-bold p-3 hover:bg-red-50 rounded-xl transition">
+            <i class="fas fa-sign-out-alt mr-2"></i> Keluar
+        </a>
+    </aside>
+
+    <main class="flex-1 p-8">
+        <header class="flex justify-between items-center mb-10">
+            <h2 class="text-2xl font-bold text-gray-800">Ringkasan Akademik</h2>
+            <div class="flex items-center gap-3">
+                <div class="text-right">
+                    <p class="text-sm font-bold leading-none">Budi Santoso</p>
+                    <p class="text-xs text-gray-400">24050974001</p>
+                </div>
+                <img src="https://i.pravatar.cc/100" class="w-10 h-10 rounded-full">
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10 text-white">
+            <div class="bg-blue-800 p-6 rounded-3xl shadow-xl">
+                <p class="opacity-80">IPK Kumulatif</p>
+                <h3 class="text-4xl font-bold mt-2">3.92</h3>
+            </div>
+            <div class="bg-emerald-600 p-6 rounded-3xl shadow-xl">
+                <p class="opacity-80">SKS Lulus</p>
+                <h3 class="text-4xl font-bold mt-2">86 SKS</h3>
+            </div>
+            <div class="bg-amber-500 p-6 rounded-3xl shadow-xl">
+                <p class="opacity-80">Tagihan UKT</p>
+                <h3 class="text-4xl font-bold mt-2">LUNAS</h3>
+            </div>
+        </div>
+
+        <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
+            <h4 class="font-bold text-gray-800 mb-6 uppercase tracking-wider">Hasil Studi Semester Ini</h4>
+            <table class="w-full text-left">
+                <thead>
+                    <tr class="text-gray-400 text-sm border-b uppercase">
+                        <th class="pb-4">Mata Kuliah</th>
+                        <th class="pb-4">SKS</th>
+                        <th class="pb-4">Grade</th>
+                        <th class="pb-4 text-right">Status</th>
+                    </tr>
+                </thead>
+                <tbody class="text-gray-700">
+                    <tr class="border-b">
+                        <td class="py-5 font-bold">Pemrograman Web 3</td>
+                        <td>3</td>
+                        <td class="text-blue-700 font-bold">A</td>
+                        <td class="text-right font-semibold text-green-600">LULUS</td>
+                    </tr>
+                    <tr class="border-b">
+                        <td class="py-5 font-bold">Basis Data Lanjut</td>
+                        <td>3</td>
+                        <td class="text-blue-700 font-bold">A-</td>
+                        <td class="text-right font-semibold text-green-600">LULUS</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</body>
+</html>

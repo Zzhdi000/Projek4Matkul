@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMA Negeri Unggul - Sistem Informasi Akademik</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .hero-gradient {
+            background: linear-gradient(rgba(30, 58, 138, 0.8), rgba(30, 58, 138, 0.8)), 
+                        url('https://images.unsplash.com/photo-1523050853021-ea961c8f86f5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <i class="fas fa-university text-blue-800 text-3xl"></i>
+                <div>
+                    <h1 class="font-bold text-xl leading-none text-blue-900">SMAN UNGGUL</h1>
+                    <p class="text-xs text-gray-500 uppercase tracking-widest">Cerdas, Beretika, Mandiri</p>
+                </div>
+            </div>
+            <div class="hidden md:flex space-x-8 font-medium text-gray-700">
+                <a href="#home" class="hover:text-blue-800 transition">Beranda</a>
+                <a href="#akademik" class="hover:text-blue-800 transition">Akademik</a>
+                <a href="#berita" class="hover:text-blue-800 transition">Berita</a>
+                <a href="#kontak" class="hover:text-blue-800 transition">Kontak</a>
+            </div>
+            <a href="#login-section" class="bg-blue-800 text-white px-6 py-2 rounded-full hover:bg-blue-700 shadow-lg transition">
+                Portal SIAKAD
+            </a>
+        </div>
+    </nav>
+
+    <section id="home" class="hero-gradient h-[500px] flex items-center text-white">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-4xl md:text-6xl font-extrabold mb-4">Membangun Generasi Emas Masa Depan</h2>
+            <p class="text-xl md:text-2xl mb-8 opacity-90">Sistem Informasi Akademik Terpadu & Transparan</p>
+            <div class="flex justify-center space-x-4">
+                <button class="bg-yellow-500 hover:bg-yellow-400 text-blue-900 font-bold px-8 py-3 rounded-lg transition">Pendaftaran Siswa</button>
+                <button class="border-2 border-white hover:bg-white hover:text-blue-900 px-8 py-3 rounded-lg transition font-bold">Profil Sekolah</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="akademik" class="py-16 container mx-auto px-6">
+        <div class="text-center mb-12">
+            <h3 class="text-3xl font-bold text-gray-800">Layanan Akademik</h3>
+            <div class="w-20 h-1 bg-blue-800 mx-auto mt-2"></div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition text-center border-b-4 border-blue-800">
+                <i class="fas fa-calendar-alt text-4xl text-blue-800 mb-4"></i>
+                <h4 class="font-bold text-lg mb-2">Kalender</h4>
+                <p class="text-gray-500 text-sm">Cek jadwal ujian dan hari libur nasional.</p>
+            </div>
+            <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition text-center border-b-4 border-green-500">
+                <i class="fas fa-book-open text-4xl text-green-500 mb-4"></i>
+                <h4 class="font-bold text-lg mb-2">E-Learning</h4>
+                <p class="text-gray-500 text-sm">Akses materi dan tugas sekolah secara online.</p>
+            </div>
+            <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition text-center border-b-4 border-yellow-500">
+                <i class="fas fa-chart-line text-4xl text-yellow-500 mb-4"></i>
+                <h4 class="font-bold text-lg mb-2">E-Rapor</h4>
+                <p class="text-gray-500 text-sm">Pantau hasil belajar siswa tiap semester.</p>
+            </div>
+            <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition text-center border-b-4 border-red-500">
+                <i class="fas fa-wallet text-4xl text-red-500 mb-4"></i>
+                <h4 class="font-bold text-lg mb-2">Keuangan</h4>
+                <p class="text-gray-500 text-sm">Informasi pembayaran SPP dan iuran.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="login-section" class="bg-blue-50 py-20 border-t border-b">
+        <div class="container mx-auto px-6 flex flex-wrap items-center">
+            <div class="w-full md:w-1/2 mb-10 md:mb-0">
+                <h3 class="text-3xl font-bold text-blue-900 mb-4">Portal Login SIAKAD</h3>
+                <p class="text-gray-600 mb-6 mr-10">Gunakan Nomor Induk Siswa (NIS) atau NIP untuk mengakses dashboard pribadi Anda. Pastikan menjaga kerahasiaan kata sandi Anda.</p>
+                <div class="flex items-center space-x-4 text-blue-800 font-semibold">
+                    <span><i class="fas fa-check-circle"></i> Monitoring Nilai</span>
+                    <span><i class="fas fa-check-circle"></i> Absensi Realtime</span>
+                </div>
+            </div>
+            <div class="w-full md:w-1/2 bg-white p-10 rounded-3xl shadow-2xl">
+                <form>
+                    <div class="mb-6">
+                        <label class="block text-gray-700 text-sm font-bold mb-2">Username / NIS</label>
+                        <input type="text" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800" placeholder="Masukkan ID">
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-gray-700 text-sm font-bold mb-2">Password</label>
+                        <input type="password" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800" placeholder="••••••••">
+                    </div>
+                    <button type="button" class="w-full bg-blue-800 text-white font-bold py-3 rounded-xl hover:bg-blue-900 transition">Masuk ke Dashboard</button>
+                    <p class="mt-4 text-center text-sm text-gray-500">Lupa password? <a href="#" class="text-blue-800 font-bold">Klik di sini</a></p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer id="kontak" class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div>
+                <h4 class="text-xl font-bold mb-6">Tentang Kami</h4>
+                <p class="text-gray-400 text-sm leading-relaxed">SMAN UNGGUL adalah institusi pendidikan yang berfokus pada pengembangan karakter dan kompetensi teknologi informasi untuk menghadapi era digital.</p>
+            </div>
+            <div>
+                <h4 class="text-xl font-bold mb-6">Kontak Sekolah</h4>
+                <p class="text-gray-400 text-sm"><i class="fas fa-map-marker-alt mr-2 mb-3"></i> Jl. Pendidikan No. 45, Jakarta Selatan</p>
+                <p class="text-gray-400 text-sm"><i class="fas fa-phone mr-2 mb-3"></i> (021) 1234-5678</p>
+                <p class="text-gray-400 text-sm"><i class="fas fa-envelope mr-2"></i> info@smanunggul.sch.id</p>
+            </div>
+            <div>
+                <h4 class="text-xl font-bold mb-6">Media Sosial</h4>
+                <div class="flex space-x-4">
+                    <a href="#" class="w-10 h-10 bg-blue-800 rounded-full flex items-center justify-center hover:bg-blue-700"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="w-10 h-10 bg-pink-600 rounded-full flex items-center justify-center hover:bg-pink-500"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center hover:bg-red-500"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500 text-xs">
+            &copy; 2026 SMAN UNGGUL IT Solution. All rights reserved.
+        </div>
+    </footer>
+
+</body>
+</html>
