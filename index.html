@@ -1,135 +1,522 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SMA Negeri Unggul - Sistem Informasi Akademik</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SDN NEGERI GANTING - Sistem Informasi Akademik</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
     <style>
-        .hero-gradient {
-            background: linear-gradient(rgba(30, 58, 138, 0.8), rgba(30, 58, 138, 0.8)), 
-                        url('https://images.unsplash.com/photo-1523050853021-ea961c8f86f5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
-            background-size: cover;
-            background-position: center;
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* Wrapper Utama untuk Full Screen */
+      .hero-viewport {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+
+      /* Slider Setup */
+      #slider-container {
+        flex: 1;
+        position: relative;
+        overflow: hidden;
+      }
+
+      #slider-wrapper {
+        display: flex;
+        height: 100%;
+        width: 300%;
+        transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+      }
+
+      .slide-item {
+        width: 33.333%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        flex-shrink: 0;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* Overlay agar teks terbaca */
+      .slide-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0.3),
+          rgba(0, 0, 0, 0.7)
+        );
+      }
+
+      /* Animasi Teks */
+      .content-anim {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s ease-out 0.4s;
+        z-index: 20;
+      }
+      .slide-item.active .content-anim {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* AI Glow Button */
+      @keyframes pulse-border {
+        0% {
+          box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
         }
+        70% {
+          box-shadow: 0 0 0 15px rgba(59, 130, 246, 0);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+        }
+      }
+      .ai-glow {
+        animation: pulse-border 2s infinite;
+      }
+
+      /* Dropdown Hover */
+      .dropdown:hover .dropdown-menu {
+        display: block;
+      }
     </style>
-</head>
-<body class="bg-gray-50 font-sans">
+  </head>
+  <body class="bg-gray-50 font-sans">
+    <header class="hero-viewport" id="home">
+      <nav class="bg-white shadow-lg z-50">
+        <div
+          class="container mx-auto px-6 py-4 flex justify-between items-center"
+        >
+          <div class="flex items-center space-x-3">
+            <i class="fas fa-university text-blue-800 text-3xl"></i>
+            <div>
+              <h1 class="font-bold text-xl leading-none text-blue-900">
+                SDN NEGERI GANTING
+              </h1>
+              <p class="text-xs text-gray-500 uppercase tracking-widest">
+                Cerdas, Beretika, Mandiri
+              </p>
+            </div>
+          </div>
 
-    <nav class="bg-white shadow-md sticky top-0 z-50">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="flex items-center space-x-3">
-                <i class="fas fa-university text-blue-800 text-3xl"></i>
-                <div>
-                    <h1 class="font-bold text-xl leading-none text-blue-900">SMAN UNGGUL</h1>
-                    <p class="text-xs text-gray-500 uppercase tracking-widest">Cerdas, Beretika, Mandiri</p>
-                </div>
-            </div>
-            <div class="hidden md:flex space-x-8 font-medium text-gray-700">
-                <a href="#home" class="hover:text-blue-800 transition">Beranda</a>
-                <a href="#akademik" class="hover:text-blue-800 transition">Akademik</a>
-                <a href="#berita" class="hover:text-blue-800 transition">Berita</a>
-                <a href="#kontak" class="hover:text-blue-800 transition">Kontak</a>
-            </div>
-            <a href="#login-section" class="bg-blue-800 text-white px-6 py-2 rounded-full hover:bg-blue-700 shadow-lg transition">
-                Portal SIAKAD
-            </a>
-        </div>
-    </nav>
+          <div
+            class="hidden md:flex items-center space-x-6 font-medium text-gray-700"
+          >
+            <a
+              href="#home"
+              class="px-4 py-2 rounded-xl bg-blue-50 text-blue-700 shadow-sm border border-blue-100"
+              >Beranda</a
+            >
 
-    <section id="home" class="hero-gradient h-[500px] flex items-center text-white">
-        <div class="container mx-auto px-6 text-center">
-            <h2 class="text-4xl md:text-6xl font-extrabold mb-4">Membangun Generasi Emas Masa Depan</h2>
-            <p class="text-xl md:text-2xl mb-8 opacity-90">Sistem Informasi Akademik Terpadu & Transparan</p>
-            <div class="flex justify-center space-x-4">
-                <button class="bg-yellow-500 hover:bg-yellow-400 text-blue-900 font-bold px-8 py-3 rounded-lg transition">Pendaftaran Siswa</button>
-                <button class="border-2 border-white hover:bg-white hover:text-blue-900 px-8 py-3 rounded-lg transition font-bold">Profil Sekolah</button>
+            <div class="relative dropdown">
+              <button
+                class="flex items-center gap-1 hover:text-blue-700 transition py-2"
+              >
+                Tentang Sekolah <i class="fas fa-chevron-down text-[10px]"></i>
+              </button>
+              <div
+                class="dropdown-menu absolute left-0 mt-0 w-64 bg-white rounded-xl shadow-xl py-3 hidden border border-gray-100"
+              >
+                <a
+                  href="#"
+                  class="block px-5 py-2 hover:bg-blue-50 hover:text-blue-700 transition"
+                  >Visi & Misi</a
+                >
+                <a
+                  href="#"
+                  class="block px-5 py-2 hover:bg-blue-50 hover:text-blue-700 transition"
+                  >Struktur Organisasi</a
+                >
+                <a
+                  href="#"
+                  class="block px-5 py-2 hover:bg-blue-50 hover:text-blue-700 transition"
+                  >Fasilitas Sekolah</a
+                >
+              </div>
             </div>
+
+            <div class="relative dropdown">
+              <button
+                class="flex items-center gap-1 hover:text-blue-700 transition py-2"
+              >
+                Kesiswaan <i class="fas fa-chevron-down text-[10px]"></i>
+              </button>
+              <div
+                class="dropdown-menu absolute left-0 mt-0 w-56 bg-white rounded-xl shadow-xl py-3 hidden border border-gray-100"
+              >
+                <a
+                  href="#"
+                  class="block px-5 py-2 hover:bg-blue-50 hover:text-blue-700 transition"
+                  >Ekstrakurikuler</a
+                >
+                <a
+                  href="#"
+                  class="block px-5 py-2 hover:bg-blue-50 hover:text-blue-700 transition"
+                  >Prestasi Siswa</a
+                >
+              </div>
+            </div>
+
+            <a href="#berita" class="hover:text-blue-700 transition">Berita</a>
+            <a href="#kontak" class="hover:text-blue-700 transition"
+              >Hubungi Kami</a
+            >
+          </div>
+
+          <a
+            href="#login-section"
+            class="bg-blue-800 text-white px-6 py-2 rounded-full hover:bg-blue-700 shadow-lg transition text-sm font-bold"
+          >
+            PORTAL SIAKAD
+          </a>
         </div>
+      </nav>
+
+      <div id="slider-container">
+        <div id="slider-wrapper">
+          <div
+            class="slide-item active"
+            style="background-image: url(&quot;hero1.png&quot;)"
+          >
+            <div class="slide-overlay"></div>
+            <div
+              class="container mx-auto px-6 text-center text-white content-anim"
+            >
+              <h2
+                class="text-5xl md:text-7xl font-extrabold mb-4 leading-tight"
+              >
+                Selamat Datang di<br /><span class="text-yellow-400"
+                  >SDN Negeri Ganting</span
+                >
+              </h2>
+              <p class="text-xl md:text-2xl mb-10 opacity-90 italic">
+                "Kreatif, Inovatif, dan Mandiri"
+              </p>
+              <div class="flex justify-center space-x-4">
+                <button
+                  class="bg-yellow-500 hover:bg-yellow-400 text-blue-900 font-bold px-10 py-4 rounded-xl transition shadow-xl transform hover:scale-105"
+                >
+                  Pendaftaran Siswa
+                </button>
+                <button
+                  class="border-2 border-white hover:bg-white hover:text-blue-900 px-10 py-4 rounded-xl transition font-bold shadow-xl backdrop-blur-sm"
+                >
+                  Profil Sekolah
+                </button>
+              </div>
+            </div>
+          </div>
+          <div
+            class="slide-item"
+            style="background-image: url(&quot;hero2.png&quot;)"
+          >
+            <div class="slide-overlay"></div>
+            <div
+              class="container mx-auto px-6 text-center text-white content-anim"
+            >
+              <h2 class="text-5xl md:text-7xl font-extrabold mb-4">
+                Generasi Digital
+              </h2>
+              <p class="text-xl md:text-2xl mb-10">
+                Mempersiapkan siswa menghadapi tantangan masa depan dengan
+                teknologi.
+              </p>
+              <button
+                class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-10 py-4 rounded-xl transition shadow-xl"
+              >
+                Lihat Program Kami
+              </button>
+            </div>
+          </div>
+          <div
+            class="slide-item"
+            style="background-image: url(&quot;hero3.png&quot;)"
+          >
+            <div class="slide-overlay"></div>
+            <div
+              class="container mx-auto px-6 text-center text-white content-anim"
+            >
+              <h2 class="text-5xl md:text-7xl font-extrabold mb-4">
+                Lingkungan Nyaman
+              </h2>
+              <p class="text-xl md:text-2xl mb-10">
+                Fasilitas belajar yang mendukung potensi terbaik putra-putri
+                Anda.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <button
+          onclick="prevSlide()"
+          class="absolute left-6 top-1/2 -translate-y-1/2 z-30 bg-white/10 hover:bg-white/30 text-white w-14 h-14 rounded-full transition flex items-center justify-center backdrop-blur-md border border-white/20"
+        >
+          <i class="fas fa-chevron-left text-2xl"></i>
+        </button>
+        <button
+          onclick="nextSlide()"
+          class="absolute right-6 top-1/2 -translate-y-1/2 z-30 bg-white/10 hover:bg-white/30 text-white w-14 h-14 rounded-full transition flex items-center justify-center backdrop-blur-md border border-white/20"
+        >
+          <i class="fas fa-chevron-right text-2xl"></i>
+        </button>
+
+        <div
+          class="absolute bottom-10 left-1/2 -translate-x-1/2 z-30 flex space-x-3"
+        >
+          <div
+            class="dot w-12 h-2 rounded-full bg-white transition-all cursor-pointer"
+            onclick="goToSlide(0)"
+          ></div>
+          <div
+            class="dot w-12 h-2 rounded-full bg-white/30 transition-all cursor-pointer"
+            onclick="goToSlide(1)"
+          ></div>
+          <div
+            class="dot w-12 h-2 rounded-full bg-white/30 transition-all cursor-pointer"
+            onclick="goToSlide(2)"
+          ></div>
+        </div>
+      </div>
+    </header>
+
+    <section id="akademik" class="py-24 container mx-auto px-6">
+      <div class="text-center mb-16">
+        <h3 class="text-4xl font-bold text-gray-800">Layanan Akademik</h3>
+        <div class="w-24 h-1.5 bg-blue-800 mx-auto mt-4 rounded-full"></div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div
+          class="bg-white p-10 rounded-3xl shadow-sm hover:shadow-2xl transition-all border-b-8 border-blue-800 group transform hover:-translate-y-2"
+        >
+          <i
+            class="fas fa-calendar-alt text-5xl text-blue-800 mb-6 block group-hover:scale-110 transition"
+          ></i>
+          <h4 class="font-bold text-xl mb-3">Kalender</h4>
+          <p class="text-gray-500 leading-relaxed">
+            Cek jadwal ujian, kegiatan sekolah, dan hari libur nasional.
+          </p>
+        </div>
+        <div
+          class="bg-white p-10 rounded-3xl shadow-sm hover:shadow-2xl transition-all border-b-8 border-green-500 group transform hover:-translate-y-2"
+        >
+          <i
+            class="fas fa-book-open text-5xl text-green-500 mb-6 block group-hover:scale-110 transition"
+          ></i>
+          <h4 class="font-bold text-xl mb-3">E-Learning</h4>
+          <p class="text-gray-500 leading-relaxed">
+            Akses materi pembelajaran dan tugas sekolah secara online.
+          </p>
+        </div>
+        <div
+          class="bg-white p-10 rounded-3xl shadow-sm hover:shadow-2xl transition-all border-b-8 border-yellow-500 group transform hover:-translate-y-2"
+        >
+          <i
+            class="fas fa-chart-line text-5xl text-yellow-500 mb-6 block group-hover:scale-110 transition"
+          ></i>
+          <h4 class="font-bold text-xl mb-3">E-Rapor</h4>
+          <p class="text-gray-500 leading-relaxed">
+            Pantau perkembangan hasil belajar siswa tiap semester.
+          </p>
+        </div>
+        <div
+          class="bg-white p-10 rounded-3xl shadow-sm hover:shadow-2xl transition-all border-b-8 border-red-500 group transform hover:-translate-y-2"
+        >
+          <i
+            class="fas fa-wallet text-5xl text-red-500 mb-6 block group-hover:scale-110 transition"
+          ></i>
+          <h4 class="font-bold text-xl mb-3">Keuangan</h4>
+          <p class="text-gray-500 leading-relaxed">
+            Informasi administrasi pembayaran SPP dan iuran lainnya.
+          </p>
+        </div>
+      </div>
     </section>
 
-    <section id="akademik" class="py-16 container mx-auto px-6">
-        <div class="text-center mb-12">
-            <h3 class="text-3xl font-bold text-gray-800">Layanan Akademik</h3>
-            <div class="w-20 h-1 bg-blue-800 mx-auto mt-2"></div>
+    <section id="login-section" class="bg-blue-900 py-24 text-white">
+      <div class="container mx-auto px-6 flex flex-wrap items-center">
+        <div class="w-full md:w-1/2 mb-12 md:mb-0 pr-10">
+          <h3 class="text-4xl font-extrabold mb-6">
+            Portal Digital <br />SIAKAD SDN Ganting
+          </h3>
+          <p class="text-blue-100 text-lg mb-10 leading-relaxed">
+            Gunakan Nomor Induk Siswa (NIS) atau NIP untuk masuk ke sistem
+            monitoring absensi dan nilai secara realtime.
+          </p>
+          <div class="space-y-4 font-semibold">
+            <div class="flex items-center gap-3">
+              <i class="fas fa-check-circle text-green-400"></i> Monitoring
+              Nilai Siswa
+            </div>
+            <div class="flex items-center gap-3">
+              <i class="fas fa-check-circle text-green-400"></i> Absensi
+              Realtime
+            </div>
+            <div class="flex items-center gap-3">
+              <i class="fas fa-check-circle text-green-400"></i> Pengumuman
+              Sekolah
+            </div>
+          </div>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition text-center border-b-4 border-blue-800">
-                <i class="fas fa-calendar-alt text-4xl text-blue-800 mb-4"></i>
-                <h4 class="font-bold text-lg mb-2">Kalender</h4>
-                <p class="text-gray-500 text-sm">Cek jadwal ujian dan hari libur nasional.</p>
+        <div class="w-full md:w-1/2 bg-white p-10 rounded-[2.5rem] shadow-2xl">
+          <form class="space-y-6">
+            <div>
+              <label
+                class="block text-gray-700 font-bold mb-2 uppercase text-xs tracking-widest"
+                >Username / NIS</label
+              >
+              <input
+                type="text"
+                class="w-full px-5 py-4 rounded-xl border border-gray-200 text-gray-800 focus:ring-2 focus:ring-blue-600 outline-none transition"
+                placeholder="Masukkan ID Anda"
+              />
             </div>
-            <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition text-center border-b-4 border-green-500">
-                <i class="fas fa-book-open text-4xl text-green-500 mb-4"></i>
-                <h4 class="font-bold text-lg mb-2">E-Learning</h4>
-                <p class="text-gray-500 text-sm">Akses materi dan tugas sekolah secara online.</p>
+            <div>
+              <label
+                class="block text-gray-700 font-bold mb-2 uppercase text-xs tracking-widest"
+                >Password</label
+              >
+              <input
+                type="password"
+                class="w-full px-5 py-4 rounded-xl border border-gray-200 text-gray-800 focus:ring-2 focus:ring-blue-600 outline-none transition"
+                placeholder="••••••••"
+              />
             </div>
-            <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition text-center border-b-4 border-yellow-500">
-                <i class="fas fa-chart-line text-4xl text-yellow-500 mb-4"></i>
-                <h4 class="font-bold text-lg mb-2">E-Rapor</h4>
-                <p class="text-gray-500 text-sm">Pantau hasil belajar siswa tiap semester.</p>
-            </div>
-            <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition text-center border-b-4 border-red-500">
-                <i class="fas fa-wallet text-4xl text-red-500 mb-4"></i>
-                <h4 class="font-bold text-lg mb-2">Keuangan</h4>
-                <p class="text-gray-500 text-sm">Informasi pembayaran SPP dan iuran.</p>
-            </div>
+            <button
+              type="button"
+              class="w-full bg-blue-800 hover:bg-blue-700 text-white font-extrabold py-5 rounded-xl transition shadow-lg uppercase tracking-widest"
+            >
+              MASUK KE DASHBOARD
+            </button>
+          </form>
         </div>
+      </div>
     </section>
 
-    <section id="login-section" class="bg-blue-50 py-20 border-t border-b">
-        <div class="container mx-auto px-6 flex flex-wrap items-center">
-            <div class="w-full md:w-1/2 mb-10 md:mb-0">
-                <h3 class="text-3xl font-bold text-blue-900 mb-4">Portal Login SIAKAD</h3>
-                <p class="text-gray-600 mb-6 mr-10">Gunakan Nomor Induk Siswa (NIS) atau NIP untuk mengakses dashboard pribadi Anda. Pastikan menjaga kerahasiaan kata sandi Anda.</p>
-                <div class="flex items-center space-x-4 text-blue-800 font-semibold">
-                    <span><i class="fas fa-check-circle"></i> Monitoring Nilai</span>
-                    <span><i class="fas fa-check-circle"></i> Absensi Realtime</span>
-                </div>
-            </div>
-            <div class="w-full md:w-1/2 bg-white p-10 rounded-3xl shadow-2xl">
-                <form>
-                    <div class="mb-6">
-                        <label class="block text-gray-700 text-sm font-bold mb-2">Username / NIS</label>
-                        <input type="text" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800" placeholder="Masukkan ID">
-                    </div>
-                    <div class="mb-6">
-                        <label class="block text-gray-700 text-sm font-bold mb-2">Password</label>
-                        <input type="password" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800" placeholder="••••••••">
-                    </div>
-                    <button type="button" class="w-full bg-blue-800 text-white font-bold py-3 rounded-xl hover:bg-blue-900 transition">Masuk ke Dashboard</button>
-                    <p class="mt-4 text-center text-sm text-gray-500">Lupa password? <a href="#" class="text-blue-800 font-bold">Klik di sini</a></p>
-                </form>
-            </div>
+    <footer id="kontak" class="bg-gray-900 text-white py-20">
+      <div
+        class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-16"
+      >
+        <div>
+          <h4 class="text-2xl font-bold mb-8 border-l-4 border-blue-600 pl-4">
+            Tentang Kami
+          </h4>
+          <p class="text-gray-400 leading-relaxed">
+            SDN NEGERI GANTING berkomitmen tinggi dalam mencetak generasi
+            penerus bangsa yang berakhlak mulia dan melek teknologi informasi.
+          </p>
         </div>
-    </section>
-
-    <footer id="kontak" class="bg-gray-900 text-white py-12">
-        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12">
-            <div>
-                <h4 class="text-xl font-bold mb-6">Tentang Kami</h4>
-                <p class="text-gray-400 text-sm leading-relaxed">SMAN UNGGUL adalah institusi pendidikan yang berfokus pada pengembangan karakter dan kompetensi teknologi informasi untuk menghadapi era digital.</p>
-            </div>
-            <div>
-                <h4 class="text-xl font-bold mb-6">Kontak Sekolah</h4>
-                <p class="text-gray-400 text-sm"><i class="fas fa-map-marker-alt mr-2 mb-3"></i> Jl. Pendidikan No. 45, Jakarta Selatan</p>
-                <p class="text-gray-400 text-sm"><i class="fas fa-phone mr-2 mb-3"></i> (021) 1234-5678</p>
-                <p class="text-gray-400 text-sm"><i class="fas fa-envelope mr-2"></i> info@smanunggul.sch.id</p>
-            </div>
-            <div>
-                <h4 class="text-xl font-bold mb-6">Media Sosial</h4>
-                <div class="flex space-x-4">
-                    <a href="#" class="w-10 h-10 bg-blue-800 rounded-full flex items-center justify-center hover:bg-blue-700"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="w-10 h-10 bg-pink-600 rounded-full flex items-center justify-center hover:bg-pink-500"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center hover:bg-red-500"><i class="fab fa-youtube"></i></a>
-                </div>
-            </div>
+        <div>
+          <h4 class="text-2xl font-bold mb-8 border-l-4 border-blue-600 pl-4">
+            Hubungi Kami
+          </h4>
+          <ul class="space-y-4 text-gray-400">
+            <li>
+              <i class="fas fa-map-marker-alt text-blue-600 mr-3"></i> Jl.
+              Pendidikan Ganting, Sidoarjo
+            </li>
+            <li>
+              <i class="fas fa-phone text-blue-600 mr-3"></i> (031) 1234-5678
+            </li>
+            <li>
+              <i class="fas fa-envelope text-blue-600 mr-3"></i>
+              admin@sdnganting.sch.id
+            </li>
+          </ul>
         </div>
-        <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500 text-xs">
-            &copy; 2026 SMAN UNGGUL IT Solution. All rights reserved.
+        <div>
+          <h4 class="text-2xl font-bold mb-8 border-l-4 border-blue-600 pl-4">
+            Media Sosial
+          </h4>
+          <div class="flex space-x-5">
+            <a
+              href="#"
+              class="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition"
+              ><i class="fab fa-facebook-f text-xl"></i
+            ></a>
+            <a
+              href="#"
+              class="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center hover:bg-pink-600 transition"
+              ><i class="fab fa-instagram text-xl"></i
+            ></a>
+            <a
+              href="#"
+              class="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center hover:bg-red-600 transition"
+              ><i class="fab fa-youtube text-xl"></i
+            ></a>
+          </div>
         </div>
+      </div>
+      <div
+        class="border-t border-gray-800 mt-20 pt-10 text-center text-gray-500 text-sm italic"
+      >
+        &copy; 2026 SDN NEGERI GANTING. Created with passion for education.
+      </div>
     </footer>
 
-</body>
+    <div class="fixed bottom-10 right-10 z-[100]">
+      <button
+        class="ai-glow bg-gradient-to-br from-blue-600 to-indigo-800 text-white w-20 h-20 rounded-full shadow-2xl flex items-center justify-center border-4 border-white/20 hover:scale-110 transition"
+      >
+        <i class="fas fa-robot text-4xl"></i>
+      </button>
+    </div>
+
+    <script>
+      let currentIndex = 0;
+      const totalSlides = 3;
+      const wrapper = document.getElementById("slider-wrapper");
+      const slides = document.querySelectorAll(".slide-item");
+      const dots = document.querySelectorAll(".dot");
+
+      function updateSlider() {
+        wrapper.style.transform = `translateX(-${currentIndex * (100 / totalSlides)}%)`;
+
+        dots.forEach((dot, index) => {
+          const isActive = index === currentIndex;
+          dot.style.backgroundColor = isActive
+            ? "#FFFFFF"
+            : "rgba(255, 255, 255, 0.3)";
+          dot.style.width = isActive ? "3rem" : "1.5rem";
+          slides[index].classList.toggle("active", isActive);
+        });
+      }
+
+      function nextSlide() {
+        currentIndex = (currentIndex + 1) % totalSlides;
+        updateSlider();
+      }
+
+      function prevSlide() {
+        currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+        updateSlider();
+      }
+
+      function goToSlide(index) {
+        currentIndex = index;
+        updateSlider();
+        resetTimer();
+      }
+
+      let slideTimer = setInterval(nextSlide, 6000);
+
+      function resetTimer() {
+        clearInterval(slideTimer);
+        slideTimer = setInterval(nextSlide, 6000);
+      }
+
+      updateSlider();
+    </script>
+  </body>
 </html>
