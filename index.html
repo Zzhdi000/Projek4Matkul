@@ -10,6 +10,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
     />
     <style>
+      /* CSS START */
       html {
         scroll-behavior: smooth;
       }
@@ -91,11 +92,161 @@
       .dropdown:hover .dropdown-menu {
         display: block;
       }
+
+      /* ================= PROFIL SEKOLAH (FINAL REVISION) ================= */
+
+      .profil {
+        margin-top: 80px; /* Memberi jarak dari section "Mengapa Memilih Kami" */
+        padding: 0;
+        background: #2563eb;
+        overflow: hidden;
+      }
+
+      .profil .container-full {
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        max-height: 500px; /* Tinggi dikecilkan sedikit lagi */
+      }
+
+      /* FOTO SEKOLAH - Lebar dikurangi jadi 35% agar tidak kegedean */
+      .profil .foto {
+        flex: 0 0 35%;
+        position: relative;
+      }
+
+      .profil .foto img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      /* KONTEN PROFIL - Lebih dominan (65%) */
+      .profil .konten {
+        flex: 0 0 65%;
+        padding: 40px 6% 40px 5%;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .profil .konten h2 {
+        color: #facc15;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 5px;
+        border-left: 4px solid #facc15;
+        padding-left: 15px;
+      }
+
+      .profil .konten h1 {
+        font-size: 32px;
+        font-weight: 800;
+        margin-bottom: 12px;
+      }
+
+      .profil .konten h3 {
+        margin-top: 15px;
+        font-size: 16px;
+        font-weight: 700;
+        color: #f1f5f9;
+      }
+
+      .profil .konten p {
+        font-size: 14px;
+        line-height: 1.5;
+        color: rgba(255, 255, 255, 0.85);
+        margin-top: 4px;
+      }
+
+      .profil .btn {
+        display: inline-block;
+        width: fit-content;
+        margin-top: 20px;
+        padding: 10px 22px;
+        background: #facc15;
+        color: #0284c7;
+        border-radius: 6px;
+        font-weight: 700;
+        font-size: 14px;
+        transition: 0.3s;
+      }
+      /* SECTION MENGAPA MEMILIH KAMI */
+      /* Section utama */
+      .alasan-section {
+        padding: 80px 20px 40px 20px;
+        background: #f5f7fb;
+      }
+
+      /* Judul */
+      .alasan-section h2 {
+        font-size: 48px;
+        margin-bottom: 20px;
+      }
+
+      /* Paragraf deskripsi */
+      .alasan-section p {
+        font-size: 18px;
+      }
+
+      /* Card keunggulan */
+      .keunggulan-card {
+        background: white;
+        padding: 40px 25px;
+        border-radius: 15px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        transition: 0.3s;
+      }
+
+      /* Hover efek */
+      .keunggulan-card:hover {
+        transform: translateY(-8px);
+      }
+
+      /* Icon */
+      .keunggulan-card i {
+        font-size: 45px;
+        color: #2563eb;
+        margin-bottom: 20px;
+      }
+
+      /* Judul card */
+      .keunggulan-card h3 {
+        font-size: 24px;
+        margin-bottom: 10px;
+      }
+      /* berita */
+      /* Gaya Kartu Berita */
+      .news-card {
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        max-width: 350px; /* Membatasi lebar maksimal kartu agar tidak terlalu 'melar' */
+        margin: 0 auto;
+      }
+
+      .news-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      }
+      .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      #akademik {
+        padding: 50px 50px;
+        background-color: #f5f7fb;
+      }
+
+      /* CSS END */
     </style>
   </head>
   <body class="bg-gray-50 font-sans">
     <header class="hero-viewport" id="home">
-      <nav class="bg-white shadow-lg z-50">
+      <nav class="fixed top-0 left-0 w-full bg-white shadow-lg z-50">
         <div
           class="container mx-auto px-6 py-4 flex justify-between items-center"
         >
@@ -106,7 +257,7 @@
                 SDN NEGERI GANTING
               </h1>
               <p class="text-xs text-gray-500 uppercase tracking-widest">
-                Cerdas, Beretika, Mandiri
+                Beriman, Berprestasi, Berkarakter
               </p>
             </div>
           </div>
@@ -188,7 +339,7 @@
         <div id="slider-wrapper">
           <div
             class="slide-item active"
-            style="background-image: url(&quot;hero1.png&quot;)"
+            style="background-image: url(&quot;ftguru.jpeg&quot;)"
           >
             <div class="slide-overlay"></div>
             <div
@@ -291,55 +442,282 @@
       </div>
     </header>
 
-    <section id="akademik" class="py-24 container mx-auto px-6">
-      <div class="text-center mb-16">
-        <h3 class="text-4xl font-bold text-gray-800">Layanan Akademik</h3>
-        <div class="w-24 h-1.5 bg-blue-800 mx-auto mt-4 rounded-full"></div>
+    <!-- mengapa pilih kami section -->
+    <section class="alasan-section">
+      <div class="max-w-6xl mx-auto px-6 text-center">
+        <h2 class="text-4xl font-bold text-blue-800 mb-4">
+          Mengapa Memilih Kami
+        </h2>
+
+        <p class="text-gray-600 mb-16">
+          Sekolah kami terus berkembang dengan fasilitas modern, tenaga pendidik
+          profesional, dan lingkungan belajar yang mendukung perkembangan
+          akademik serta karakter siswa.
+        </p>
+
+        <div class="grid md:grid-cols-3 gap-10">
+          <div class="keunggulan-card">
+            <i class="fas fa-trophy"></i>
+            <h3>Akreditasi A</h3>
+            <p>
+              Sekolah memiliki standar pendidikan yang terjamin kualitasnya.
+            </p>
+          </div>
+
+          <div class="keunggulan-card">
+            <i class="fas fa-school"></i>
+            <h3>Fasilitas Lengkap</h3>
+            <p>Didukung fasilitas modern untuk menunjang pembelajaran siswa.</p>
+          </div>
+
+          <div class="keunggulan-card">
+            <i class="fas fa-users"></i>
+            <h3>Guru Profesional</h3>
+            <p>Tenaga pendidik berpengalaman dan berdedikasi tinggi.</p>
+          </div>
+        </div>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-        <div
-          class="bg-white p-10 rounded-3xl shadow-sm hover:shadow-2xl transition-all border-b-8 border-blue-800 group transform hover:-translate-y-2"
-        >
-          <i
-            class="fas fa-calendar-alt text-5xl text-blue-800 mb-6 block group-hover:scale-110 transition"
-          ></i>
-          <h4 class="font-bold text-xl mb-3">Kalender</h4>
-          <p class="text-gray-500 leading-relaxed">
-            Cek jadwal ujian, kegiatan sekolah, dan hari libur nasional.
-          </p>
+    </section>
+
+    <!-- mengapa pilih kami end -->
+    <!-- profile section -->
+    <section class="profil">
+      <div class="container-full">
+        <div class="foto">
+          <img src="sekolah.png" alt="Foto Sekolah" />
         </div>
-        <div
-          class="bg-white p-10 rounded-3xl shadow-sm hover:shadow-2xl transition-all border-b-8 border-green-500 group transform hover:-translate-y-2"
-        >
-          <i
-            class="fas fa-book-open text-5xl text-green-500 mb-6 block group-hover:scale-110 transition"
-          ></i>
-          <h4 class="font-bold text-xl mb-3">E-Learning</h4>
-          <p class="text-gray-500 leading-relaxed">
-            Akses materi pembelajaran dan tugas sekolah secara online.
+
+        <div class="konten">
+          <h2>Tentang Kami</h2>
+          <h1>SDN Negeri Ganting</h1>
+
+          <p>
+            Sekolah ini merupakan tempat belajar yang tidak hanya fokus pada
+            akademik, tetapi juga pada pembentukan karakter siswa. Lingkungan
+            yang nyaman dan penuh semangat belajar membuat siswa berkembang
+            secara optimal.
           </p>
+
+          <h3>Lingkungan Belajar</h3>
+          <p>
+            Kegiatan belajar dimulai dengan doa bersama dan pembiasaan nilai
+            kedisiplinan untuk menerapkan nilai moral dalam kehidupan
+            sehari-hari.
+          </p>
+
+          <div class="flex items-center gap-4 mt-6">
+            <a href="#" class="btn"
+              >Selengkapnya <i class="fas fa-arrow-right ml-2"></i
+            ></a>
+          </div>
         </div>
-        <div
-          class="bg-white p-10 rounded-3xl shadow-sm hover:shadow-2xl transition-all border-b-8 border-yellow-500 group transform hover:-translate-y-2"
-        >
-          <i
-            class="fas fa-chart-line text-5xl text-yellow-500 mb-6 block group-hover:scale-110 transition"
-          ></i>
-          <h4 class="font-bold text-xl mb-3">E-Rapor</h4>
-          <p class="text-gray-500 leading-relaxed">
-            Pantau perkembangan hasil belajar siswa tiap semester.
+      </div>
+    </section>
+    <!-- end profile section -->
+
+    <!-- berita  -->
+    <section id="berita" class="pt-24 pb-24 bg-[#f5f7fb]">
+      <div class="container mx-auto px-6">
+        <div class="text-center mb-12">
+          <div class="flex justify-center items-center gap-3 mb-2">
+            <i class="fas fa-newspaper text-blue-600 text-3xl"></i>
+            <h2 class="text-3xl font-bold text-gray-800">
+              Berita & Info Sekolah
+            </h2>
+          </div>
+          <p class="text-gray-500 max-w-2xl mx-auto text-sm">
+            Temukan informasi terbaru, pengumuman, dan berita penting seputar
+            SDN Negeri Ganting di sini.
           </p>
+          <div class="w-16 h-1 bg-yellow-500 mx-auto mt-4 rounded-full"></div>
         </div>
-        <div
-          class="bg-white p-10 rounded-3xl shadow-sm hover:shadow-2xl transition-all border-b-8 border-red-500 group transform hover:-translate-y-2"
-        >
-          <i
-            class="fas fa-wallet text-5xl text-red-500 mb-6 block group-hover:scale-110 transition"
-          ></i>
-          <h4 class="font-bold text-xl mb-3">Keuangan</h4>
-          <p class="text-gray-500 leading-relaxed">
-            Informasi administrasi pembayaran SPP dan iuran lainnya.
-          </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          <div
+            class="news-card bg-white rounded-xl overflow-hidden border border-gray-100 shadow-sm flex flex-col"
+          >
+            <div class="relative h-44 overflow-hidden">
+              <img
+                src="news1.jpeg"
+                alt="Berita 1"
+                class="w-full h-full object-cover"
+              />
+              <div
+                class="absolute top-3 left-3 bg-blue-600 text-white text-[10px] font-bold px-3 py-1 rounded-full"
+              >
+                Prestasi
+              </div>
+            </div>
+            <div class="p-5 flex-1">
+              <div class="flex items-center text-gray-400 text-[11px] mb-2">
+                <i class="far fa-calendar-alt mr-2"></i> 21 September 2025
+              </div>
+              <h3
+                class="text-lg font-bold text-gray-800 mb-2 line-clamp-2 leading-snug hover:text-blue-600 transition"
+              >
+                Prestasi Gemilang, Siswa SDN Ganting Juara Lomba Matematika
+                Nasional
+              </h3>
+              <p
+                class="text-gray-500 text-xs leading-relaxed mb-4 line-clamp-2"
+              >
+                Prestasi membanggakan kembali ditorehkan oleh siswa-siswi kami
+                dalam ajang kompetisi sains tingkat nasional...
+              </p>
+              <a
+                href="#"
+                class="inline-flex items-center font-bold text-sm text-orange-500 hover:text-orange-600 mt-auto"
+              >
+                <i class="fas fa-file-alt mr-1"></i> Baca Selengkapnya
+              </a>
+            </div>
+          </div>
+
+          <div
+            class="news-card bg-white rounded-xl overflow-hidden border border-gray-100 shadow-sm flex flex-col"
+          >
+            <div class="relative h-44 overflow-hidden">
+              <img
+                src="news2.jpeg"
+                alt="Berita 2"
+                class="w-full h-full object-cover"
+              />
+              <div
+                class="absolute top-3 left-3 bg-green-600 text-white text-[10px] font-bold px-3 py-1 rounded-full"
+              >
+                Kegiatan
+              </div>
+            </div>
+            <div class="p-5 flex-1">
+              <div class="flex items-center text-gray-400 text-[11px] mb-2">
+                <i class="far fa-calendar-alt mr-2"></i> 30 Agustus 2025
+              </div>
+              <h3
+                class="text-lg font-bold text-gray-800 mb-2 line-clamp-2 leading-snug hover:text-blue-600 transition"
+              >
+                Meriahkan HUT RI ke-80, Sekolah Gelar Festival Budaya dan Seni
+              </h3>
+              <p
+                class="text-gray-500 text-xs leading-relaxed mb-4 line-clamp-2"
+              >
+                Seluruh warga sekolah ikut berpartisipasi dalam perayaan hari
+                kemerdekaan dengan menampilkan berbagai bakat...
+              </p>
+              <a
+                href="#"
+                class="inline-flex items-center font-bold text-sm text-orange-500 hover:text-orange-600 mt-auto"
+              >
+                <i class="fas fa-file-alt mr-1"></i> Baca Selengkapnya
+              </a>
+            </div>
+          </div>
+
+          <div
+            class="news-card bg-white rounded-xl overflow-hidden border border-gray-100 shadow-sm flex flex-col"
+          >
+            <div class="relative h-44 overflow-hidden">
+              <img
+                src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?q=80&w=500"
+                alt="Berita 3"
+                class="w-full h-full object-cover"
+              />
+              <div
+                class="absolute top-3 left-3 bg-orange-600 text-white text-[10px] font-bold px-3 py-1 rounded-full"
+              >
+                Pengumuman
+              </div>
+            </div>
+            <div class="p-5 flex-1">
+              <div class="flex items-center text-gray-400 text-[11px] mb-2">
+                <i class="far fa-calendar-alt mr-2"></i> 21 Agustus 2025
+              </div>
+              <h3
+                class="text-lg font-bold text-gray-800 mb-2 line-clamp-2 leading-snug hover:text-blue-600 transition"
+              >
+                Penerimaan Siswa Baru Tahun Ajaran 2026/2027 Telah Dibuka
+              </h3>
+              <p
+                class="text-gray-500 text-xs leading-relaxed mb-4 line-clamp-2"
+              >
+                Pemerintah Kabupaten Sidoarjo memberikan penghargaan kepada SDN
+                Ganting atas inovasi pembelajaran digital...
+              </p>
+              <a
+                href="#"
+                class="inline-flex items-center font-bold text-sm text-orange-500 hover:text-orange-600 mt-auto"
+              >
+                <i class="fas fa-file-alt mr-1"></i> Baca Selengkapnya
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center mt-8">
+          <button
+            class="border-2 border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white font-bold px-6 py-2 rounded-full transition-all text-xs uppercase tracking-wider"
+          >
+            Lihat Semua Berita
+          </button>
+        </div>
+      </div>
+    </section>
+    <!-- berita end -->
+
+    <section id="layanan" class="pt-4 pb-16 bg-[#f5f7fb]">
+      <div class="container mx-auto px-6">
+        <div class="text-center mb-10">
+          <h2 class="text-3xl font-bold text-gray-800">Layanan Akademik</h2>
+          <div class="w-16 h-1 bg-blue-600 mx-auto mt-2 rounded-full"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div
+            class="bg-white p-8 rounded-3xl shadow-sm hover:shadow-2xl transition-all border-b-8 border-blue-800 group transform hover:-translate-y-2"
+          >
+            <i
+              class="fas fa-calendar-alt text-5xl text-blue-800 mb-6 block group-hover:scale-110 transition"
+            ></i>
+            <h4 class="font-bold text-xl mb-3">Kalender</h4>
+            <p class="text-gray-500 text-sm leading-relaxed">
+              Cek jadwal ujian, kegiatan sekolah, dan hari libur nasional.
+            </p>
+          </div>
+
+          <div
+            class="bg-white p-8 rounded-3xl shadow-sm hover:shadow-2xl transition-all border-b-8 border-green-500 group transform hover:-translate-y-2"
+          >
+            <i
+              class="fas fa-book-open text-5xl text-green-500 mb-6 block group-hover:scale-110 transition"
+            ></i>
+            <h4 class="font-bold text-xl mb-3">E-Learning</h4>
+            <p class="text-gray-500 text-sm leading-relaxed">
+              Akses materi pembelajaran dan tugas sekolah secara online.
+            </p>
+          </div>
+
+          <div
+            class="bg-white p-8 rounded-3xl shadow-sm hover:shadow-2xl transition-all border-b-8 border-yellow-500 group transform hover:-translate-y-2"
+          >
+            <i
+              class="fas fa-chart-line text-5xl text-yellow-500 mb-6 block group-hover:scale-110 transition"
+            ></i>
+            <h4 class="font-bold text-xl mb-3">E-Rapor</h4>
+            <p class="text-gray-500 text-sm leading-relaxed">
+              Pantau perkembangan hasil belajar siswa tiap semester.
+            </p>
+          </div>
+
+          <div
+            class="bg-white p-8 rounded-3xl shadow-sm hover:shadow-2xl transition-all border-b-8 border-red-500 group transform hover:-translate-y-2"
+          >
+            <i
+              class="fas fa-wallet text-5xl text-red-500 mb-6 block group-hover:scale-110 transition"
+            ></i>
+            <h4 class="font-bold text-xl mb-3">Keuangan</h4>
+            <p class="text-gray-500 text-sm leading-relaxed">
+              Informasi administrasi pembayaran SPP dan iuran lainnya.
+            </p>
+          </div>
         </div>
       </div>
     </section>
