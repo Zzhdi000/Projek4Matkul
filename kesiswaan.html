@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kesiswaan - SDN NEGERI GANTING</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8fafc;
+        }
+
+        /* --- HERO SECTION --- */
+        .hero-blue {
+            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* --- SIDEBAR TAB STYLE --- */
+        .tab-btn {
+            width: 100%;
+            text-align: left;
+            padding: 16px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-bottom: 8px;
+            color: #64748b;
+            background: white;
+            border: 1px solid #f1f5f9;
+        }
+
+        .tab-btn.active {
+            background: #eff6ff;
+            color: #2563eb;
+            border-left: 4px solid #2563eb;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.1);
+        }
+
+        .tab-btn:hover:not(.active) {
+            background: #f1f5f9;
+            transform: translateX(5px);
+        }
+
+        /* --- CONTENT CARD STYLE --- */
+        .section-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            border: 1px solid #f1f5f9;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .section-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .img-wrapper {
+            height: 180px;
+            overflow: hidden;
+        }
+
+        .img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .section-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .category-badge {
+            background: #eff6ff;
+            color: #2563eb;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        /* Logic for Toggling Content */
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="hero-blue py-16 px-6 text-center text-white">
+        <div class="max-w-7xl mx-auto">
+            <a href="index.html" class="inline-block mb-4 text-blue-200 hover:text-white transition">
+                <i class="fa-solid fa-arrow-left mr-2"></i> Kembali ke Beranda
+            </a>
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-2">Kesiswaan</h1>
+            <p class="text-blue-100 font-light">Eksplorasi Bakat dan Apresiasi Prestasi SDN Negeri Ganting</p>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-6 py-12">
+        <div class="flex flex-col lg:flex-row gap-8">
+            
+            <aside class="lg:w-1/4">
+                <div class="sticky top-8">
+                    <button onclick="openTab('ekskul', this)" class="tab-btn active">
+                        <i class="fa-solid fa-swimmer mr-3"></i> Kegiatan Ekskul
+                    </button>
+                    <button onclick="openTab('prestasi', this)" class="tab-btn">
+                        <i class="fa-solid fa-trophy mr-3"></i> Ruang Prestasi
+                    </button>
+                </div>
+            </aside>
+
+            <section class="lg:w-3/4">
+                
+                <div id="ekskul" class="tab-content active">
+                    <div class="mb-8">
+                        <h2 class="text-2xl font-bold text-slate-800">Kegiatan Ekstrakurikuler</h2>
+                        <p class="text-slate-500">Wadah pengembangan minat dan bakat siswa di luar jam pelajaran.</p>
+                        <div class="w-16 h-1 bg-blue-600 rounded mt-3"></div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="section-card">
+                            <div class="img-wrapper"><img src="p1.png" alt="Voli"></div>
+                            <div class="p-6">
+                                <h3 class="font-bold text-lg text-slate-800">Bola Voli</h3>
+                                <p class="text-sm text-slate-500 mt-2 mb-4">Melatih ketangkasan fisik dan semangat kerjasama tim dalam lapangan.</p>
+                                <a href="#" class="text-blue-600 font-bold text-xs uppercase tracking-wider">Detail <i class="fa-solid fa-chevron-right ml-1"></i></a>
+                            </div>
+                        </div>
+                        <div class="section-card">
+                            <div class="img-wrapper"><img src="asset/banjari.jpeg" alt="Banjari"></div>
+                            <div class="p-6">
+                                <h3 class="font-bold text-lg text-slate-800">Seni Banjari</h3>
+                                <p class="text-sm text-slate-500 mt-2 mb-4">Lestarikan budaya islami dengan irama rebana yang merdu.</p>
+                                <a href="#" class="text-blue-600 font-bold text-xs uppercase tracking-wider">Detail <i class="fa-solid fa-chevron-right ml-1"></i></a>
+                            </div>
+                        </div>
+                        <div class="section-card">
+                            <div class="img-wrapper"><img src="asset/pramuka.jpeg" alt="Pramuka"></div>
+                            <div class="p-6">
+                                <h3 class="font-bold text-lg text-slate-800">Pramuka</h3>
+                                <p class="text-sm text-slate-500 mt-2 mb-4">Membentuk karakter tunas muda yang tangguh dan disiplin.</p>
+                                <a href="#" class="text-blue-600 font-bold text-xs uppercase tracking-wider">Detail <i class="fa-solid fa-chevron-right ml-1"></i></a>
+                            </div>
+                        </div>
+                        <div class="section-card">
+                            <div class="img-wrapper"><img src="asset/tari.jpeg" alt="Tari"></div>
+                            <div class="p-6">
+                                <h3 class="font-bold text-lg text-slate-800">Tari</h3>
+                                <p class="text-sm text-slate-500 mt-2 mb-4">Membentuk karakter tunas muda yang tangguh dan disiplin.</p>
+                                <a href="#" class="text-blue-600 font-bold text-xs uppercase tracking-wider">Detail <i class="fa-solid fa-chevron-right ml-1"></i></a>
+                            </div>
+                        </div>
+                        <div class="section-card">
+                            <div class="img-wrapper"><img src="asset/tik.jpeg" alt="TIK"></div>
+                            <div class="p-6">
+                                <h3 class="font-bold text-lg text-slate-800">TIK</h3>
+                                <p class="text-sm text-slate-500 mt-2 mb-4">Membentuk karakter tunas muda yang tangguh dan disiplin.</p>
+                                <a href="#" class="text-blue-600 font-bold text-xs uppercase tracking-wider">Detail <i class="fa-solid fa-chevron-right ml-1"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="prestasi" class="tab-content">
+                    <div class="mb-8">
+                        <h2 class="text-2xl font-bold text-slate-800">Ruang Prestasi</h2>
+                        <p class="text-slate-500">Apresiasi untuk siswa-siswi berprestasi yang mengharumkan nama sekolah.</p>
+                        <div class="w-16 h-1 bg-blue-600 rounded mt-3"></div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="section-card">
+                            <div class="relative">
+                                <div class="img-wrapper"><img src="p6.png" alt="Matematika"></div>
+                                <div class="absolute top-3 left-3"><span class="category-badge shadow-sm">Akademik</span></div>
+                            </div>
+                            <div class="p-6">
+                                <h3 class="font-bold text-lg text-slate-800">Juara 1 Olimpiade Matematika</h3>
+                                <p class="text-sm text-slate-500 mt-2 mb-4">Berhasil meraih medali emas tingkat provinsi Jawa Timur.</p>
+                                <div class="flex items-center gap-3 pt-4 border-t border-slate-50">
+                                    <i class="fa-solid fa-user-graduate text-blue-600"></i>
+                                    <span class="text-xs font-bold text-slate-700 uppercase">Andi Pratama (5A)</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section-card">
+                            <div class="relative">
+                                <div class="img-wrapper"><img src="p7.png" alt="Taekwondo"></div>
+                                <div class="absolute top-3 left-3"><span class="category-badge shadow-sm">Olahraga</span></div>
+                            </div>
+                            <div class="p-6">
+                                <h3 class="font-bold text-lg text-slate-800">Medali Perak Taekwondo</h3>
+                                <p class="text-sm text-slate-500 mt-2 mb-4">Kejuaraan Nasional Junior yang diselenggarakan di Jakarta.</p>
+                                <div class="flex items-center gap-3 pt-4 border-t border-slate-50">
+                                    <i class="fa-solid fa-user-graduate text-blue-600"></i>
+                                    <span class="text-xs font-bold text-slate-700 uppercase">Siti Aisyah (6B)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+        </div>
+    </main>
+
+    <footer class="bg-slate-900 py-10 text-center mt-12">
+        <p class="text-slate-500 text-sm">&copy; 2026 SDN NEGERI GANTING</p>
+    </header>
+
+    <script>
+        function openTab(tabId, element) {
+            // Sembunyikan semua konten
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+
+            // Hapus class active dari semua tombol
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            // Tampilkan konten yang dipilih & tambahkan class active pada tombol
+            document.getElementById(tabId).classList.add('active');
+            element.classList.add('active');
+        }
+    </script>
+
+</body>
+</html>
