@@ -1,335 +1,505 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tentang Sekolah - SD NEGERI GANTING</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
     <style>
-       .hero-blue {
-            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f8fafc;
-        }
+      .hero-blue {
+        background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+        position: relative;
+        overflow: hidden;
+      }
 
-        /* --- CSS SIDEBAR ALA KESISWAAN --- */
-        .tab-btn {
-            width: 100%;
-            text-align: left;
-            padding: 16px 24px;
-            border-radius: 12px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            margin-bottom: 8px;
-            color: #64748b;
-            background: white;
-            border: 1px solid #f1f5f9;
-            display: flex;
-            align-items: center;
-        }
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: #f8fafc;
+      }
 
-        .tab-btn.active {
-            background: #eff6ff;
-            color: #2563eb;
-            border-left: 4px solid #2563eb;
-            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.1);
-        }
+      /* --- CSS SIDEBAR ALA KESISWAAN --- */
+      .tab-btn {
+        width: 100%;
+        text-align: left;
+        padding: 16px 24px;
+        border-radius: 12px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        margin-bottom: 8px;
+        color: #64748b;
+        background: white;
+        border: 1px solid #f1f5f9;
+        display: flex;
+        align-items: center;
+      }
 
-        .tab-btn:hover:not(.active) {
-            background: #f1f5f9;
-            transform: translateX(5px);
-        }
+      .tab-btn.active {
+        background: #eff6ff;
+        color: #2563eb;
+        border-left: 4px solid #2563eb;
+        box-shadow: 0 4px 15px rgba(37, 99, 235, 0.1);
+      }
 
-        /* --- LOGIC KONTEN (TAB) --- */
-        .tab-content {
-            display: none;
-            animation: fadeIn 0.4s ease-out;
-        }
+      .tab-btn:hover:not(.active) {
+        background: #f1f5f9;
+        transform: translateX(5px);
+      }
 
-        .tab-content.active {
-            display: block;
-        }
+      /* --- LOGIC KONTEN (TAB) --- */
+      .tab-content {
+        display: none;
+        animation: fadeIn 0.4s ease-out;
+      }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+      .tab-content.active {
+        display: block;
+      }
 
-        .section-card {
-            background: white;
-            border-radius: 24px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            border: 1px solid #f1f5f9;
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
         }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
 
-        .section-title-line {
-            width: 60px;
-            height: 4px;
-            background: #2563eb;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
+      .section-card {
+        background: white;
+        border-radius: 24px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        border: 1px solid #f1f5f9;
+      }
 
-        .list-item-circle {
-            width: 28px;
-            height: 28px;
-            background: #eff6ff;
-            color: #2563eb;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            font-weight: bold;
-            font-size: 14px;
-            flex-shrink: 0;
-        }
+      .section-title-line {
+        width: 60px;
+        height: 4px;
+        background: #2563eb;
+        border-radius: 10px;
+        margin-bottom: 20px;
+      }
+
+      .list-item-circle {
+        width: 28px;
+        height: 28px;
+        background: #eff6ff;
+        color: #2563eb;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        font-weight: bold;
+        font-size: 14px;
+        flex-shrink: 0;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
+    <header class="hero-blue py-16 px-6 text-white relative">
+      <div class="max-w-7xl mx-auto relative">
+        <a
+          href="index.html"
+          class="absolute -top-4 left-0 flex items-center justify-center w-10 h-10 bg-white/20 hover:bg-white/30 text-white rounded-full transition-all duration-300 border border-white/20 shadow-sm"
+          title="Kembali"
+        >
+          <i class="fa-solid fa-arrow-left text-sm"></i>
+        </a>
 
-   <header class="hero-blue py-16 px-6 text-center text-white">
-        <div class="max-w-7xl mx-auto">
-            <a href="index.html" class="inline-block mb-4 text-blue-200 hover:text-white transition">
-                <i class="fa-solid fa-arrow-left mr-2"></i> Kembali ke Beranda
-            </a>
-            <h1 class="text-4xl md:text-5xl font-extrabold mb-2">Profil Sekolah</h1>
-            <p class="text-blue-100 font-light">Mengenal lebih dekat visi, misi, dan sejarah SD NEGERI GANTING</p>
+        <div class="text-center mt-4">
+          <h1 class="text-4xl md:text-5xl font-extrabold mb-2">
+            Profil Sekolah
+          </h1>
+          <p class="text-blue-100 font-light max-w-2xl mx-auto">
+            Mengenal lebih dekat visi, misi, dan sejarah SD NEGERI GANTING
+          </p>
         </div>
+      </div>
     </header>
 
     <main class="max-w-7xl mx-auto px-6 py-12">
-        <div class="flex flex-col lg:flex-row gap-8">
-            
-            <aside class="lg:w-1/4">
-                <div class="sticky top-8">
-                    <button onclick="openTab('sejarah', this)" class="tab-btn active">
-                        <i class="fa-solid fa-clock-rotate-left mr-3"></i> Sejarah
-                    </button>
-                    <button onclick="openTab('visi', this)" class="tab-btn">
-                        <i class="fa-solid fa-bullseye mr-3"></i> Visi & Misi
-                    </button>
-                    <button onclick="openTab('struktur', this)" class="tab-btn">
-                        <i class="fa-solid fa-sitemap mr-3"></i> Struktur Organisasi
-                    </button>
-                    <button onclick="openTab('fasilitas', this)" class="tab-btn">
-                        <i class="fa-solid fa-school mr-3"></i> Fasilitas
-                    </button>
-                </div>
-            </aside>
+      <div class="flex flex-col lg:flex-row gap-8">
+        <aside class="lg:w-1/4">
+          <div class="sticky top-8">
+            <button onclick="openTab('sejarah', this)" class="tab-btn active">
+              <i class="fa-solid fa-clock-rotate-left mr-3"></i> Sejarah
+            </button>
+            <button onclick="openTab('visi', this)" class="tab-btn">
+              <i class="fa-solid fa-bullseye mr-3"></i> Visi & Misi
+            </button>
+            <button onclick="openTab('struktur', this)" class="tab-btn">
+              <i class="fa-solid fa-sitemap mr-3"></i> Struktur Organisasi
+            </button>
+            <button onclick="openTab('fasilitas', this)" class="tab-btn">
+              <i class="fa-solid fa-school mr-3"></i> Fasilitas
+            </button>
+          </div>
+        </aside>
 
-            <section class="lg:w-3/4">
-                
-                <div id="sejarah" class="tab-content active">
-                    <div class="section-card p-8 md:p-12">
-                        <div class="section-title-line"></div>
-                        <h2 class="text-3xl font-bold text-gray-800 mb-6">Sejarah Singkat</h2>
-                        <div class="prose prose-blue max-w-none text-gray-600 leading-relaxed space-y-4">
-                            <p>
-                                SD Negeri Ganting didirikan dengan semangat untuk memberikan pendidikan berkualitas yang berlandaskan nilai-nilai karakter dan budi pekerti luhur. Berawal dari bangunan sederhana, kini sekolah telah berkembang menjadi institusi pendidikan yang memiliki fasilitas lengkap dan modern.
-                            </p>
-                            <p>
-                                Dalam perjalanannya selama puluhan tahun, sekolah ini telah mencetak ribuan alumni yang tersebar di berbagai profesi dan berkontribusi positif bagi masyarakat. Komitmen kami adalah terus mengembangkan kualitas pendidikan dengan mengintegrasikan kurikulum nasional dan nilai-nilai kearifan lokal.
-                            </p>
-                        </div>
+        <section class="lg:w-3/4">
+          <div id="sejarah" class="tab-content active">
+            <div class="section-card p-8 md:p-12">
+              <div class="section-title-line"></div>
+              <h2 class="text-3xl font-bold text-gray-800 mb-6">
+                Sejarah Singkat
+              </h2>
+              <div
+                class="prose prose-blue max-w-none text-gray-600 leading-relaxed space-y-4"
+              >
+                <p>
+                  SD Negeri Ganting didirikan dengan semangat untuk memberikan
+                  pendidikan berkualitas yang berlandaskan nilai-nilai karakter
+                  dan budi pekerti luhur. Berawal dari bangunan sederhana, kini
+                  sekolah telah berkembang menjadi institusi pendidikan yang
+                  memiliki fasilitas lengkap dan modern.
+                </p>
+                <p>
+                  Dalam perjalanannya selama puluhan tahun, sekolah ini telah
+                  mencetak ribuan alumni yang tersebar di berbagai profesi dan
+                  berkontribusi positif bagi masyarakat. Komitmen kami adalah
+                  terus mengembangkan kualitas pendidikan dengan
+                  mengintegrasikan kurikulum nasional dan nilai-nilai kearifan
+                  lokal.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div id="visi" class="tab-content">
+            <div class="section-card p-8 md:p-12 border-l-8 border-blue-600">
+              <h2 class="text-3xl font-bold text-gray-800 mb-6">Visi Kami</h2>
+              <blockquote
+                class="text-2xl italic font-medium text-blue-900 leading-snug"
+              >
+                "Menjadi lembaga pendidikan yang unggul, santun, berprestasi,
+                berstandar nasional dan berwawasan lingkungan."
+              </blockquote>
+
+              <div class="mt-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">Misi Kami</h2>
+                <div class="grid gap-4">
+                  <div
+                    class="flex gap-4 p-4 rounded-2xl bg-blue-50 border border-blue-100"
+                  >
+                    <span class="list-item-circle">1</span>
+                    <p class="text-gray-700">
+                      Mewujudkan lulusan yang kompeten dalam sikap, pengetahuan
+                      dan keterampilan.
+                    </p>
+                  </div>
+                  <div
+                    class="flex gap-4 p-4 rounded-2xl bg-blue-50 border border-blue-100"
+                  >
+                    <span class="list-item-circle">2</span>
+                    <p class="text-gray-700">
+                      Mencetak lulusan yang unggul dalam sikap kebangsaan dan
+                      karakter disiplin.
+                    </p>
+                  </div>
+                  <div
+                    class="flex gap-4 p-4 rounded-2xl bg-blue-50 border border-blue-100"
+                  >
+                    <span class="list-item-circle">3</span>
+                    <p class="text-gray-700">
+                      Mewujudkan kurikulum mandiri dengan mengacu pada standar
+                      nasional pendidikan.
+                    </p>
+                  </div>
+                  <div
+                    class="flex gap-4 p-4 rounded-2xl bg-blue-50 border border-blue-100"
+                  >
+                    <span class="list-item-circle">4</span>
+                    <p class="text-gray-700">
+                      Meningkatkan pengembangan dan pengelolaan ICT yang
+                      menunjang pembelajaran digital.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="struktur" class="tab-content">
+            <div class="section-card p-8 md:p-12">
+              <div class="section-title-line"></div>
+              <h2 class="text-3xl font-bold text-gray-800 mb-6">
+                Struktur Organisasi
+              </h2>
+              <div class="rounded-3xl overflow-hidden">
+                <img
+                  src="asset/struktur.png"
+                  alt="Struktur Organisasi Sekolah"
+                  class="w-full h-auto object-cover"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div id="fasilitas" class="tab-content">
+            <div class="section-card p-8 md:p-12">
+              <div class="section-title-line"></div>
+              <h2 class="text-3xl font-bold text-gray-800 mb-2">
+                Fasilitas Sekolah
+              </h2>
+              <p class="text-gray-500 mb-10">
+                Sarana prasarana terbaik untuk mendukung tumbuh kembang siswa.
+              </p>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div
+                  class="group overflow-hidden rounded-2xl border border-gray-100 bg-slate-50 hover:bg-white hover:shadow-xl transition-all duration-300"
+                >
+                  <div class="h-48 overflow-hidden">
+                    <img
+                      src="asset/Kelas.jpeg"
+                      alt="Ruang Kelas"
+                      class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                  </div>
+                  <div class="p-6">
+                    <div class="flex items-center gap-3 mb-3">
+                      <div
+                        class="w-10 h-10 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center"
+                      >
+                        <i class="fas fa-chalkboard-teacher"></i>
+                      </div>
+                      <h4 class="font-bold text-lg text-gray-800">
+                        Ruang Kelas
+                      </h4>
                     </div>
+                    <p class="text-sm text-gray-600">
+                      Setiap ruang kelas dilengkapi dengan proyektor LCD dan
+                      akses internet untuk mendukung pembelajaran interaktif.
+                    </p>
+                  </div>
                 </div>
 
-                <div id="visi" class="tab-content">
-                    <div class="section-card p-8 md:p-12 border-l-8 border-blue-600">
-                        <h2 class="text-3xl font-bold text-gray-800 mb-6">Visi Kami</h2>
-                        <blockquote class="text-2xl italic font-medium text-blue-900 leading-snug">
-                            "Menjadi lembaga pendidikan yang unggul, santun, berprestasi, berstandar nasional dan berwawasan lingkungan."
-                        </blockquote>
-
-                        <div class="mt-12">
-                            <h2 class="text-3xl font-bold text-gray-800 mb-6">Misi Kami</h2>
-                            <div class="grid gap-4">
-                                <div class="flex gap-4 p-4 rounded-2xl bg-blue-50 border border-blue-100">
-                                    <span class="list-item-circle">1</span>
-                                    <p class="text-gray-700">Mewujudkan lulusan yang kompeten dalam sikap, pengetahuan dan keterampilan.</p>
-                                </div>
-                                <div class="flex gap-4 p-4 rounded-2xl bg-blue-50 border border-blue-100">
-                                    <span class="list-item-circle">2</span>
-                                    <p class="text-gray-700">Mencetak lulusan yang unggul dalam sikap kebangsaan dan karakter disiplin.</p>
-                                </div>
-                                <div class="flex gap-4 p-4 rounded-2xl bg-blue-50 border border-blue-100">
-                                    <span class="list-item-circle">3</span>
-                                    <p class="text-gray-700">Mewujudkan kurikulum mandiri dengan mengacu pada standar nasional pendidikan.</p>
-                                </div>
-                                <div class="flex gap-4 p-4 rounded-2xl bg-blue-50 border border-blue-100">
-                                    <span class="list-item-circle">4</span>
-                                    <p class="text-gray-700">Meningkatkan pengembangan dan pengelolaan ICT yang menunjang pembelajaran digital.</p>
-                                </div>
-                            </div>
-                        </div>
+                <div
+                  class="group overflow-hidden rounded-2xl border border-gray-100 bg-slate-50 hover:bg-white hover:shadow-xl transition-all duration-300"
+                >
+                  <div class="h-48 overflow-hidden">
+                    <img
+                      src="asset/Lab Komputer.jpeg"
+                      alt="Lab Komputer"
+                      class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                  </div>
+                  <div class="p-6">
+                    <div class="flex items-center gap-3 mb-3">
+                      <div
+                        class="w-10 h-10 bg-indigo-100 text-indigo-600 rounded-lg flex items-center justify-center"
+                      >
+                        <i class="fas fa-desktop"></i>
+                      </div>
+                      <h4 class="font-bold text-lg text-gray-800">
+                        Lab Komputer
+                      </h4>
                     </div>
+                    <p class="text-sm text-gray-600">
+                      Fasilitas komputer modern untuk menunjang literasi digital
+                      dan kegiatan ujian berbasis komputer.
+                    </p>
+                  </div>
                 </div>
 
-                <div id="struktur" class="tab-content">
-                    <div class="section-card p-8 md:p-12">
-                        <div class="section-title-line"></div>
-                        <h2 class="text-3xl font-bold text-gray-800 mb-6">Struktur Organisasi</h2>
-                        <div class="bg-gray-100 rounded-3xl aspect-video flex items-center justify-center border-2 border-dashed border-gray-300">
-                            <div class="text-center px-4">
-                                <i class="fas fa-sitemap text-5xl text-gray-400 mb-4"></i>
-                                <p class="text-gray-500 font-medium">Bagan Struktur Organisasi Sekolah</p>
-                                <p class="text-gray-400 text-sm">Gunakan gambar resolusi tinggi (struktur.png) untuk bagian ini</p>
-                            </div>
-                        </div>
+                <div
+                  class="group overflow-hidden rounded-2xl border border-gray-100 bg-slate-50 hover:bg-white hover:shadow-xl transition-all duration-300"
+                >
+                  <div class="h-48 overflow-hidden">
+                    <img
+                      src="asset/Perpustakaan.jpeg"
+                      alt="Perpustakaan"
+                      class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                  </div>
+                  <div class="p-6">
+                    <div class="flex items-center gap-3 mb-3">
+                      <div
+                        class="w-10 h-10 bg-amber-100 text-amber-600 rounded-lg flex items-center justify-center"
+                      >
+                        <i class="fas fa-book-reader"></i>
+                      </div>
+                      <h4 class="font-bold text-lg text-gray-800">
+                        Perpustakaan
+                      </h4>
                     </div>
+                    <p class="text-sm text-gray-600">
+                      Koleksi buku lengkap disertai pojok baca yang nyaman untuk
+                      menumbuhkan minat literasi siswa.
+                    </p>
+                  </div>
                 </div>
 
-                <div id="fasilitas" class="tab-content">
-                    <div class="section-card p-8 md:p-12">
-                        <div class="section-title-line"></div>
-                        <h2 class="text-3xl font-bold text-gray-800 mb-2">Fasilitas Sekolah</h2>
-                        <p class="text-gray-500 mb-10">Sarana prasarana terbaik untuk mendukung tumbuh kembang siswa.</p>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div class="group overflow-hidden rounded-2xl border border-gray-100 bg-slate-50 hover:bg-white hover:shadow-xl transition-all duration-300">
-                                <div class="h-48 overflow-hidden">
-                                    <img src="asset/Kelas.jpeg" alt="Ruang Kelas" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                                </div>
-                                <div class="p-6">
-                                    <div class="flex items-center gap-3 mb-3">
-                                        <div class="w-10 h-10 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center"><i class="fas fa-chalkboard-teacher"></i></div>
-                                        <h4 class="font-bold text-lg text-gray-800">Ruang Kelas</h4>
-                                    </div>
-                                    <p class="text-sm text-gray-600">Setiap ruang kelas dilengkapi dengan proyektor LCD dan akses internet untuk mendukung pembelajaran interaktif.</p>
-                                </div>
-                            </div>
-
-                            <div class="group overflow-hidden rounded-2xl border border-gray-100 bg-slate-50 hover:bg-white hover:shadow-xl transition-all duration-300">
-                                <div class="h-48 overflow-hidden">
-                                    <img src="asset/Lab Komputer.jpeg" alt="Lab Komputer" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                                </div>
-                                <div class="p-6">
-                                    <div class="flex items-center gap-3 mb-3">
-                                        <div class="w-10 h-10 bg-indigo-100 text-indigo-600 rounded-lg flex items-center justify-center"><i class="fas fa-desktop"></i></div>
-                                        <h4 class="font-bold text-lg text-gray-800">Lab Komputer</h4>
-                                    </div>
-                                    <p class="text-sm text-gray-600">Fasilitas komputer modern untuk menunjang literasi digital dan kegiatan ujian berbasis komputer.</p>
-                                </div>
-                            </div>
-
-                            <div class="group overflow-hidden rounded-2xl border border-gray-100 bg-slate-50 hover:bg-white hover:shadow-xl transition-all duration-300">
-                                <div class="h-48 overflow-hidden">
-                                    <img src="asset/Perpustakaan.jpeg" alt="Perpustakaan" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                                </div>
-                                <div class="p-6">
-                                    <div class="flex items-center gap-3 mb-3">
-                                        <div class="w-10 h-10 bg-amber-100 text-amber-600 rounded-lg flex items-center justify-center"><i class="fas fa-book-reader"></i></div>
-                                        <h4 class="font-bold text-lg text-gray-800">Perpustakaan</h4>
-                                    </div>
-                                    <p class="text-sm text-gray-600">Koleksi buku lengkap disertai pojok baca yang nyaman untuk menumbuhkan minat literasi siswa.</p>
-                                </div>
-                            </div>
-
-                            <div class="group overflow-hidden rounded-2xl border border-gray-100 bg-slate-50 hover:bg-white hover:shadow-xl transition-all duration-300">
-                                <div class="h-48 overflow-hidden">
-                                    <img src="asset/Panggung Pentas.jpeg" alt="Panggung Pentas" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                                </div>
-                                <div class="p-6">
-                                    <div class="flex items-center gap-3 mb-3">
-                                        <div class="w-10 h-10 bg-purple-100 text-purple-600 rounded-lg flex items-center justify-center"><i class="fas fa-theater-masks"></i></div>
-                                        <h4 class="font-bold text-lg text-gray-800">Panggung Pentas</h4>
-                                    </div>
-                                    <p class="text-sm text-gray-600">Panggung pertunjukan yang nyaman untuk kegiatan seni dan budaya siswa.</p>
-                                </div>
-                            </div>
-
-                            <div class="group overflow-hidden rounded-2xl border border-gray-100 bg-slate-50 hover:bg-white hover:shadow-xl transition-all duration-300">
-                                <div class="h-48 overflow-hidden">
-                                    <img src="asset/UKS.jpeg" alt="UKS" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                                </div>
-                                <div class="p-6">
-                                    <div class="flex items-center gap-3 mb-3">
-                                        <div class="w-10 h-10 bg-red-100 text-red-600 rounded-lg flex items-center justify-center"><i class="fas fa-user-md"></i></div>
-                                        <h4 class="font-bold text-lg text-gray-800">UKS</h4>
-                                    </div>
-                                    <p class="text-sm text-gray-600">Fasilitas kesehatan siswa yang menyediakan layanan medis dasar dan pendidikan kesehatan.</p>
-                                </div>
-                            </div>
-
-                            <div class="group overflow-hidden rounded-2xl border border-gray-100 bg-slate-50 hover:bg-white hover:shadow-xl transition-all duration-300">
-                                <div class="h-48 overflow-hidden">
-                                    <img src="asset/Musholla.jpeg" alt="Musholla" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                                </div>
-                                <div class="p-6">
-                                    <div class="flex items-center gap-3 mb-3">
-                                        <div class="w-10 h-10 bg-emerald-100 text-emerald-600 rounded-lg flex items-center justify-center"><i class="fas fa-mosque"></i></div>
-                                        <h4 class="font-bold text-lg text-gray-800">Musholla</h4>
-                                    </div>
-                                    <p class="text-sm text-gray-600">Fasilitas ibadah yang nyaman untuk kegiatan keagamaan siswa.</p>
-                                </div>
-                            </div>
-
-                            <div class="group overflow-hidden rounded-2xl border border-gray-100 bg-slate-50 hover:bg-white hover:shadow-xl transition-all duration-300">
-                                <div class="h-48 overflow-hidden">
-                                    <img src="asset/Sanggar Pramuka.jpeg" alt="Sanggar Pramuka" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                                </div>
-                                <div class="p-6">
-                                    <div class="flex items-center gap-3 mb-3">
-                                        <div class="w-10 h-10 bg-orange-100 text-orange-600 rounded-lg flex items-center justify-center"><i class="fas fa-campground"></i></div>
-                                        <h4 class="font-bold text-lg text-gray-800">Sanggar Pramuka</h4>
-                                    </div>
-                                    <p class="text-sm text-gray-600">Fasilitas untuk kegiatan pramuka yang membantu pengembangan karakter siswa.</p>
-                                </div>
-                            </div>
-
-                            <div class="group overflow-hidden rounded-2xl border border-gray-100 bg-slate-50 hover:bg-white hover:shadow-xl transition-all duration-300">
-                                <div class="h-48 overflow-hidden">
-                                    <img src="asset/Lapangan.jpeg" alt="Lapangan Olahraga" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                                </div>
-                                <div class="p-6">
-                                    <div class="flex items-center gap-3 mb-3">
-                                        <div class="w-10 h-10 bg-sky-100 text-sky-600 rounded-lg flex items-center justify-center"><i class="fas fa-running"></i></div>
-                                        <h4 class="font-bold text-lg text-gray-800">Lapangan</h4>
-                                    </div>
-                                    <p class="text-sm text-gray-600">Lapangan serbaguna yang luas untuk olahraga, upacara, dan pengembangan bakat.</p>
-                                </div>
-                            </div>
-                        </div>
+                <div
+                  class="group overflow-hidden rounded-2xl border border-gray-100 bg-slate-50 hover:bg-white hover:shadow-xl transition-all duration-300"
+                >
+                  <div class="h-48 overflow-hidden">
+                    <img
+                      src="asset/Panggung Pentas.jpeg"
+                      alt="Panggung Pentas"
+                      class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                  </div>
+                  <div class="p-6">
+                    <div class="flex items-center gap-3 mb-3">
+                      <div
+                        class="w-10 h-10 bg-purple-100 text-purple-600 rounded-lg flex items-center justify-center"
+                      >
+                        <i class="fas fa-theater-masks"></i>
+                      </div>
+                      <h4 class="font-bold text-lg text-gray-800">
+                        Panggung Pentas
+                      </h4>
                     </div>
+                    <p class="text-sm text-gray-600">
+                      Panggung pertunjukan yang nyaman untuk kegiatan seni dan
+                      budaya siswa.
+                    </p>
+                  </div>
                 </div>
 
-            </section>
-        </div>
+                <div
+                  class="group overflow-hidden rounded-2xl border border-gray-100 bg-slate-50 hover:bg-white hover:shadow-xl transition-all duration-300"
+                >
+                  <div class="h-48 overflow-hidden">
+                    <img
+                      src="asset/UKS.jpeg"
+                      alt="UKS"
+                      class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                  </div>
+                  <div class="p-6">
+                    <div class="flex items-center gap-3 mb-3">
+                      <div
+                        class="w-10 h-10 bg-red-100 text-red-600 rounded-lg flex items-center justify-center"
+                      >
+                        <i class="fas fa-user-md"></i>
+                      </div>
+                      <h4 class="font-bold text-lg text-gray-800">UKS</h4>
+                    </div>
+                    <p class="text-sm text-gray-600">
+                      Fasilitas kesehatan siswa yang menyediakan layanan medis
+                      dasar dan pendidikan kesehatan.
+                    </p>
+                  </div>
+                </div>
+
+                <div
+                  class="group overflow-hidden rounded-2xl border border-gray-100 bg-slate-50 hover:bg-white hover:shadow-xl transition-all duration-300"
+                >
+                  <div class="h-48 overflow-hidden">
+                    <img
+                      src="asset/Musholla.jpeg"
+                      alt="Musholla"
+                      class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                  </div>
+                  <div class="p-6">
+                    <div class="flex items-center gap-3 mb-3">
+                      <div
+                        class="w-10 h-10 bg-emerald-100 text-emerald-600 rounded-lg flex items-center justify-center"
+                      >
+                        <i class="fas fa-mosque"></i>
+                      </div>
+                      <h4 class="font-bold text-lg text-gray-800">Musholla</h4>
+                    </div>
+                    <p class="text-sm text-gray-600">
+                      Fasilitas ibadah yang nyaman untuk kegiatan keagamaan
+                      siswa.
+                    </p>
+                  </div>
+                </div>
+
+                <div
+                  class="group overflow-hidden rounded-2xl border border-gray-100 bg-slate-50 hover:bg-white hover:shadow-xl transition-all duration-300"
+                >
+                  <div class="h-48 overflow-hidden">
+                    <img
+                      src="asset/Sanggar Pramuka.jpeg"
+                      alt="Sanggar Pramuka"
+                      class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                  </div>
+                  <div class="p-6">
+                    <div class="flex items-center gap-3 mb-3">
+                      <div
+                        class="w-10 h-10 bg-orange-100 text-orange-600 rounded-lg flex items-center justify-center"
+                      >
+                        <i class="fas fa-campground"></i>
+                      </div>
+                      <h4 class="font-bold text-lg text-gray-800">
+                        Sanggar Pramuka
+                      </h4>
+                    </div>
+                    <p class="text-sm text-gray-600">
+                      Fasilitas untuk kegiatan pramuka yang membantu
+                      pengembangan karakter siswa.
+                    </p>
+                  </div>
+                </div>
+
+                <div
+                  class="group overflow-hidden rounded-2xl border border-gray-100 bg-slate-50 hover:bg-white hover:shadow-xl transition-all duration-300"
+                >
+                  <div class="h-48 overflow-hidden">
+                    <img
+                      src="asset/Lapangan.jpeg"
+                      alt="Lapangan Olahraga"
+                      class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                  </div>
+                  <div class="p-6">
+                    <div class="flex items-center gap-3 mb-3">
+                      <div
+                        class="w-10 h-10 bg-sky-100 text-sky-600 rounded-lg flex items-center justify-center"
+                      >
+                        <i class="fas fa-running"></i>
+                      </div>
+                      <h4 class="font-bold text-lg text-gray-800">Lapangan</h4>
+                    </div>
+                    <p class="text-sm text-gray-600">
+                      Lapangan serbaguna yang luas untuk olahraga, upacara, dan
+                      pengembangan bakat.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
     </main>
 
     <footer class="bg-gray-900 text-gray-400 py-10 text-center text-sm italic">
-        &copy; 2026 SD NEGERI GANTING. All Rights Reserved.
+      &copy; 2026 SD NEGERI GANTING. All Rights Reserved.
     </footer>
 
     <script>
-        function openTab(tabId, element) {
-            // Sembunyikan semua konten tab
-            const contents = document.querySelectorAll('.tab-content');
-            contents.forEach(content => content.classList.remove('active'));
+      function openTab(tabId, element) {
+        // Sembunyikan semua konten tab
+        const contents = document.querySelectorAll(".tab-content");
+        contents.forEach((content) => content.classList.remove("active"));
 
-            // Reset semua tombol navigasi
-            const buttons = document.querySelectorAll('.tab-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
+        // Reset semua tombol navigasi
+        const buttons = document.querySelectorAll(".tab-btn");
+        buttons.forEach((btn) => btn.classList.remove("active"));
 
-            // Tampilkan tab yang diklik
-            document.getElementById(tabId).classList.add('active');
-            
-            // Tandai tombol sebagai aktif
-            element.classList.add('active');
+        // Tampilkan tab yang diklik
+        document.getElementById(tabId).classList.add("active");
 
-            // Scroll ke atas (khusus mobile) agar konten terlihat
-            if(window.innerWidth < 1024) {
-                window.scrollTo({ top: 350, behavior: 'smooth' });
-            }
-        }
+        // Tandai tombol sebagai aktif
+        element.classList.add("active");
+      }
     </script>
-</body>
+  </body>
 </html>

@@ -1,728 +1,560 @@
 <!doctype html>
-<html lang="id">
+<html lang="id" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SD NEGERI GANTING - Sistem Informasi Akademik</title>
+    <title>SMK TELKOM MALANG | The Real Informatics School</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
     <style>
-      /* CSS START */
-      html {
-        scroll-behavior: smooth;
+      @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap");
+      :root {
+        --primary-blue: #1e40af;
+        --secondary-yellow: #facc15;
+        --accent-blue: #3b82f6;
+      }
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        background-color: #ffffff;
+        overflow-x: hidden;
+      }
+      .glass-nav {
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(15px);
+        border-bottom: 3px solid var(--secondary-yellow);
       }
 
-      /* Wrapper Utama untuk Full Screen */
-      .hero-viewport {
+      /* SLIDER ENGINE */
+      .slider-viewport {
+        overflow: hidden;
+        position: relative;
         height: 100vh;
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
+        width: 100%;
       }
-
-      /* Slider Setup */
-      #slider-container {
-        flex: 1;
-        position: relative;
-        overflow: hidden;
-      }
-
-      #slider-wrapper {
+      .slide-container {
         display: flex;
         height: 100%;
-        width: 300%;
-        transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+        width: 100%;
       }
-
       .slide-item {
-        width: 33.333%;
+        flex: 0 0 100%;
+        width: 100%;
         height: 100%;
-        background-size: cover;
-        background-position: center;
-        flex-shrink: 0;
         position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
       }
-
-      /* Overlay agar teks terbaca */
       .slide-overlay {
         position: absolute;
         inset: 0;
         background: linear-gradient(
-          to bottom,
-          rgba(0, 0, 0, 0.3),
-          rgba(0, 0, 0, 0.7)
+          to right,
+          rgba(30, 64, 175, 0.85),
+          rgba(30, 64, 175, 0.3)
         );
       }
-
-      /* Animasi Teks */
-      .content-anim {
-        opacity: 0;
-        transform: translateY(30px);
-        transition: all 0.8s ease-out 0.4s;
-        z-index: 20;
+      .transition-smooth {
+        transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
       }
-      .slide-item.active .content-anim {
+
+      /* UI ELEMENTS */
+      .dropdown-menu {
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(10px);
+        transition: all 0.3s ease;
+      }
+      .group:hover .dropdown-menu {
         opacity: 1;
+        visibility: visible;
         transform: translateY(0);
       }
-
-      /* AI Glow Button */
-      @keyframes pulse-border {
-        0% {
-          box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
-        }
-        70% {
-          box-shadow: 0 0 0 15px rgba(59, 130, 246, 0);
-        }
-        100% {
-          box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
-        }
+      .dot {
+        transition: all 0.3s ease;
+        cursor: pointer;
       }
-      .ai-glow {
-        animation: pulse-border 2s infinite;
+      .dot.active {
+        background: var(--secondary-yellow);
+        width: 40px;
       }
-
-      /* Dropdown Hover */
-      .dropdown:hover .dropdown-menu {
-        display: block;
+      .choosing-card {
+        transition: all 0.4s ease;
       }
-
-      /* ================= PROFIL SEKOLAH (FINAL REVISION) ================= */
-
-      .profil {
-        margin-top: 80px; /* Memberi jarak dari section "Mengapa Memilih Kami" */
-        padding: 0;
-        background: #2563eb;
-        overflow: hidden;
-      }
-
-      .profil .container-full {
-        display: flex;
-        flex-direction: row;
-        align-items: stretch;
-        max-height: 500px; /* Tinggi dikecilkan sedikit lagi */
-      }
-
-      /* FOTO SEKOLAH - Lebar dikurangi jadi 35% agar tidak kegedean */
-      .profil .foto {
-        flex: 0 0 35%;
-        position: relative;
-      }
-
-      .profil .foto img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-      }
-
-      /* KONTEN PROFIL - Lebih dominan (65%) */
-      .profil .konten {
-        flex: 0 0 65%;
-        padding: 40px 6% 40px 5%;
-        color: white;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-      }
-
-      .profil .konten h2 {
-        color: #facc15;
-        font-size: 14px;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        margin-bottom: 5px;
-        border-left: 4px solid #facc15;
-        padding-left: 15px;
-      }
-
-      .profil .konten h1 {
-        font-size: 32px;
-        font-weight: 800;
-        margin-bottom: 12px;
-      }
-
-      .profil .konten h3 {
-        margin-top: 15px;
-        font-size: 16px;
-        font-weight: 700;
-        color: #f1f5f9;
-      }
-
-      .profil .konten p {
-        font-size: 14px;
-        line-height: 1.5;
-        color: rgba(255, 255, 255, 0.85);
-        margin-top: 4px;
-      }
-
-      .profil .btn {
-        display: inline-block;
-        width: fit-content;
-        margin-top: 20px;
-        padding: 10px 22px;
-        background: #facc15;
-        color: #0284c7;
-        border-radius: 6px;
-        font-weight: 700;
-        font-size: 14px;
-        transition: 0.3s;
-      }
-      /* SECTION MENGAPA MEMILIH KAMI */
-      /* Section utama */
-      .alasan-section {
-        padding: 80px 20px 40px 20px;
-        background: #f5f7fb;
-      }
-
-      /* Judul */
-      .alasan-section h2 {
-        font-size: 48px;
-        margin-bottom: 20px;
-      }
-
-      /* Paragraf deskripsi */
-      .alasan-section p {
-        font-size: 18px;
-      }
-
-      /* Card keunggulan */
-      .keunggulan-card {
-        background: white;
-        padding: 40px 25px;
-        border-radius: 15px;
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-        transition: 0.3s;
-      }
-
-      /* Hover efek */
-      .keunggulan-card:hover {
+      .choosing-card:hover {
         transform: translateY(-8px);
+        box-shadow: 0 20px 40px -10px rgba(30, 64, 175, 0.1);
       }
-
-      /* Icon */
-      .keunggulan-card i {
-        font-size: 45px;
-        color: #2563eb;
-        margin-bottom: 20px;
+      .btn-siakad {
+        background: var(--primary-blue);
+        color: white;
+        box-shadow: 0 4px 15px rgba(30, 64, 175, 0.3);
+        transition: all 0.3s;
       }
-
-      /* Judul card */
-      .keunggulan-card h3 {
-        font-size: 24px;
-        margin-bottom: 10px;
+      .btn-siakad:hover {
+        background: var(--accent-blue);
+        transform: translateY(-2px);
       }
-      /* berita */
-      /* Gaya Kartu Berita */
-      .news-card {
-        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-        max-width: 350px; /* Membatasi lebar maksimal kartu agar tidak terlalu 'melar' */
-        margin: 0 auto;
-      }
-
-      .news-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-      }
-      .line-clamp-2 {
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-      }
-      #akademik {
-        padding: 50px 50px;
-        background-color: #f5f7fb;
-      }
-
-      /* CSS END */
     </style>
   </head>
-  <body class="bg-gray-50 font-sans">
-    <header class="hero-viewport" id="home">
-      <nav class="fixed top-0 left-0 w-full bg-white shadow-lg z-50">
+  <body class="antialiased">
+    <header
+      class="fixed w-full z-[100] bg-white/90 backdrop-blur-md shadow-sm border-b-2 border-yellow-400"
+    >
+      <div
+        class="container mx-auto px-6 py-3 flex justify-between items-center"
+      >
+        <a href="index.html" class="flex items-center gap-3 group">
+          <img
+            src="asset/logogtg.png"
+            alt="Logo SD Negeri Ganting"
+            class="h-10 w-auto object-contain"
+          />
+
+          <div>
+            <h1
+              class="font-black text-lg tracking-tight text-blue-900 leading-none uppercase"
+            >
+              SD NEGERI GANTING
+            </h1>
+            <p
+              class="text-[9px] font-bold text-blue-600 uppercase tracking-widest mt-1 italic"
+            >
+              BERIMAN, BERILMU, BERPRESTASI
+            </p>
+          </div>
+        </a>
+
         <div
-          class="container mx-auto px-6 py-4 flex justify-between items-center"
+          class="hidden lg:flex items-center space-x-2 font-bold text-[14px] text-slate-700"
         >
-          <div class="flex items-center space-x-3">
-            <img src="asset/logogtg.png" alt="Logo SD Negeri Ganting" class="w-12 h-12 object-contain">
-            <div>
-              <h1 class="font-bold text-xl leading-none text-blue-900">
-                SD Negeri Ganting
-              </h1>
-              <p class="text-xs text-gray-500 uppercase tracking-widest">
-                Beriman, Berprestasi, Berkarakter
-              </p>
+          <a
+            href="depan.html"
+            class="px-4 py-2 rounded-lg bg-blue-50 text-blue-700 border border-blue-100 transition-all hover:bg-blue-100"
+          >
+            Beranda
+          </a>
+
+          <div class="relative group px-3 py-2">
+            <button
+              class="flex items-center gap-1 group-hover:text-blue-700 transition cursor-pointer"
+            >
+              Tentang Sekolah
+              <i
+                class="fas fa-chevron-down text-[10px] transition-transform group-hover:rotate-180"
+              ></i>
+            </button>
+            <div
+              class="absolute left-0 mt-2 w-64 bg-white rounded-xl shadow-2xl py-3 border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0"
+            >
+              <a
+                href="tentangsekolah.html#sejarah"
+                class="block px-5 py-2.5 hover:bg-blue-50 hover:text-blue-700 transition font-medium"
+                >Sejarah Sekolah</a
+              >
+              <a
+                href="tentangsekolah.html#visi"
+                class="block px-5 py-2.5 hover:bg-blue-50 hover:text-blue-700 transition font-medium"
+                >Visi & Misi</a
+              >
+              <a
+                href="tentangsekolah.html#struktur"
+                class="block px-5 py-2.5 hover:bg-blue-50 hover:text-blue-700 transition font-medium"
+                >Struktur Organisasi</a
+              >
+              <a
+                href="tentangsekolah.html#fasilitas"
+                class="block px-5 py-2.5 hover:bg-blue-50 hover:text-blue-700 transition font-medium"
+                >Fasilitas Sekolah</a
+              >
             </div>
           </div>
 
-          <div
-            class="hidden md:flex items-center space-x-6 font-medium text-gray-700"
-          >
-            <a
-              href="#home"
-              class="px-4 py-2 rounded-xl bg-blue-50 text-blue-700 shadow-sm border border-blue-100"
-              >Beranda</a
+          <div class="relative group px-3 py-2">
+            <button
+              class="flex items-center gap-1 group-hover:text-blue-700 transition cursor-pointer"
             >
-
-            <div class="relative dropdown">
-              <button
-                class="flex items-center gap-1 hover:text-blue-700 transition py-2"
-              >
-                Tentang Sekolah <i class="fas fa-chevron-down text-[10px]"></i>
-              </button>
-              <div
-                class="dropdown-menu absolute left-0 mt-0 w-64 bg-white rounded-xl shadow-xl py-3 hidden border border-gray-100"
-              >
-
+              Kesiswaan
+              <i
+                class="fas fa-chevron-down text-[10px] transition-transform group-hover:rotate-180"
+              ></i>
+            </button>
+            <div
+              class="absolute left-0 mt-2 w-56 bg-white rounded-xl shadow-2xl py-3 border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0"
+            >
               <a
-                  href="tentangsekolah.html#sejarah"
-                  class="block px-5 py-2 hover:bg-blue-50 hover:text-blue-700 transition"
-                  >Sejarah Sekolah</a
-                >
-
-                <a
-                  href="tentangsekolah.html#visi"
-                  class="block px-5 py-2 hover:bg-blue-50 hover:text-blue-700 transition"
-                  >Visi & Misi</a
-                >
-                
-                <a
-                  href="tentangsekolah.html#struktur"
-                  class="block px-5 py-2 hover:bg-blue-50 hover:text-blue-700 transition"
-                  >Struktur Organisasi</a
-                >
-                <a
-                  href="tentangsekolah.html#fasilitas"
-                  class="block px-5 py-2 hover:bg-blue-50 hover:text-blue-700 transition"
-                  >Fasilitas Sekolah</a
-                >
-              </div>
-            </div>
-
-            <div class="relative dropdown">
-              <button
-                class="flex items-center gap-1 hover:text-blue-700 transition py-2"
+                href="kesiswaan.html#ekskul"
+                class="block px-5 py-2.5 hover:bg-blue-50 hover:text-blue-700 transition font-medium"
+                >Ekstrakurikuler</a
               >
-                Kesiswaan <i class="fas fa-chevron-down text-[10px]"></i>
-              </button>
-              <div
-                class="dropdown-menu absolute left-0 mt-0 w-56 bg-white rounded-xl shadow-xl py-3 hidden border border-gray-100"
+              <a
+                href="kesiswaan.html#prestasi"
+                class="block px-5 py-2.5 hover:bg-blue-50 hover:text-blue-700 transition font-medium"
+                >Prestasi Siswa</a
               >
-                <a
-                  href="kesiswaan.html#ekskul"
-                  class="block px-5 py-2 hover:bg-blue-50 hover:text-blue-700 transition"
-                  >Ekstrakurikuler</a
-                >
-                <a
-                  href="kesiswaan.html#prestasi"
-                  class="block px-5 py-2 hover:bg-blue-50 hover:text-blue-700 transition"
-                  >Prestasi Siswa</a
-                >
-              </div>
             </div>
-
-            <a href="#berita" class="hover:text-blue-700 transition">Berita</a>
-            <a href="#kontak" class="hover:text-blue-700 transition"
-              >Hubungi Kami</a
-            >
           </div>
 
           <a
-            href="#login-section"
-            class="bg-blue-800 text-white px-6 py-2 rounded-full hover:bg-blue-700 shadow-lg transition text-sm font-bold"
+            href="depan.html#berita"
+            class="px-3 py-2 hover:text-blue-700 transition"
+            >Berita</a
           >
-            PORTAL SIAKAD
+          <a href="#kontak" class="px-3 py-2 hover:text-blue-700 transition">
+            Hubungi Kami
           </a>
         </div>
-      </nav>
 
-      <div id="slider-container">
-        <div id="slider-wrapper">
-          <div
-            class="slide-item active"
-            style="background-image: url(&quot;asset/ftguru.jpeg&quot;)"
-          >
-            <div class="slide-overlay"></div>
-            <div
-              class="container mx-auto px-6 text-center text-white content-anim"
-            >
-              <h2
-                class="text-5xl md:text-7xl font-extrabold mb-4 leading-tight"
-              >
-                Selamat Datang di<br /><span class="text-yellow-400"
-                  > SD Negeri Ganting</span
-                >
-              </h2>
-              <p class="text-xl md:text-2xl mb-10 opacity-90 italic">
-                "Kreatif, Inovatif, dan Mandiri"
-              </p>
-              <div class="flex justify-center space-x-4">
-                <button
-                  class="bg-yellow-500 hover:bg-yellow-400 text-blue-900 font-bold px-10 py-4 rounded-xl transition shadow-xl transform hover:scale-105"
-                >
-                  Pendaftaran Siswa
-                </button>
-                <button
-                  class="border-2 border-white hover:bg-white hover:text-blue-900 px-10 py-4 rounded-xl transition font-bold shadow-xl backdrop-blur-sm"
-                >
-                  Profil Sekolah
-                </button>
-              </div>
-            </div>
-          </div>
-          <div
-            class="slide-item"
-            style="background-image: url(&quot;asset/hero2.png&quot;)"
-          >
-            <div class="slide-overlay"></div>
-            <div
-              class="container mx-auto px-6 text-center text-white content-anim"
-            >
-              <h2 class="text-5xl md:text-7xl font-extrabold mb-4">
-                Generasi Digital
-              </h2>
-              <p class="text-xl md:text-2xl mb-10">
-                Mempersiapkan siswa menghadapi tantangan masa depan dengan
-                teknologi.
-              </p>
-              <button
-                class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-10 py-4 rounded-xl transition shadow-xl"
-              >
-                Lihat Program Kami
-              </button>
-            </div>
-          </div>
-          <div
-            class="slide-item"
-            style="background-image: url(&quot;asset/hero3.png&quot;)"
-          >
-            <div class="slide-overlay"></div>
-            <div
-              class="container mx-auto px-6 text-center text-white content-anim"
-            >
-              <h2 class="text-5xl md:text-7xl font-extrabold mb-4">
-                Lingkungan Nyaman
-              </h2>
-              <p class="text-xl md:text-2xl mb-10">
-                Fasilitas belajar yang mendukung potensi terbaik putra-putri
-                Anda.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <button
-          onclick="prevSlide()"
-          class="absolute left-6 top-1/2 -translate-y-1/2 z-30 bg-white/10 hover:bg-white/30 text-white w-14 h-14 rounded-full transition flex items-center justify-center backdrop-blur-md border border-white/20"
+        <a
+          href="#login-section"
+          class="bg-blue-800 text-white px-6 py-2.5 rounded-xl hover:bg-blue-900 shadow-lg hover:shadow-blue-200 transition-all text-[11px] font-black tracking-widest flex items-center gap-2"
         >
-          <i class="fas fa-chevron-left text-2xl"></i>
-        </button>
-        <button
-          onclick="nextSlide()"
-          class="absolute right-6 top-1/2 -translate-y-1/2 z-30 bg-white/10 hover:bg-white/30 text-white w-14 h-14 rounded-full transition flex items-center justify-center backdrop-blur-md border border-white/20"
-        >
-          <i class="fas fa-chevron-right text-2xl"></i>
-        </button>
-
-        <div
-          class="absolute bottom-10 left-1/2 -translate-x-1/2 z-30 flex space-x-3"
-        >
-          <div
-            class="dot w-12 h-2 rounded-full bg-white transition-all cursor-pointer"
-            onclick="goToSlide(0)"
-          ></div>
-          <div
-            class="dot w-12 h-2 rounded-full bg-white/30 transition-all cursor-pointer"
-            onclick="goToSlide(1)"
-          ></div>
-          <div
-            class="dot w-12 h-2 rounded-full bg-white/30 transition-all cursor-pointer"
-            onclick="goToSlide(2)"
-          ></div>
-        </div>
+          <i class="fas fa-user-shield"></i> PORTAL SIAKAD
+        </a>
       </div>
     </header>
 
-    <!-- mengapa pilih kami section -->
-    <section class="alasan-section">
-      <div class="max-w-6xl mx-auto px-6 text-center">
-        <h2 class="text-4xl font-bold text-blue-800 mb-4">
-          Mengapa Memilih Kami
-        </h2>
+    <!-- home -->
+    <section id="home" class="slider-viewport bg-blue-950">
+      <div id="slider" class="slide-container transition-smooth">
+        <div class="slide-item">
+          <div
+            class="absolute inset-0 bg-[url(asset/sekolah.jpeg)] bg-cover bg-center"
+          ></div>
+          <div class="slide-overlay"></div>
+          <div
+            class="container mx-auto px-6 h-full flex items-center justify-center text-center relative z-10"
+          >
+            <div class="max-w-3xl text-white">
+              <h2
+                class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight"
+              >
+                <span class="block text-2xl font-semibold text-white/80 mb-2">
+                  Mari Menjadi
+                </span>
+                Generasi
+                <span class="text-yellow-400"
+                  >Beriman, Berilmu, Berprestasi</span
+                >
+              </h2>
 
-        <p class="text-gray-600 mb-16">
-          Sekolah kami terus berkembang dengan fasilitas modern, tenaga pendidik
-          profesional, dan lingkungan belajar yang mendukung perkembangan
-          akademik serta karakter siswa.
-        </p>
+              <a
+                href="tentangsekolah.html"
+                class="inline-block bg-yellow-400 text-blue-900 px-8 py-4 rounded-xl font-bold hover:scale-105 transition-all shadow-xl"
+              >
+                Tentang Kami
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="slide-item">
+          <div
+            class="absolute inset-0 bg-[url(asset/ftguru.jpeg)] bg-cover bg-center"
+          ></div>
+          <div class="slide-overlay"></div>
+          <div
+            class="container mx-auto px-6 h-full flex items-center relative z-10 text-white"
+          >
+            <div class="max-w-3xl">
+              <h2
+                class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight"
+              >
+                Guru Hebat, <br />
+                <span class="text-yellow-400">Generasi Kuat</span>
+              </h2>
 
-        <div class="grid md:grid-cols-3 gap-10">
-          <div class="keunggulan-card">
-            <i class="fas fa-trophy"></i>
-            <h3>Akreditasi A</h3>
-            <p>
-              Sekolah memiliki standar pendidikan yang terjamin kualitasnya.
+              <p class="text-lg text-white/80 mb-6">
+                Bersama tenaga pendidik berpengalaman membimbing <br />
+                siswa menuju masa depan cerah.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="slide-item">
+          <div
+            class="absolute inset-0 bg-[url(asset/pramuka.jpeg)] bg-cover bg-center"
+          ></div>
+          <div class="slide-overlay"></div>
+          <div
+            class="container mx-auto px-6 h-full flex items-center relative z-10 text-white"
+          >
+            <div class="max-w-3xl">
+              <h2
+                class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight"
+              >
+                Aktif Berkarya,
+                <span class="text-yellow-400">Berani Berprestasi</span>
+              </h2>
+
+              <p class="text-lg text-white/80 mb-6">
+                Mengembangkan karakter, disiplin, dan semangat juang melalui
+                berbagai kompetisi.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button
+        onclick="prevSlide()"
+        class="absolute left-6 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-white/20 text-white hover:bg-yellow-400 hover:text-blue-900 transition-all border border-white/30 backdrop-blur-sm"
+      >
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <button
+        onclick="nextSlide()"
+        class="absolute right-6 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-white/20 text-white hover:bg-yellow-400 hover:text-blue-900 transition-all border border-white/30 backdrop-blur-sm"
+      >
+        <i class="fas fa-chevron-right"></i>
+      </button>
+      <div class="absolute bottom-10 left-1/2 -translate-x-1/2 z-30 flex gap-3">
+        <div
+          class="dot w-8 h-2 rounded-full bg-white/30 active"
+          onclick="goToSlide(0)"
+        ></div>
+        <div
+          class="dot w-8 h-2 rounded-full bg-white/30"
+          onclick="goToSlide(1)"
+        ></div>
+        <div
+          class="dot w-8 h-2 rounded-full bg-white/30"
+          onclick="goToSlide(2)"
+        ></div>
+      </div>
+    </section>
+
+    <section class="py-24 bg-white relative overflow-hidden">
+      <div class="container mx-auto px-6 relative z-10">
+        <div class="text-center mb-20" data-aos="fade-up">
+          <h2 class="text-4xl md:text-5xl font-extrabold text-blue-900">
+            Mengapa <span class="text-yellow-400">Memilih</span> Kami?
+          </h2>
+          <div class="w-24 h-1.5 bg-yellow-400 mx-auto mt-4 rounded-full"></div>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <!-- 1 -->
+          <div
+            class="choosing-card bg-white p-8 rounded-2xl border border-slate-100 shadow-lg"
+            data-aos="fade-up"
+          >
+            <div
+              class="w-16 h-16 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center text-3xl mb-8"
+            >
+              <i class="fas fa-user-tie"></i>
+            </div>
+            <h3 class="text-xl font-bold text-blue-900 mb-3">
+              Guru Profesional
+            </h3>
+            <p class="text-slate-600 text-sm">
+              Tenaga pendidik berpengalaman dan berdedikasi tinggi.
             </p>
           </div>
 
-          <div class="keunggulan-card">
-            <i class="fas fa-school"></i>
-            <h3>Fasilitas Lengkap</h3>
-            <p>Didukung fasilitas modern untuk menunjang pembelajaran siswa.</p>
+          <!-- 2 -->
+          <div
+            class="choosing-card bg-white p-8 rounded-2xl border border-slate-100 shadow-lg"
+            data-aos="fade-up"
+            data-aos-delay="100"
+          >
+            <div
+              class="w-16 h-16 bg-yellow-100 text-yellow-600 rounded-2xl flex items-center justify-center text-3xl mb-8"
+            >
+              <i class="fas fa-school"></i>
+            </div>
+            <h3 class="text-xl font-bold text-blue-900 mb-3">
+              Fasilitas Lengkap
+            </h3>
+            <p class="text-slate-600 text-sm">
+              Lingkungan belajar nyaman dengan sarana pendidikan yang memadai.
+            </p>
           </div>
 
-          <div class="keunggulan-card">
-            <i class="fas fa-users"></i>
-            <h3>Guru Profesional</h3>
-            <p>Tenaga pendidik berpengalaman dan berdedikasi tinggi.</p>
+          <!-- 3 -->
+          <div
+            class="choosing-card bg-white p-8 rounded-2xl border border-slate-100 shadow-lg"
+            data-aos="fade-up"
+            data-aos-delay="200"
+          >
+            <div
+              class="w-16 h-16 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center text-3xl mb-8"
+            >
+              <i class="fas fa-heart"></i>
+            </div>
+            <h3 class="text-xl font-bold text-blue-900 mb-3">
+              Pendidikan Berkarakter
+            </h3>
+            <p class="text-slate-600 text-sm">
+              Membentuk siswa yang beriman, disiplin, dan berakhlak mulia.
+            </p>
+          </div>
+
+          <!-- 4 -->
+          <div
+            class="choosing-card bg-white p-8 rounded-2xl border border-slate-100 shadow-lg"
+            data-aos="fade-up"
+            data-aos-delay="300"
+          >
+            <div
+              class="w-16 h-16 bg-yellow-100 text-yellow-600 rounded-2xl flex items-center justify-center text-3xl mb-8"
+            >
+              <i class="fas fa-trophy"></i>
+            </div>
+            <h3 class="text-xl font-bold text-blue-900 mb-3">
+              Aktif & Berprestasi
+            </h3>
+            <p class="text-slate-600 text-sm">
+              Mendorong siswa mengikuti lomba dan kegiatan ekstrakurikuler.
+            </p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- mengapa pilih kami end -->
-    <!-- profile section -->
-    <section class="profil">
-      <div class="container-full">
-        <div class="foto">
-          <img src="asset/sekolah.png" alt="Foto Sekolah" />
-        </div>
-
-        <div class="konten">
-          <h2>Tentang Kami</h2>
-          <h1>SD Negeri Ganting</h1>
-
-          <p>
-            Sekolah ini merupakan tempat belajar yang tidak hanya fokus pada
-            akademik, tetapi juga pada pembentukan karakter siswa. Lingkungan
-            yang nyaman dan penuh semangat belajar membuat siswa berkembang
-            secara optimal.
-          </p>
-
-          <h3>Lingkungan Belajar</h3>
-          <p>
-            Kegiatan belajar dimulai dengan doa bersama dan pembiasaan nilai
-            kedisiplinan untuk menerapkan nilai moral dalam kehidupan
-            sehari-hari.
-          </p>
-
-          <div class="flex items-center gap-4 mt-6">
-            <a href="#" class="btn"
-              >Selengkapnya <i class="fas fa-arrow-right ml-2"></i
-            ></a>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- end profile section -->
-
-    <!-- berita  -->
-    <section id="berita" class="pt-24 pb-24 bg-[#f5f7fb]">
+    <section class="py-24 bg-slate-50 overflow-hidden">
       <div class="container mx-auto px-6">
-        <div class="text-center mb-12">
-          <div class="flex justify-center items-center gap-3 mb-2">
-            <i class="fas fa-newspaper text-blue-600 text-3xl"></i>
-            <h2 class="text-3xl font-bold text-gray-800">
-              Berita & Info Sekolah
+        <div class="flex flex-col lg:flex-row items-center gap-16">
+          <div class="w-full lg:w-5/12 relative" data-aos="fade-right">
+            <div class="relative z-10">
+              <img
+                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800"
+                alt="Kepsek"
+                class="rounded-3xl shadow-2xl w-full h-[500px] object-cover border-8 border-white"
+              />
+              <div
+                class="absolute -bottom-6 -right-6 bg-blue-900 text-white p-8 rounded-2xl shadow-2xl hidden md:block"
+              >
+                <h4 class="text-xl font-extrabold text-yellow-400">
+                  M. HANAFI S.Pd.SD
+                </h4>
+                <p
+                  class="text-xs text-blue-200 uppercase tracking-widest mt-1 font-bold"
+                >
+                  Kepala Sekolah SMK Telkom Malang
+                </p>
+              </div>
+            </div>
+            <div
+              class="absolute -top-6 -left-6 w-full h-full border-4 border-yellow-400 rounded-3xl -z-0"
+            ></div>
+          </div>
+          <div class="w-full lg:w-7/12" data-aos="fade-left">
+            <div class="flex items-center gap-4 mb-6">
+              <div class="w-12 h-[2px] bg-blue-600"></div>
+              <span
+                class="text-blue-600 font-bold uppercase tracking-widest text-sm"
+                >Sambutan Kepala Sekolah</span
+              >
+            </div>
+            <h2 class="text-4xl font-black text-blue-900 mb-8 leading-tight">
+              Sambutan Kepala Sekolah <br />
+              <span class="text-yellow-500 italic"> SD Negeri Ganting </span>
             </h2>
-          </div>
-          <p class="text-gray-500 max-w-2xl mx-auto text-sm">
-            Temukan informasi terbaru, pengumuman, dan berita penting seputar
-            SD Negeri Ganting di sini.
-          </p>
-          <div class="w-16 h-1 bg-yellow-500 mx-auto mt-4 rounded-full"></div>
-        </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          <div
-            class="news-card bg-white rounded-xl overflow-hidden border border-gray-100 shadow-sm flex flex-col"
-          >
-            <div class="relative h-44 overflow-hidden">
-              <img
-                src="asset/news1.jpeg"
-                alt="Berita 1"
-                class="w-full h-full object-cover"
-              />
-              <div
-                class="absolute top-3 left-3 bg-blue-600 text-white text-[10px] font-bold px-3 py-1 rounded-full"
-              >
-                Prestasi
-              </div>
-            </div>
-            <div class="p-5 flex-1">
-              <div class="flex items-center text-gray-400 text-[11px] mb-2">
-                <i class="far fa-calendar-alt mr-2"></i> 21 September 2025
-              </div>
-              <h3
-                class="text-lg font-bold text-gray-800 mb-2 line-clamp-2 leading-snug hover:text-blue-600 transition"
-              >
-                Prestasi Gemilang, Siswa SD Negeri Ganting Juara Lomba Matematika
-                Nasional
-              </h3>
-              <p
-                class="text-gray-500 text-xs leading-relaxed mb-4 line-clamp-2"
-              >
-                Prestasi membanggakan kembali ditorehkan oleh siswa-siswi kami
-                dalam ajang kompetisi sains tingkat nasional...
+            <div class="space-y-6 text-slate-600 text-lg leading-relaxed">
+              <p>Assalamu’alaikum Warahmatullahi Wabarakatuh,</p>
+
+              <p>
+                Puji syukur ke hadirat Allah SWT atas segala rahmat dan
+                karunia-Nya, sehingga kita semua dapat terus berkontribusi dalam
+                dunia pendidikan. Selamat datang di website resmi SD Negeri
+                Ganting sebagai sarana informasi dan komunikasi bagi seluruh
+                warga sekolah dan masyarakat.
               </p>
-              <a
-                href="#"
-                class="inline-flex items-center font-bold text-sm text-orange-500 hover:text-orange-600 mt-auto"
-              >
-                <i class="fas fa-file-alt mr-1"></i> Baca Selengkapnya
-              </a>
-            </div>
-          </div>
 
-          <div
-            class="news-card bg-white rounded-xl overflow-hidden border border-gray-100 shadow-sm flex flex-col"
-          >
-            <div class="relative h-44 overflow-hidden">
-              <img
-                src="asset/news2.jpeg"
-                alt="Berita 2"
-                class="w-full h-full object-cover"
-              />
-              <div
-                class="absolute top-3 left-3 bg-green-600 text-white text-[10px] font-bold px-3 py-1 rounded-full"
-              >
-                Kegiatan
-              </div>
-            </div>
-            <div class="p-5 flex-1">
-              <div class="flex items-center text-gray-400 text-[11px] mb-2">
-                <i class="far fa-calendar-alt mr-2"></i> 30 Agustus 2025
-              </div>
-              <h3
-                class="text-lg font-bold text-gray-800 mb-2 line-clamp-2 leading-snug hover:text-blue-600 transition"
-              >
-                Meriahkan HUT RI ke-80, Sekolah Gelar Festival Budaya dan Seni
-              </h3>
-              <p
-                class="text-gray-500 text-xs leading-relaxed mb-4 line-clamp-2"
-              >
-                Seluruh warga sekolah ikut berpartisipasi dalam perayaan hari
-                kemerdekaan dengan menampilkan berbagai bakat...
+              <p>
+                Kami berkomitmen untuk memberikan pendidikan terbaik dengan
+                mengedepankan pembelajaran yang aktif, kreatif, dan
+                menyenangkan, serta membentuk karakter siswa yang beriman,
+                disiplin, dan berakhlak mulia.
               </p>
-              <a
-                href="#"
-                class="inline-flex items-center font-bold text-sm text-orange-500 hover:text-orange-600 mt-auto"
-              >
-                <i class="fas fa-file-alt mr-1"></i> Baca Selengkapnya
-              </a>
-            </div>
-          </div>
 
-          <div
-            class="news-card bg-white rounded-xl overflow-hidden border border-gray-100 shadow-sm flex flex-col"
-          >
-            <div class="relative h-44 overflow-hidden">
-              <img
-                src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?q=80&w=500"
-                alt="Berita 3"
-                class="w-full h-full object-cover"
-              />
-              <div
-                class="absolute top-3 left-3 bg-orange-600 text-white text-[10px] font-bold px-3 py-1 rounded-full"
-              >
-                Pengumuman
-              </div>
-            </div>
-            <div class="p-5 flex-1">
-              <div class="flex items-center text-gray-400 text-[11px] mb-2">
-                <i class="far fa-calendar-alt mr-2"></i> 21 Agustus 2025
-              </div>
-              <h3
-                class="text-lg font-bold text-gray-800 mb-2 line-clamp-2 leading-snug hover:text-blue-600 transition"
-              >
-                Penerimaan Siswa Baru Tahun Ajaran 2026/2027 Telah Dibuka
-              </h3>
-              <p
-                class="text-gray-500 text-xs leading-relaxed mb-4 line-clamp-2"
-              >
-                Pemerintah Kabupaten Sidoarjo memberikan penghargaan kepada SD Negeri
-                Ganting atas inovasi pembelajaran digital...
+              <p>
+                Dengan dukungan tenaga pendidik yang profesional serta
+                lingkungan belajar yang kondusif, kami berharap dapat mencetak
+                generasi yang berilmu, berkarakter, dan mampu meraih prestasi.
               </p>
-              <a
-                href="#"
-                class="inline-flex items-center font-bold text-sm text-orange-500 hover:text-orange-600 mt-auto"
-              >
-                <i class="fas fa-file-alt mr-1"></i> Baca Selengkapnya
-              </a>
+
+              <p class="pt-4 border-t border-slate-200 font-bold text-blue-900">
+                Wassalamu’alaikum Warahmatullahi Wabarakatuh.
+              </p>
+
+              <p class="font-semibold text-blue-900">Kepala Sekolah</p>
             </div>
           </div>
-        </div>
-
-        <div class="text-center mt-8">
-          <button
-            class="border-2 border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white font-bold px-6 py-2 rounded-full transition-all text-xs uppercase tracking-wider"
-          >
-            Lihat Semua Berita
-          </button>
         </div>
       </div>
     </section>
-    <!-- berita end -->
 
-    <section id="layanan" class="pt-4 pb-16 bg-[#f5f7fb]">
+    <section id="layanan" class="py-24 bg-white">
       <div class="container mx-auto px-6">
-        <div class="text-center mb-10">
-          <h2 class="text-3xl font-bold text-gray-800">Layanan Akademik</h2>
-          <div class="w-16 h-1 bg-blue-600 mx-auto mt-2 rounded-full"></div>
+        <div class="text-center mb-16" data-aos="fade-up">
+          <h2 class="text-4xl font-extrabold text-blue-900">
+            Layanan <span class="text-yellow-400">Akademik</span>
+          </h2>
+          <div class="w-24 h-1.5 bg-blue-600 mx-auto mt-4 rounded-full"></div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div
-            class="bg-white p-8 rounded-3xl shadow-sm hover:shadow-2xl transition-all border-b-8 border-blue-800 group transform hover:-translate-y-2"
+            class="choosing-card bg-white p-8 rounded-[2rem] border-b-4 border-blue-700 shadow-xl group"
+            data-aos="fade-up"
           >
-            <i
-              class="fas fa-calendar-alt text-5xl text-blue-800 mb-6 block group-hover:scale-110 transition"
-            ></i>
-            <h4 class="font-bold text-xl mb-3">Kalender</h4>
-            <p class="text-gray-500 text-sm leading-relaxed">
+            <div
+              class="w-16 h-16 bg-blue-50 text-blue-700 rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:bg-blue-700 group-hover:text-white transition-all duration-300"
+            >
+              <i class="fas fa-calendar-alt"></i>
+            </div>
+            <h3 class="text-xl font-bold text-blue-900 mb-3">Kalender</h3>
+            <p class="text-slate-500 text-sm leading-relaxed">
               Cek jadwal ujian, kegiatan sekolah, dan hari libur nasional.
             </p>
           </div>
 
           <div
-            class="bg-white p-8 rounded-3xl shadow-sm hover:shadow-2xl transition-all border-b-8 border-green-500 group transform hover:-translate-y-2"
+            class="choosing-card bg-white p-8 rounded-[2rem] border-b-4 border-green-500 shadow-xl group"
+            data-aos="fade-up"
+            data-aos-delay="100"
           >
-            <i
-              class="fas fa-book-open text-5xl text-green-500 mb-6 block group-hover:scale-110 transition"
-            ></i>
-            <h4 class="font-bold text-xl mb-3">E-Learning</h4>
-            <p class="text-gray-500 text-sm leading-relaxed">
+            <div
+              class="w-16 h-16 bg-green-50 text-green-500 rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:bg-green-500 group-hover:text-white transition-all duration-300"
+            >
+              <i class="fas fa-book-open"></i>
+            </div>
+            <h3 class="text-xl font-bold text-blue-900 mb-3">E-Learning</h3>
+            <p class="text-slate-500 text-sm leading-relaxed">
               Akses materi pembelajaran dan tugas sekolah secara online.
             </p>
           </div>
 
           <div
-            class="bg-white p-8 rounded-3xl shadow-sm hover:shadow-2xl transition-all border-b-8 border-yellow-500 group transform hover:-translate-y-2"
+            class="choosing-card bg-white p-8 rounded-[2rem] border-b-4 border-yellow-500 shadow-xl group"
+            data-aos="fade-up"
+            data-aos-delay="200"
           >
-            <i
-              class="fas fa-chart-line text-5xl text-yellow-500 mb-6 block group-hover:scale-110 transition"
-            ></i>
-            <h4 class="font-bold text-xl mb-3">E-Rapor</h4>
-            <p class="text-gray-500 text-sm leading-relaxed">
+            <div
+              class="w-16 h-16 bg-yellow-50 text-yellow-500 rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:bg-yellow-500 group-hover:text-white transition-all duration-300"
+            >
+              <i class="fas fa-chart-line"></i>
+            </div>
+            <h3 class="text-xl font-bold text-blue-900 mb-3">E-Rapor</h3>
+            <p class="text-slate-500 text-sm leading-relaxed">
               Pantau perkembangan hasil belajar siswa tiap semester.
             </p>
           </div>
 
           <div
-            class="bg-white p-8 rounded-3xl shadow-sm hover:shadow-2xl transition-all border-b-8 border-red-500 group transform hover:-translate-y-2"
+            class="choosing-card bg-white p-8 rounded-[2rem] border-b-4 border-red-500 shadow-xl group"
+            data-aos="fade-up"
+            data-aos-delay="300"
           >
-            <i
-              class="fas fa-wallet text-5xl text-red-500 mb-6 block group-hover:scale-110 transition"
-            ></i>
-            <h4 class="font-bold text-xl mb-3">Keuangan</h4>
-            <p class="text-gray-500 text-sm leading-relaxed">
+            <div
+              class="w-16 h-16 bg-red-50 text-red-500 rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:bg-red-500 group-hover:text-white transition-all duration-300"
+            >
+              <i class="fas fa-wallet"></i>
+            </div>
+            <h3 class="text-xl font-bold text-blue-900 mb-3">Keuangan</h3>
+            <p class="text-slate-500 text-sm leading-relaxed">
               Informasi administrasi pembayaran SPP dan iuran lainnya.
             </p>
           </div>
@@ -730,179 +562,401 @@
       </div>
     </section>
 
-    <section id="login-section" class="bg-blue-900 py-24 text-white">
-      <div class="container mx-auto px-6 flex flex-wrap items-center">
-        <div class="w-full md:w-1/2 mb-12 md:mb-0 pr-10">
-          <h3 class="text-4xl font-extrabold mb-6">
-            Portal Digital <br />SIAKAD SD Negeri Ganting
-          </h3>
-          <p class="text-blue-100 text-lg mb-10 leading-relaxed">
-            Gunakan Nomor Induk Siswa (NIS) atau NIP untuk masuk ke sistem
-            monitoring absensi dan nilai secara realtime.
-          </p>
-          <div class="space-y-4 font-semibold">
-            <div class="flex items-center gap-3">
-              <i class="fas fa-check-circle text-green-400"></i> Monitoring
-              Nilai Siswa
-            </div>
-            <div class="flex items-center gap-3">
-              <i class="fas fa-check-circle text-green-400"></i> Absensi
-              Realtime
-            </div>
-            <div class="flex items-center gap-3">
-              <i class="fas fa-check-circle text-green-400"></i> Pengumuman
-              Sekolah
+    <section id="portal-siakad" class="py-24 bg-[#1e40af]">
+      <div class="container mx-auto px-6">
+        <div
+          class="flex flex-col lg:flex-row items-center justify-between gap-12"
+        >
+          <div class="w-full lg:w-1/2 text-white" data-aos="fade-right">
+            <h2 class="text-4xl md:text-5xl font-extrabold mb-6 leading-tight">
+              Portal Digital <br />
+              <span class="text-white">SIAKAD SD Negeri Ganting</span>
+            </h2>
+            <p class="text-blue-100 text-lg mb-8 leading-relaxed">
+              Gunakan Nomor Induk Siswa (NIS) atau NIP untuk masuk ke sistem
+              monitoring absensi dan nilai secara realtime.
+            </p>
+
+            <ul class="space-y-4">
+              <li class="flex items-center gap-3">
+                <div
+                  class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-[10px]"
+                >
+                  <i class="fas fa-check"></i>
+                </div>
+                <span class="font-semibold text-blue-50"
+                  >Monitoring Nilai Siswa</span
+                >
+              </li>
+              <li class="flex items-center gap-3">
+                <div
+                  class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-[10px]"
+                >
+                  <i class="fas fa-check"></i>
+                </div>
+                <span class="font-semibold text-blue-50">Absensi Realtime</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <div
+                  class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-[10px]"
+                >
+                  <i class="fas fa-check"></i>
+                </div>
+                <span class="font-semibold text-blue-50"
+                  >Pengumuman Sekolah</span
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div class="w-full lg:w-[450px]" data-aos="fade-left">
+            <div class="bg-white p-10 rounded-[2.5rem] shadow-2xl">
+              <form action="#" class="space-y-6">
+                <div>
+                  <label
+                    class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2"
+                    >Username / NIS</label
+                  >
+                  <input
+                    type="text"
+                    placeholder="Masukkan ID Anda"
+                    class="w-full px-5 py-4 bg-slate-50 border border-slate-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-sm"
+                  />
+                </div>
+
+                <div>
+                  <label
+                    class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2"
+                    >Password</label
+                  >
+                  <input
+                    type="password"
+                    placeholder="••••••••"
+                    class="w-full px-5 py-4 bg-slate-50 border border-slate-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-sm"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  class="w-full bg-[#1e40af] text-white py-4 rounded-xl font-black text-sm tracking-widest hover:bg-blue-800 hover:shadow-lg transition-all transform hover:-translate-y-1"
+                >
+                  MASUK KE DASHBOARD
+                </button>
+              </form>
             </div>
           </div>
-        </div>
-        <div class="w-full md:w-1/2 bg-white p-10 rounded-[2.5rem] shadow-2xl">
-          <form class="space-y-6">
-            <div>
-              <label
-                class="block text-gray-700 font-bold mb-2 uppercase text-xs tracking-widest"
-                >Username / NIS</label
-              >
-              <input
-                type="text"
-                class="w-full px-5 py-4 rounded-xl border border-gray-200 text-gray-800 focus:ring-2 focus:ring-blue-600 outline-none transition"
-                placeholder="Masukkan ID Anda"
-              />
-            </div>
-            <div>
-              <label
-                class="block text-gray-700 font-bold mb-2 uppercase text-xs tracking-widest"
-                >Password</label
-              >
-              <input
-                type="password"
-                class="w-full px-5 py-4 rounded-xl border border-gray-200 text-gray-800 focus:ring-2 focus:ring-blue-600 outline-none transition"
-                placeholder="••••••••"
-              />
-            </div>
-            <button
-              type="button"
-              class="w-full bg-blue-800 hover:bg-blue-700 text-white font-extrabold py-5 rounded-xl transition shadow-lg uppercase tracking-widest"
-            >
-              MASUK KE DASHBOARD
-            </button>
-          </form>
         </div>
       </div>
     </section>
 
-    <footer id="kontak" class="bg-gray-900 text-white py-20">
-      <div
-        class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-16"
-      >
-        <div>
-          <h4 class="text-2xl font-bold mb-8 border-l-4 border-blue-600 pl-4">
-            Tentang Kami
-          </h4>
-          <p class="text-gray-400 leading-relaxed">
-            SD NEGERI GANTING berkomitmen tinggi dalam mencetak generasi
-            penerus bangsa yang berakhlak mulia dan melek teknologi informasi.
-          </p>
+    <section id="berita" class="py-24 bg-slate-50">
+      <div class="container mx-auto px-6">
+        <div
+          class="flex flex-col md:flex-row justify-between items-end mb-12"
+          data-aos="fade-up"
+        >
+          <div>
+            <div class="flex items-center gap-4 mb-4">
+              <div class="w-12 h-[2px] bg-blue-900"></div>
+              <span
+                class="text-yellow-600 font-bold uppercase tracking-widest text-sm"
+                >Update Terkini</span
+              >
+            </div>
+            <h2 class="text-4xl font-extrabold text-blue-900">
+              Berita & <span class="text-blue-600">Kegiatan</span>
+            </h2>
+          </div>
+
+          <a
+            href="#"
+            class="mt-6 md:mt-0 bg-blue-900 text-white px-6 py-3 rounded-full font-bold flex items-center gap-2 hover:bg-blue-700 transition-all shadow-lg"
+          >
+            Lihat Semua Berita
+            <i class="fas fa-arrow-right text-yellow-400"></i>
+          </a>
         </div>
-        <div>
-          <h4 class="text-2xl font-bold mb-8 border-l-4 border-blue-600 pl-4">
-            Hubungi Kami
-          </h4>
-          <ul class="space-y-4 text-gray-400">
-            <li>
-              <i class="fas fa-map-marker-alt text-blue-600 mr-3"></i> Jl.
-              Pendidikan Ganting, Sidoarjo
-            </li>
-            <li>
-              <i class="fas fa-phone text-blue-600 mr-3"></i> (031) 1234-5678
-            </li>
-            <li>
-              <i class="fas fa-envelope text-blue-600 mr-3"></i>
-              admin@sdnganting.sch.id
-            </li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="text-2xl font-bold mb-8 border-l-4 border-blue-600 pl-4">
-            Media Sosial
-          </h4>
-          <div class="flex space-x-5">
-            <a
-              href="#"
-              class="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition"
-              ><i class="fab fa-facebook-f text-xl"></i
-            ></a>
-            <a
-              href="#"
-              class="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center hover:bg-pink-600 transition"
-              ><i class="fab fa-instagram text-xl"></i
-            ></a>
-            <a
-              href="#"
-              class="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center hover:bg-red-600 transition"
-              ><i class="fab fa-youtube text-xl"></i
-            ></a>
+
+        <div class="grid lg:grid-cols-12 gap-8">
+          <div class="lg:col-span-7 group cursor-pointer" data-aos="fade-right">
+            <div
+              class="relative overflow-hidden rounded-[2.5rem] mb-6 shadow-2xl"
+            >
+              <img
+                src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1200"
+                alt="LKS Nasional"
+                class="w-full h-[450px] object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-blue-900 via-transparent to-transparent opacity-80"
+              ></div>
+              <div class="absolute bottom-8 left-8 right-8">
+                <span
+                  class="bg-yellow-400 text-blue-900 px-4 py-1 rounded-full text-xs font-black mb-4 inline-block uppercase"
+                  >Prestasi Teratas</span
+                >
+                <h3
+                  class="text-3xl font-bold text-white leading-tight group-hover:text-yellow-300 transition-colors"
+                >
+                  Siswa Berprestasi Raih Juara 1 Lomba Teknologi
+                </h3>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-5 flex flex-col gap-6" data-aos="fade-left">
+            <div
+              class="flex gap-4 p-4 bg-white rounded-3xl hover:shadow-xl transition-all border border-slate-100 group"
+            >
+              <img
+                src="https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=400"
+                class="w-28 h-28 rounded-2xl object-cover"
+              />
+              <div>
+                <span
+                  class="text-blue-600 text-[10px] font-bold uppercase tracking-widest"
+                  >Event</span
+                >
+                <h4
+                  class="font-bold text-blue-900 text-sm line-clamp-2 group-hover:text-blue-600"
+                >
+                  Meningkatkan Skill Industri Lewat Kunjungan Digital
+                </h4>
+                <p class="text-slate-400 text-[11px] mt-2">
+                  <i class="far fa-calendar mr-1"></i> 10 Maret 2026
+                </p>
+              </div>
+            </div>
+
+            <div
+              class="flex gap-4 p-4 bg-white rounded-3xl hover:shadow-xl transition-all border border-slate-100 group"
+            >
+              <img
+                src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=400"
+                class="w-28 h-28 rounded-2xl object-cover"
+              />
+              <div>
+                <span
+                  class="text-blue-600 text-[10px] font-bold uppercase tracking-widest"
+                  >Info PPDB</span
+                >
+                <h4
+                  class="font-bold text-blue-900 text-sm line-clamp-2 group-hover:text-blue-600"
+                >
+                  Pendaftaran Siswa Baru (PPDB) Gelombang 2 Telah Dibuka!
+                </h4>
+                <p class="text-slate-400 text-[11px] mt-2">
+                  <i class="far fa-calendar mr-1"></i> 05 Maret 2026
+                </p>
+              </div>
+            </div>
+
+            <div
+              class="mt-2 p-6 bg-blue-900 rounded-3xl relative overflow-hidden text-white"
+            >
+              <i
+                class="fas fa-bullhorn absolute -right-4 -bottom-4 text-6xl text-blue-800 opacity-50 rotate-12"
+              ></i>
+              <h4 class="font-black text-yellow-400">Butuh Bantuan?</h4>
+              <p class="text-slate-300 text-xs mt-1">
+                Hubungi Call Center kami untuk informasi lebih lanjut mengenai
+                kegiatan sekolah.
+              </p>
+            </div>
           </div>
         </div>
       </div>
-      <div
-        class="border-t border-gray-800 mt-20 pt-10 text-center text-gray-500 text-sm italic"
-      >
-        &copy; 2026 SD NEGERI GANTING. Created with passion for education.
+    </section>
+
+    <footer id="kontak" class="bg-[#0f172a] text-white pt-24 pb-12">
+      <div class="container mx-auto px-6 max-w-6xl">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-20">
+          <div data-aos="fade-up">
+            <h4
+              class="text-2xl font-bold mb-8 border-l-4 border-blue-600 pl-4 tracking-tight"
+            >
+              Tentang Kami
+            </h4>
+            <p class="text-slate-400 leading-relaxed text-base text-left">
+              SD NEGERI GANTING berkomitmen tinggi dalam mencetak generasi
+              penerus bangsa yang berakhlak mulia dan melek teknologi informasi.
+            </p>
+          </div>
+
+          <div data-aos="fade-up" data-aos-delay="100">
+            <h4
+              class="text-2xl font-bold mb-8 border-l-4 border-blue-600 pl-4 tracking-tight"
+            >
+              Hubungi Kami
+            </h4>
+            <ul class="space-y-5 text-slate-400 text-left">
+              <li class="flex items-start">
+                <i
+                  class="fas fa-map-marker-alt text-blue-600 mt-1.5 mr-4 text-lg"
+                ></i>
+                <span
+                  >Jl. Sukodono No.36, GANTING, Kec. Gedangan, Kab. Sidoarjo,
+                  Jawa Timur.</span
+                >
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-phone-alt text-blue-600 mr-4 text-lg"></i>
+                <span>+62 31 8912495</span>
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-envelope text-blue-600 mr-4 text-lg"></i>
+                <span>sdnegeriganting79@gmail.com</span>
+              </li>
+            </ul>
+          </div>
+
+          <div data-aos="fade-up" data-aos-delay="200">
+            <h4
+              class="text-2xl font-bold mb-8 border-l-4 border-blue-600 pl-4 tracking-tight"
+            >
+              Media Sosial
+            </h4>
+            <div class="flex space-x-4 justify-start">
+              <a
+                href="#"
+                class="w-12 h-12 bg-slate-800/50 rounded-full flex items-center justify-center hover:bg-blue-600 transition-all duration-300 group"
+              >
+                <i class="fab fa-facebook-f text-lg group-hover:scale-110"></i>
+              </a>
+              <a
+                href="#"
+                class="w-12 h-12 bg-slate-800/50 rounded-full flex items-center justify-center hover:bg-pink-600 transition-all duration-300 group"
+              >
+                <i class="fab fa-instagram text-lg group-hover:scale-110"></i>
+              </a>
+              <a
+                href="#"
+                class="w-12 h-12 bg-slate-800/50 rounded-full flex items-center justify-center hover:bg-red-600 transition-all duration-300 group"
+              >
+                <i class="fab fa-youtube text-lg group-hover:scale-110"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-20 pt-8 border-t border-slate-800/50 text-center">
+          <p class="text-slate-500 text-xs italic tracking-widest uppercase">
+            &copy; 2026 SD NEGERI GANTING. Created with passion for education.
+          </p>
+        </div>
       </div>
     </footer>
 
-    <div class="fixed bottom-10 right-10 z-[100]">
-      <button
-        class="ai-glow bg-gradient-to-br from-blue-600 to-indigo-800 text-white w-20 h-20 rounded-full shadow-2xl flex items-center justify-center border-4 border-white/20 hover:scale-110 transition"
+    <div class="fixed bottom-6 right-6 z-50 group">
+      <div
+        class="absolute bottom-[80%] right-full mr-4 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0 pointer-events-none scale-75 group-hover:scale-100 origin-bottom-right"
       >
-        <i class="fas fa-robot text-4xl"></i>
+        <div
+          class="bg-white text-blue-900 text-[11px] font-black py-3 px-6 rounded-2xl shadow-2xl border border-slate-100 whitespace-nowrap relative"
+        >
+          Halo! Kak AI Ganting di sini ✨
+          <div
+            class="absolute top-1/2 -right-2 -translate-y-1/2 w-0 h-0 border-t-[8px] border-t-transparent border-b-[8px] border-b-transparent border-l-[10px] border-l-white"
+          ></div>
+        </div>
+      </div>
+
+      <button
+        onclick="toggleAIChat()"
+        class="relative cursor-pointer transition-all duration-500 hover:scale-110 active:scale-95 group/btn focus:outline-none"
+      >
+        <div
+          class="absolute inset-0 bg-red-400/20 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity"
+        ></div>
+
+        <div
+          class="w-32 h-auto drop-shadow-[0_10px_15px_rgba(0,0,0,0.2)] group-hover:drop-shadow-[0_20px_25px_rgba(0,0,0,0.3)] transition-all duration-300"
+        >
+          <img
+            src="ai.png"
+            class="w-full h-full object-contain animate-gentle-float"
+            alt="Kak AI Ganting"
+          />
+        </div>
       </button>
     </div>
 
+    <style>
+      @keyframes gentle-float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-8px);
+        }
+      }
+      .animate-gentle-float {
+        animation: gentle-float 4s ease-in-out infinite;
+      }
+    </style>
+
     <script>
-      let currentIndex = 0;
-      const totalSlides = 3;
-      const wrapper = document.getElementById("slider-wrapper");
-      const slides = document.querySelectorAll(".slide-item");
+      function toggleAIChat() {
+        // Ganti ini dengan fungsi buka chatbox kamu
+        alert("Halo, aku Gani. AI yang bantuin kamu 🎒😊");
+      }
+    </script>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      AOS.init({ duration: 1000, once: true });
+
+      let counter = 0;
+      const slider = document.getElementById("slider");
       const dots = document.querySelectorAll(".dot");
+      const totalSlides = 3;
 
-      function updateSlider() {
-        wrapper.style.transform = `translateX(-${currentIndex * (100 / totalSlides)}%)`;
-
-        dots.forEach((dot, index) => {
-          const isActive = index === currentIndex;
-          dot.style.backgroundColor = isActive
-            ? "#FFFFFF"
-            : "rgba(255, 255, 255, 0.3)";
-          dot.style.width = isActive ? "3rem" : "1.5rem";
-          slides[index].classList.toggle("active", isActive);
-        });
+      function updateDots() {
+        dots.forEach((d, i) => d.classList.toggle("active", i === counter));
       }
 
       function nextSlide() {
-        currentIndex = (currentIndex + 1) % totalSlides;
-        updateSlider();
+        if (counter === totalSlides - 1) {
+          slider.style.transition = "none";
+          counter = 0;
+          slider.style.transform = `translateX(0%)`;
+          setTimeout(() => {
+            slider.style.transition = "transform 0.7s ease";
+          }, 50);
+        } else {
+          counter++;
+          slider.style.transition = "transform 0.7s ease";
+          slider.style.transform = `translateX(-${counter * 100}%)`;
+        }
+        updateDots();
       }
 
       function prevSlide() {
-        currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
-        updateSlider();
+        if (counter === 0) {
+          slider.style.transition = "none";
+          counter = totalSlides - 1;
+          slider.style.transform = `translateX(-${counter * 100}%)`;
+          setTimeout(() => {
+            slider.style.transition = "transform 0.7s ease";
+          }, 50);
+        } else {
+          counter--;
+          slider.style.transition = "transform 0.7s ease";
+          slider.style.transform = `translateX(-${counter * 100}%)`;
+        }
+        updateDots();
       }
 
-      function goToSlide(index) {
-        currentIndex = index;
-        updateSlider();
-        resetTimer();
+      function goToSlide(n) {
+        counter = n;
+        slider.style.transition = "transform 0.7s ease";
+        slider.style.transform = `translateX(-${counter * 100}%)`;
+        updateDots();
       }
 
-      let slideTimer = setInterval(nextSlide, 6000);
-
-      function resetTimer() {
-        clearInterval(slideTimer);
-        slideTimer = setInterval(nextSlide, 6000);
-      }
-
-      updateSlider();
+      // --- AKTIVASI OTOMATIS DISINI ---
+      setInterval(nextSlide, 5000);
     </script>
   </body>
 </html>
