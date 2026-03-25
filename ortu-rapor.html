@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan Rapor - SIAKAD PRO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 font-sans">
+
+    <div class="flex min-h-screen">
+        <aside class="w-64 bg-blue-900 text-white flex-shrink-0 hidden md:flex flex-col">
+            <div class="p-6 border-b border-blue-800 flex items-center space-x-3">
+                <i class="fas fa-user-friends text-2xl text-orange-400"></i>
+                <span class="text-xl font-bold tracking-tight">SIAKAD ORTU</span>
+            </div>
+            <nav class="flex-1 mt-6 px-4 space-y-2">
+                <a href="ortu-dashboard.html" class="flex items-center py-3 px-4 text-blue-300 hover:bg-blue-800 hover:text-white rounded-xl transition">
+                    <i class="fas fa-home mr-3"></i> Pantau Anak
+                </a>
+                <a href="ortu-rapor.html" class="flex items-center py-3 px-4 bg-blue-800 text-white rounded-xl transition shadow-lg">
+                    <i class="fas fa-book-open mr-3"></i> Laporan Rapor
+                </a>
+                <a href="ortu-spp.html" class="flex items-center py-3 px-4 text-blue-300 hover:bg-blue-800 hover:text-white rounded-xl transition">
+                    <i class="fas fa-wallet mr-3"></i> Pembayaran SPP
+                </a>
+            </nav>
+            <div class="p-6 border-t border-blue-800">
+                <a href="loginv2.html" class="flex items-center text-red-400 hover:text-red-300">
+                    <i class="fas fa-sign-out-alt mr-3"></i> Keluar
+                </a>
+            </div>
+        </aside>
+
+        <div class="flex-1 flex flex-col">
+            <header class="bg-white shadow-sm py-4 px-8 flex justify-between items-center">
+                <h2 class="text-xl font-semibold text-gray-800">Laporan Hasil Belajar</h2>
+                <div class="flex items-center space-x-4">
+                    <div class="text-right hidden sm:block">
+                        <p class="text-sm font-bold text-gray-800 leading-none">Ayah Budi</p>
+                        <p class="text-[10px] text-gray-500 mt-1">Budi Santoso | Kelas 4-A</p>
+                    </div>
+                    <img src="https://i.pravatar.cc/150?u=parent" class="w-10 h-10 rounded-full border-2 border-orange-200">
+                </div>
+            </header>
+
+            <main class="p-8">
+                <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-800">Rapor Siswa</h3>
+                        <p class="text-sm text-gray-500">Tahun Ajaran 2025/2026</p>
+                    </div>
+                    <div class="flex space-x-3">
+                        <select class="bg-white border border-gray-200 px-4 py-2 rounded-xl text-sm outline-none focus:ring-2 focus:ring-blue-500">
+                            <option>Semester Ganjil</option>
+                            <option>Semester Genap</option>
+                        </select>
+                        <button onclick="window.print()" class="bg-blue-700 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-blue-800 transition flex items-center shadow-lg shadow-blue-100">
+                            <i class="fas fa-download mr-2"></i> Unduh PDF
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+                    <div class="bg-white p-5 rounded-3xl border border-gray-100 shadow-sm text-center">
+                        <p class="text-[10px] text-gray-400 uppercase font-black">Rata-rata</p>
+                        <p class="text-2xl font-black text-blue-900">88.4</p>
+                    </div>
+                    <div class="bg-white p-5 rounded-3xl border border-gray-100 shadow-sm text-center">
+                        <p class="text-[10px] text-gray-400 uppercase font-black">Peringkat</p>
+                        <p class="text-2xl font-black text-orange-500">3 <span class="text-xs text-gray-400">dari 32</span></p>
+                    </div>
+                    <div class="bg-white p-5 rounded-3xl border border-gray-100 shadow-sm text-center">
+                        <p class="text-[10px] text-gray-400 uppercase font-black">Ketidakhadiran</p>
+                        <p class="text-2xl font-black text-gray-800">2 <span class="text-xs text-gray-400">Hari</span></p>
+                    </div>
+                    <div class="bg-white p-5 rounded-3xl border border-emerald-100 bg-emerald-50 shadow-sm text-center">
+                        <p class="text-[10px] text-emerald-600 uppercase font-black">Status Akhir</p>
+                        <p class="text-lg font-black text-emerald-700">Tuntas</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+                    <table class="w-full text-left">
+                        <thead class="bg-gray-50 border-b border-gray-100">
+                            <tr>
+                                <th class="px-6 py-4 text-xs font-black text-gray-500 uppercase">Mata Pelajaran</th>
+                                <th class="px-6 py-4 text-xs font-black text-gray-500 uppercase text-center">KKM</th>
+                                <th class="px-6 py-4 text-xs font-black text-gray-500 uppercase text-center">Nilai</th>
+                                <th class="px-6 py-4 text-xs font-black text-gray-500 uppercase">Capaian Kompetensi</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-50">
+                            <tr class="hover:bg-blue-50/50 transition">
+                                <td class="px-6 py-4 font-bold text-gray-700 text-sm">Pendidikan Agama & Budi Pekerti</td>
+                                <td class="px-6 py-4 text-center text-sm text-gray-500 font-medium">75</td>
+                                <td class="px-6 py-4 text-center">
+                                    <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-black">92</span>
+                                </td>
+                                <td class="px-6 py-4 text-xs text-gray-600 leading-relaxed italic">
+                                    Sangat baik dalam memahami sejarah nabi dan penerapan akhlak terpuji.
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-blue-50/50 transition">
+                                <td class="px-6 py-4 font-bold text-gray-700 text-sm">Matematika</td>
+                                <td class="px-6 py-4 text-center text-sm text-gray-500 font-medium">70</td>
+                                <td class="px-6 py-4 text-center">
+                                    <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-black">85</span>
+                                </td>
+                                <td class="px-6 py-4 text-xs text-gray-600 leading-relaxed italic">
+                                    Menunjukkan pemahaman yang baik pada konsep pembagian dan perkalian pecahan.
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-blue-50/50 transition">
+                                <td class="px-6 py-4 font-bold text-gray-700 text-sm">Bahasa Indonesia</td>
+                                <td class="px-6 py-4 text-center text-sm text-gray-500 font-medium">75</td>
+                                <td class="px-6 py-4 text-center">
+                                    <span class="bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-sm font-black">78</span>
+                                </td>
+                                <td class="px-6 py-4 text-xs text-gray-600 leading-relaxed italic">
+                                    Cukup dalam menyusun teks narasi, perlu bimbingan lebih pada penggunaan ejaan.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="mt-8 bg-blue-900 rounded-3xl p-6 text-white shadow-xl relative overflow-hidden">
+                    <div class="relative z-10">
+                        <h4 class="font-bold mb-2 flex items-center">
+                            <i class="fas fa-magic mr-2 text-orange-400"></i> Analisis Perkembangan Anak (AI Insight)
+                        </h4>
+                        <p class="text-sm text-blue-100 leading-relaxed italic">
+                            "Berdasarkan tren nilai semester ini, Budi memiliki bakat yang sangat kuat di bidang numerasi (Matematika). 
+                            Namun, terdapat sedikit penurunan pada fokus mata pelajaran bahasa di pertengahan bulan. 
+                            Disarankan untuk lebih sering melatih literasi membaca di rumah."
+                        </p>
+                    </div>
+                    <i class="fas fa-brain absolute -right-4 -bottom-4 text-white/10 text-8xl"></i>
+                </div>
+            </main>
+        </div>
+    </div>
+
+</body>
+</html>

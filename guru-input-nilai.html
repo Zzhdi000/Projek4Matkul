@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input Nilai & Sinkronisasi - Guru</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 font-sans">
+
+    <div class="flex min-h-screen">
+        <aside class="w-64 bg-blue-900 text-white flex-shrink-0 hidden md:flex flex-col">
+            <div class="p-6 border-b border-blue-800 flex items-center space-x-3">
+                <i class="fas fa-graduation-cap text-2xl"></i>
+                <span class="text-xl font-bold tracking-tight">SIAKAD PRO</span>
+            </div>
+            <nav class="flex-1 mt-6 px-4 space-y-2">
+                <a href="javascript:void(0)" id="linkDashboard" onclick="showSection('dashboard')" class="flex items-center py-3 px-4 bg-blue-800 text-white rounded-xl transition">
+                    <i class="fas fa-th-large mr-3"></i> Dashboard Guru
+                </a>
+                <a href="javascript:void(0)" id="linkNilai" onclick="showSection('nilai')" class="flex items-center py-3 px-4 text-blue-300 hover:bg-blue-800 hover:text-white rounded-xl transition">
+                    <i class="fas fa-edit mr-3"></i> Input Nilai Rapor
+                </a>
+                <a href="javascript:void(0)" id="linkAbsen" onclick="showSection('absen')" class="flex items-center py-3 px-4 text-blue-300 hover:bg-blue-800 hover:text-white rounded-xl transition">
+                    <i class="fas fa-clipboard-check mr-3"></i> Absensi Siswa
+                </a>
+            </nav>
+            <div class="p-6 border-t border-blue-800">
+                <a href="#" class="flex items-center text-red-400 hover:text-red-300">
+                    <i class="fas fa-sign-out-alt mr-3"></i> Logout
+                </a>
+            </div>
+        </aside>
+
+        <div class="flex-1 flex flex-col">
+            <header class="bg-white shadow-sm py-4 px-8 flex justify-between items-center">
+                <h2 id="pageTitle" class="text-xl font-semibold text-gray-800">Manajemen Nilai Kelas 4-A</h2>
+                <div class="flex items-center space-x-4">
+                    <span class="text-sm font-medium text-gray-500">Mata Pelajaran: <b class="text-blue-900">Matematika</b></span>
+                    <img src="https://i.pravatar.cc/150?u=guru" class="w-10 h-10 rounded-full border">
+                </div>
+            </header>
+
+            <main class="p-8">
+
+                <div id="sectionDashboard">
+    <div class="mb-8">
+        <h3 class="text-2xl font-bold text-gray-800">Selamat Pagi, Pak Guru! 👋</h3>
+        <p class="text-gray-500">Berikut adalah ringkasan aktivitas akademik Anda hari ini.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-blue-50">
+            <div class="flex items-center justify-between mb-4">
+                <div class="bg-blue-100 p-3 rounded-xl text-blue-600"><i class="fas fa-users fa-lg"></i></div>
+                <span class="text-xs font-bold text-green-500 bg-green-50 px-2 py-1 rounded-lg">+2 Baru</span>
+            </div>
+            <h3 class="text-2xl font-black text-gray-800">28</h3>
+            <p class="text-gray-500 text-xs font-medium">Total Siswa Wali Kelas</p>
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-blue-50">
+            <div class="flex items-center justify-between mb-4">
+                <div class="bg-amber-100 p-3 rounded-xl text-amber-600"><i class="fas fa-star fa-lg"></i></div>
+                <span class="text-xs font-bold text-gray-400">Semester Genap</span>
+            </div>
+            <h3 class="text-2xl font-black text-gray-800">85.4</h3>
+            <p class="text-gray-500 text-xs font-medium">Rata-rata Nilai Kelas</p>
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-blue-50">
+            <div class="flex items-center justify-between mb-4">
+                <div class="bg-purple-100 p-3 rounded-xl text-purple-600"><i class="fas fa-clock fa-lg"></i></div>
+                <span class="text-xs font-bold text-red-500 bg-red-50 px-2 py-1 rounded-lg">3 Belum Absen</span>
+            </div>
+            <h3 class="text-2xl font-black text-gray-800">08:00</h3>
+            <p class="text-gray-500 text-xs font-medium">Jadwal Masuk Kelas</p>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
+            <h4 class="font-bold text-gray-800 mb-4 flex items-center">
+                <i class="fas fa-bullhorn mr-2 text-blue-600"></i> Agenda Terdekat
+            </h4>
+            <div class="space-y-4">
+                <div class="flex items-center p-3 bg-gray-50 rounded-2xl border-l-4 border-blue-500">
+                    <div class="ml-3">
+                        <p class="text-sm font-bold text-gray-800">Rapat Pleno Kenaikan Kelas</p>
+                        <p class="text-[10px] text-gray-500">Besok, 09:00 WIB • Ruang Guru</p>
+                    </div>
+                </div>
+                <div class="flex items-center p-3 bg-gray-50 rounded-2xl border-l-4 border-amber-500">
+                    <div class="ml-3">
+                        <p class="text-sm font-bold text-gray-800">Batas Input Nilai UTS</p>
+                        <p class="text-[10px] text-gray-500">12 Maret 2026 • Sistem E-Rapor</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-blue-900 p-6 rounded-3xl shadow-xl text-white">
+            <h4 class="font-bold mb-4 flex items-center">
+                <i class="fas fa-tasks mr-2 text-blue-300"></i> Progress E-Rapor
+            </h4>
+            <div class="space-y-4">
+                <div>
+                    <div class="flex justify-between text-xs mb-1">
+                        <span>Nilai Matematika</span>
+                        <span>80%</span>
+                    </div>
+                    <div class="w-full bg-blue-800 rounded-full h-1.5">
+                        <div class="bg-blue-400 h-1.5 rounded-full" style="width: 80%"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex justify-between text-xs mb-1">
+                        <span>Absensi Bulanan</span>
+                        <span>100%</span>
+                    </div>
+                    <div class="w-full bg-blue-800 rounded-full h-1.5">
+                        <div class="bg-green-400 h-1.5 rounded-full" style="width: 100%"></div>
+                    </div>
+                </div>
+            </div>
+            <button onclick="showSection('nilai')" class="w-full mt-6 py-3 bg-white text-blue-900 rounded-xl font-bold text-xs hover:bg-blue-50 transition">Lanjutkan Input Nilai</button>
+        </div>
+    </div>
+</div>
+                
+                <div id="sectionNilai" class="hidden">
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-blue-100 mb-8">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+            <h4 class="font-bold text-blue-900 flex items-center">
+                <i class="fas fa-sync-alt mr-2"></i> Integrasi E-Rapor / Dapodik
+            </h4>
+            <p class="text-[10px] text-gray-500 mt-1">Status: <span class="text-amber-600 font-bold">Menunggu Template dari Dapodik...</span></p>
+        </div>
+        <div class="flex gap-2">
+            <button onclick="document.getElementById('fileInput').click()" class="bg-amber-50 text-amber-700 border border-amber-200 px-4 py-2 rounded-xl text-xs font-bold hover:bg-amber-100 transition">
+                <i class="fas fa-file-import mr-2"></i> 1. Upload Template 
+            </button>
+            <input type="file" id="fileInput" class="hidden" onchange="alert('Template berhasil diunggah! Sekarang klik Proses untuk mengisi nilai.')">
+
+            <button onclick="simulasiSinkronisasi()" class="bg-blue-800 text-white px-5 py-2 rounded-xl text-xs font-bold hover:bg-blue-900 shadow-lg shadow-blue-200 transition">
+                <i class="fas fa-magic mr-2"></i> 2. Isi & Proses Otomatis
+            </button>
+        </div>
+    </div>
+
+    <div id="progressContainer" class="mt-6 hidden transition-all">
+        <div class="flex justify-between mb-2">
+            <span class="text-xs font-bold text-blue-800" id="progressStatus">Sedang menyalin nilai ke kolom Excel...</span>
+            <span class="text-xs font-bold text-blue-800" id="progressPercent">0%</span>
+        </div>
+        <div class="w-full bg-gray-200 rounded-full h-2">
+            <div id="progressBar" class="bg-blue-600 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+        </div>
+    </div>
+
+
+                        <div id="progressContainer" class="mt-6 hidden transition-all">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-xs font-bold text-blue-800" id="progressStatus">Memetakan data NISN...</span>
+                                <span class="text-xs font-bold text-blue-800" id="progressPercent">0%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div id="progressBar" class="bg-blue-600 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                        <div class="p-6 border-b flex flex-col md:flex-row justify-between items-start md:items-center bg-gray-50 gap-4">
+                            <div>
+                                <h4 class="font-bold text-gray-800">Input Nilai Formatif & Sumatif</h4>
+                                <p class="text-[10px] text-gray-500">Data ini akan otomatis disinkronkan ke template Dapodik.</p>
+                            </div>
+                            <div class="flex flex-col sm:flex-row gap-4 w-full md:w-auto items-end">
+    <div class="w-full sm:w-64">
+        <label for="searchSiswa" class="text-[10px] text-gray-500 mb-1 block ml-1">
+            Gunakan kolom pencarian untuk memfilter nama siswa.
+        </label>
+        <div class="relative">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+                <i class="fas fa-search text-xs"></i>
+            </span>
+            <input type="text" id="searchSiswa" onkeyup="cariSiswa()" placeholder="Cari nama..." 
+                class="pl-10 pr-4 py-2 bg-white border border-gray-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-blue-500 w-full transition-all">
+        </div>
+    </div>
+
+    <button onclick="alert('Jurnal berhasil disimpan!')" class="h-[38px] bg-green-600 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-green-700 transition flex items-center shadow-lg shadow-green-100">
+        <i class="fas fa-save mr-2"></i> Simpan Harian
+    </button>
+</div>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left">
+                                <thead class="bg-gray-50 text-gray-400 text-[10px] uppercase font-bold">
+                                    <tr>
+                                        <th class="px-6 py-4">Siswa</th>
+                                        <th class="px-6 py-4 text-center">Tugas 1 (30%)</th>
+                                        <th class="px-6 py-4 text-center">Tugas 2 (30%)</th>
+                                        <th class="px-6 py-4 text-center">Ujian (40%)</th>
+                                        <th class="px-6 py-4 text-center bg-blue-50 text-blue-900 border-l font-black">Nilai Akhir</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-100">
+                                    <tr class="hover:bg-gray-50 transition">
+                                        <td class="px-6 py-4"><p class="font-bold text-gray-800">Aditya Pratama</p><p class="text-[10px] text-gray-400">NISN: 01234456</p></td>
+                                        <td class="px-6 py-4 text-center"><input type="number" oninput="hitungNilai(this)" class="tugas1 w-16 p-2 border rounded-lg text-center font-bold" value="80"></td>
+                                        <td class="px-6 py-4 text-center"><input type="number" oninput="hitungNilai(this)" class="tugas2 w-16 p-2 border rounded-lg text-center font-bold" value="85"></td>
+                                        <td class="px-6 py-4 text-center"><input type="number" oninput="hitungNilai(this)" class="ujian w-16 p-2 border rounded-lg text-center font-bold" value="90"></td>
+                                        <td class="px-6 py-4 text-center bg-blue-50 border-l font-black text-blue-900 hasil-akhir">85.5</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 transition">
+                                        <td class="px-6 py-4"><p class="font-bold text-gray-800">Budi Santoso</p><p class="text-[10px] text-gray-400">NISN: 01234457</p></td>
+                                        <td class="px-6 py-4 text-center"><input type="number" oninput="hitungNilai(this)" class="tugas1 w-16 p-2 border rounded-lg text-center font-bold" value="70"></td>
+                                        <td class="px-6 py-4 text-center"><input type="number" oninput="hitungNilai(this)" class="tugas2 w-16 p-2 border rounded-lg text-center font-bold" value="75"></td>
+                                        <td class="px-6 py-4 text-center"><input type="number" oninput="hitungNilai(this)" class="ujian w-16 p-2 border rounded-lg text-center font-bold" value="80"></td>
+                                        <td class="px-6 py-4 text-center bg-blue-50 border-l font-black text-blue-900 hasil-akhir">75.5</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div> <div id="sectionAbsen" class="hidden">
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-blue-100 mb-6 flex justify-between items-center">
+                        <div>
+                            <h4 class="font-bold text-blue-900 flex items-center">
+                                <i class="fas fa-clipboard-check mr-2"></i> Presensi Harian Kelas 4-A
+                            </h4>
+                            <p class="text-xs text-gray-500">Tanggal: 06 Maret 2026</p>
+                        </div>
+                        <button onclick="alert('Absensi berhasil disimpan!')" class="bg-blue-900 text-white px-6 py-2 rounded-xl text-sm font-bold shadow-lg shadow-blue-200 transition">
+                            Simpan Absensi
+                        </button>
+                    </div>
+
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                        <table class="w-full text-left">
+                            <thead class="bg-gray-50 text-gray-400 text-[10px] uppercase font-bold tracking-wider">
+                                <tr>
+                                    <th class="px-6 py-4">Nama Siswa</th>
+                                    <th class="px-6 py-4 text-center">Hadir</th>
+                                    <th class="px-6 py-4 text-center">Izin</th>
+                                    <th class="px-6 py-4 text-center">Sakit</th>
+                                    <th class="px-6 py-4 text-center">Alfa</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100">
+                                <tr class="hover:bg-gray-50 transition">
+                                    <td class="px-6 py-4"><p class="font-bold text-gray-800">Aditya Pratama</p><p class="text-[10px] text-gray-400">NISN: 01234456</p></td>
+                                    <td class="text-center"><input type="radio" name="abs1" class="w-4 h-4 accent-blue-600" checked></td>
+                                    <td class="text-center"><input type="radio" name="abs1" class="w-4 h-4 accent-yellow-500"></td>
+                                    <td class="text-center"><input type="radio" name="abs1" class="w-4 h-4 accent-green-500"></td>
+                                    <td class="text-center"><input type="radio" name="abs1" class="w-4 h-4 accent-red-500"></td>
+                                </tr>
+                                <tr class="hover:bg-gray-50 transition">
+                                    <td class="px-6 py-4"><p class="font-bold text-gray-800">Budi Santoso</p><p class="text-[10px] text-gray-400">NISN: 01234457</p></td>
+                                    <td class="text-center"><input type="radio" name="abs2" class="w-4 h-4 accent-blue-600" checked></td>
+                                    <td class="text-center"><input type="radio" name="abs2" class="w-4 h-4 accent-yellow-500"></td>
+                                    <td class="text-center"><input type="radio" name="abs2" class="w-4 h-4 accent-green-500"></td>
+                                    <td class="text-center"><input type="radio" name="abs2" class="w-4 h-4 accent-red-500"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div> </main>
+        </div>
+    </div>
+
+    <script>
+        // LOGIC PINDAH HALAMAN (SINGLE PAGE)
+ function showSection(target) {
+    const secDash = document.getElementById('sectionDashboard');
+    const secNilai = document.getElementById('sectionNilai');
+    const secAbsen = document.getElementById('sectionAbsen');
+    
+    const linkDash = document.getElementById('linkDashboard');
+    const linkNilai = document.getElementById('linkNilai');
+    const linkAbsen = document.getElementById('linkAbsen');
+    
+    const title = document.getElementById('pageTitle');
+
+    // Sembunyikan SEMUA dulu
+    secDash.classList.add('hidden');
+    secNilai.classList.add('hidden');
+    secAbsen.classList.add('hidden');
+    
+    // Reset semua warna link
+    [linkDash, linkNilai, linkAbsen].forEach(link => {
+        link.className = "flex items-center py-3 px-4 text-blue-300 hover:bg-blue-800 hover:text-white rounded-xl transition";
+    });
+
+    // Tampilkan yang dipilih
+    if (target === 'dashboard') {
+        secDash.classList.remove('hidden');
+        linkDash.className = "flex items-center py-3 px-4 bg-blue-800 text-white rounded-xl transition";
+        title.innerText = "Dashboard Guru";
+    } else if (target === 'nilai') {
+        secNilai.classList.remove('hidden');
+        linkNilai.className = "flex items-center py-3 px-4 bg-blue-800 text-white rounded-xl transition";
+        title.innerText = "Manajemen Nilai Kelas 4-A";
+    } else if (target === 'absen') {
+        secAbsen.classList.remove('hidden');
+        linkAbsen.className = "flex items-center py-3 px-4 bg-blue-800 text-white rounded-xl transition";
+        title.innerText = "Absensi Siswa Kelas 4-A";
+    }
+}
+
+        // FUNGSI HITUNG NILAI
+        function hitungNilai(el) {
+            const row = el.closest('tr');
+            const t1 = parseFloat(row.querySelector('.tugas1').value) || 0;
+            const t2 = parseFloat(row.querySelector('.tugas2').value) || 0;
+            const ujian = parseFloat(row.querySelector('.ujian').value) || 0;
+            const total = (t1 * 0.3) + (t2 * 0.3) + (ujian * 0.4);
+            row.querySelector('.hasil-akhir').innerText = total.toFixed(1);
+        }
+
+        // FUNGSI CARI SISWA
+        function cariSiswa() {
+            let input = document.getElementById("searchSiswa").value.toLowerCase();
+            let rows = document.querySelectorAll("#sectionNilai tbody tr");
+            rows.forEach(row => {
+                let nama = row.querySelector("td p.font-bold").innerText.toLowerCase();
+                row.style.display = nama.includes(input) ? "" : "none";
+            });
+        }
+
+        // SIMULASI SINKRONISASI
+        function simulasiSinkronisasi() {
+            const container = document.getElementById('progressContainer');
+            const bar = document.getElementById('progressBar');
+            const percentText = document.getElementById('progressPercent');
+            const statusText = document.getElementById('progressStatus');
+            container.classList.remove('hidden');
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.floor(Math.random() * 20);
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    statusText.innerText = "✅ Sukses! Data tersinkron.";
+                    alert("Berhasil sinkron ke Dapodik!");
+                }
+                bar.style.width = progress + "%";
+                percentText.innerText = progress + "%";
+            }, 300);
+        }
+        function updateStatusFile() {
+    document.getElementById('statusIntegrasi').innerHTML = "✅ Template Terdeteksi (Format Dapodik 2024)";
+    document.getElementById('statusIntegrasi').className = "text-green-600 font-bold";
+    // Aktifkan tombol proses
+    const btn = document.getElementById('btnProses');
+    btn.disabled = false;
+    btn.classList.remove('opacity-50', 'cursor-not-allowed');
+}
+    </script>
+</body>
+</html>

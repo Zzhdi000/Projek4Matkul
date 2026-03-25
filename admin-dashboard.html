@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - SIAKAD PRO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-slate-50 font-sans">
+
+    <div class="flex min-h-screen">
+        <aside class="w-64 bg-slate-900 text-white flex-shrink-0 hidden md:flex flex-col">
+            <div class="p-6 border-b border-slate-800 flex items-center space-x-3">
+                <i class="fas fa-user-shield text-2xl text-blue-400"></i>
+                <span class="text-xl font-bold tracking-tight">ADMIN PANEL</span>
+            </div>
+            <nav class="flex-1 mt-6 px-4 space-y-2">
+                <a href="admin-dashboard.html" class="flex items-center py-3 px-4 bg-blue-600 text-white rounded-xl transition">
+                    <i class="fas fa-database mr-3"></i> Data Master
+                </a>
+                <a href="admin-users.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
+                    <i class="fas fa-users-cog mr-3"></i> Pengaturan User
+                </a>
+                <a href="admin-laporan.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
+                    <i class="fas fa-print mr-3"></i> Laporan Cetak
+                </a>
+            </nav>
+            <div class="p-6 border-t border-slate-800">
+                <a href="loginv2.html" class="flex items-center text-red-400 hover:text-red-300">
+                    <i class="fas fa-sign-out-alt mr-3"></i> Logout
+                </a>
+            </div>
+        </aside>
+
+        <div class="flex-1 flex flex-col">
+            <header class="bg-white shadow-sm py-4 px-8 flex justify-between items-center">
+                <h2 class="text-xl font-bold text-slate-800">Manajemen Data Sekolah</h2>
+                <div class="flex items-center space-x-2">
+                    <span class="text-xs font-bold bg-blue-100 text-blue-700 px-3 py-1 rounded-full uppercase">Super Admin</span>
+                    <img src="https://ui-avatars.com/api/?name=Admin&background=0D8ABC&color=fff" class="w-10 h-10 rounded-full border-2 border-slate-200">
+                </div>
+            </header>
+
+            <main class="p-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center space-x-4">
+                        <div class="bg-blue-500 p-4 rounded-xl text-white"><i class="fas fa-chalkboard-teacher fa-lg"></i></div>
+                        <div><p class="text-slate-500 text-xs font-bold">Total Guru</p><h3 class="text-2xl font-black">24</h3></div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center space-x-4">
+                        <div class="bg-emerald-500 p-4 rounded-xl text-white"><i class="fas fa-user-graduate fa-lg"></i></div>
+                        <div><p class="text-slate-500 text-xs font-bold">Total Siswa</p><h3 class="text-2xl font-black">450</h3></div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center space-x-4">
+                        <div class="bg-amber-500 p-4 rounded-xl text-white"><i class="fas fa-door-open fa-lg"></i></div>
+                        <div><p class="text-slate-500 text-xs font-bold">Total Kelas</p><h3 class="text-2xl font-black">12</h3></div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="flex border-b">
+                        <button onclick="switchTab('guru')" id="tabGuru" class="px-8 py-4 text-sm font-bold border-b-2 border-blue-600 text-blue-600 bg-blue-50/50">Daftar Guru</button>
+                        <button onclick="switchTab('siswa')" id="tabSiswa" class="px-8 py-4 text-sm font-bold text-slate-400 hover:text-slate-600 border-b-2 border-transparent">Daftar Siswa</button>
+                    </div>
+
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <input type="text" placeholder="Cari data..." class="px-4 py-2 bg-slate-100 border-none rounded-xl text-sm w-64 outline-none focus:ring-2 focus:ring-blue-500">
+                            <button onclick="openModal()" class="bg-slate-900 text-white px-5 py-2 rounded-xl text-xs font-bold hover:bg-slate-800 transition">
+                                <i class="fas fa-plus mr-2"></i> Tambah Data Baru
+                            </button>
+                        </div>
+
+                        <div id="contentGuru" class="overflow-x-auto">
+                            <table class="w-full text-left">
+                                <thead class="bg-slate-50 text-slate-400 text-[10px] uppercase font-bold tracking-widest">
+                                    <tr>
+                                        <th class="px-6 py-4">Nama Guru</th>
+                                        <th class="px-6 py-4">NIP</th>
+                                        <th class="px-6 py-4">Mata Pelajaran</th>
+                                        <th class="px-6 py-4 text-center">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100 text-sm">
+                                    <tr>
+                                        <td class="px-6 py-4 font-bold text-slate-700">Siti Aminah, S.Pd</td>
+                                        <td class="px-6 py-4 font-mono">198501012010012001</td>
+                                        <td class="px-6 py-4">Bahasa Indonesia</td>
+                                        <td class="px-6 py-4 text-center">
+                                            <button class="text-blue-500 hover:text-blue-700 mr-3"><i class="fas fa-edit"></i></button>
+                                            <button class="text-red-400 hover:text-red-600"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div id="contentSiswa" class="hidden overflow-x-auto">
+                            <table class="w-full text-left">
+                                <thead class="bg-slate-50 text-slate-400 text-[10px] uppercase font-bold tracking-widest">
+                                    <tr>
+                                        <th class="px-6 py-4">Nama Siswa</th>
+                                        <th class="px-6 py-4">NISN</th>
+                                        <th class="px-6 py-4">Kelas</th>
+                                        <th class="px-6 py-4 text-center">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100 text-sm">
+                                    <tr>
+                                        <td class="px-6 py-4 font-bold text-slate-700">Aditya Pratama</td>
+                                        <td class="px-6 py-4 font-mono">01234456</td>
+                                        <td class="px-6 py-4 text-center">4-A</td>
+                                        <td class="px-6 py-4 text-center">
+                                            <button class="text-blue-500 hover:text-blue-700 mr-3"><i class="fas fa-user-edit"></i></button>
+                                            <button class="text-red-400 hover:text-red-600"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <div id="modalData" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-3xl w-full max-w-md p-8 shadow-2xl">
+            <h3 class="text-xl font-bold mb-4">Tambah Data Baru</h3>
+            <form class="space-y-4">
+                <input type="text" placeholder="Nama Lengkap" class="w-full p-3 bg-slate-50 border rounded-xl outline-none focus:ring-2 focus:ring-blue-500">
+                <input type="text" placeholder="NIP / NISN" class="w-full p-3 bg-slate-50 border rounded-xl outline-none focus:ring-2 focus:ring-blue-500">
+                <div class="flex justify-end space-x-3 mt-6">
+                    <button type="button" onclick="closeModal()" class="px-6 py-2 text-slate-500 font-bold">Batal</button>
+                    <button type="button" onclick="alert('Data Tersimpan secara visual!')" class="bg-blue-600 text-white px-6 py-2 rounded-xl font-bold">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(type) {
+            const tGuru = document.getElementById('tabGuru');
+            const tSiswa = document.getElementById('tabSiswa');
+            const cGuru = document.getElementById('contentGuru');
+            const cSiswa = document.getElementById('contentSiswa');
+
+            if(type === 'guru') {
+                tGuru.className = "px-8 py-4 text-sm font-bold border-b-2 border-blue-600 text-blue-600 bg-blue-50/50";
+                tSiswa.className = "px-8 py-4 text-sm font-bold text-slate-400 hover:text-slate-600 border-b-2 border-transparent";
+                cGuru.classList.remove('hidden');
+                cSiswa.classList.add('hidden');
+            } else {
+                tSiswa.className = "px-8 py-4 text-sm font-bold border-b-2 border-blue-600 text-blue-600 bg-blue-50/50";
+                tGuru.className = "px-8 py-4 text-sm font-bold text-slate-400 hover:text-slate-600 border-b-2 border-transparent";
+                cSiswa.classList.remove('hidden');
+                cGuru.classList.add('hidden');
+            }
+        }
+
+        function openModal() { document.getElementById('modalData').classList.remove('hidden'); }
+        function closeModal() { document.getElementById('modalData').classList.add('hidden'); }
+    </script>
+</body>
+</html>
