@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SMK TELKOM MALANG | The Real Informatics School</title>
+    <title>SD Negeri Ganting | Ganting Elementary School</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link
       rel="stylesheet"
@@ -96,124 +96,82 @@
         background: var(--accent-blue);
         transform: translateY(-2px);
       }
+      /* Pastikan ini ada di dalam <style> */
+#chatWindow {
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform: scale(0);
+  opacity: 0;
+  pointer-events: none;
+  transform-origin: bottom right;
+}
+
+#chatWindow.chat-active {
+  transform: scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@keyframes gentle-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.animate-gentle-float {
+  animation: gentle-float 4s ease-in-out infinite;
+}
     </style>
   </head>
   <body class="antialiased">
-    <header
-      class="fixed w-full z-[100] bg-white/90 backdrop-blur-md shadow-sm border-b-2 border-yellow-400"
-    >
-      <div
-        class="container mx-auto px-6 py-3 flex justify-between items-center"
-      >
-        <a href="index.html" class="flex items-center gap-3 group">
-          <img
-            src="asset/logogtg.png"
-            alt="Logo SD Negeri Ganting"
-            class="h-10 w-auto object-contain"
-          />
-
-          <div>
-            <h1
-              class="font-black text-lg tracking-tight text-blue-900 leading-none uppercase"
-            >
-              SD NEGERI GANTING
-            </h1>
-            <p
-              class="text-[9px] font-bold text-blue-600 uppercase tracking-widest mt-1 italic"
-            >
-              BERIMAN, BERILMU, BERPRESTASI
-            </p>
-          </div>
-        </a>
-
-        <div
-          class="hidden lg:flex items-center space-x-2 font-bold text-[14px] text-slate-700"
-        >
-          <a
-            href="depan.html"
-            class="px-4 py-2 rounded-lg bg-blue-50 text-blue-700 border border-blue-100 transition-all hover:bg-blue-100"
-          >
-            Beranda
-          </a>
-
-          <div class="relative group px-3 py-2">
-            <button
-              class="flex items-center gap-1 group-hover:text-blue-700 transition cursor-pointer"
-            >
-              Tentang Sekolah
-              <i
-                class="fas fa-chevron-down text-[10px] transition-transform group-hover:rotate-180"
-              ></i>
-            </button>
-            <div
-              class="absolute left-0 mt-2 w-64 bg-white rounded-xl shadow-2xl py-3 border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0"
-            >
-              <a
-                href="tentangsekolah.html#sejarah"
-                class="block px-5 py-2.5 hover:bg-blue-50 hover:text-blue-700 transition font-medium"
-                >Sejarah Sekolah</a
-              >
-              <a
-                href="tentangsekolah.html#visi"
-                class="block px-5 py-2.5 hover:bg-blue-50 hover:text-blue-700 transition font-medium"
-                >Visi & Misi</a
-              >
-              <a
-                href="tentangsekolah.html#struktur"
-                class="block px-5 py-2.5 hover:bg-blue-50 hover:text-blue-700 transition font-medium"
-                >Struktur Organisasi</a
-              >
-              <a
-                href="tentangsekolah.html#fasilitas"
-                class="block px-5 py-2.5 hover:bg-blue-50 hover:text-blue-700 transition font-medium"
-                >Fasilitas Sekolah</a
-              >
-            </div>
-          </div>
-
-          <div class="relative group px-3 py-2">
-            <button
-              class="flex items-center gap-1 group-hover:text-blue-700 transition cursor-pointer"
-            >
-              Kesiswaan
-              <i
-                class="fas fa-chevron-down text-[10px] transition-transform group-hover:rotate-180"
-              ></i>
-            </button>
-            <div
-              class="absolute left-0 mt-2 w-56 bg-white rounded-xl shadow-2xl py-3 border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0"
-            >
-              <a
-                href="kesiswaan.html#ekskul"
-                class="block px-5 py-2.5 hover:bg-blue-50 hover:text-blue-700 transition font-medium"
-                >Ekstrakurikuler</a
-              >
-              <a
-                href="kesiswaan.html#prestasi"
-                class="block px-5 py-2.5 hover:bg-blue-50 hover:text-blue-700 transition font-medium"
-                >Prestasi Siswa</a
-              >
-            </div>
-          </div>
-
-          <a
-            href="depan.html#berita"
-            class="px-3 py-2 hover:text-blue-700 transition"
-            >Berita</a
-          >
-          <a href="#kontak" class="px-3 py-2 hover:text-blue-700 transition">
-            Hubungi Kami
-          </a>
-        </div>
-
-        <a
-          href="login.html#login"
-          class="bg-blue-800 text-white px-6 py-2.5 rounded-xl hover:bg-blue-900 shadow-lg hover:shadow-blue-200 transition-all text-[11px] font-black tracking-widest flex items-center gap-2"
-        >
-          <i class="fas fa-user-shield"></i> PORTAL SIAKAD
-        </a>
+    <header class="fixed w-full z-[100] bg-white/90 backdrop-blur-md shadow-sm border-b-2 border-yellow-400">
+  <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+    <a href="index.html" class="flex items-center gap-3 group">
+      <img src="asset/logogtg.png" alt="Logo" class="h-10 w-auto object-contain" />
+      <div>
+        <h1 class="font-black text-lg tracking-tight text-blue-900 leading-none uppercase">SD NEGERI GANTING</h1>
+        <p class="text-[9px] font-bold text-blue-600 uppercase tracking-widest mt-1 italic">BERIMAN, BERILMU, BERPRESTASI</p>
       </div>
-    </header>
+    </a>
+
+    <div class="hidden lg:flex items-center space-x-2 font-bold text-[14px] text-slate-700">
+      <a href="#home" class="nav-link px-4 py-2 text-slate-700 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition-all">
+        Beranda
+      </a>
+
+      <div class="relative group px-3 py-2">
+        <button class="flex items-center gap-1 group-hover:text-blue-700 transition cursor-pointer">
+          Tentang Sekolah <i class="fas fa-chevron-down text-[10px] transition-transform group-hover:rotate-180"></i>
+        </button>
+        <div class="absolute left-0 mt-2 w-64 bg-white rounded-xl shadow-2xl py-3 border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+          <a href="tentangsekolah.html#sejarah" class="block px-5 py-2.5 hover:bg-blue-50 hover:text-blue-700 transition font-medium">Sejarah Sekolah</a>
+          <a href="tentangsekolah.html#visi" class="block px-5 py-2.5 hover:bg-blue-50 hover:text-blue-700 transition font-medium">Visi & Misi</a>
+          <a href="tentangsekolah.html#struktur" class="block px-5 py-2.5 hover:bg-blue-50 hover:text-blue-700 transition font-medium">Struktur Organisasi</a>
+          <a href="tentangsekolah.html#fasilitas" class="block px-5 py-2.5 hover:bg-blue-50 hover:text-blue-700 transition font-medium">Fasilitas Sekolah</a>
+        </div>
+      </div>
+
+      <div class="relative group px-3 py-2">
+        <button class="flex items-center gap-1 group-hover:text-blue-700 transition cursor-pointer">
+          Kesiswaan <i class="fas fa-chevron-down text-[10px] transition-transform group-hover:rotate-180"></i>
+        </button>
+        <div class="absolute left-0 mt-2 w-56 bg-white rounded-xl shadow-2xl py-3 border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+          <a href="kesiswaan.html#ekskul" class="block px-5 py-2.5 hover:bg-blue-50 hover:text-blue-700 transition font-medium">Ekstrakurikuler</a>
+          <a href="kesiswaan.html#prestasi" class="block px-5 py-2.5 hover:bg-blue-50 hover:text-blue-700 transition font-medium">Prestasi Siswa</a>
+        </div>
+      </div>
+
+      <a href="#berita" class="nav-link px-4 py-2 text-slate-700 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition-all">
+        Berita
+      </a>
+
+      <a href="#kontak" class="nav-link px-4 py-2 text-slate-700 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition-all">
+        Hubungi Kami
+      </a>
+    </div>
+
+    <a href="login.html#login" class="bg-blue-800 text-white px-6 py-2.5 rounded-xl hover:bg-blue-900 shadow-lg transition-all text-[11px] font-black tracking-widest flex items-center gap-2">
+      <i class="fas fa-user-shield"></i> PORTAL SIAKAD
+    </a>
+  </div>
+</header>
 
     <!-- home -->
     <section id="home" class="slider-viewport bg-blue-950">
@@ -881,6 +839,43 @@
       </button>
     </div>
 
+    <div id="chatWindow" class="fixed bottom-24 right-6 z-[100] w-[350px] h-[500px] bg-white rounded-3xl shadow-2xl border border-slate-100 flex flex-col overflow-hidden transition-all duration-500 scale-0 opacity-0 origin-bottom-right">
+  
+  <div class="bg-blue-800 p-4 text-white flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 bg-white rounded-full p-1">
+        <img src="ai.png" class="w-full h-full object-contain" alt="AI">
+      </div>
+      <div>
+        <h3 class="font-bold text-sm leading-none">Kak AI Ganting</h3>
+        <span class="text-[10px] text-blue-200 flex items-center gap-1">
+          <span class="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></span> Online
+        </span>
+      </div>
+    </div>
+    <button onclick="toggleAIChat()" class="hover:bg-blue-700 w-8 h-8 rounded-full transition-colors">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+
+  <div id="chatBody" class="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50 text-[13px]">
+    <div class="flex gap-2">
+      <div class="max-w-[80%] bg-white p-3 rounded-2xl rounded-tl-none shadow-sm border border-slate-100 text-slate-700">
+        Halo! Saya Kak AI Ganting. Ada yang bisa saya bantu seputar SD Negeri Ganting? ✨
+      </div>
+    </div>
+  </div>
+
+  <div class="p-4 bg-white border-t border-slate-100">
+    <div class="relative flex items-center">
+      <input type="text" placeholder="Tulis pesan..." class="w-full pl-4 pr-12 py-3 bg-slate-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+      <button class="absolute right-2 w-8 h-8 bg-blue-800 text-white rounded-xl hover:bg-blue-900 transition-all">
+        <i class="fas fa-paper-plane text-xs"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
     <style>
       @keyframes gentle-float {
         0%,
@@ -894,14 +889,44 @@
       .animate-gentle-float {
         animation: gentle-float 4s ease-in-out infinite;
       }
+      /* Style tambahan untuk memunculkan chat */
+  .chat-active {
+    scale: 1 !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
     </style>
 
     <script>
-      function toggleAIChat() {
-        // Ganti ini dengan fungsi buka chatbox kamu
-        alert("Halo, aku Gani. AI yang bantuin kamu 🎒😊");
+  // FUNGSI UNTUK MEMBUKA/MENUTUP CHAT (Hanya satu fungsi ini saja)
+  function toggleAIChat() {
+    const chatWindow = document.getElementById('chatWindow');
+    if (chatWindow) {
+      chatWindow.classList.toggle('chat-active');
+    }
+  }
+
+  // SCRIPT UNTUK NAVIGASI (Warna menu berubah saat scroll)
+  const navLinks = document.querySelectorAll('.nav-link');
+  const sections = document.querySelectorAll('section[id], footer[id]');
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop;
+      if (pageYOffset >= (sectionTop - 150)) {
+        current = section.getAttribute('id');
       }
-    </script>
+    });
+
+    navLinks.forEach(link => {
+      link.className = "nav-link px-4 py-2 text-slate-700 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition-all duration-200";
+      if (link.getAttribute('href').includes(current) && current !== '') {
+        link.className = "nav-link flex items-center gap-1 px-3 py-1.5 rounded-lg bg-blue-50 text-blue-700 border border-blue-100 transition-all cursor-pointer";
+      }
+    });
+  });
+</script>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>

@@ -13,8 +13,24 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
-
+ 
+      
     <style>
+      :root {
+        --primary-blue: #1e40af;
+        --secondary-yellow: #facc15;
+        --accent-blue: #3b82f6;
+      }
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        background-color: #ffffff;
+        overflow-x: hidden;
+      }
+      .glass-nav {
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(15px);
+        border-bottom: 3px solid var(--secondary-yellow);
+      }
       .hero-blue {
         background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
         position: relative;
@@ -54,7 +70,6 @@
         transform: translateX(5px);
       }
 
-      /* --- LOGIC KONTEN (TAB) --- */
       .tab-content {
         display: none;
         animation: fadeIn 0.4s ease-out;
@@ -106,6 +121,62 @@
     </style>
   </head>
   <body>
+     <header class="fixed w-full z-[100] bg-white/90 backdrop-blur-md shadow-sm border-b-2 border-yellow-400">
+  <div class="container mx-auto px-6 py-2 flex justify-between items-center"> <a href="index.html" class="flex items-center gap-3 group">
+      <img
+        src="asset/logogtg.png"
+        alt="Logo SD Negeri Ganting"
+        class="h-9 w-auto object-contain" 
+      /> <div>
+        <h1 class="font-black text-base tracking-tight text-blue-900 leading-none uppercase"> SD NEGERI GANTING
+        </h1>
+        <p class="text-[8px] font-bold text-blue-600 uppercase tracking-widest mt-0.5 italic"> BERIMAN, BERILMU, BERPRESTASI
+        </p>
+      </div>
+    </a>
+
+    <div class="hidden lg:flex items-center space-x-1 font-bold text-[13px] text-slate-700"> <a
+        href="index.html"
+      > Beranda
+      </a>
+
+      <div class="relative group px-1 py-1.5">
+  <button
+    class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-blue-50 text-blue-700 border border-blue-100 transition-all cursor-pointer"
+  >
+    Tentang Sekolah
+    <i class="fas fa-chevron-down text-[8px] transition-transform group-hover:rotate-180"></i>
+  </button>
+        <div class="absolute left-0 mt-2 w-60 bg-white rounded-xl shadow-2xl py-2 border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+          <a href="tentangsekolah.html#sejarah" class="block px-5 py-2 hover:bg-blue-50 hover:text-blue-700 transition font-medium">Sejarah Sekolah</a>
+          <a href="tentangsekolah.html#visi" class="block px-5 py-2 hover:bg-blue-50 hover:text-blue-700 transition font-medium">Visi & Misi</a>
+          <a href="tentangsekolah.html#struktur" class="block px-5 py-2 hover:bg-blue-50 hover:text-blue-700 transition font-medium">Struktur Organisasi</a>
+          <a href="tentangsekolah.html#fasilitas" class="block px-5 py-2 hover:bg-blue-50 hover:text-blue-700 transition font-medium">Fasilitas Sekolah</a>
+        </div>
+      </div>
+
+      <div class="relative group px-2 py-1.5"> <button class="flex items-center gap-1 group-hover:text-blue-700 transition cursor-pointer">
+          Kesiswaan
+          <i class="fas fa-chevron-down text-[10px] transition-transform group-hover:rotate-180"></i>
+        </button>
+        <div class="absolute left-0 mt-2 w-52 bg-white rounded-xl shadow-2xl py-2 border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+          <a href="kesiswaan.html#ekskul" class="block px-5 py-2 hover:bg-blue-50 hover:text-blue-700 transition font-medium">Ekstrakurikuler</a>
+          <a href="kesiswaan.html#prestasi" class="block px-5 py-2 hover:bg-blue-50 hover:text-blue-700 transition font-medium">Prestasi Siswa</a>
+        </div>
+      </div>
+
+      <a href="index.html#berita" class="px-3 py-1.5 hover:text-blue-700 transition">Berita</a>
+      <a href="index.html#kontak" class="px-3 py-1.5 hover:text-blue-700 transition">Hubungi Kami</a>
+    </div>
+
+    <a
+      href="login.html#login"
+      class="bg-blue-800 text-white px-4 py-2 rounded-lg hover:bg-blue-900 shadow-lg transition-all text-[10px] font-black tracking-widest flex items-center gap-2"
+    > <i class="fas fa-user-shield"></i> PORTAL SIAKAD
+    </a>
+  </div>
+</header>
+
     <header class="hero-blue py-16 px-6 text-white relative">
       <div class="max-w-7xl mx-auto relative">
         <a
@@ -483,6 +554,49 @@
     <footer class="bg-gray-900 text-gray-400 py-10 text-center text-sm italic">
       &copy; 2026 SD NEGERI GANTING. All Rights Reserved.
     </footer>
+
+
+    <script>
+  function openTab(tabId, btn) {
+    // Sembunyikan semua konten tab
+    const contents = document.querySelectorAll('.tab-content');
+    contents.forEach(content => content.classList.remove('active'));
+
+    // Hilangkan status active dari semua tombol
+    const buttons = document.querySelectorAll('.tab-btn');
+    buttons.forEach(button => button.classList.remove('active'));
+
+    // Tampilkan tab yang dipilih
+    document.getElementById(tabId).classList.add('active');
+    
+    // Tambahkan class active ke tombol yang diklik (jika ada)
+    if (btn) btn.classList.add('active');
+  }
+
+  // --- SCRIPT OTOMATIS BUKA TAB DARI LINK ---
+  window.addEventListener('load', () => {
+    const hash = window.location.hash.replace('#', ''); // Ambil kata setelah #
+    
+    if (hash) {
+      const targetTab = document.getElementById(hash);
+      if (targetTab && targetTab.classList.contains('tab-content')) {
+        // Cari tombol yang punya fungsi openTab untuk ID ini
+        const targetBtn = document.querySelector(`button[onclick*="'${hash}'"]`);
+        
+        // Jalankan fungsi buka tab
+        openTab(hash, targetBtn);
+        
+        // Scroll halus ke arah konten setelah terbuka
+        setTimeout(() => {
+          window.scrollTo({
+            top: targetTab.offsetTop - 120, // Offset biar gak ketutup header
+            behavior: 'smooth'
+          });
+        }, 300);
+      }
+    }
+  });
+</script>
 
     <script>
       function openTab(tabId, element) {
