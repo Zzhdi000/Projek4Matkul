@@ -57,28 +57,12 @@
             </div>
         </div>
     </div>
+    
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
-    <script>
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault(); // Mencegah form reload page
+<script src="firebase-config.js"></script>
 
-            const user = document.getElementById('username').value.toLowerCase();
-            const pass = document.getElementById('password').value;
-
-            // SIMULASI LOGIC MULTI-ROLE
-            if (user === "guru") {
-                window.location.href = "guru-input-nilai.html";
-            } else if (user === "ortu") {
-                window.location.href = "ortu-dashboard.html";
-            } else if (user === "siswa") {
-                window.location.href = "siswa-dashboard.html";
-                // Tambahkan ini di bawah logic siswa di login.html
-            }else if (user === "admin") {
-                window.location.href = "admin-dashboard.html";
-            } else {
-                alert("Maaf, Username tidak terdaftar! Gunakan: guru / ortu / siswa / admin ");
-            }
-        });
-    </script>
+<script src="login.js"></script>
 </body>
 </html>

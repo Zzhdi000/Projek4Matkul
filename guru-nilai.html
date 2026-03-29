@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Input Nilai Siswa - Guru Panel</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
@@ -73,181 +77,64 @@
           </div>
         </header>
 
-        <main class="p-8">
-          <div
-            class="flex flex-wrap gap-4 mb-8 items-center bg-white p-6 rounded-3xl shadow-sm border border-slate-100"
-          >
-            <div class="flex-1 min-w-[200px] relative">
-              <i
-                class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
-              ></i>
-              <input
-                type="text"
-                placeholder="Cari Nama Siswa..."
-                class="w-full pl-11 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 transition-all text-sm"
-              />
-            </div>
-            <select
-              class="p-2.5 bg-white border border-slate-200 rounded-xl text-sm font-semibold outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option>Pilih Kelas</option>
-              <option>1A</option>
-              <option>2A</option>
-            </select>
-            <select
-              class="p-2.5 bg-white border border-slate-200 rounded-xl text-sm font-semibold outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option>Pilih Semester</option>
-              <option>Ganjil</option>
-              <option>Genap</option>
-            </select>
-            <select
-              class="p-2.5 bg-white border border-slate-200 rounded-xl text-sm font-semibold outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option>Pilih Mapel</option>
-              <option>Matematika</option>
-              <option>Informatika</option>
-            </select>
-            <button
-              class="bg-slate-800 text-white px-6 py-2.5 rounded-xl text-sm font-bold hover:bg-slate-900 transition flex items-center"
-            >
-              <i class="fas fa-file-pdf mr-2"></i> Export PDF
-            </button>
-          </div>
+<main class="p-8">
+  <div class="flex flex-wrap gap-4 mb-8 items-center bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
+    <div class="flex-1 min-w-[200px] relative">
+      <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+      <input type="text" id="search-siswa" placeholder="Cari Nama Siswa..." class="w-full pl-11 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 transition-all text-sm" />
+    </div>
+    
+    <select id="filter-kelas" class="p-2.5 bg-white border border-slate-200 rounded-xl text-sm font-semibold outline-none focus:ring-2 focus:ring-blue-500">
+      <option value="all">Pilih Kelas</option>
+      <option value="1-A">1-A</option> <option value="2-A">2-A</option>
+    </select>
+    <select id="filter-semester" class="p-2.5 bg-white border border-slate-200 rounded-xl text-sm font-semibold outline-none focus:ring-2 focus:ring-blue-500">
+      <option>Pilih Semester</option>
+      <option>Ganjil</option>
+      <option>Genap</option>
+    </select>
+    <select id="filter-mapel" class="p-2.5 bg-white border border-slate-200 rounded-xl text-sm font-semibold outline-none focus:ring-2 focus:ring-blue-500">
+      <option>Pilih Mapel</option>
+      <option>Matematika</option>
+      <option>Informatika</option>
+    </select>
+    
+    <button class="bg-slate-800 text-white px-6 py-2.5 rounded-xl text-sm font-bold hover:bg-slate-900 transition flex items-center">
+      <i class="fas fa-file-pdf mr-2"></i> Export PDF
+    </button>
+  </div>
 
-          <div
-            class="bg-white rounded-[2rem] shadow-sm border border-slate-200 overflow-hidden"
-          >
-            <div class="p-6 overflow-x-auto">
-              <table
-                class="w-full text-left border-separate border-spacing-y-2"
-              >
-                <thead>
-                  <tr
-                    class="text-slate-400 text-[10px] uppercase font-black tracking-widest"
-                  >
-                    <th class="px-6 py-3">NISN</th>
-                    <th class="px-6 py-3">Nama Siswa</th>
-                    <th class="px-6 py-3 text-center">Kelas</th>
-                    <th class="px-6 py-3 text-center">UH1</th>
-                    <th class="px-6 py-3 text-center">UH2</th>
-                    <th class="px-6 py-3 text-center">UTS</th>
-                    <th class="px-6 py-3 text-center">Aksi</th>
-                  </tr>
-                </thead>
-                <tbody class="text-sm">
-                  <tr
-                    class="bg-white border border-slate-100 shadow-sm rounded-xl group hover:bg-slate-50 transition-all"
-                  >
-                    <td class="px-6 py-4 font-mono text-slate-400">001</td>
-                    <td class="px-6 py-4">
-                      <div class="font-bold text-slate-700">
-                        Rahmat Abdul Kadir
-                      </div>
-                    </td>
-                    <td
-                      class="px-6 py-4 text-center font-semibold text-slate-500"
-                    >
-                      1A
-                    </td>
-                    <td class="px-6 py-4 text-center">
-                      <input
-                        type="number"
-                        value="85"
-                        class="w-16 p-2 bg-slate-100 border-none rounded-lg text-center font-bold focus:ring-2 focus:ring-blue-500 outline-none"
-                      />
-                    </td>
-                    <td class="px-6 py-4 text-center">
-                      <input
-                        type="number"
-                        value="80"
-                        class="w-16 p-2 bg-slate-100 border-none rounded-lg text-center font-bold focus:ring-2 focus:ring-blue-500 outline-none"
-                      />
-                    </td>
-                    <td class="px-6 py-4 text-center">
-                      <input
-                        type="number"
-                        value="90"
-                        class="w-16 p-2 bg-slate-100 border-none rounded-lg text-center font-bold focus:ring-2 focus:ring-blue-500 outline-none"
-                      />
-                    </td>
-                    <td class="px-6 py-4 text-center">
-                      <div class="flex justify-center space-x-2">
-                        <button
-                          class="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition"
-                        >
-                          <i class="fas fa-edit"></i>
-                        </button>
-                        <button
-                          class="p-2 text-red-500 hover:bg-red-50 rounded-lg transition"
-                        >
-                          <i class="fas fa-trash"></i>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr
-                    class="bg-white border border-slate-100 shadow-sm rounded-xl group hover:bg-slate-50 transition-all"
-                  >
-                    <td class="px-6 py-4 font-mono text-slate-400">002</td>
-                    <td class="px-6 py-4 font-bold text-slate-700">
-                      Aditya Pratama
-                    </td>
-                    <td
-                      class="px-6 py-4 text-center font-semibold text-slate-500"
-                    >
-                      1A
-                    </td>
-                    <td class="px-6 py-4 text-center">
-                      <input
-                        type="number"
-                        placeholder="-"
-                        class="w-16 p-2 bg-slate-100 border-none rounded-lg text-center font-bold focus:ring-2 focus:ring-blue-500 outline-none"
-                      />
-                    </td>
-                    <td class="px-6 py-4 text-center">
-                      <input
-                        type="number"
-                        placeholder="-"
-                        class="w-16 p-2 bg-slate-100 border-none rounded-lg text-center font-bold focus:ring-2 focus:ring-blue-500 outline-none"
-                      />
-                    </td>
-                    <td class="px-6 py-4 text-center">
-                      <input
-                        type="number"
-                        placeholder="-"
-                        class="w-16 p-2 bg-slate-100 border-none rounded-lg text-center font-bold focus:ring-2 focus:ring-blue-500 outline-none"
-                      />
-                    </td>
-                    <td class="px-6 py-4 text-center">
-                      <div class="flex justify-center space-x-2">
-                        <button
-                          class="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition"
-                        >
-                          <i class="fas fa-edit"></i>
-                        </button>
-                        <button
-                          class="p-2 text-red-500 hover:bg-red-50 rounded-lg transition"
-                        >
-                          <i class="fas fa-trash"></i>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="p-8 border-t border-slate-50 flex justify-end">
-              <button
-                class="bg-[#2563eb] text-white px-10 py-3 rounded-2xl font-bold shadow-lg shadow-blue-200 hover:bg-blue-700 transition-all active:scale-95"
-              >
-                Simpan Perubahan
-              </button>
-            </div>
-          </div>
-        </main>
+  <div class="bg-white rounded-[2rem] shadow-sm border border-slate-200 overflow-hidden">
+    <div class="p-6 overflow-x-auto">
+      <table class="w-full text-left border-separate border-spacing-y-2">
+        <thead>
+          <tr class="text-slate-400 text-[10px] uppercase font-black tracking-widest">
+            <th class="px-6 py-3">NISN</th>
+            <th class="px-6 py-3">Nama Siswa</th>
+            <th class="px-6 py-3 text-center">Kelas</th>
+            <th class="px-6 py-3 text-center">UH1</th>
+            <th class="px-6 py-3 text-center">UH2</th>
+            <th class="px-6 py-3 text-center">UTS</th>
+            <th class="px-6 py-3 text-center">Rata-rata</th> <th class="px-6 py-3 text-center">Aksi</th>
+          </tr>
+        </thead>
+        <tbody id="table-body-nilai" class="text-sm">
+          </tbody>
+      </table>
+    </div>
+    <div class="p-8 border-t border-slate-50 flex justify-end">
+      <button id="btn-simpan-nilai" class="bg-[#2563eb] text-white px-10 py-3 rounded-2xl font-bold shadow-lg shadow-blue-200 hover:bg-blue-700 transition-all active:scale-95">
+        Simpan Perubahan
+      </button>
+    </div>
+  </div>
+</main>
       </div>
     </div>
+     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+    <script src="firebase-config.js"></script>
+    <script src="nilai.js"></script>
   </body>
-  uu
 </html>
