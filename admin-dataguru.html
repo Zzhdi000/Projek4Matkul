@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Data Guru - SIAKAD PRO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <style>
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .animate-fadeIn { animation: fadeIn 0.4s ease-out forwards; }
+    </style>
+  </head>
+  <body class="bg-slate-50 font-sans text-slate-900">
+    <div class="flex min-h-screen">
+      <aside class="w-64 bg-[#0f172a] text-white flex-shrink-0 hidden md:flex flex-col">
+        <div class="p-6 border-b border-slate-800 flex items-center space-x-3">
+          <i class="fas fa-shield-alt text-2xl text-blue-400"></i>
+          <span class="text-xl font-bold tracking-tight">ADMIN PANEL</span>
+        </div>
+        
+        <nav class="flex-1 mt-6 px-4 space-y-1">
+          <a href="admin-dashboard.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
+            <i class="fas fa-th-large mr-3 w-5"></i> Dashboard
+          </a>
+          <a href="admin-dataguru.html" class="flex items-center py-3 px-4 bg-[#2563eb] text-white rounded-xl transition shadow-lg shadow-blue-900/20">
+            <i class="fas fa-user-tie mr-3 w-5"></i> Data Guru
+          </a>
+          <a href="admin-datasiswa.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
+            <i class="fas fa-user-graduate mr-3 w-5"></i> Data Siswa
+          </a>
+          <a href="admin-jadwalguru.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
+            <i class="fas fa-calendar-alt mr-3 w-5"></i> Jadwal Guru
+          </a>
+          <a href="admin-nilai.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
+            <i class="fas fa-star mr-3 w-5"></i> Nilai Siswa
+          </a>
+          <a href="admin-kelolaberita.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
+                    <i class="fas fa-newspaper mr-3 w-5"></i> Kelola Berita
+                </a>
+        </nav>
+
+        <div class="p-6 border-t border-slate-800">
+          <a href="login.html#login" class="flex items-center text-red-400 hover:text-red-300 font-bold">
+            <i class="fas fa-sign-out-alt mr-3"></i> Logout
+          </a>
+        </div>
+      </aside>
+
+      <div class="flex-1 flex flex-col">
+        <header class="bg-white shadow-sm py-4 px-8 flex justify-between items-center">
+          <h2 class="text-xl font-bold text-slate-800 tracking-tight uppercase">Selamat Datang, Admin !</h2>
+          <div class="flex items-center space-x-3">
+            <div class="text-right mr-2 hidden sm:block">
+              <p class="text-xs font-bold text-slate-800 uppercase">Administrator</p>
+              <p class="text-[10px] text-slate-400 font-medium">Sistem Informasi Akademik</p>
+            </div>
+            <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-white font-bold text-sm border-2 border-white shadow-sm">
+              AD
+            </div>
+          </div>
+        </header>
+
+        <main class="p-8">
+          <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-200 p-8 animate-fadeIn">
+            
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+              <div>
+                <h3 class="text-2xl font-black text-slate-800 tracking-tight">Data Guru</h3>
+                <p class="text-slate-400 text-xs font-medium">Manajemen data tenaga pengajar SD Negeri Ganting</p>
+              </div>
+
+              <div class="flex items-center space-x-3 w-full md:w-auto">
+                <div class="relative flex-1 md:w-64">
+                  <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                    <i class="fas fa-search text-sm"></i>
+                  </span>
+                  <input type="text" placeholder="Cari Guru..." class="w-full bg-slate-50 border border-slate-200 rounded-xl py-2.5 pl-10 pr-4 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all">
+                </div>
+                
+                <button class="bg-slate-500 hover:bg-slate-600 text-white font-bold py-2.5 px-6 rounded-xl text-sm transition-all shadow-md shadow-slate-200 flex items-center">
+                  <i class="fas fa-plus mr-2 text-xs"></i> Tambah Guru
+                </button>
+              </div>
+            </div>
+
+            <div class="overflow-hidden rounded-2xl border border-slate-100">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr class="bg-slate-800 text-white uppercase text-[11px] tracking-widest font-bold">
+                    <th class="py-4 px-6 text-center">ID</th>
+                    <th class="py-4 px-6">Nama Guru</th>
+                    <th class="py-4 px-6 text-center">Kelas</th>
+                    <th class="py-4 px-6">Email</th>
+                    <th class="py-4 px-6">Password</th>
+                    <th class="py-4 px-6 text-center">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                  <tr class="hover:bg-slate-50/80 transition-colors">
+                    <td class="py-4 px-6 text-center font-bold text-slate-500 text-sm">001</td>
+                    <td class="py-4 px-6">
+                      <div class="font-bold text-slate-800">siti muamalah S.Pd</div>
+                    </td>
+                    <td class="py-4 px-6 text-center">
+                      <span class="bg-blue-50 text-blue-600 font-bold px-3 py-1 rounded-lg text-xs border border-blue-100">1A</span>
+                    </td>
+                    <td class="py-4 px-6 text-slate-600 text-sm italic">sitimuamalah@gmail.com</td>
+                    <td class="py-4 px-6 text-slate-400 tracking-tighter">••••••••</td>
+                    <td class="py-4 px-6">
+                      <div class="flex justify-center space-x-2">
+                        <button class="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 hover:bg-amber-100 transition flex items-center justify-center shadow-sm border border-amber-100" title="Edit">
+                          <i class="fas fa-pen text-[10px]"></i>
+                        </button>
+                        <button class="w-8 h-8 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition flex items-center justify-center shadow-sm border border-red-100" title="Hapus">
+                          <i class="fas fa-trash-alt text-[10px]"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  </tbody>
+              </table>
+            </div>
+
+            <div class="mt-6 flex justify-between items-center text-xs font-bold text-slate-400">
+              <p>Menampilkan 1 dari 1 Guru</p>
+              <div class="flex space-x-1">
+                <button class="w-8 h-8 rounded-lg bg-slate-100 text-slate-400 cursor-not-allowed flex items-center justify-center"><i class="fas fa-chevron-left"></i></button>
+                <button class="w-8 h-8 rounded-lg bg-blue-500 text-white flex items-center justify-center">1</button>
+                <button class="w-8 h-8 rounded-lg bg-slate-100 text-slate-400 hover:bg-slate-200 transition flex items-center justify-center"><i class="fas fa-chevron-right"></i></button>
+              </div>
+            </div>
+
+          </div>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

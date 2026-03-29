@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nilai Siswa - SIAKAD SD Negeri Ganting</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <style>
+      .hidden-section { display: none; }
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .animate-fadeIn { animation: fadeIn 0.4s ease-out forwards; }
+    </style>
+  </head>
+  <body class="bg-slate-50 font-sans text-slate-900">
+    <div class="flex min-h-screen">
+      <aside class="w-64 bg-[#0f172a] text-white flex-shrink-0 hidden md:flex flex-col h-screen sticky top-0">
+  <div class="p-6 border-b border-slate-800 flex items-center space-x-3">
+    <i class="fas fa-shield-alt text-2xl text-blue-400"></i>
+    <span class="text-xl font-bold tracking-tight">ADMIN PANEL</span>
+  </div>
+  
+  <nav class="flex-1 mt-6 px-4 space-y-1 overflow-y-auto custom-scrollbar">
+    <a href="admin-dashboard.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
+      <i class="fas fa-th-large mr-3 w-5"></i> Dashboard
+    </a>
+    <a href="admin-dataguru.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
+      <i class="fas fa-user-tie mr-3 w-5"></i> Data Guru
+    </a>
+    <a href="admin-datasiswa.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
+      <i class="fas fa-user-graduate mr-3 w-5"></i> Data Siswa
+    </a>
+       <a href="admin-jadwalguru.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
+      <i class="fas fa-calendar-alt mr-3 w-5"></i> Jadwal Guru
+    </a>
+    <a  href="admin-nilai.html" class="flex items-center py-3 px-4 bg-[#2563eb] text-white rounded-xl transition shadow-lg shadow-blue-900/20">
+      <i class="fas fa-star mr-3 w-5"></i> Nilai Siswa
+    </a>
+    <a href="admin-kelolaberita.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
+                    <i class="fas fa-newspaper mr-3 w-5"></i> Kelola Berita
+                </a>
+  </nav>
+
+  <div class="p-6 border-t border-slate-800 mt-auto">
+    <a href="login.html#login" class="flex items-center text-red-400 hover:text-red-300 font-bold transition">
+      <i class="fas fa-sign-out-alt mr-3"></i> Logout
+    </a>
+  </div>
+</aside>
+
+
+          <div class="flex-1 flex flex-col">
+        <header class="bg-white shadow-sm py-4 px-8 flex justify-between items-center">
+          <h2 class="text-xl font-bold text-slate-800 tracking-tight uppercase">Selamat Datang, Admin !</h2>
+          <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-white font-bold border-2 border-white shadow-sm">AD</div>
+        </header>
+
+        <main class="p-8">
+          <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-200 p-8 animate-fadeIn">
+            
+            <div class="mb-10">
+              <h3 class="text-2xl font-black text-slate-800 tracking-tight mb-6">Manajemen Nilai</h3>
+              <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <select class="bg-slate-50 border border-slate-200 rounded-2xl py-3 px-4 text-sm font-bold text-slate-600 outline-none focus:ring-2 focus:ring-blue-500">
+                  <option value="1A">Kelas 1A</option>
+                  <option value="1B">Kelas 1B</option>
+                </select>
+
+                <select class="bg-slate-50 border border-slate-200 rounded-2xl py-3 px-4 text-sm font-bold text-slate-600 outline-none focus:ring-2 focus:ring-blue-500">
+                  <option value="1">Semester Ganjil</option>
+                  <option value="2">Semester Genap</option>
+                </select>
+
+                <select id="mapelSelector" class="bg-blue-50 border border-blue-200 rounded-2xl py-3 px-4 text-sm font-bold text-blue-700 outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer">
+                  <option value="">-- Pilih Mata Pelajaran --</option>
+                  <option value="Matematika">Matematika</option>
+                  <option value="B. Indonesia">Bahasa Indonesia</option>
+                  <option value="IPA">IPA</option>
+                </select>
+
+                <div class="relative">
+                  <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400"><i class="fas fa-search text-sm"></i></span>
+                  <input type="text" placeholder="Cari nama siswa..." class="w-full bg-slate-50 border border-slate-200 rounded-2xl py-3 pl-10 pr-4 text-sm outline-none">
+                </div>
+              </div>
+            </div>
+
+            <div id="viewRingkasan" class="animate-fadeIn">
+              <div class="flex items-center space-x-2 mb-4">
+                <span class="w-2 h-6 bg-blue-500 rounded-full"></span>
+                <h4 class="font-bold text-slate-700 uppercase text-xs tracking-wider">Ringkasan Nilai Kelas 1A (A-Z)</h4>
+              </div>
+              <div class="overflow-hidden rounded-3xl border border-slate-100 shadow-sm">
+                <table class="w-full text-left border-collapse">
+                  <thead>
+                    <tr class="bg-slate-800 text-white uppercase text-[10px] tracking-widest font-bold">
+                      <th class="py-5 px-6">Nama Siswa</th>
+                      <th class="py-5 px-6 text-center">Matematika</th>
+                      <th class="py-5 px-6 text-center">B. Indo</th>
+                      <th class="py-5 px-6 text-center">IPA</th>
+                      <th class="py-5 px-6 text-center">IPS</th>
+                      <th class="py-5 px-6 text-center bg-blue-700">Rerata</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-100">
+                    <tr><td class="py-4 px-6 font-bold text-slate-800">Aditya Pratama</td><td class="text-center">85</td><td class="text-center">80</td><td class="text-center">88</td><td class="text-center">82</td><td class="text-center font-black bg-blue-50/50 text-blue-700">83.7</td></tr>
+                    <tr><td class="py-4 px-6 font-bold text-slate-800">Bagus Setiawan</td><td class="text-center">78</td><td class="text-center">85</td><td class="text-center">80</td><td class="text-center">88</td><td class="text-center font-black bg-blue-50/50 text-blue-700">82.7</td></tr>
+                    <tr><td class="py-4 px-6 font-bold text-slate-800">Citra Lestari</td><td class="text-center">92</td><td class="text-center">90</td><td class="text-center">85</td><td class="text-center">90</td><td class="text-center font-black bg-blue-50/50 text-blue-700">89.2</td></tr>
+                    <tr><td class="py-4 px-6 font-bold text-slate-800">Dedi Kurniawan</td><td class="text-center">70</td><td class="text-center">75</td><td class="text-center">72</td><td class="text-center">80</td><td class="text-center font-black bg-blue-50/50 text-blue-700">74.2</td></tr>
+                    <tr><td class="py-4 px-6 font-bold text-slate-800">Rahmat Abdul Kadir</td><td class="text-center">85</td><td class="text-center">90</td><td class="text-center">78</td><td class="text-center">88</td><td class="text-center font-black bg-blue-50/50 text-blue-700">85.2</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div id="viewDetail" class="hidden-section animate-fadeIn">
+              <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center space-x-2">
+                  <span class="w-2 h-6 bg-amber-500 rounded-full"></span>
+                  <h4 class="font-bold text-slate-700 uppercase text-xs tracking-wider">Detail Nilai: <span id="labelMapel" class="text-blue-600 underline"></span></h4>
+                </div>
+            <button
+              class="bg-slate-800 text-white px-6 py-2.5 rounded-xl text-sm font-bold hover:bg-slate-900 transition flex items-center"
+            >
+              <i class="fas fa-file-pdf mr-2"></i> Export PDF
+            </button>              </div>
+              <div class="overflow-hidden rounded-3xl border border-slate-100 shadow-sm">
+                <table class="w-full text-left border-collapse">
+                  <thead>
+                    <tr class="bg-slate-800 text-white uppercase text-[10px] tracking-widest font-bold">
+                      <th class="py-5 px-6">Nama Siswa</th>
+                      <th class="py-5 px-6 text-center">UH 1</th>
+                      <th class="py-5 px-6 text-center">UH 2</th>
+                      <th class="py-5 px-6 text-center">UTS</th>
+                      <th class="py-5 px-6 text-center">SIKAP</th>
+                      <th class="py-5 px-6 text-center bg-blue-700">AKHIR</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-100">
+                    <tr><td class="py-4 px-6 font-bold text-slate-800">Aditya Pratama</td><td class="text-center"><input type="number" value="85" class="w-12 text-center bg-slate-50 rounded-lg"></td><td class="text-center"><input type="number" value="80" class="w-12 text-center bg-slate-50 rounded-lg"></td><td class="text-center"><input type="number" value="88" class="w-12 text-center bg-slate-50 rounded-lg"></td><td class="text-center"><select class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-md"><option>A</option><option>B</option></select></td><td class="text-center font-black bg-blue-50/50 text-blue-800">84.3</td></tr>
+                    <tr><td class="py-4 px-6 font-bold text-slate-800">Bagus Setiawan</td><td class="text-center"><input type="number" value="78" class="w-12 text-center bg-slate-50 rounded-lg"></td><td class="text-center"><input type="number" value="85" class="w-12 text-center bg-slate-50 rounded-lg"></td><td class="text-center"><input type="number" value="80" class="w-12 text-center bg-slate-50 rounded-lg"></td><td class="text-center"><select class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-md"><option>B</option><option>A</option></select></td><td class="text-center font-black bg-blue-50/50 text-blue-800">81.0</td></tr>
+                    <tr><td class="py-4 px-6 font-bold text-slate-800">Citra Lestari</td><td class="text-center"><input type="number" value="95" class="w-12 text-center bg-slate-50 rounded-lg"></td><td class="text-center"><input type="number" value="90" class="w-12 text-center bg-slate-50 rounded-lg"></td><td class="text-center"><input type="number" value="92" class="w-12 text-center bg-slate-50 rounded-lg"></td><td class="text-center"><select class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-md"><option>A</option><option>B</option></select></td><td class="text-center font-black bg-blue-50/50 text-blue-800">92.3</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <script>
+      const mapelSelector = document.getElementById('mapelSelector');
+      const viewRingkasan = document.getElementById('viewRingkasan');
+      const viewDetail = document.getElementById('viewDetail');
+      const labelMapel = document.getElementById('labelMapel');
+
+      mapelSelector.addEventListener('change', function() {
+        if (this.value !== "") {
+          viewRingkasan.classList.add('hidden-section');
+          viewDetail.classList.remove('hidden-section');
+          labelMapel.innerText = this.value;
+        } else {
+          viewRingkasan.classList.remove('hidden-section');
+          viewDetail.classList.add('hidden-section');
+        }
+      });
+    </script>
+  </body>
+</html>

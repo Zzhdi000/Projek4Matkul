@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelola Berita - SD NEGERI GANTING</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <style>
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn { animation: fadeIn 0.4s ease-out forwards; }
+    </style>
+</head>
+<body class="bg-slate-50 font-sans text-slate-900">
+
+    <div class="flex min-h-screen">
+        <aside class="w-64 bg-[#0f172a] text-white flex-shrink-0 hidden md:flex flex-col h-screen sticky top-0 overflow-hidden">
+            <div class="p-6 border-b border-slate-800 flex items-center space-x-3 flex-shrink-0">
+                <i class="fas fa-shield-alt text-2xl text-blue-400"></i>
+                <span class="text-xl font-bold tracking-tight">ADMIN PANEL</span>
+            </div>
+            
+            <nav class="flex-1 mt-6 px-4 space-y-1 overflow-y-auto custom-scrollbar">
+                <a href="admin-dashboard.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
+                    <i class="fas fa-th-large mr-3 w-5"></i> Dashboard
+                </a>
+                <a href="admin-dataguru.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
+                    <i class="fas fa-user-tie mr-3 w-5"></i> Data Guru
+                </a>
+                <a href="admin-datasiswa.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
+                    <i class="fas fa-user-graduate mr-3 w-5"></i> Data Siswa
+                </a>
+                <a href="admin-jadwalguru.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
+                    <i class="fas fa-calendar-alt mr-3 w-5"></i> Jadwal Guru
+                </a>
+                <a href="admin-nilai.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
+                    <i class="fas fa-star mr-3 w-5"></i> Nilai Siswa
+                </a>
+                <a href="admin-kelolaberita.html" class="flex items-center py-3 px-4 bg-[#2563eb] text-white rounded-xl transition shadow-lg shadow-blue-900/20">
+                    <i class="fas fa-newspaper mr-3 w-5"></i> Kelola Berita
+                </a>
+            </nav>
+
+            <div class="p-6 border-t border-slate-800 mt-auto flex-shrink-0">
+                <a href="login.html#login" class="flex items-center text-red-400 hover:text-red-300 font-bold transition">
+                    <i class="fas fa-sign-out-alt mr-3"></i> Logout
+                </a>
+            </div>
+        </aside>
+
+        <div class="flex-1 flex flex-col min-w-0">
+            <header class="bg-white shadow-sm py-4 px-8 flex justify-between items-center border-b border-slate-100">
+          <h2 class="text-xl font-bold text-slate-800 tracking-tight uppercase">Selamat Datang, Admin !</h2>
+                <div class="flex items-center space-x-3">
+                    <span class="text-xs font-bold text-slate-500">Selamat Datang, Admin !</span>
+                    <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-white font-bold border-2 border-white shadow-sm">AD</div>
+                </div>
+            </header>
+
+            <main class="p-8">
+                <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-200 p-8 animate-fadeIn">
+                    
+                    <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+                        <div>
+                            <h3 class="text-2xl font-black text-slate-800 tracking-tight">Manajemen Postingan</h3>
+                            <p class="text-slate-400 text-xs font-medium uppercase tracking-wider">Atur konten berita & pengumuman sekolah</p>
+                        </div>
+                        <button class="bg-slate-700 hover:bg-slate-800 text-white px-6 py-3 rounded-2xl font-bold text-sm transition shadow-lg flex items-center justify-center">
+                            <i class="fas fa-plus mr-2"></i> Buat Berita Baru
+                        </button>
+                    </div>
+
+                    <div class="flex flex-col md:flex-row gap-4 mb-6">
+                        <div class="flex-1 relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400">
+                                <i class="fas fa-search text-sm"></i>
+                            </span>
+                            <input type="text" placeholder="Cari judul berita..." class="w-full bg-slate-50 border border-slate-200 rounded-2xl py-3 pl-12 pr-4 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all">
+                        </div>
+                        <select class="bg-slate-50 border border-slate-200 rounded-2xl py-3 px-6 text-sm font-bold text-slate-600 outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="">Semua Kategori</option>
+                            <option value="event">Event</option>
+                            <option value="ppdb">Info PPDB</option>
+                            <option value="prestasi">Prestasi</option>
+                        </select>
+                    </div>
+
+                    <div class="overflow-hidden rounded-3xl border border-slate-100 shadow-sm">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-slate-800 text-white uppercase text-[10px] tracking-widest font-bold">
+                                    <th class="py-5 px-6">Thumbnail</th>
+                                    <th class="py-5 px-6">Judul Berita</th>
+                                    <th class="py-5 px-6">Kategori</th>
+                                    <th class="py-5 px-6">Tanggal</th>
+                                    <th class="py-5 px-6 text-center">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100 text-sm font-medium">
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="py-4 px-6">
+                                        <div class="w-20 h-12 rounded-lg bg-slate-200 border border-slate-200 overflow-hidden shadow-inner">
+                                            <img src="https://via.placeholder.com/150" alt="News" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all">
+                                        </div>
+                                    </td>
+                                    <td class="py-4 px-6 text-slate-800 font-bold max-w-xs">
+                                        Siswa Berprestasi Raih Juara 1 Lomba Teknologi
+                                    </td>
+                                    <td class="py-4 px-6">
+                                        <span class="px-3 py-1 bg-blue-50 text-blue-600 text-[10px] font-black rounded-full uppercase tracking-tighter">Prestasi Teratas</span>
+                                    </td>
+                                    <td class="py-4 px-6 text-slate-400 text-xs">29 Maret 2026</td>
+                                    <td class="py-4 px-6 text-center text-slate-400">
+                                        <div class="flex justify-center space-x-3 text-lg">
+                                            <button class="hover:text-blue-600 transition"><i class="fas fa-edit"></i></button>
+                                            <button class="hover:text-red-600 transition"><i class="fas fa-trash"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-slate-50 transition-colors">
+                                    <td class="py-4 px-6">
+                                        <div class="w-20 h-12 rounded-lg bg-slate-200 border border-slate-200 overflow-hidden shadow-inner">
+                                            <img src="https://via.placeholder.com/150" alt="News" class="w-full h-full object-cover grayscale">
+                                        </div>
+                                    </td>
+                                    <td class="py-4 px-6 text-slate-800 font-bold">
+                                        Pendaftaran Siswa Baru (PPDB) Gelombang 2
+                                    </td>
+                                    <td class="py-4 px-6">
+                                        <span class="px-3 py-1 bg-amber-50 text-amber-600 text-[10px] font-black rounded-full uppercase tracking-tighter">Info PPDB</span>
+                                    </td>
+                                    <td class="py-4 px-6 text-slate-400 text-xs">05 Maret 2026</td>
+                                    <td class="py-4 px-6 text-center">
+                                        <div class="flex justify-center space-x-3 text-lg text-slate-400">
+                                            <button class="hover:text-blue-600 transition"><i class="fas fa-edit"></i></button>
+                                            <button class="hover:text-red-600 transition"><i class="fas fa-trash"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        function toggleDropdown(id) {
+            const dropdown = document.getElementById(id);
+            const icon = document.getElementById('iconPresensi');
+            dropdown.classList.toggle('hidden');
+            icon.classList.toggle('rotate-180');
+        }
+    </script>
+</body>
+</html>
