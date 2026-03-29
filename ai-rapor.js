@@ -9,7 +9,7 @@ const statRerata = document.getElementById("stat-rerata");
 const statRemedial = document.getElementById("stat-remedial");
 
 // 2. Konfigurasi API
-const GEMINI_API_KEY = "AIzaSyBRI3ne-3Fqn9pukfJNx0_Wi8bjgTskvn8"; 
+const GEMINI_API_KEY = ""; //ganti dengan api key gemini anda
 // Gunakan gemini-1.5-flash tanpa '-latest' atau ganti ke gemini-pro jika 404 berlanjut
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
 
