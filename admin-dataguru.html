@@ -28,53 +28,54 @@
 </head>
 <body class="bg-slate-50 font-sans text-slate-900">
     <div class="flex min-h-screen">
-        <aside class="w-64 bg-[#0f172a] text-white flex-shrink-0 hidden md:flex flex-col h-screen sticky top-0">
-            <div class="p-6 border-b border-slate-800 flex items-center space-x-3">
-                <div class="bg-blue-500 p-2 rounded-lg">
-                    <i class="fas fa-shield-alt text-xl text-white"></i>
-                </div>
-                <span class="text-xl font-bold tracking-tight">ADMIN <span class="text-blue-400">PANEL</span></span>
-            </div>
-            
-            <nav class="flex-1 mt-6 px-4 space-y-2 overflow-y-auto custom-scrollbar">
-                <a href="admin-dashboard.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800/50 hover:text-white rounded-xl transition group">
-                    <i class="fas fa-th-large mr-3 w-5 group-hover:scale-110 transition"></i> Dashboard
-                </a>
-                <a href="admin-dataguru.html" class="flex items-center py-3 px-4 bg-blue-600 text-white rounded-xl transition shadow-lg shadow-blue-900/20 group">
-                    <i class="fas fa-user-tie mr-3 w-5 group-hover:scale-110 transition"></i> Data Guru
-                </a>
-                <a href="admin-datasiswa.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800/50 hover:text-white rounded-xl transition group">
-                    <i class="fas fa-user-graduate mr-3 w-5 group-hover:scale-110 transition"></i> Data Siswa
-                </a>
-                <a href="admin-jadwalguru.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800/50 hover:text-white rounded-xl transition group">
-                    <i class="fas fa-calendar-alt mr-3 w-5 group-hover:scale-110 transition"></i> Jadwal Guru
-                </a>
-                <a href="admin-nilai.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800/50 hover:text-white rounded-xl transition group">
-                    <i class="fas fa-star mr-3 w-5 group-hover:scale-110 transition"></i> Nilai Siswa
-                </a>
-                <a href="admin-kelolaberita.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800/50 hover:text-white rounded-xl transition group">
-                    <i class="fas fa-newspaper mr-3 w-5 group-hover:scale-110 transition"></i> Kelola Berita
-                </a>
-            </nav>
+         <aside class="w-64 bg-[#0f172a] text-white flex-shrink-0 hidden md:flex flex-col">
+        <div class="p-6 border-b border-slate-800 flex items-center space-x-3">
+          <i class="fas fa-shield-alt text-2xl text-blue-400"></i>
+          <span class="text-xl font-bold tracking-tight">ADMIN PANEL</span>
+        </div>
+        
+        <nav class="flex-1 mt-6 px-4 space-y-1">
+          <a href="admin-dashboard.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
+            <i class="fas fa-th-large mr-3 w-5"></i> Dashboard
+          </a>
+          <a href="admin-dataguru.html" class="flex items-center py-3 px-4 bg-[#2563eb] text-white rounded-xl transition shadow-lg shadow-blue-900/20">
+            <i class="fas fa-user-tie mr-3 w-5"></i> Data Guru
+          </a>
+          <a href="admin-datasiswa.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
+            <i class="fas fa-user-graduate mr-3 w-5"></i> Data Siswa
+          </a>
+          <a href="admin-jadwalguru.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
+            <i class="fas fa-calendar-alt mr-3 w-5"></i> Jadwal Guru
+          </a>
+          <a href="admin-nilai.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
+            <i class="fas fa-star mr-3 w-5"></i> Nilai Siswa
+          </a>
+          <a href="admin-kelolaberita.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
+            <i class="fas fa-newspaper mr-3 w-5"></i> Kelola Berita
+          </a>
+        </nav>
 
-            <div class="p-6 border-t border-slate-800">
-                <button id="btn-logout" class="flex items-center w-full text-red-400 hover:bg-red-500/10 p-3 rounded-xl font-bold transition">
-                    <i class="fas fa-sign-out-alt mr-3"></i> Logout
-                </button>
-            </div>
-        </aside>
+        <div class="p-6 border-t border-slate-800">
+          <a href="login.html#login" class="flex items-center text-red-400 hover:text-red-300 font-bold">
+            <i class="fas fa-sign-out-alt mr-3"></i> Logout
+          </a>
+        </div>
+      </aside>
 
-        <div class="flex-1 flex flex-col">
-            <header class="bg-white border-b border-slate-100 py-4 px-8 flex justify-between items-center sticky top-0 z-10">
-                <h2 class="text-xl font-bold text-slate-800 tracking-tight uppercase">SDN GANTING</h2>
-                <div class="flex items-center space-x-3">
-                    <div class="text-right hidden sm:block">
-                        <p class="text-xs font-black text-slate-800">ADMINISTRATOR</p>
-                        <p class="text-[10px] text-emerald-500 font-bold uppercase">Sistem Aktif</p>
-                    </div>
-                    <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-white font-bold text-sm border-2 border-white shadow-sm">AD</div>
-                </div>
-            </header>
+        
+      <div class="flex-1 flex flex-col">
+        <header class="bg-white shadow-sm py-4 px-8 flex justify-between items-center">
+          <h2 class="text-xl font-bold text-slate-800 tracking-tight uppercase">Selamat Datang, Admin !</h2>
+          <div class="flex items-center space-x-3">
+            <div class="text-right mr-2 hidden sm:block">
+              <p class="text-xs font-bold text-slate-800 uppercase">Administrator</p>
+              <p class="text-[10px] text-slate-400 font-medium">Sistem Informasi Akademik</p>
+            </div>
+            <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-white font-bold text-sm border-2 border-white shadow-sm">
+              AD
+            </div>
+          </div>
+        </header>
 
             <main class="p-8">
                 <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-200 p-8 animate-fadeIn">
@@ -98,7 +99,7 @@
                                     <th class="py-5 px-6">Informasi Guru</th>
                                     <th class="py-5 px-6 text-center">Wali Kelas</th>
                                     <th class="py-5 px-6">Kontak / Email</th>
-                                    <th class="py-5 px-6">Akses</th>
+                                    <th class="py-5 px-6">Password</th>
                                     <th class="py-5 px-6 text-center">Aksi</th>
                                 </tr>
                             </thead>
@@ -113,7 +114,10 @@
                     <div class="mt-6 flex justify-between items-center text-[10px] font-black text-slate-400 uppercase tracking-widest">
                         <p id="totalGuruLabel">Menghitung data...</p>
                         <div class="flex space-x-1">
-                            <span class="px-3 py-1 bg-slate-100 rounded-md">SIAKAD PRO v1.0</span>
+                             <div class="flex space-x-1">
+                <button class="w-8 h-8 rounded-lg bg-blue-500 text-white flex items-center justify-center">1</button>
+                <button class="w-8 h-8 rounded-lg bg-white border border-slate-200 text-slate-400 hover:bg-slate-50 flex items-center justify-center transition">2</button>
+              </div>
                         </div>
                     </div>
                 </div>
@@ -158,6 +162,7 @@
                             <option value="6-A">Wali Kelas 6-A</option>
                             <option value="6-B">Wali Kelas 6-B</option>
                         </select>
+                        
                     </div>
                 </div>
 

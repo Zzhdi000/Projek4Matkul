@@ -51,11 +51,18 @@
   </div>
 </aside>
 
-
-          <div class="flex-1 flex flex-col">
+<div class="flex-1 flex flex-col">
         <header class="bg-white shadow-sm py-4 px-8 flex justify-between items-center">
           <h2 class="text-xl font-bold text-slate-800 tracking-tight uppercase">Selamat Datang, Admin !</h2>
-          <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-white font-bold border-2 border-white shadow-sm">AD</div>
+          <div class="flex items-center space-x-3">
+            <div class="text-right mr-2 hidden sm:block">
+              <p class="text-xs font-bold text-slate-800 uppercase">Administrator</p>
+              <p class="text-[10px] text-slate-400 font-medium">Sistem Informasi Akademik</p>
+            </div>
+            <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-white font-bold text-sm border-2 border-white shadow-sm">
+              AD
+            </div>
+          </div>
         </header>
 
         <main class="p-8">
@@ -116,38 +123,54 @@
               </div>
             </div>
 
-            <div id="viewDetail" class="hidden-section animate-fadeIn">
-              <div class="flex items-center justify-between mb-4">
-                <div class="flex items-center space-x-2">
-                  <span class="w-2 h-6 bg-amber-500 rounded-full"></span>
-                  <h4 class="font-bold text-slate-700 uppercase text-xs tracking-wider">Detail Nilai: <span id="labelMapel" class="text-blue-600 underline"></span></h4>
-                </div>
-            <button
-              class="bg-slate-800 text-white px-6 py-2.5 rounded-xl text-sm font-bold hover:bg-slate-900 transition flex items-center"
-            >
-              <i class="fas fa-file-pdf mr-2"></i> Export PDF
-            </button>              </div>
-              <div class="overflow-hidden rounded-3xl border border-slate-100 shadow-sm">
-                <table class="w-full text-left border-collapse">
-                  <thead>
-                    <tr class="bg-slate-800 text-white uppercase text-[10px] tracking-widest font-bold">
-                      <th class="py-5 px-6">Nama Siswa</th>
-                      <th class="py-5 px-6 text-center">UH 1</th>
-                      <th class="py-5 px-6 text-center">UH 2</th>
-                      <th class="py-5 px-6 text-center">UTS</th>
-                      <th class="py-5 px-6 text-center">SIKAP</th>
-                      <th class="py-5 px-6 text-center bg-blue-700">AKHIR</th>
-                    </tr>
-                  </thead>
-                  <tbody class="divide-y divide-slate-100">
-                    <tr><td class="py-4 px-6 font-bold text-slate-800">Aditya Pratama</td><td class="text-center"><input type="number" value="85" class="w-12 text-center bg-slate-50 rounded-lg"></td><td class="text-center"><input type="number" value="80" class="w-12 text-center bg-slate-50 rounded-lg"></td><td class="text-center"><input type="number" value="88" class="w-12 text-center bg-slate-50 rounded-lg"></td><td class="text-center"><select class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-md"><option>A</option><option>B</option></select></td><td class="text-center font-black bg-blue-50/50 text-blue-800">84.3</td></tr>
-                    <tr><td class="py-4 px-6 font-bold text-slate-800">Bagus Setiawan</td><td class="text-center"><input type="number" value="78" class="w-12 text-center bg-slate-50 rounded-lg"></td><td class="text-center"><input type="number" value="85" class="w-12 text-center bg-slate-50 rounded-lg"></td><td class="text-center"><input type="number" value="80" class="w-12 text-center bg-slate-50 rounded-lg"></td><td class="text-center"><select class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-md"><option>B</option><option>A</option></select></td><td class="text-center font-black bg-blue-50/50 text-blue-800">81.0</td></tr>
-                    <tr><td class="py-4 px-6 font-bold text-slate-800">Citra Lestari</td><td class="text-center"><input type="number" value="95" class="w-12 text-center bg-slate-50 rounded-lg"></td><td class="text-center"><input type="number" value="90" class="w-12 text-center bg-slate-50 rounded-lg"></td><td class="text-center"><input type="number" value="92" class="w-12 text-center bg-slate-50 rounded-lg"></td><td class="text-center"><select class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-md"><option>A</option><option>B</option></select></td><td class="text-center font-black bg-blue-50/50 text-blue-800">92.3</td></tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
+           <div id="viewDetail" class="hidden-section animate-fadeIn">
+  <div class="flex items-center justify-between mb-4">
+    <div class="flex items-center space-x-2">
+      <span class="w-2 h-6 bg-amber-500 rounded-full"></span>
+      <h4 class="font-bold text-slate-700 uppercase text-xs tracking-wider">Detail Nilai: <span id="labelMapel" class="text-blue-600 underline"></span></h4>
+    </div>
+    <button class="bg-slate-800 text-white px-6 py-2.5 rounded-xl text-sm font-bold hover:bg-slate-900 transition flex items-center">
+      <i class="fas fa-file-pdf mr-2"></i> Export PDF
+    </button>
+  </div>
 
+  <div class="overflow-hidden rounded-3xl border border-slate-100 shadow-sm">
+    <table class="w-full text-left border-collapse">
+      <thead>
+        <tr class="bg-slate-800 text-white uppercase text-[10px] tracking-widest font-bold">
+          <th class="py-5 px-6">Nama Siswa</th>
+          <th class="py-5 px-6 text-center">UH 1</th>
+          <th class="py-5 px-6 text-center">UH 2</th>
+          <th class="py-5 px-6 text-center">UTS</th>
+          <th class="py-5 px-6 text-center bg-blue-700">RERATA</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-slate-100">
+        <tr>
+          <td class="py-4 px-6 font-bold text-slate-800">Aditya Pratama</td>
+          <td class="text-center"><input type="number" value="85" class="w-12 text-center bg-slate-50 rounded-lg"></td>
+          <td class="text-center"><input type="number" value="80" class="w-12 text-center bg-slate-50 rounded-lg"></td>
+          <td class="text-center"><input type="number" value="88" class="w-12 text-center bg-slate-50 rounded-lg"></td>
+          <td class="text-center font-black bg-blue-50/50 text-blue-800">84.3</td>
+        </tr>
+        <tr>
+          <td class="py-4 px-6 font-bold text-slate-800">Bagus Setiawan</td>
+          <td class="text-center"><input type="number" value="78" class="w-12 text-center bg-slate-50 rounded-lg"></td>
+          <td class="text-center"><input type="number" value="85" class="w-12 text-center bg-slate-50 rounded-lg"></td>
+          <td class="text-center"><input type="number" value="80" class="w-12 text-center bg-slate-50 rounded-lg"></td>
+          <td class="text-center font-black bg-blue-50/50 text-blue-800">81.0</td>
+        </tr>
+        <tr>
+          <td class="py-4 px-6 font-bold text-slate-800">Citra Lestari</td>
+          <td class="text-center"><input type="number" value="95" class="w-12 text-center bg-slate-50 rounded-lg"></td>
+          <td class="text-center"><input type="number" value="90" class="w-12 text-center bg-slate-50 rounded-lg"></td>
+          <td class="text-center"><input type="number" value="92" class="w-12 text-center bg-slate-50 rounded-lg"></td>
+          <td class="text-center font-black bg-blue-50/50 text-blue-800">92.3</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
           </div>
         </main>
       </div>
