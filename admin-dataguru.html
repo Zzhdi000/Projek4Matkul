@@ -16,7 +16,6 @@
         .custom-scrollbar::-webkit-scrollbar { width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
         
-        /* Style tambahan untuk mempercantik dropdown select */
         select {
             appearance: none;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
@@ -28,103 +27,57 @@
 </head>
 <body class="bg-slate-50 font-sans text-slate-900">
     <div class="flex min-h-screen">
-         <aside class="w-64 bg-[#0f172a] text-white flex-shrink-0 hidden md:flex flex-col">
-        <div class="p-6 border-b border-slate-800 flex items-center space-x-3">
-          <i class="fas fa-shield-alt text-2xl text-blue-400"></i>
-          <span class="text-xl font-bold tracking-tight">ADMIN PANEL</span>
-        </div>
-        
-        <nav class="flex-1 mt-6 px-4 space-y-1">
-          <a href="admin-dashboard.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
-            <i class="fas fa-th-large mr-3 w-5"></i> Dashboard
-          </a>
-          <a href="admin-dataguru.html" class="flex items-center py-3 px-4 bg-[#2563eb] text-white rounded-xl transition shadow-lg shadow-blue-900/20">
-            <i class="fas fa-user-tie mr-3 w-5"></i> Data Guru
-          </a>
-          <a href="admin-datasiswa.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
-            <i class="fas fa-user-graduate mr-3 w-5"></i> Data Siswa
-          </a>
-          <a href="admin-jadwalguru.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
-            <i class="fas fa-calendar-alt mr-3 w-5"></i> Jadwal Guru
-          </a>
-          <a href="admin-nilai.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
-            <i class="fas fa-star mr-3 w-5"></i> Nilai Siswa
-          </a>
-          <a href="admin-kelolaberita.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
-            <i class="fas fa-newspaper mr-3 w-5"></i> Kelola Berita
-          </a>
-        </nav>
+        <aside class="w-64 bg-[#0f172a] text-white flex-shrink-0 hidden md:flex flex-col">
+            <div class="p-6 border-b border-slate-800 flex items-center space-x-3">
+                <i class="fas fa-shield-alt text-2xl text-blue-400"></i>
+                <span class="text-xl font-bold tracking-tight">ADMIN PANEL</span>
+            </div>
+            
+            <nav class="flex-1 mt-6 px-4 space-y-1">
+                <a href="admin-dashboard.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
+                    <i class="fas fa-th-large mr-3 w-5"></i> Dashboard
+                </a>
+                <a href="admin-dataguru.html" class="flex items-center py-3 px-4 bg-[#2563eb] text-white rounded-xl transition shadow-lg shadow-blue-900/20">
+                    <i class="fas fa-user-tie mr-3 w-5"></i> Data Guru
+                </a>
+                <a href="admin-datasiswa.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
+                    <i class="fas fa-user-graduate mr-3 w-5"></i> Data Siswa
+                </a>
+                <a href="admin-jadwalguru.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
+                    <i class="fas fa-calendar-alt mr-3 w-5"></i> Jadwal Guru
+                </a>
+                <a href="admin-nilai.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
+                    <i class="fas fa-star mr-3 w-5"></i> Nilai Siswa
+                </a>
+                <a href="admin-kelolaberita.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
+                    <i class="fas fa-newspaper mr-3 w-5"></i> Kelola Berita
+                </a>
+            </nav>
 
-        <div class="p-6 border-t border-slate-800">
-          <a href="login.html#login" class="flex items-center text-red-400 hover:text-red-300 font-bold">
-            <i class="fas fa-sign-out-alt mr-3"></i> Logout
-          </a>
-        </div>
-      </aside>
+            <div class="p-6 border-t border-slate-800">
+                <a href="login.html#login" class="flex items-center text-red-400 hover:text-red-300 font-bold">
+                    <i class="fas fa-sign-out-alt mr-3"></i> Logout
+                </a>
+            </div>
+        </aside>
 
-        
-      <div class="flex-1 flex flex-col">
-         <header class="bg-white shadow-sm py-4 px-8 flex justify-between items-center relative z-50">
-  <h2 class="text-xl font-bold text-slate-800 tracking-tight uppercase">Selamat Datang, Admin !</h2>
-  
-  <div class="relative">
-    <button id="profileBtn" class="flex items-center space-x-3 focus:outline-none group">
-      <div class="text-right mr-2 hidden sm:block">
-        <p class="text-xs font-bold text-slate-800 uppercase group-hover:text-blue-600 transition">Administrator</p>
-        <p class="text-[10px] text-slate-400 font-medium group-hover:text-slate-500 transition">Sistem Informasi Akademik</p>
-      </div>
-      <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-white font-bold text-sm border-2 border-white shadow-md group-hover:scale-105 transition-all">
-        AD
-      </div>
-    </button>
-
-    <div id="profileDropdown" class="absolute right-0 mt-3 w-72 bg-white rounded-[2rem] shadow-2xl border border-slate-100 p-6 hidden animate-fadeIn overflow-hidden">
-      <div class="text-center mb-4">
-        <div class="w-16 h-16 bg-slate-100 rounded-full mx-auto flex items-center justify-center text-slate-800 text-xl font-black border-4 border-blue-50 mb-2">
-          AD
-        </div>
-        <h4 class="text-sm font-black text-slate-800">Admin Utama</h4>
-        <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">ID: ADM-GANTING-01</p>
-      </div>
-
-      <div class="space-y-3">
-        <div>
-          <label class="text-[10px] font-bold text-slate-400 uppercase ml-2">Username</label>
-          <div class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 text-sm font-bold text-slate-500 cursor-not-allowed">
-            admin_siakad
-          </div>
-        </div>
-
-      <div>
-  <label class="text-[10px] font-bold text-slate-400 uppercase ml-2 mb-1 block">Password</label>
-  <div class="relative w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 flex items-center justify-between transition-all">
-    
-    <span id="passText" class="text-sm font-bold text-slate-500 select-none" style="cursor: not-allowed;">••••••••</span>
-    
-    <button 
-      type="button"
-      onclick="toggleViewPassword(event)" 
-      class="text-slate-300 hover:text-blue-500 transition-colors focus:outline-none flex items-center justify-center"
-      style="cursor: pointer;"
-    >
-      <i id="eyeIcon" class="fas fa-eye text-xs"></i>
-    </button>
-  </div>
-</div>
-
-        <button class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-xl text-xs font-bold transition shadow-lg shadow-blue-200 mt-2">
-          Update Password
-        </button>
-        
-        <hr class="border-slate-50 my-2">
-        
-        <a href="login.html" class="flex items-center justify-center text-red-500 text-[11px] font-bold hover:bg-red-50 py-2 rounded-lg transition">
-          <i class="fas fa-sign-out-alt mr-2"></i> KELUAR SISTEM
-        </a>
-      </div>
-    </div>
-  </div>
-</header>
+        <div class="flex-1 flex flex-col">
+            <header class="bg-white shadow-sm py-4 px-8 flex justify-between items-center relative z-50">
+                <h2 class="text-xl font-bold text-slate-800 tracking-tight uppercase">Selamat Datang, Admin !</h2>
+                <div class="relative">
+                    <button id="profileBtn" class="flex items-center space-x-3 focus:outline-none group">
+                        <div class="text-right mr-2 hidden sm:block">
+                            <p class="text-xs font-bold text-slate-800 uppercase group-hover:text-blue-600 transition">Administrator</p>
+                            <p class="text-[10px] text-slate-400 font-medium group-hover:text-slate-500 transition">Sistem Informasi Akademik</p>
+                        </div>
+                        <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-white font-bold text-sm border-2 border-white shadow-md group-hover:scale-105 transition-all">
+                            AD
+                        </div>
+                    </button>
+                    <div id="profileDropdown" class="absolute right-0 mt-3 w-72 bg-white rounded-[2rem] shadow-2xl border border-slate-100 p-6 hidden animate-fadeIn overflow-hidden">
+                        </div>
+                </div>
+            </header>
 
             <main class="p-8">
                 <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-200 p-8 animate-fadeIn">
@@ -134,6 +87,9 @@
                             <p class="text-slate-400 text-xs font-medium italic">Kelola akun dan informasi guru SDN Ganting</p>
                         </div>
                         <div class="flex items-center space-x-3 w-full md:w-auto">
+                            <button onclick="toggleBulkModal()" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 px-6 rounded-2xl text-sm transition-all shadow-lg shadow-emerald-100 flex items-center">
+                                <i class="fas fa-file-import mr-2 text-xs"></i> Import Bulk (JSON)
+                            </button>
                             <button id="btnTambahGuru" class="bg-slate-900 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-2xl text-sm transition-all shadow-lg shadow-slate-200 flex items-center">
                                 <i class="fas fa-plus mr-2 text-xs"></i> Tambah Guru Baru
                             </button>
@@ -162,12 +118,6 @@
 
                     <div class="mt-6 flex justify-between items-center text-[10px] font-black text-slate-400 uppercase tracking-widest">
                         <p id="totalGuruLabel">Menghitung data...</p>
-                        <div class="flex space-x-1">
-                             <div class="flex space-x-1">
-                <button class="w-8 h-8 rounded-lg bg-blue-500 text-white flex items-center justify-center">1</button>
-                <button class="w-8 h-8 rounded-lg bg-white border border-slate-200 text-slate-400 hover:bg-slate-50 flex items-center justify-center transition">2</button>
-              </div>
-                        </div>
                     </div>
                 </div>
             </main>
@@ -184,49 +134,34 @@
             <form id="formGuru" class="space-y-4">
                 <div>
                     <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Nama Lengkap & Gelar</label>
-                    <input type="text" id="namaGuru" required placeholder="Contoh: Siti Muamalah, S.Pd" 
-                        class="w-full bg-slate-50 border border-slate-200 rounded-2xl py-3 px-4 focus:ring-2 focus:ring-blue-500 outline-none transition">
+                    <input type="text" id="namaGuru" required placeholder="Contoh: Siti Muamalah, S.Pd" class="w-full bg-slate-50 border border-slate-200 rounded-2xl py-3 px-4 focus:ring-2 focus:ring-blue-500 outline-none transition">
                 </div>
-                
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Username Login</label>
-                        <input type="text" id="userGuru" required placeholder="sitimuamalah" 
-                            class="w-full bg-slate-50 border border-slate-200 rounded-2xl py-3 px-4 focus:ring-2 focus:ring-blue-500 outline-none transition">
+                        <input type="text" id="userGuru" required placeholder="sitimuamalah" class="w-full bg-slate-50 border border-slate-200 rounded-2xl py-3 px-4 focus:ring-2 focus:ring-blue-500 outline-none transition">
                     </div>
                     <div>
                         <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Wali Kelas</label>
                         <select id="kelasGuru" class="w-full bg-slate-50 border border-slate-200 rounded-2xl py-3 px-4 focus:ring-2 focus:ring-blue-500 outline-none transition cursor-pointer">
                             <option value="-">Bukan Wali Kelas</option>
-                            <option value="1-A">Wali Kelas 1-A</option>
-                            <option value="1-B">Wali Kelas 1-B</option>
-                            <option value="2-A">Wali Kelas 2-A</option>
-                            <option value="2-B">Wali Kelas 2-B</option>
-                            <option value="3-A">Wali Kelas 3-A</option>
-                            <option value="3-B">Wali Kelas 3-B</option>
-                            <option value="4-A">Wali Kelas 4-A</option>
-                            <option value="4-B">Wali Kelas 4-B</option>
-                            <option value="5-A">Wali Kelas 5-A</option>
-                            <option value="5-B">Wali Kelas 5-B</option>
-                            <option value="6-A">Wali Kelas 6-A</option>
-                            <option value="6-B">Wali Kelas 6-B</option>
+                            <option value="1-A">1-A</option><option value="1-B">1-B</option>
+                            <option value="2-A">2-A</option><option value="2-B">2-B</option>
+                            <option value="3-A">3-A</option><option value="3-B">3-B</option>
+                            <option value="4-A">4-A</option><option value="4-B">4-B</option>
+                            <option value="5-A">5-A</option><option value="5-B">5-B</option>
+                            <option value="6-A">6-A</option><option value="6-B">6-B</option>
                         </select>
-                        
                     </div>
                 </div>
-
                 <div>
                     <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Alamat Email</label>
-                    <input type="email" id="emailGuru" required placeholder="guru@sdnganting.sch.id" 
-                        class="w-full bg-slate-50 border border-slate-200 rounded-2xl py-3 px-4 focus:ring-2 focus:ring-blue-500 outline-none transition">
+                    <input type="email" id="emailGuru" required placeholder="guru@sdnganting.sch.id" class="w-full bg-slate-50 border border-slate-200 rounded-2xl py-3 px-4 focus:ring-2 focus:ring-blue-500 outline-none transition">
                 </div>
-
                 <div>
                     <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Password Default</label>
-                    <input type="text" id="passGuru" required placeholder="Masukkan password" 
-                        class="w-full bg-slate-50 border border-slate-200 rounded-2xl py-3 px-4 focus:ring-2 focus:ring-blue-500 outline-none transition">
+                    <input type="text" id="passGuru" required placeholder="Masukkan password" class="w-full bg-slate-50 border border-slate-200 rounded-2xl py-3 px-4 focus:ring-2 focus:ring-blue-500 outline-none transition">
                 </div>
-
                 <div class="flex space-x-3 pt-4">
                     <button type="button" onclick="toggleModal()" class="flex-1 py-4 px-4 bg-slate-100 text-slate-600 font-bold rounded-2xl hover:bg-slate-200 transition">Batal</button>
                     <button type="submit" class="flex-1 py-4 px-4 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-700 shadow-lg shadow-blue-200 transition">Simpan Data</button>
@@ -235,166 +170,25 @@
         </div>
     </div>
 
+    <div id="modalBulk" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-2xl rounded-[2.5rem] p-8 shadow-2xl animate-fadeIn border border-slate-100">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-black text-slate-800 tracking-tight uppercase">Import Bulk Guru</h3>
+                <button onclick="toggleBulkModal()" class="text-slate-400 hover:text-red-500 transition"><i class="fas fa-times"></i></button>
+            </div>
+            <p class="text-xs text-slate-500 mb-4 font-medium italic">Tempelkan data JSON guru di bawah ini (Format: Array of Objects).</p>
+            <textarea id="bulkJsonInput" class="w-full h-64 bg-slate-50 border border-slate-200 rounded-3xl py-4 px-6 focus:ring-2 focus:ring-emerald-500 outline-none transition font-mono text-xs" placeholder='[ { "nama": "Nama Guru", "email": "guru@test.com", "password": "123", "username": "guru123", "kelas": "1-A" } ]'></textarea>
+            <div class="flex space-x-3 pt-6">
+                <button type="button" onclick="toggleBulkModal()" class="flex-1 py-4 px-4 bg-slate-100 text-slate-600 font-bold rounded-2xl hover:bg-slate-200 transition">Batal</button>
+                <button id="btnProsesBulk" onclick="processBulkGuru()" class="flex-1 py-4 px-4 bg-emerald-600 text-white font-bold rounded-2xl hover:bg-emerald-700 shadow-lg shadow-emerald-100 transition">Mulai Impor Data</button>
+            </div>
+        </div>
+    </div>
+
     <div id="toast-container" class="fixed bottom-5 right-5 z-[100] flex flex-col gap-3"></div>
 
-     <script>
-  // ==========================================
-  // 1. KONFIGURASI ELEMEN UTAMA
-  // ==========================================
-  const profileBtn = document.getElementById('profileBtn');
-  const profileDropdown = document.getElementById('profileDropdown');
-
-  // ==========================================
-  // 2. FUNGSI TOGGLE MATA (KONSISTEN)
-  // ==========================================
-  // Fungsi ini bisa menangani SPAN (teks) maupun INPUT (field)
-  function toggleViewPassword(e, targetId, iconId) {
-    if (e) e.stopPropagation();
-    
-    const target = document.getElementById(targetId);
-    const icon = document.getElementById(iconId);
-    const dummyPassword = "admin123"; 
-
-    // Jika target adalah SPAN (Tampilan Depan)
-    if (target.tagName === "SPAN") {
-      if (target.innerText === "••••••••") {
-        target.innerText = dummyPassword;
-        icon.classList.replace('fa-eye', 'fa-eye-slash');
-        target.classList.replace('text-slate-500', 'text-slate-800');
-      } else {
-        target.innerText = "••••••••";
-        icon.classList.replace('fa-eye-slash', 'fa-eye');
-        target.classList.replace('text-slate-800', 'text-slate-500');
-      }
-    } 
-    // Jika target adalah INPUT (Tampilan Update)
-    else if (target.tagName === "INPUT") {
-      if (target.type === "password") {
-        target.type = "text";
-        icon.classList.replace('fa-eye', 'fa-eye-slash');
-      } else {
-        target.type = "password";
-        icon.classList.replace('fa-eye-slash', 'fa-eye');
-      }
-    }
-  }
-
-  // ==========================================
-  // 3. LOGIKA DROPDOWN
-  // ==========================================
-  profileBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    profileDropdown.classList.toggle('hidden');
-    resetDropdown(); 
-  });
-
-  profileDropdown.addEventListener('click', (e) => {
-    e.stopPropagation();
-    if (e.target.innerText.includes('Update Password')) {
-      ubahKeFormPassword();
-    }
-  });
-
-  window.addEventListener('click', (e) => {
-    if (!profileBtn.contains(e.target) && !profileDropdown.contains(e.target)) {
-      profileDropdown.classList.add('hidden');
-    }
-  });
-
-  // ==========================================
-  // 4. TAMPILAN 1: PROFIL TERKUNCI
-  // ==========================================
-  function resetDropdown() {
-    const container = profileDropdown.querySelector('.space-y-3');
-    container.innerHTML = `
-      <div class="animate-fadeIn">
-        <div>
-          <label class="text-[10px] font-bold text-slate-400 uppercase ml-2">Username</label>
-          <div class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 text-sm font-bold text-slate-500 mb-3 select-none" style="cursor: not-allowed;">
-            admin_siakad
-          </div>
-        </div>
-
-        <div>
-          <label class="text-[10px] font-bold text-slate-400 uppercase ml-2">Password</label>
-          <div class="relative w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 flex items-center justify-between mb-3" style="cursor: not-allowed;">
-            <span id="passText" class="text-sm font-bold text-slate-500 select-none">••••••••</span>
-            <button type="button" onclick="toggleViewPassword(event, 'passText', 'eyeIconFront')" class="text-slate-300 hover:text-blue-500 transition focus:outline-none" style="cursor: pointer;">
-              <i id="eyeIconFront" class="fas fa-eye text-xs"></i>
-            </button>
-          </div>
-        </div>
-
-        <button class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-xl text-xs font-bold transition shadow-lg shadow-blue-200 mt-2">
-          Update Password
-        </button>
-        
-        <hr class="border-slate-50 my-2">
-        <a href="login.html" class="flex items-center justify-center text-red-500 text-[11px] font-bold hover:bg-red-50 py-2 rounded-lg transition uppercase">
-          <i class="fas fa-sign-out-alt mr-2"></i> KELUAR SISTEM
-        </a>
-      </div>
-    `;
-  }
-
-  // ==========================================
-  // 5. TAMPILAN 2: FORM UPDATE (IKON MATA SAMA)
-  // ==========================================
-  function ubahKeFormPassword() {
-    const container = profileDropdown.querySelector('.space-y-3');
-    container.innerHTML = `
-      <div class="animate-fadeIn">
-        <div class="flex items-center mb-4">
-          <button onclick="resetDropdown()" class="text-slate-400 hover:text-slate-800 transition mr-2">
-            <i class="fas fa-arrow-left text-xs"></i>
-          </button>
-          <h4 class="text-xs font-black text-slate-800 uppercase">Ganti Password</h4>
-        </div>
-
-        <label class="text-[10px] font-bold text-slate-400 uppercase ml-2 mb-1 block">Password Lama</label>
-        <div class="relative mb-3">
-          <input type="password" id="oldPass" placeholder="••••••••" class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500 transition">
-          <button type="button" onclick="toggleViewPassword(event, 'oldPass', 'eyeIconOld')" class="absolute right-3 top-2.5 text-slate-300 hover:text-blue-500 transition focus:outline-none">
-            <i id="eyeIconOld" class="fas fa-eye text-xs"></i>
-          </button>
-        </div>
-        
-        <label class="text-[10px] font-bold text-slate-400 uppercase ml-2 mb-1 block">Password Baru</label>
-        <div class="relative mb-3">
-          <input type="password" id="newPass" placeholder="Minimal 8 karakter" class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500 transition">
-          <button type="button" onclick="toggleViewPassword(event, 'newPass', 'eyeIconNew')" class="absolute right-3 top-2.5 text-slate-300 hover:text-blue-500 transition focus:outline-none">
-            <i id="eyeIconNew" class="fas fa-eye text-xs"></i>
-          </button>
-        </div>
-        
-        <button onclick="simpanDanReset()" class="w-full bg-slate-800 hover:bg-emerald-600 text-white py-3 rounded-xl text-xs font-bold transition shadow-lg mt-2 uppercase tracking-wider">
-          Simpan Perubahan
-        </button>
-      </div>
-    `;
-  }
-
-  function simpanDanReset() {
-    const oldP = document.getElementById('oldPass').value;
-    const newP = document.getElementById('newPass').value;
-    if(oldP && newP) {
-      alert("Password Berhasil Diperbarui!");
-      resetDropdown();
-      profileDropdown.classList.add('hidden');
-    } else {
-      alert("Harap isi semua kolom!");
-    }
-  }
-// Menghilangkan ikon mata bawaan browser (Edge/Chrome) lewat JS
-const style = document.createElement('style');
-style.innerHTML = `
-  input::-ms-reveal, input::-ms-clear { display: none !important; }
-  input::-webkit-contacts-auto-fill-button, 
-  input::-webkit-credentials-auto-fill-button { display: none !important; }
-`;
-document.head.appendChild(style);
-</script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     
     <script src="firebase-config.js"></script>
