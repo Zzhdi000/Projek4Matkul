@@ -1,14 +1,24 @@
+const guruwaliKelas = localStorage.getItem("guruwaliKelas");
+
+if (!guruwaliKelas) {
+    console.warn("Guru ini bukan wali kelas. Akses ke semua siswa? (perlu penanganan khusus)");
+}
+
 // 1. FUNGSI UNTUK MENAMPILKAN DATA SECARA REAL-TIME (Sesuai Filter)
 function loadStudents() {
-    const filterKelas = document.getElementById("filter-kelas-global").value;
     const bodyDaftar = document.getElementById("body-daftar");
     const bodyDataDiri = document.getElementById("body-data-diri");
 
     let query = db.collection("students").orderBy("nama", "asc");
 
     // Terapkan filter jika bukan "all"
-    if (filterKelas !== "all") {
-        query = query.where("kelas", "==", filterKelas);
+     if (guruKelasWali) {
+        query = query.where("kelas", "==", guruKelasWali);
+    } else {
+        // Jika bukan wali kelas, gunakan filter dari dropdown
+        if (filterKelas !== "all") {
+            query = query.where("kelas", "==", filterKelas);
+        }
     }
 
     query.onSnapshot((snapshot) => {
@@ -65,8 +75,7 @@ async function tambahSiswa() {
     // Mengambil nilai filter kelas yang sedang aktif saat ini
     const currentKelas = document.getElementById('filter-kelas-global').value;
     // Jika filter di set "Semua Kelas", defaultkan ke "1-A" agar data tidak error
-    const kelasDefault = currentKelas === 'all' ? '1-A' : currentKelas;
-
+    const kelasDefault = guruwaliKelas ? guruwaliKelas : (document.getElementById('filter-kelas-global').value !== 'all' ? document.getElementById('filter-kelas-global').value : '1-A');
     const { value: v } = await Swal.fire({
         title: "Tambah Siswa Baru",
         html: `
@@ -312,11 +321,10 @@ function handleImportExcel(event) {
 
 // 2. Fungsi Load Data Berdasarkan Filter
 function loadDataSiswa() {
-    const kelasTerpilih = document.getElementById('filter-kelas-global').value;
     let query = db.collection("students");
 
-    if (kelasTerpilih !== "all") {
-        query = query.where("kelas", "==", kelasTerpilih);
+     if (guruwaliKelas) {
+        query = query.where("kelas", "==", guruwaliKelas);
     }
 
     query.onSnapshot((snapshot) => {

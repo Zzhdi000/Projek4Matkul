@@ -149,4 +149,26 @@ function showToast(message, type = 'success') {
     setTimeout(() => toast.remove(), 3000);
 }
 
+// Hapus guru dari Firestore sekaligus dari Authentication
+async function hapusGuru(uid, email) {
+    try {
+        // 1. Hapus dari Authentication
+        const user = firebase.auth().currentUser;
+       
+        Swal.fire({
+            title: "Perhatian!",
+            text: `User dengan email ${email} tidak bisa dihapus otomatis dari Authentication. Buka Firebase Console → Authentication → Hapus user tersebut secara manual.`,
+            icon: "warning",
+            confirmButtonText: "Mengerti"
+        });
+        
+        // 2. Tetap hapus dokumen Firestore
+        await db.collection("users").doc(uid).delete();
+        return true;
+    } catch (error) {
+        console.error("Gagal hapus:", error);
+        return false;
+    }
+}
+
 document.addEventListener("DOMContentLoaded", loadTeachers);

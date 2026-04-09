@@ -367,6 +367,27 @@
         },
       ];
 
+     const userName = localStorage.getItem("userName");
+  if (userName) {
+    const namaElem = document.querySelector("#profileBtn .text-right p:last-child");
+    if (namaElem) namaElem.innerText = userName;
+    const inisial = userName.split(" ").map(n => n[0]).join("").substring(0,2);
+    const avatarElem = document.querySelector("#profileBtn .rounded-full");
+    if (avatarElem) avatarElem.innerText = inisial;
+  }
+
+    const guruwaliKelas = localStorage.getItem("waliKelas");
+    const filterKelas = document.getElementById("filter-kelas-global");
+    if (guruwaliKelas && filterKelas) {
+        filterKelas.value = guruwaliKelas;
+        filterKelas.disabled = true;  // tidak bisa diganti
+        // Tambahkan info kecil di samping dropdown
+        const infoSpan = document.createElement("span");
+        infoSpan.className = "ml-3 text-xs font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-full";
+        infoSpan.innerText = `Wali Kelas ${guruwaliKelas}`;
+        filterKelas.parentNode.appendChild(infoSpan);
+    }
+
       let lastScheduleHTML = ""; // Penanda untuk mencegah re-render jika tidak ada perubahan data
 
       function updateScheduleUI() {
