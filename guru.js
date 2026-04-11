@@ -1,23 +1,24 @@
-const guruwaliKelas = localStorage.getItem("guruwaliKelas");
+// ==================== INISIALISASI ====================
 
-if (!guruwaliKelas) {
-    console.warn("Guru ini bukan wali kelas. Akses ke semua siswa? (perlu penanganan khusus)");
-}
 
-// 1. FUNGSI UNTUK MENAMPILKAN DATA SECARA REAL-TIME (Sesuai Filter)
+
+// ==================== FUNGSI LOAD DATA SISWA (REAL-TIME) ====================
 function loadStudents() {
     const bodyDaftar = document.getElementById("body-daftar");
     const bodyDataDiri = document.getElementById("body-data-diri");
 
+    // Ambil nilai filter dari dropdown (jika ada)
+    const selectedKelas = filterKelasSelect ? filterKelasSelect.value : "all";
+
     let query = db.collection("students").orderBy("nama", "asc");
 
-    // Terapkan filter jika bukan "all"
-     if (guruKelasWali) {
-        query = query.where("kelas", "==", guruKelasWali);
+    // Jika guru adalah wali kelas, abaikan dropdown dan filter berdasarkan kelas wali
+    if (guruwaliKelas) {
+        query = query.where("kelas", "==", guruwaliKelas);
     } else {
-        // Jika bukan wali kelas, gunakan filter dari dropdown
-        if (filterKelas !== "all") {
-            query = query.where("kelas", "==", filterKelas);
+        // Bukan wali kelas: gunakan filter dari dropdown (kecuali "all")
+        if (selectedKelas !== "all") {
+            query = query.where("kelas", "==", selectedKelas);
         }
     }
 
@@ -39,8 +40,8 @@ function loadStudents() {
             // Baris untuk Tab Daftar
             const rowD = `
                 <tr class="hover:bg-slate-50/80 transition animate-fadeIn border-b border-slate-100">
-                    <td class="px-6 py-5 font-bold text-slate-700 uppercase tracking-tight">${v.nama}</td>
-                    <td class="px-6 py-5 font-mono text-slate-400">${v.nisn}</td>
+                    <td class="px-6 py-5 font-bold text-slate-700 uppercase tracking-tight">${escapeHtml(v.nama)}</td>
+                    <td class="px-6 py-5 font-mono text-slate-400">${v.nisn || '-'}</td>
                     <td class="px-6 py-5">
                         <span class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-lg text-[10px] font-black uppercase">${v.status || 'Aktif'}</span>
                     </td>
@@ -53,11 +54,11 @@ function loadStudents() {
             // Baris untuk Tab Data Diri
             const rowDD = `
                 <tr class="bg-white border border-slate-100 shadow-sm rounded-2xl hover:shadow-md transition-all animate-fadeIn">
-                    <td class="px-6 py-5 font-mono text-slate-400 rounded-l-2xl">${v.nisn}</td>
-                    <td class="px-6 py-5 font-bold text-slate-700 uppercase tracking-tight">${v.nama}</td>
-                    <td class="px-6 py-5 text-slate-600 font-medium">${v.nama_wali || v.wali || '-'}</td>
+                    <td class="px-6 py-5 font-mono text-slate-400 rounded-l-2xl">${v.nisn || '-'}</td>
+                    <td class="px-6 py-5 font-bold text-slate-700 uppercase tracking-tight">${escapeHtml(v.nama)}</td>
+                    <td class="px-6 py-5 text-slate-600 font-medium">${escapeHtml(v.nama_wali || v.wali || '-')}</td>
                     <td class="px-6 py-5 font-mono text-slate-500">${v.no_wali || v.kontak || '-'}</td>
-                    <td class="px-6 py-5 text-slate-400 italic text-sm">${v.alamat || '-'}</td>
+                    <td class="px-6 py-5 text-slate-400 italic text-sm">${escapeHtml(v.alamat || '-')}</td>
                     <td class="px-6 py-5 text-center rounded-r-2xl">
                         <button onclick="editSiswa('${id}')" class="text-blue-500 mx-2"><i class="fas fa-edit"></i></button>
                         <button onclick="hapusSiswa('${id}')" class="text-red-500 mx-2"><i class="fas fa-trash"></i></button>
@@ -70,12 +71,22 @@ function loadStudents() {
     });
 }
 
-// 2. FUNGSI TAMBAH SISWA KE FIRESTORE
+// Helper untuk menghindari XSS
+function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>]/g, function(m) {
+        if (m === '&') return '&amp;';
+        if (m === '<') return '&lt;';
+        if (m === '>') return '&gt;';
+        return m;
+    });
+}
+
+// ==================== FUNGSI TAMBAH SISWA ====================
 async function tambahSiswa() {
-    // Mengambil nilai filter kelas yang sedang aktif saat ini
-    const currentKelas = document.getElementById('filter-kelas-global').value;
-    // Jika filter di set "Semua Kelas", defaultkan ke "1-A" agar data tidak error
-    const kelasDefault = guruwaliKelas ? guruwaliKelas : (document.getElementById('filter-kelas-global').value !== 'all' ? document.getElementById('filter-kelas-global').value : '1-A');
+    const currentKelas = filterKelasSelect ? filterKelasSelect.value : '1-A';
+    const kelasDefault = guruwaliKelas ? guruwaliKelas : (currentKelas !== 'all' ? currentKelas : '1-A');
+
     const { value: v } = await Swal.fire({
         title: "Tambah Siswa Baru",
         html: `
@@ -124,7 +135,7 @@ async function tambahSiswa() {
                 return false;
             }
             return {
-                nama,
+                nama: nama.toUpperCase(),
                 nisn,
                 wali: document.getElementById("w").value || "-",
                 telp: document.getElementById("t").value || "-",
@@ -136,15 +147,14 @@ async function tambahSiswa() {
     if (v) {
         try {
             await db.collection("students").add({
-                nama: v.nama.toUpperCase(),
+                nama: v.nama,
                 nisn: v.nisn,
                 nama_wali: v.wali.toUpperCase(),
                 no_wali: v.telp,
                 alamat: v.alamat,
                 status: "Aktif",
-                kelas: kelasDefault // Menggunakan kelas yang didapat dari filter
+                kelas: kelasDefault
             });
-            
             Swal.fire({
                 icon: "success",
                 title: "Berhasil!",
@@ -159,7 +169,7 @@ async function tambahSiswa() {
     }
 }
 
-
+// ==================== FUNGSI HAPUS & EDIT ====================
 async function hapusSiswa(id) {
     const result = await Swal.fire({
         title: "Hapus Data?",
@@ -174,9 +184,7 @@ async function hapusSiswa(id) {
 
     if (result.isConfirmed) {
         try {
-            // Proses hapus di Firestore
             await db.collection("students").doc(id).delete();
-            
             Swal.fire({
                 title: "Terhapus!",
                 icon: "success",
@@ -193,31 +201,29 @@ async function hapusSiswa(id) {
 
 async function editSiswa(id) {
     try {
-        // 1. Ambil data terbaru dari DB untuk mengisi form
         const doc = await db.collection("students").doc(id).get();
         if (!doc.exists) return;
         const data = doc.data();
 
-        // 2. Tampilkan SweetAlert dengan data awal
         const { value: formValues } = await Swal.fire({
             title: "Edit Data Siswa",
             html: `
             <div class="text-left space-y-3 px-1">
                 <div class="flex flex-col items-start">
                     <label class="text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1">Nama Lengkap</label>
-                    <input id="swal-nama" class="swal2-input !m-0 w-full" value="${data.nama}">
+                    <input id="swal-nama" class="swal2-input !m-0 w-full" value="${escapeHtml(data.nama)}">
                 </div>
                 <div class="flex flex-col items-start">
                     <label class="text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1">Nama Wali</label>
-                    <input id="swal-wali" class="swal2-input !m-0 w-full" value="${data.nama_wali}">
+                    <input id="swal-wali" class="swal2-input !m-0 w-full" value="${escapeHtml(data.nama_wali || '')}">
                 </div>
                 <div class="flex flex-col items-start">
                     <label class="text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1">No. Wali</label>
-                    <input id="swal-telp" class="swal2-input !m-0 w-full" value="${data.no_wali}">
+                    <input id="swal-telp" class="swal2-input !m-0 w-full" value="${data.no_wali || ''}">
                 </div>
                 <div class="flex flex-col items-start">
                     <label class="text-[10px] font-bold text-slate-400 uppercase mb-1 ml-1">Alamat</label>
-                    <textarea id="swal-alamat" class="swal2-textarea !m-0 w-full">${data.alamat}</textarea>
+                    <textarea id="swal-alamat" class="swal2-textarea !m-0 w-full">${escapeHtml(data.alamat || '')}</textarea>
                 </div>
             </div>`,
             showCancelButton: true,
@@ -233,10 +239,8 @@ async function editSiswa(id) {
             }),
         });
 
-        // 3. Jika user klik Simpan, update ke Firestore
         if (formValues) {
             await db.collection("students").doc(id).update(formValues);
-            
             Swal.fire({
                 icon: "success",
                 title: "Berhasil!",
@@ -252,6 +256,7 @@ async function editSiswa(id) {
     }
 }
 
+// ==================== FUNGSI SWITCH TAB ====================
 function switchTab(tab) {
     const dTab = document.getElementById("tab-daftar");
     const ddTab = document.getElementById("tab-data-diri");
@@ -274,7 +279,7 @@ function switchTab(tab) {
     }
 }
 
-// 3. FUNGSI SEARCH (Diperbaiki agar mencari di semua kolom)
+// ==================== FUNGSI SEARCH ====================
 function setupSearch(inputId, tableBodyId) {
     const input = document.getElementById(inputId);
     if (!input) return;
@@ -282,7 +287,6 @@ function setupSearch(inputId, tableBodyId) {
     input.addEventListener("input", function () {
         const filter = this.value.toLowerCase();
         const rows = document.querySelectorAll(`#${tableBodyId} tr`);
-        
         rows.forEach((row) => {
             const text = row.innerText.toLowerCase();
             row.style.display = text.includes(filter) ? "" : "none";
@@ -290,54 +294,74 @@ function setupSearch(inputId, tableBodyId) {
     });
 }
 
-// 1. Fungsi Import Excel
+// ==================== FUNGSI IMPORT EXCEL ====================
 function handleImportExcel(event) {
     const file = event.target.files[0];
+    if (!file) return;
+
     const reader = new FileReader();
-    
     reader.onload = function(e) {
         const data = new Uint8Array(e.target.result);
-        const workbook = XLSX.read(data, {type: 'array'});
+        const workbook = XLSX.read(data, { type: 'array' });
         const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
         const jsonData = XLSX.utils.sheet_to_json(firstSheet);
 
-        // Upload ke Firebase
-        jsonData.forEach(siswa => {
-            db.collection("students").add({
-                nisn: siswa.NISN,
-                nama: siswa.Nama,
-                kelas: siswa.Kelas,
-                wali: siswa.Wali,
-                kontak: siswa.Kontak,
-                alamat: siswa.Alamat,
+        if (jsonData.length === 0) {
+            Swal.fire("Peringatan", "File Excel tidak mengandung data.", "warning");
+            return;
+        }
+
+        // Tentukan kelas default (sama dengan filter aktif atau wali kelas)
+        const defaultKelas = guruwaliKelas ? guruwaliKelas : (filterKelasSelect.value !== 'all' ? filterKelasSelect.value : '1-A');
+
+        const promises = jsonData.map(siswa => {
+            return db.collection("students").add({
+                nisn: siswa.NISN || siswa.nisn || '',
+                nama: (siswa.Nama || siswa.nama || '').toUpperCase(),
+                kelas: siswa.Kelas || siswa.kelas || defaultKelas,
+                nama_wali: (siswa.Wali || siswa.wali || '-').toUpperCase(),
+                no_wali: siswa.Kontak || siswa.kontak || '-',
+                alamat: siswa.Alamat || siswa.alamat || '-',
                 status: "Aktif"
             });
         });
-        Swal.fire("Berhasil!", "Data siswa telah diimpor.", "success");
-        loadDataSiswa(); // Refresh tabel
+
+        Promise.all(promises)
+            .then(() => {
+                Swal.fire("Berhasil!", `Data siswa telah diimpor ke Kelas ${defaultKelas}.`, "success");
+                // Refresh tidak perlu karena onSnapshot sudah realtime
+            })
+            .catch(err => {
+                console.error(err);
+                Swal.fire("Error", "Gagal mengimpor data.", "error");
+            });
     };
     reader.readAsArrayBuffer(file);
+    event.target.value = ''; // reset input file
 }
 
-// 2. Fungsi Load Data Berdasarkan Filter
-function loadDataSiswa() {
-    let query = db.collection("students");
-
-     if (guruwaliKelas) {
-        query = query.where("kelas", "==", guruwaliKelas);
+// ==================== INISIALISASI SAAT HALAMAN SIAP ====================
+window.onload = () => {
+    // Pastikan dropdown filter tidak di-disable jika guru bukan wali kelas
+    if (guruwaliKelas && filterKelasSelect) {
+        filterKelasSelect.value = guruwaliKelas;
+        filterKelasSelect.disabled = true;
+        // Tambahkan info tambahan jika perlu
+        const infoSpan = document.createElement("span");
+        infoSpan.className = "ml-3 text-xs font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-full";
+        infoSpan.innerText = `Wali Kelas ${guruwaliKelas}`;
+        filterKelasSelect.parentNode.appendChild(infoSpan);
     }
 
-    query.onSnapshot((snapshot) => {
-        // Logika untuk merender baris <tr> ke #body-daftar dan #body-data-diri
-    });
-}
-
-// INISIALISASI SAAT HALAMAN DIBUKA
-window.onload = () => {
+    // Load data siswa
     loadStudents();
+
+    // Setup search
     setupSearch("search-daftar", "body-daftar");
     setupSearch("search-data-diri", "body-data-diri");
 
-    // Tambahkan event listener untuk filter kelas
-    document.getElementById('filter-kelas-global').addEventListener('change', loadStudents);
+    // Event listener untuk filter kelas (hanya jika guru bukan wali kelas)
+    if (filterKelasSelect && !guruwaliKelas) {
+        filterKelasSelect.addEventListener("change", () => loadStudents());
+    }
 };

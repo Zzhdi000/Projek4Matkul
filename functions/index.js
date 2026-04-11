@@ -1,46 +1,57 @@
-const { onRequest } = require("firebase-functions/v2/https");
+// functions/index.js
+
+require('dotenv').config();
+
+const functions = require('firebase-functions');
 const { GoogleGenerativeAI } = require("@google/generative-ai");
-const cors = require("cors")({ origin: true });
+const cors = require('cors')({ origin: true });
 
-/**
- * Fungsi ini menggunakan Secret Manager (GEMINI_KEY)
- * Pastikan sudah menjalankan: firebase functions:secrets:set GEMINI_KEY
- */
-exports.generateAIReport = onRequest({ secrets: ["GEMINI_KEY"] }, (req, res) => {
-    return cors(req, res, async () => {
-        // Validasi Method
-        if (req.method !== "POST") {
-            return res.status(405).send({ error: "Method Not Allowed" });
-        }
+// Inisialisasi Gemini dengan API key dari Secret Manager atau environment
+let genAI = null;
 
-        const { nama, nilai } = req.body.data || {};
+// Fungsi untuk mendapatkan API key dari Secret Manager (production) atau fallback ke env local
+async function getGeminiAPI() {
+    if (genAI) return genAI;
+    
+    let apiKey = process.env.GEMINI_API_KEY; // untuk local testing
+    if (!apiKey) {
+        // Di production, ambil dari Secret Manager (akan di-set nanti)
+        apiKey = functions.config().gemini?.api_key;
+    }
+    
+    if (!apiKey) {
+        throw new Error('GEMINI_API_KEY tidak ditemukan');
+    }
+    genAI = new GoogleGenerativeAI(apiKey);
+    return genAI;
+}
 
-        if (!nama || !nilai) {
-            return res.status(400).send({ data: { error: "Data nama atau nilai tidak lengkap" } });
+exports.geminiProxy = functions.https.onRequest(async (req, res) => {
+    // Enable CORS
+    cors(req, res, async () => {
+        // Hanya izinkan POST
+        if (req.method !== 'POST') {
+            res.status(405).send('Method Not Allowed');
+            return;
         }
 
         try {
-            // Mengambil API Key dari Secret Manager secara aman
-            const genAI = new GoogleGenerativeAI(process.env.GEMINI_KEY);
-            const model = genAI.getGenerativeModel({ 
-                model: "gemini-1.5-flash",
-                generationConfig: { responseMimeType: "application/json" }
-            });
+            const { prompt } = req.body;
+            if (!prompt) {
+                res.status(400).send({ error: 'Prompt tidak boleh kosong' });
+                return;
+            }
 
-            const prompt = `Berikan evaluasi akademik singkat untuk siswa bernama ${nama} 
-                            yang memiliki nilai rata-rata ${nilai}. 
-                            Berikan satu kalimat catatan guru dan satu kalimat rekomendasi tindakan.
-                            Format balasan harus JSON: {"catatan": "...", "rekomendasi": "..."}`;
-
+            const genAIInstance = await getGeminiAPI();
+            const model = genAIInstance.getGenerativeModel({ model: "gemini-1.5-pro" });
             const result = await model.generateContent(prompt);
-            const responseText = result.response.text();
-            
-            // Kirim hasil kembali ke frontend
-            res.status(200).send({ data: JSON.parse(responseText) });
+            const response = await result.response;
+            const text = response.text();
 
+            res.status(200).send({ success: true, data: text });
         } catch (error) {
-            console.error("AI Error:", error);
-            res.status(500).send({ data: { error: "Gagal memproses AI: " + error.message } });
+            console.error('Gemini API Error:', error);
+            res.status(500).send({ error: 'Gagal memproses permintaan: ' + error.message });
         }
     });
 });

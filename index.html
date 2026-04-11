@@ -868,8 +868,8 @@
 
   <div class="p-4 bg-white border-t border-slate-100">
     <div class="relative flex items-center">
-      <input type="text" placeholder="Tulis pesan..." class="w-full pl-4 pr-12 py-3 bg-slate-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
-      <button class="absolute right-2 w-8 h-8 bg-blue-800 text-white rounded-xl hover:bg-blue-900 transition-all">
+      <input type="text" id="chatInput" placeholder="Tulis pesan..." class="w-full pl-4 pr-12 py-3 bg-slate-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+      <button id="chatSendBtn" class="absolute right-2 w-8 h-8 bg-blue-800 text-white rounded-xl hover:bg-blue-900 transition-all">
         <i class="fas fa-paper-plane text-xs"></i>
       </button>
     </div>
@@ -983,5 +983,90 @@
       // --- AKTIVASI OTOMATIS DISINI ---
       setInterval(nextSlide, 5000);
     </script>
+
+    <!-- Import Gemini Library dan Config -->
+<script type="importmap">
+  {
+    "imports": {
+      "@google/generative-ai": "https://esm.run/@google/generative-ai"
+    }
+  }
+</script>
+
+<script type="module">
+  import { GoogleGenerativeAI } from '@google/generative-ai';
+  import { GEMINI_API_KEY } from './config.js'; // Pastikan file config.js berisi export const GEMINI_API_KEY = 'YOUR_GEMINI_API_KEY';
+  // Inisialisasi Gemini
+  const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+  const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash", systeminstructions: "Kamu adalah asisten AI resmi SD Negeri Ganting. Jawab dengan ramah dan informatif seputar sekolah.  Jika ditanya di luar topik, tolak dengan sopan."   });
+
+  // Ambil elemen chat
+  const chatWindowDiv = document.getElementById('chatWindow');
+  const chatBody = document.getElementById('chatBody');
+  const chatInput = document.getElementById('chatInput');
+  const chatSendBtn = document.getElementById('chatSendBtn');
+
+  // Fungsi untuk menambahkan pesan ke chat
+  function addMessage(sender, text, isUser = false) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `flex gap-2 ${isUser ? 'justify-end' : ''}`;
+    messageDiv.innerHTML = `
+      <div class="max-w-[80%] ${isUser ? 'bg-blue-800 text-white rounded-br-none' : 'bg-white text-slate-700 rounded-tl-none'} p-3 rounded-2xl shadow-sm border border-slate-100">
+        ${text}
+      </div>
+    `;
+    chatBody.appendChild(messageDiv);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  }
+
+  // Fungsi kirim pesan ke Gemini
+  async function sendToGemini() {
+    const message = chatInput.value.trim();
+    if (!message) return;
+
+    // Tampilkan pesan user
+    addMessage('Anda', message, true);
+    chatInput.value = '';
+
+    // Tampilkan indikator mengetik
+    const loadingDiv = document.createElement('div');
+    loadingDiv.className = 'flex gap-2';
+    loadingDiv.innerHTML = `<div class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm text-slate-400 italic">Kak AI sedang mengetik...</div>`;
+    chatBody.appendChild(loadingDiv);
+    chatBody.scrollTop = chatBody.scrollHeight;
+
+    try {
+      const prompt = `Kamu adalah asisten AI resmi SD Negeri Ganting. 
+Hanya jawab pertanyaan yang berhubungan dengan:
+- Jadwal pelajaran, ujian, dan kegiatan sekolah
+- Ekstrakurikuler (Pramuka, Futsal, Menari, Robotik)
+- Informasi PPDB, biaya, dan fasilitas
+- Profil guru, kepala sekolah, visi misi
+- Prestasi siswa dan berita sekolah
+
+Jika pertanyaan di luar topik tersebut, jawab dengan ramah:
+"Maaf, saya hanya bisa membantu informasi seputar SD Negeri Ganting. Silakan tanyakan hal lain yang berkaitan dengan sekolah."
+
+Pertanyaan: ${message}`;
+      const result = await model.generateContent(prompt);
+      const response = await result.response;
+      const reply = response.text();
+
+      // Hapus indikator loading
+      loadingDiv.remove();
+      addMessage('Kak AI', reply, false);
+    } catch (error) {
+      loadingDiv.remove();
+      addMessage('Kak AI', 'Maaf, terjadi kesalahan. Coba lagi nanti ya.', false);
+      console.error(error);
+    }
+  }
+
+  // Event listener
+  chatSendBtn.addEventListener('click', sendToGemini);
+  chatInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') sendToGemini();
+  });
+</script>
   </body>
 </html>
