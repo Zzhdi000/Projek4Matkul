@@ -82,6 +82,7 @@
       }
 
       /* Container tombol presensi di layar */
+      /* Container tombol presensi di layar */
       .presence-container {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
@@ -89,7 +90,9 @@
         padding: 4px;
         border-radius: 12px;
         width: 320px;
-        margin: 0 auto;
+        /* GANTI margin: 0 auto; MENJADI margin-left: auto; */
+        margin-left: auto;
+        /* Hapus margin: 0 auto jika masih ada */
         border: 1px solid #e2e8f0;
       }
       .presence-input {
@@ -255,7 +258,7 @@
                       <tr>
                         <th class="px-6 py-2 w-16 text-center">No</th>
                         <th class="px-6 py-2">Nama Siswa / NISN</th>
-                        <th class="px-6 py-2 text-center">
+                        <th class="px-6 py-2 text-right pr-10">
                           Pilih Kehadiran Harian
                         </th>
                       </tr>
