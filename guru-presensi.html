@@ -6,41 +6,121 @@
     <title>Presensi Siswa - SIAKAD PRO</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
     />
     <style>
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(10px);
+      /* UNTUK PDF */
+      /* --- CSS UNTUK TAMPILAN LAYAR --- */
+      #print-header {
+        display: none;
+      }
+
+      /* --- CSS KHUSUS PRINT (PDF) --- */
+      @media print {
+        aside,
+        header,
+        nav,
+        button,
+        .no-print,
+        .flex.border-b,
+        .bg-blue-50 {
+          display: none !important;
         }
-        to {
-          opacity: 1;
-          transform: translateY(0);
+
+        body {
+          background: white !important;
+          color: black !important;
+          margin: 0;
+          padding: 0;
+        }
+        main {
+          margin: 0 !important;
+          padding: 0 !important;
+          width: 100% !important;
+        }
+
+        * {
+          color: black !important;
+          background: transparent !important;
+          box-shadow: none !important;
+          border-radius: 0 !important;
+        }
+
+        #print-header {
+          display: block !important;
+          text-align: center;
+          margin-bottom: 30px;
+          border-bottom: 2px solid black;
+          padding-bottom: 10px;
+        }
+
+        table {
+          width: 100% !important;
+          border-collapse: collapse !important;
+          margin-top: 10px;
+          border: 1px solid black !important;
+        }
+
+        th,
+        td {
+          border: 1px solid black !important;
+          padding: 8px !important;
+          text-align: center !important;
+          font-size: 11px !important;
+        }
+
+        th {
+          background-color: #f2f2f2 !important;
+          -webkit-print-color-adjust: exact;
+        }
+        .nama-kolom {
+          text-align: left !important;
+          font-weight: bold;
         }
       }
-      .animate-fadeIn {
-        animation: fadeIn 0.3s ease-out forwards;
+
+      /* Container tombol presensi di layar */
+      .presence-container {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        background-color: #f1f5f9;
+        padding: 4px;
+        border-radius: 12px;
+        width: 320px;
+        margin: 0 auto;
+        border: 1px solid #e2e8f0;
       }
-      .swal2-popup {
-        border-radius: 2rem !important;
-        padding: 2rem !important;
+      .presence-input {
+        display: none;
       }
-      .swal2-title {
-        font-weight: 800 !important;
-        color: #1e293b !important;
+      .presence-label {
+        display: block;
+        text-align: center;
+        padding: 8px 0;
+        font-size: 10px;
+        font-weight: 800;
+        color: #94a3b8;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: all 0.2s ease;
       }
-      .swal2-input,
-      .swal2-textarea {
-        border-radius: 1rem !important;
-        font-size: 0.9rem !important;
-        background: #f8fafc !important;
-        border: 1px solid #e2e8f0 !important;
-        text-align: left !important;
-        padding: 0 1rem !important;
+      .presence-input:checked + .lab-hadir {
+        background-color: #10b981;
+        color: white;
+      }
+      .presence-input:checked + .lab-izin {
+        background-color: #f59e0b;
+        color: white;
+      }
+      .presence-input:checked + .lab-sakit {
+        background-color: #3b82f6;
+        color: white;
+      }
+      .presence-input:checked + .lab-alfa {
+        background-color: #ef4444;
+        color: white;
       }
     </style>
   </head>
@@ -53,10 +133,7 @@
           <i class="fas fa-user-shield text-2xl text-blue-400"></i>
           <span class="text-xl font-bold tracking-tight">GURU PANEL</span>
         </div>
-
-        <nav
-          class="flex-1 mt-6 px-4 space-y-2 overflow-y-auto custom-scrollbar"
-        >
+        <nav class="flex-1 mt-6 px-4 space-y-2 overflow-y-auto">
           <a
             href="guru-dashboard.html"
             class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition"
@@ -82,7 +159,6 @@
             <i class="fas fa-calendar-alt mr-3"></i> Jadwal Mengajar
           </a>
         </nav>
-
         <div class="p-6 border-t border-slate-800 bg-[#0f172a]">
           <a
             href="login.html#login"
@@ -100,59 +176,27 @@
           <h2 class="text-xl font-bold text-slate-800">
             Presensi & Rekapitulasi
           </h2>
-          <div class="relative">
-            <button
-              id="profileBtn"
-              class="flex items-center space-x-3 focus:outline-none group"
-            >
-              <div class="text-right mr-2 hidden sm:block">
-                <p
-                  class="text-[10px] font-bold bg-blue-100 text-blue-700 px-2 py-0.5 rounded-md uppercase inline-block mb-1"
-                >
-                  Guru Pengampu
-                </p>
-                <p
-                  class="text-xs font-bold text-slate-800 uppercase group-hover:text-blue-600 transition"
-                >
-                  Endang Darwati, S.Pd
-                </p>
-              </div>
-              <div
-                class="w-10 h-10 rounded-full bg-[#0091d5] flex items-center justify-center text-white font-bold text-sm border-2 border-white shadow-md group-hover:scale-105 transition-all"
+          <div class="flex items-center space-x-3">
+            <div class="text-right hidden sm:block mr-2">
+              <p
+                class="text-[10px] font-bold bg-blue-100 text-blue-700 px-2 py-0.5 rounded-md uppercase inline-block mb-1"
               >
-                ED
-              </div>
-            </button>
-
+                Guru Pengampu
+              </p>
+              <p class="text-xs font-bold text-slate-800 uppercase">
+                Endang Darwati, S.Pd
+              </p>
+            </div>
             <div
-              id="profileDropdown"
-              class="absolute right-0 mt-3 w-72 bg-white rounded-[2rem] shadow-2xl border border-slate-100 p-6 hidden animate-fadeIn overflow-hidden z-50"
+              class="w-10 h-10 rounded-full bg-[#0091d5] flex items-center justify-center text-white font-bold border-2 border-white shadow-md"
             >
-              <div class="text-center mb-4">
-                <div
-                  class="w-16 h-16 bg-blue-50 rounded-full mx-auto flex items-center justify-center text-[#0091d5] text-xl font-black border-4 border-blue-100 mb-2"
-                >
-                  ED
-                </div>
-                <h4 class="text-sm font-black text-slate-800">
-                  Endang Darwati
-                </h4>
-                <p
-                  class="text-[10px] text-slate-400 font-bold uppercase tracking-widest"
-                >
-                  NIP: 19850101XXXXXXXX
-                </p>
-              </div>
-
-              <div class="space-y-3" id="dropdownContent"></div>
+              ED
             </div>
           </div>
         </header>
 
         <main class="p-8">
-          <div
-            class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden"
-          >
+          <div class="bg-white overflow-hidden shadow-none border-none">
             <div class="flex border-b border-slate-100 bg-slate-50/50">
               <button
                 id="tab-daftar"
@@ -173,24 +217,28 @@
             <div class="p-6">
               <div id="content-daftar">
                 <div class="flex justify-between items-center mb-6">
-                  <div class="relative w-64">
-                    <i
-                      class="fas fa-search absolute left-4 top-3 text-slate-400 text-sm"
-                    ></i>
+                  <div class="relative group flex-1 max-w-2xl">
+                    <div
+                      class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none"
+                    >
+                      <i
+                        class="fas fa-search text-slate-400 group-focus-within:text-blue-500 group-focus-within:scale-110 transition-all duration-300"
+                      ></i>
+                    </div>
                     <input
-                      id="search-input"
                       type="text"
-                      placeholder="Cari siswa..."
-                      class="pl-10 pr-4 py-2 bg-slate-100 border-none rounded-xl text-sm w-full outline-none focus:ring-2 focus:ring-blue-500 transition"
+                      id="search-input"
+                      placeholder="Cari Nama Siswa atau NISN ..."
+                      class="block w-full pl-12 pr-4 py-3 bg-slate-100 border border-transparent rounded-2xl text-sm font-medium outline-none focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 shadow-sm transition-all duration-300"
                     />
                   </div>
-
                   <div
-                    class="flex items-center space-x-2 bg-slate-100 px-4 py-2 rounded-xl border border-slate-200 focus-within:ring-2 focus-within:ring-blue-500 transition-all"
+                    class="flex items-center space-x-2 bg-slate-100 px-4 py-2 rounded-xl border border-slate-200"
                   >
                     <i class="far fa-calendar-alt text-blue-600 text-sm"></i>
                     <input
                       type="date"
+                      id="input-date"
                       value="2026-03-26"
                       class="bg-transparent border-none text-xs font-bold text-slate-600 outline-none cursor-pointer"
                     />
@@ -199,7 +247,7 @@
 
                 <div class="overflow-x-auto">
                   <table
-                    class="w-full text-left border-separate border-spacing-y-2"
+                    class="w-full text-left border-separate border-spacing-y-3"
                   >
                     <thead
                       class="text-slate-400 text-[10px] uppercase font-bold tracking-widest"
@@ -207,12 +255,12 @@
                       <tr>
                         <th class="px-6 py-2 w-16 text-center">No</th>
                         <th class="px-6 py-2">Nama Siswa / NISN</th>
-                        <th class="px-6 py-2 text-right pr-14">
+                        <th class="px-6 py-2 text-center">
                           Pilih Kehadiran Harian
                         </th>
                       </tr>
                     </thead>
-                    <tbody class="text-sm"></tbody>
+                    <tbody id="siswa-table-body" class="text-sm"></tbody>
                   </table>
                 </div>
 
@@ -227,60 +275,123 @@
               </div>
 
               <div id="content-rekap" class="hidden">
-                <div class="flex justify-between items-center mb-6">
-                  <h3
-                    class="text-lg font-bold text-slate-700 underline decoration-blue-500 decoration-4 underline-offset-8"
+                <div
+                  id="print-header"
+                  class="hidden print:block text-center mb-10"
+                >
+                  <h1
+                    class="text-2xl font-bold uppercase border-b-2 border-black pb-2 inline-block"
                   >
-                    Total Akumulasi Kehadiran
-                  </h3>
-                  <button
-                    class="bg-emerald-600 text-white px-5 py-2 rounded-xl text-[11px] font-bold hover:bg-emerald-700 transition uppercase flex items-center shadow-lg shadow-emerald-100"
-                  >
-                    <i class="fas fa-file-excel mr-2"></i> Export Excel
-                  </button>
+                    Laporan Rekapitulasi Presensi Siswa
+                  </h1>
+                  <p class="text-lg mt-2">SD Negeri Ganting - Sidoarjo</p>
+                  <p id="print-date-info" class="text-sm mt-1 italic"></p>
                 </div>
-                <div class="overflow-x-auto">
-                  <table
-                    class="w-full text-left border-separate border-spacing-y-2"
-                  >
+
+                <div
+                  class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4"
+                >
+                  <div>
+                    <h3 class="text-xl font-bold text-slate-800 tracking-tight">
+                      Laporan Kehadiran Siswa
+                    </h3>
+                    <p class="text-xs text-slate-400 mt-1 font-medium">
+                      Total akumulasi kehadiran selama satu periode/semester
+                    </p>
+                  </div>
+
+                  <div class="flex items-center space-x-3 print:hidden">
+                    <button
+                      onclick="exportExcel()"
+                      class="flex items-center bg-emerald-50 text-emerald-600 px-5 py-2.5 rounded-xl text-xs font-bold border border-emerald-100 hover:bg-emerald-100 transition-all shadow-sm"
+                    >
+                      <i class="fas fa-file-excel mr-2 text-sm"></i> EXPORT
+                      EXCEL
+                    </button>
+                    <button
+                      onclick="window.print()"
+                      class="flex items-center bg-rose-50 text-rose-600 px-5 py-2.5 rounded-xl text-xs font-bold border border-rose-100 hover:bg-rose-100 transition-all shadow-sm"
+                    >
+                      <i class="fas fa-file-pdf mr-2 text-sm"></i> CETAK PDF
+                    </button>
+                  </div>
+                </div>
+
+                <div class="bg-white overflow-x-auto">
+                  <table id="rekap-table" class="w-full border-collapse">
                     <thead
-                      class="bg-slate-50 text-slate-400 text-[10px] uppercase font-bold tracking-widest"
+                      class="bg-slate-50 text-slate-500 text-[10px] uppercase font-bold tracking-widest"
                     >
                       <tr>
-                        <th class="px-6 py-4 rounded-l-xl">ID</th>
-                        <th class="px-6 py-4">Nama Siswa</th>
                         <th
-                          class="px-4 py-4 text-center bg-emerald-50 text-emerald-600"
+                          class="px-6 py-5 border-b border-slate-100 w-16 text-center"
+                        >
+                          No
+                        </th>
+                        <th
+                          class="px-6 py-5 border-b border-slate-100 text-left"
+                        >
+                          Nama Siswa
+                        </th>
+                        <th
+                          class="px-6 py-5 border-b border-slate-100 text-center text-emerald-600 bg-emerald-50/30"
                         >
                           Hadir
                         </th>
                         <th
-                          class="px-4 py-4 text-center bg-amber-50 text-amber-600"
+                          class="px-6 py-5 border-b border-slate-100 text-center text-amber-600 bg-amber-50/30"
                         >
                           Izin
                         </th>
                         <th
-                          class="px-4 py-4 text-center bg-blue-50 text-blue-600"
+                          class="px-6 py-5 border-b border-slate-100 text-center text-blue-600 bg-blue-50/30"
                         >
                           Sakit
                         </th>
                         <th
-                          class="px-4 py-4 text-center bg-red-50 text-red-600 font-black text-xs"
+                          class="px-6 py-5 border-b border-slate-100 text-center text-red-600 bg-red-50/30"
                         >
                           Alfa
                         </th>
-                        <th class="px-6 py-4 text-center bg-slate-100">
+                        <th
+                          class="px-6 py-5 border-b border-slate-100 text-center bg-slate-100 text-slate-800 font-black"
+                        >
                           Total
                         </th>
                         <th
-                          class="px-6 py-4 text-center rounded-r-xl bg-slate-100"
+                          class="px-6 py-5 border-b border-slate-100 text-center no-print"
                         >
                           Aksi
                         </th>
                       </tr>
                     </thead>
-                    <tbody class="text-sm"></tbody>
+                    <tbody
+                      id="rekap-table-body"
+                      class="text-sm divide-y divide-slate-50"
+                    >
+                      <tr>
+                        <td
+                          colspan="8"
+                          class="px-6 py-12 text-center text-slate-400 italic"
+                        >
+                          <i class="fas fa-spinner fa-spin mr-2"></i> Memuat
+                          data rekapitulasi...
+                        </td>
+                      </tr>
+                    </tbody>
                   </table>
+                </div>
+
+                <div
+                  class="mt-6 p-4 bg-blue-50 rounded-2xl border border-blue-100 flex items-start space-x-3 no-print"
+                >
+                  <i class="fas fa-info-circle text-blue-500 mt-0.5"></i>
+                  <p class="text-[11px] text-blue-700 leading-relaxed">
+                    Data rekapitulasi di atas diambil secara otomatis
+                    berdasarkan riwayat presensi harian yang telah disimpan.
+                    Jika terdapat ketidaksesuaian, silakan periksa kembali input
+                    presensi pada tanggal terkait.
+                  </p>
                 </div>
               </div>
             </div>
@@ -289,8 +400,35 @@
       </div>
     </div>
 
+    <script>
+      function switchTab(tab) {
+        const d = document.getElementById("content-daftar");
+        const r = document.getElementById("content-rekap");
+        const td = document.getElementById("tab-daftar");
+        const tr = document.getElementById("tab-rekap");
 
+        if (tab === "daftar") {
+          d.classList.remove("hidden");
+          r.classList.add("hidden");
+          td.className =
+            "px-8 py-4 text-sm font-bold border-b-2 border-blue-600 text-blue-600 bg-white transition-all";
+          tr.className =
+            "px-8 py-4 text-sm font-bold text-slate-400 hover:text-slate-600 transition-all";
+        } else {
+          d.classList.add("hidden");
+          r.classList.remove("hidden");
+          tr.className =
+            "px-8 py-4 text-sm font-bold border-b-2 border-blue-600 text-blue-600 bg-white transition-all";
+          td.className =
+            "px-8 py-4 text-sm font-bold text-slate-400 hover:text-slate-600 transition-all";
 
+          if (typeof loadRekapPresensi === "function") {
+            loadRekapPresensi();
+          }
+        }
+      }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
