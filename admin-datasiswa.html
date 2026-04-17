@@ -1,164 +1,511 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Data Siswa - SIAKAD PRO</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-  <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
-  <style>
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    .animate-fadeIn { animation: fadeIn 0.4s ease-out forwards; }
-  </style>
-</head>
-<body class="bg-slate-50 font-sans text-slate-900">
-  <div class="flex min-h-screen">
-    <!-- SIDEBAR (sama seperti kode Anda, tidak perlu diubah) -->
-    <aside class="w-64 bg-[#0f172a] text-white flex-shrink-0 hidden md:flex flex-col">
-      <div class="p-6 border-b border-slate-800 flex items-center space-x-3">
-        <i class="fas fa-shield-alt text-2xl text-blue-400"></i>
-        <span class="text-xl font-bold tracking-tight">ADMIN PANEL</span>
-      </div>
-      <nav class="flex-1 mt-6 px-4 space-y-1">
-        <a href="admin-dashboard.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition"><i class="fas fa-th-large mr-3 w-5"></i> Dashboard</a>
-        <a href="admin-dataguru.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition"><i class="fas fa-user-tie mr-3 w-5"></i> Data Guru</a>
-        <a href="admin-datasiswa.html" class="flex items-center py-3 px-4 bg-[#2563eb] text-white rounded-xl transition shadow-lg shadow-blue-900/20"><i class="fas fa-user-graduate mr-3 w-5"></i> Data Siswa</a>
-        <a href="admin-jadwalguru.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition"><i class="fas fa-calendar-alt mr-3 w-5"></i> Jadwal Guru</a>
-        <a href="admin-nilai.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition"><i class="fas fa-star mr-3 w-5"></i> Nilai Siswa</a>
-        <a href="admin-kelolaberita.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition"><i class="fas fa-newspaper mr-3 w-5"></i> Kelola Berita</a>
-      </nav>
-      <div class="p-6 border-t border-slate-800">
-        <a href="login.html#login" class="flex items-center text-red-400 hover:text-red-300 font-bold"><i class="fas fa-sign-out-alt mr-3"></i> Logout</a>
-      </div>
-    </aside>
-
-    <div class="flex-1 flex flex-col">
-      <!-- HEADER (profile dropdown) sama seperti kode Anda, tidak diubah) -->
-      <header class="bg-white shadow-sm py-4 px-8 flex justify-between items-center relative z-50">
-        <h2 class="text-xl font-bold text-slate-800 tracking-tight uppercase">Selamat Datang, Admin !</h2>
-        <div class="relative">
-          <button id="profileBtn" class="flex items-center space-x-3 focus:outline-none group">
-            <div class="text-right mr-2 hidden sm:block">
-              <p class="text-xs font-bold text-slate-800 uppercase group-hover:text-blue-600 transition">Administrator</p>
-              <p class="text-[10px] text-slate-400 font-medium group-hover:text-slate-500 transition">Sistem Informasi Akademik</p>
-            </div>
-            <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-white font-bold text-sm border-2 border-white shadow-md group-hover:scale-105 transition-all">AD</div>
-          </button>
-          <div id="profileDropdown" class="absolute right-0 mt-3 w-72 bg-white rounded-[2rem] shadow-2xl border border-slate-100 p-6 hidden animate-fadeIn overflow-hidden">
-            <div class="text-center mb-4">
-              <div class="w-16 h-16 bg-slate-100 rounded-full mx-auto flex items-center justify-center text-slate-800 text-xl font-black border-4 border-blue-50 mb-2">AD</div>
-              <h4 class="text-sm font-black text-slate-800">Admin Utama</h4>
-              <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">ID: ADM-GANTING-01</p>
-            </div>
-            <div class="space-y-3">
-              <div><label class="text-[10px] font-bold text-slate-400 uppercase ml-2">Username</label><div class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 text-sm font-bold text-slate-500 cursor-not-allowed">admin_siakad</div></div>
-              <div><label class="text-[10px] font-bold text-slate-400 uppercase ml-2 mb-1 block">Password</label><div class="relative w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 flex items-center justify-between"><span id="passText" class="text-sm font-bold text-slate-500 select-none" style="cursor: not-allowed;">••••••••</span><button type="button" onclick="toggleViewPassword(event)" class="text-slate-300 hover:text-blue-500 transition-colors focus:outline-none"><i id="eyeIcon" class="fas fa-eye text-xs"></i></button></div></div>
-              <button class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-xl text-xs font-bold transition shadow-lg shadow-blue-200 mt-2">Update Password</button>
-              <hr class="border-slate-50 my-2">
-              <a href="login.html" class="flex items-center justify-center text-red-500 text-[11px] font-bold hover:bg-red-50 py-2 rounded-lg transition"><i class="fas fa-sign-out-alt mr-2"></i> KELUAR SISTEM</a>
-            </div>
-          </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Data Siswa - SIAKAD PRO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+    <style>
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .animate-fadeIn {
+        animation: fadeIn 0.4s ease-out forwards;
+      }
+    </style>
+  </head>
+  <body class="bg-slate-50 font-sans text-slate-900">
+    <div class="flex min-h-screen">
+      <!-- SIDEBAR (sama seperti kode Anda, tidak perlu diubah) -->
+      <aside
+        class="w-64 bg-[#0f172a] text-white flex-shrink-0 hidden md:flex flex-col"
+      >
+        <div class="p-6 border-b border-slate-800 flex items-center space-x-3">
+          <i class="fas fa-shield-alt text-2xl text-blue-400"></i>
+          <span class="text-xl font-bold tracking-tight">ADMIN PANEL</span>
         </div>
-      </header>
+        <nav class="flex-1 mt-6 px-4 space-y-1">
+          <a
+            href="admin-dashboard.html"
+            class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition"
+            ><i class="fas fa-th-large mr-3 w-5"></i> Dashboard</a
+          >
+          <a
+            href="admin-dataguru.html"
+            class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition"
+            ><i class="fas fa-user-tie mr-3 w-5"></i> Data Guru</a
+          >
+          <a
+            href="admin-datasiswa.html"
+            class="flex items-center py-3 px-4 bg-[#2563eb] text-white rounded-xl transition shadow-lg shadow-blue-900/20"
+            ><i class="fas fa-user-graduate mr-3 w-5"></i> Data Siswa</a
+          >
+          <a
+            href="admin-jadwalguru.html"
+            class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition"
+            ><i class="fas fa-calendar-alt mr-3 w-5"></i> Jadwal Guru</a
+          >
+          <a
+            href="admin-nilai.html"
+            class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition"
+            ><i class="fas fa-star mr-3 w-5"></i> Nilai Siswa</a
+          >
+          <a
+            href="admin-kelolaberita.html"
+            class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition"
+            ><i class="fas fa-newspaper mr-3 w-5"></i> Kelola Berita</a
+          >
+        </nav>
+        <div class="p-6 border-t border-slate-800">
+          <a
+            href="login.html#login"
+            class="flex items-center text-red-400 hover:text-red-300 font-bold"
+            ><i class="fas fa-sign-out-alt mr-3"></i> Logout</a
+          >
+        </div>
+      </aside>
 
-      <main class="p-8">
-        <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-200 p-8 animate-fadeIn">
-          <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8 gap-4">
-            <div>
-              <h3 class="text-2xl font-black text-slate-800 tracking-tight">Data Siswa</h3>
-              <p class="text-slate-400 text-xs font-medium">Manajemen data murid SD Negeri Ganting</p>
-            </div>
-            <div class="flex flex-wrap items-center gap-3 w-full lg:w-auto">
-              <!-- Tambahkan id="filterKelas" -->
-              <select id="filterKelas" class="bg-slate-50 border border-slate-200 rounded-xl py-2.5 px-4 text-sm font-bold text-slate-600 outline-none focus:ring-2 focus:ring-blue-500 transition-all cursor-pointer">
-                <option value="">Semua Kelas</option>
-                <option value="1A">Kelas 1A</option>
-                <option value="1B">Kelas 1B</option>
-                <option value="2A">Kelas 2A</option>
-                <option value="2B">Kelas 2B</option>
-              </select>
-              <div class="relative flex-1 md:w-64">
-                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400"><i class="fas fa-search text-sm"></i></span>
-                <!-- Tambahkan id="searchInput" -->
-                <input type="text" id="searchInput" placeholder="Cari Siswa..." class="w-full bg-slate-50 border border-slate-200 rounded-xl py-2.5 pl-10 pr-4 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all">
+      <div class="flex-1 flex flex-col">
+        <!-- HEADER (profile dropdown) sama seperti kode Anda, tidak diubah) -->
+        <header
+          class="bg-white shadow-sm py-4 px-8 flex justify-between items-center relative z-50"
+        >
+          <h2 class="text-xl font-bold text-slate-800 tracking-tight uppercase">
+            Selamat Datang, Admin !
+          </h2>
+          <div class="relative">
+            <button
+              id="profileBtn"
+              class="flex items-center space-x-3 focus:outline-none group"
+            >
+              <div class="text-right mr-2 hidden sm:block">
+                <p
+                  class="text-xs font-bold text-slate-800 uppercase group-hover:text-blue-600 transition"
+                >
+                  Administrator
+                </p>
+                <p
+                  class="text-[10px] text-slate-400 font-medium group-hover:text-slate-500 transition"
+                >
+                  Sistem Informasi Akademik
+                </p>
               </div>
-              <button id="btnImportBulk" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-5 rounded-xl text-sm transition shadow-md flex items-center gap-2"><i class="fas fa-upload"></i> Import Excel</button>
-              <button id="btnManualAdd" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2.5 px-5 rounded-xl text-sm transition shadow-md flex items-center gap-2"><i class="fas fa-plus-circle"></i> Tambah Siswa</button>
-              <button id="btnPasteJson" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 px-5 rounded-xl text-sm transition shadow-md flex items-center gap-2"><i class="fas fa-paste"></i> Tempel JSON</button>
+              <div
+                class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-white font-bold text-sm border-2 border-white shadow-md group-hover:scale-105 transition-all"
+              >
+                AD
+              </div>
+            </button>
+            <div
+              id="profileDropdown"
+              class="absolute right-0 mt-3 w-72 bg-white rounded-[2rem] shadow-2xl border border-slate-100 p-6 hidden animate-fadeIn overflow-hidden"
+            >
+              <div class="text-center mb-4">
+                <div
+                  class="w-16 h-16 bg-slate-100 rounded-full mx-auto flex items-center justify-center text-slate-800 text-xl font-black border-4 border-blue-50 mb-2"
+                >
+                  AD
+                </div>
+                <h4 class="text-sm font-black text-slate-800">Admin Utama</h4>
+                <p
+                  class="text-[10px] text-slate-400 font-bold uppercase tracking-widest"
+                >
+                  ID: ADM-GANTING-01
+                </p>
+              </div>
+              <div class="space-y-3">
+                <div>
+                  <label
+                    class="text-[10px] font-bold text-slate-400 uppercase ml-2"
+                    >Username</label
+                  >
+                  <div
+                    class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 text-sm font-bold text-slate-500 cursor-not-allowed"
+                  >
+                    admin_siakad
+                  </div>
+                </div>
+                <div>
+                  <label
+                    class="text-[10px] font-bold text-slate-400 uppercase ml-2 mb-1 block"
+                    >Password</label
+                  >
+                  <div
+                    class="relative w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 flex items-center justify-between"
+                  >
+                    <span
+                      id="passText"
+                      class="text-sm font-bold text-slate-500 select-none"
+                      style="cursor: not-allowed"
+                      >••••••••</span
+                    ><button
+                      type="button"
+                      onclick="toggleViewPassword(event)"
+                      class="text-slate-300 hover:text-blue-500 transition-colors focus:outline-none"
+                    >
+                      <i id="eyeIcon" class="fas fa-eye text-xs"></i>
+                    </button>
+                  </div>
+                </div>
+                <button
+                  class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-xl text-xs font-bold transition shadow-lg shadow-blue-200 mt-2"
+                >
+                  Update Password
+                </button>
+                <hr class="border-slate-50 my-2" />
+                <a
+                  href="login.html"
+                  class="flex items-center justify-center text-red-500 text-[11px] font-bold hover:bg-red-50 py-2 rounded-lg transition"
+                  ><i class="fas fa-sign-out-alt mr-2"></i> KELUAR SISTEM</a
+                >
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <main class="p-8">
+          <div
+            class="bg-white rounded-[2.5rem] shadow-sm border border-slate-200 p-8 animate-fadeIn"
+          >
+            <div
+              class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8 gap-4"
+            >
+              <div>
+                <h3 class="text-2xl font-black text-slate-800 tracking-tight">
+                  Data Siswa
+                </h3>
+                <p class="text-slate-400 text-xs font-medium">
+                  Manajemen data murid SD Negeri Ganting
+                </p>
+              </div>
+              <div class="flex flex-wrap items-center gap-3 w-full lg:w-auto">
+                <!-- Tambahkan id="filterKelas" -->
+                <select
+                  id="filterKelas"
+                  class="bg-slate-50 border border-slate-200 rounded-xl py-2.5 px-4 text-sm font-bold text-slate-600 outline-none focus:ring-2 focus:ring-blue-500 transition-all cursor-pointer"
+                >
+                  <option value="">Semua Kelas</option>
+                  <option value="1A">Kelas 1A</option>
+                  <option value="1B">Kelas 1B</option>
+                  <option value="2A">Kelas 2A</option>
+                  <option value="2B">Kelas 2B</option>
+                </select>
+                <div class="relative flex-1 md:w-64">
+                  <span
+                    class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400"
+                    ><i class="fas fa-search text-sm"></i
+                  ></span>
+                  <!-- Tambahkan id="searchInput" -->
+                  <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Cari Siswa..."
+                    class="w-full bg-slate-50 border border-slate-200 rounded-xl py-2.5 pl-10 pr-4 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all"
+                  />
+                </div>
+                <button
+                  id="btnImportBulk"
+                  class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-5 rounded-xl text-sm transition shadow-md flex items-center gap-2"
+                >
+                  <i class="fas fa-upload"></i> Import Excel
+                </button>
+                <button
+                  id="btnManualAdd"
+                  class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2.5 px-5 rounded-xl text-sm transition shadow-md flex items-center gap-2"
+                >
+                  <i class="fas fa-plus-circle"></i> Tambah Siswa
+                </button>
+                <button
+                  id="btnPasteJson"
+                  class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 px-5 rounded-xl text-sm transition shadow-md flex items-center gap-2"
+                >
+                  <i class="fas fa-paste"></i> Tempel JSON
+                </button>
+              </div>
+            </div>
+
+            <div class="overflow-hidden rounded-2xl border border-slate-100">
+              <table class="w-full text-left border-collapse">
+                <thead
+                  class="bg-slate-800 text-white uppercase text-[11px] tracking-widest font-bold"
+                >
+                  <tr>
+                    <th class="py-4 px-6 text-center">NISN</th>
+                    <th class="py-4 px-6">Nama Siswa</th>
+                    <th class="py-4 px-6 text-center">Kelas</th>
+                    <th class="py-4 px-6">Nama Wali</th>
+                    <th class="py-4 px-6 text-center">No. HP</th>
+                    <th class="py-4 px-6 text-center">Status</th>
+                    <th class="py-4 px-6 text-center">Aksi</th>
+                  </tr>
+                </thead>
+                <!-- Tambahkan id="siswaTableBody" -->
+                <tbody
+                  id="siswaTableBody"
+                  class="divide-y divide-slate-100"
+                ></tbody>
+              </table>
+            </div>
+
+            <div
+              class="mt-6 flex justify-between items-center text-xs font-bold text-slate-400 uppercase tracking-widest"
+            >
+              <p id="infoJumlah">Menampilkan 0 Siswa</p>
+              <div id="pagination" class="flex space-x-1"></div>
             </div>
           </div>
 
-          <div class="overflow-hidden rounded-2xl border border-slate-100">
-            <table class="w-full text-left border-collapse">
-              <thead class="bg-slate-800 text-white uppercase text-[11px] tracking-widest font-bold">
-                <tr>
-                  <th class="py-4 px-6 text-center">NISN</th>
-                  <th class="py-4 px-6">Nama Siswa</th>
-                  <th class="py-4 px-6 text-center">Kelas</th>
-                  <th class="py-4 px-6">Nama Wali</th>
-                  <th class="py-4 px-6 text-center">No. HP</th>
-                  <th class="py-4 px-6 text-center">Status</th>
-                  <th class="py-4 px-6 text-center">Aksi</th>
-                </tr>
-              </thead>
-              <!-- Tambahkan id="siswaTableBody" -->
-              <tbody id="siswaTableBody" class="divide-y divide-slate-100"></tbody>
-            </table>
-          </div>
-
-          <div class="mt-6 flex justify-between items-center text-xs font-bold text-slate-400 uppercase tracking-widest">
-            <p id="infoJumlah">Menampilkan 0 Siswa</p>
-            <div id="pagination" class="flex space-x-1"></div>
-          </div>
-        </div>
-
-        <!-- MODAL IMPORT EXCEL -->
-        <div id="modalImport" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 hidden transition-all">
-          <div class="bg-white rounded-2xl shadow-2xl w-full max-w-4xl mx-4 max-h-[90vh] overflow-y-auto animate-fadeIn">
-            <div class="sticky top-0 bg-white border-b border-slate-100 px-6 py-4 flex justify-between items-center"><h3 class="text-lg font-black text-slate-800"><i class="fas fa-file-upload text-emerald-500 mr-2"></i>Import Data Siswa (Bulk)</h3><button id="closeModalBtn" class="text-slate-400 hover:text-slate-600 transition"><i class="fas fa-times text-xl"></i></button></div>
-            <div class="p-6">
-              <div id="uploadArea" class="border-2 border-dashed border-slate-200 rounded-xl p-8 text-center hover:border-emerald-400 transition cursor-pointer"><i class="fas fa-cloud-upload-alt text-4xl text-slate-400 mb-3"></i><p class="text-slate-600 font-medium">Klik atau seret file ke sini</p><p class="text-xs text-slate-400 mt-1">Mendukung .xlsx, .xls, .csv (maks 5MB)</p><input type="file" id="fileInput" accept=".xlsx,.xls,.csv" class="hidden" /></div>
-              <div id="previewContainer" class="mt-6 hidden"><h4 class="font-bold text-slate-700 mb-2">Pratinjau Data (10 baris pertama)</h4><div class="overflow-x-auto border rounded-xl"><table class="min-w-full text-sm" id="previewTable"><thead class="bg-slate-100 text-slate-700"><tr></thead><tbody></tbody></table></div><div class="flex justify-end gap-3 mt-4"><button id="cancelImportBtn" class="px-4 py-2 border rounded-xl text-slate-600 hover:bg-slate-50">Batal</button><button id="confirmImportBtn" class="px-4 py-2 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700">Konfirmasi Import</button></div></div>
+          <!-- MODAL IMPORT EXCEL -->
+          <div
+            id="modalImport"
+            class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 hidden transition-all"
+          >
+            <div
+              class="bg-white rounded-2xl shadow-2xl w-full max-w-4xl mx-4 max-h-[90vh] overflow-y-auto animate-fadeIn"
+            >
+              <div
+                class="sticky top-0 bg-white border-b border-slate-100 px-6 py-4 flex justify-between items-center"
+              >
+                <h3 class="text-lg font-black text-slate-800">
+                  <i class="fas fa-file-upload text-emerald-500 mr-2"></i>Import
+                  Data Siswa (Bulk)
+                </h3>
+                <button
+                  id="closeModalBtn"
+                  class="text-slate-400 hover:text-slate-600 transition"
+                >
+                  <i class="fas fa-times text-xl"></i>
+                </button>
+              </div>
+              <div class="p-6">
+                <div
+                  id="uploadArea"
+                  class="border-2 border-dashed border-slate-200 rounded-xl p-8 text-center hover:border-emerald-400 transition cursor-pointer"
+                >
+                  <i
+                    class="fas fa-cloud-upload-alt text-4xl text-slate-400 mb-3"
+                  ></i>
+                  <p class="text-slate-600 font-medium">
+                    Klik atau seret file ke sini
+                  </p>
+                  <p class="text-xs text-slate-400 mt-1">
+                    Mendukung .xlsx, .xls, .csv (maks 5MB)
+                  </p>
+                  <input
+                    type="file"
+                    id="fileInput"
+                    accept=".xlsx,.xls,.csv"
+                    class="hidden"
+                  />
+                </div>
+                <div id="previewContainer" class="mt-6 hidden">
+                  <h4 class="font-bold text-slate-700 mb-2">
+                    Pratinjau Data (10 baris pertama)
+                  </h4>
+                  <div class="overflow-x-auto border rounded-xl">
+                    <table class="min-w-full text-sm" id="previewTable">
+                      <thead class="bg-slate-100 text-slate-700">
+                        <tr></tr>
+                      </thead>
+                      <tbody></tbody>
+                    </table>
+                  </div>
+                  <div class="flex justify-end gap-3 mt-4">
+                    <button
+                      id="cancelImportBtn"
+                      class="px-4 py-2 border rounded-xl text-slate-600 hover:bg-slate-50"
+                    >
+                      Batal</button
+                    ><button
+                      id="confirmImportBtn"
+                      class="px-4 py-2 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700"
+                    >
+                      Konfirmasi Import
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
 
-
-        <!-- MODAL TAMBAH MANUAL  -->
-        <div id="modalManual" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 hidden transition-all">
-          <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg mx-4 animate-fadeIn">
-            <div class="sticky top-0 bg-white border-b border-slate-100 px-6 py-4 flex justify-between items-center"><h3 class="text-lg font-black text-slate-800"><i class="fas fa-user-plus text-purple-500 mr-2"></i>Tambah/Edit Data Siswa</h3><button id="closeManualModalBtn" class="text-slate-400 hover:text-slate-600 transition"><i class="fas fa-times text-xl"></i></button></div>
-            <div class="p-6">
-              <form id="manualForm">
-                <div class="mb-4"><label class="block text-xs font-bold text-slate-500 uppercase mb-1">NISN *</label><input type="text" id="manualNisn" required class="w-full border border-slate-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-purple-500 focus:outline-none"></div>
-                <div class="mb-4"><label class="block text-xs font-bold text-slate-500 uppercase mb-1">Nama Siswa *</label><input type="text" id="manualNama" required class="w-full border border-slate-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-purple-500 focus:outline-none"></div>
-                <div class="mb-4"><label class="block text-xs font-bold text-slate-500 uppercase mb-1">Kelas *</label><input type="text" id="manualKelas" required placeholder="Contoh: 1A" class="w-full border border-slate-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-purple-500 focus:outline-none"></div>
-                <div class="mb-4"><label class="block text-xs font-bold text-slate-500 uppercase mb-1">Nama Wali *</label><input type="text" id="manualWali" required class="w-full border border-slate-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-purple-500 focus:outline-none"></div>
-                <!-- Field NO HP yang sebelumnya hilang -->
-                <div class="mb-4"><label class="block text-xs font-bold text-slate-500 uppercase mb-1">No. HP (opsional)</label><input type="text" id="manualNoHp" class="w-full border border-slate-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-purple-500 focus:outline-none"></div>
-                <div class="mb-6"><label class="block text-xs font-bold text-slate-500 uppercase mb-1">Status</label><select id="manualStatus" class="w-full border border-slate-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-purple-500 focus:outline-none"><option value="aktif">Aktif</option><option value="nonaktif">Nonaktif</option></select></div>
-                <div class="flex justify-end gap-3"><button type="button" id="cancelManualBtn" class="px-4 py-2 border rounded-xl text-slate-600 hover:bg-slate-50">Batal</button><button type="submit" class="px-4 py-2 bg-purple-600 text-white rounded-xl hover:bg-purple-700">Simpan</button></div>
-              </form>
+          <!-- MODAL TAMBAH MANUAL  -->
+          <div
+            id="modalManual"
+            class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 hidden transition-all"
+          >
+            <div
+              class="bg-white rounded-2xl shadow-2xl w-full max-w-lg mx-4 animate-fadeIn"
+            >
+              <div
+                class="sticky top-0 bg-white border-b border-slate-100 px-6 py-4 flex justify-between items-center"
+              >
+                <h3 class="text-lg font-black text-slate-800">
+                  <i class="fas fa-user-plus text-purple-500 mr-2"></i
+                  >Tambah/Edit Data Siswa
+                </h3>
+                <button
+                  id="closeManualModalBtn"
+                  class="text-slate-400 hover:text-slate-600 transition"
+                >
+                  <i class="fas fa-times text-xl"></i>
+                </button>
+              </div>
+              <div class="p-6">
+                <form id="manualForm">
+                  <div class="mb-4">
+                    <label
+                      class="block text-xs font-bold text-slate-500 uppercase mb-1"
+                      >NISN *</label
+                    ><input
+                      type="text"
+                      id="manualNisn"
+                      required
+                      class="w-full border border-slate-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                    />
+                  </div>
+                  <div class="mb-4">
+                    <label
+                      class="block text-xs font-bold text-slate-500 uppercase mb-1"
+                      >Nama Siswa *</label
+                    ><input
+                      type="text"
+                      id="manualNama"
+                      required
+                      class="w-full border border-slate-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                    />
+                  </div>
+                  <div class="mb-4">
+                    <label
+                      class="block text-xs font-bold text-slate-500 uppercase mb-1"
+                      >Kelas *</label
+                    ><input
+                      type="text"
+                      id="manualKelas"
+                      required
+                      placeholder="Contoh: 1A"
+                      class="w-full border border-slate-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                    />
+                  </div>
+                  <div class="mb-4">
+                    <label
+                      class="block text-xs font-bold text-slate-500 uppercase mb-1"
+                      >Nama Wali *</label
+                    ><input
+                      type="text"
+                      id="manualWali"
+                      required
+                      class="w-full border border-slate-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                    />
+                  </div>
+                  <!-- Field NO HP yang sebelumnya hilang -->
+                  <div class="mb-4">
+                    <label
+                      class="block text-xs font-bold text-slate-500 uppercase mb-1"
+                      >No. HP (opsional)</label
+                    ><input
+                      type="text"
+                      id="manualNoHp"
+                      class="w-full border border-slate-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                    />
+                  </div>
+                  <div class="mb-6">
+                    <label
+                      class="block text-xs font-bold text-slate-500 uppercase mb-1"
+                      >Status</label
+                    ><select
+                      id="manualStatus"
+                      class="w-full border border-slate-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                    >
+                      <option value="aktif">Aktif</option>
+                      <option value="nonaktif">Nonaktif</option>
+                    </select>
+                  </div>
+                  <div class="flex justify-end gap-3">
+                    <button
+                      type="button"
+                      id="cancelManualBtn"
+                      class="px-4 py-2 border rounded-xl text-slate-600 hover:bg-slate-50"
+                    >
+                      Batal</button
+                    ><button
+                      type="submit"
+                      class="px-4 py-2 bg-purple-600 text-white rounded-xl hover:bg-purple-700"
+                    >
+                      Simpan
+                    </button>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
-        </div>
 
-        <!-- MODAL TEMPEL JSON  -->
-        <div id="modalPasteJson" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 hidden transition-all">
-          <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl mx-4 animate-fadeIn"><div class="sticky top-0 bg-white border-b border-slate-100 px-6 py-4 flex justify-between items-center"><h3 class="text-lg font-black text-slate-800"><i class="fas fa-code text-indigo-500 mr-2"></i>Tempel JSON</h3><button id="closePasteModalBtn" class="text-slate-400 hover:text-slate-600 transition"><i class="fas fa-times text-xl"></i></button></div><div class="p-6"><textarea id="jsonPasteArea" rows="10" class="w-full border border-slate-200 rounded-xl p-4 text-sm font-mono focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder='[{"nisn":"003","nama":"Ahmad","kelas":"1A","nama_wali":"Siti","status":"aktif"}]'></textarea><div class="flex justify-end gap-3 mt-6"><button id="cancelPasteBtn" class="px-4 py-2 border rounded-xl text-slate-600 hover:bg-slate-50">Batal</button><button id="confirmPasteBtn" class="px-4 py-2 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700">Impor</button></div></div></div>
-        </div>
-      </main>
+          <!-- MODAL TEMPEL JSON  -->
+          <div
+            id="modalPasteJson"
+            class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 hidden transition-all"
+          >
+            <div
+              class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl mx-4 animate-fadeIn"
+            >
+              <div
+                class="sticky top-0 bg-white border-b border-slate-100 px-6 py-4 flex justify-between items-center"
+              >
+                <h3 class="text-lg font-black text-slate-800">
+                  <i class="fas fa-code text-indigo-500 mr-2"></i>Tempel JSON
+                </h3>
+                <button
+                  id="closePasteModalBtn"
+                  class="text-slate-400 hover:text-slate-600 transition"
+                >
+                  <i class="fas fa-times text-xl"></i>
+                </button>
+              </div>
+              <div class="p-6">
+                <textarea
+                  id="jsonPasteArea"
+                  rows="10"
+                  class="w-full border border-slate-200 rounded-xl p-4 text-sm font-mono focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                  placeholder='[{"nisn":"003","nama":"Ahmad","kelas":"1A","nama_wali":"Siti","status":"aktif"}]'
+                ></textarea>
+                <div class="flex justify-end gap-3 mt-6">
+                  <button
+                    id="cancelPasteBtn"
+                    class="px-4 py-2 border rounded-xl text-slate-600 hover:bg-slate-50"
+                  >
+                    Batal</button
+                  ><button
+                    id="confirmPasteBtn"
+                    class="px-4 py-2 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700"
+                  >
+                    Impor
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
     </div>
-  </div>
 
-  <!-- Firebase dan script module -->
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-  <!-- file firebase-config.js harus ada dan menginisialisasi Firebase -->
-  <script src="firebase-config.js"></script>
-  <!-- SEKARANG ditambahkan type="module" -->
-  <script src="admin-datasiswa.js"></script>
-</body>
+    <!-- Firebase dan script module -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <!-- file firebase-config.js harus ada dan menginisialisasi Firebase -->
+    <script src="firebase-config.js"></script>
+    <!-- SEKARANG ditambahkan type="module" -->
+    <script src="admin-datasiswa.js"></script>
+  </body>
 </html>
