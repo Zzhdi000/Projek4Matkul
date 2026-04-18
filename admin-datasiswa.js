@@ -47,14 +47,23 @@ async function deleteSiswa(id, nisn) {
   }
 }
 
-// ======================== RENDER TABEL ========================
+// ======================== RENDER TABEL & PAGINATION ========================
 function renderTable() {
   let filtered = [...allSiswa];
+  
+  // Filter & Search
   if (filterKelas) filtered = filtered.filter(s => s.kelas === filterKelas);
-  if (searchQuery) filtered = filtered.filter(s => s.nama.toLowerCase().includes(searchQuery.toLowerCase()) || s.nisn.includes(searchQuery));
+  if (searchQuery) {
+    filtered = filtered.filter(s => 
+      s.nama.toLowerCase().includes(searchQuery.toLowerCase()) || 
+      s.nisn.includes(searchQuery)
+    );
+  }
   
   const total = filtered.length;
   const totalPages = Math.ceil(total / rowsPerPage);
+  
+  // Penyesuaian currentPage agar tidak out of bounds
   if (currentPage > totalPages) currentPage = totalPages || 1;
   const start = (currentPage - 1) * rowsPerPage;
   const paginated = filtered.slice(start, start + rowsPerPage);
@@ -62,43 +71,76 @@ function renderTable() {
   const tbody = document.getElementById('siswaTableBody');
   if (!tbody) return;
   tbody.innerHTML = '';
+
+  // Render Rows
   paginated.forEach(s => {
     const row = tbody.insertRow();
-    row.className = 'hover:bg-slate-50/80 transition-colors';
+    row.className = 'hover:bg-slate-50/80 transition-colors border-b border-slate-100';
     row.innerHTML = `
       <td class="py-4 px-6 text-center font-bold text-slate-500 text-sm">${escapeHtml(s.nisn)}</td>
       <td class="py-4 px-6"><div class="font-bold text-slate-800 capitalize">${escapeHtml(s.nama)}</div></td>
       <td class="py-4 px-6 text-center"><span class="bg-blue-50 text-blue-600 font-bold px-3 py-1 rounded-lg text-xs border border-blue-100">${escapeHtml(s.kelas)}</span></td>
       <td class="py-4 px-6 text-slate-600 text-sm">${escapeHtml(s.nama_wali)}</td>
       <td class="py-4 px-6 text-slate-600 text-sm">${escapeHtml(s.no_hp || '-')}</td>
-      <td class="py-4 px-6 text-center"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold ${s.status === 'aktif' ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'}"><span class="w-1.5 h-1.5 rounded-full ${s.status === 'aktif' ? 'bg-emerald-500' : 'bg-red-500'} mr-1.5"></span>${s.status.charAt(0).toUpperCase() + s.status.slice(1)}</span></td>
-      <td class="py-4 px-6"><div class="flex justify-center space-x-2">
-        <button class="edit-btn w-8 h-8 rounded-lg bg-amber-50 text-amber-600 hover:bg-amber-100 transition flex items-center justify-center border border-amber-100" data-id="${s.id}" data-nisn="${escapeHtml(s.nisn)}"><i class="fas fa-pen text-[10px]"></i></button>
-        <button class="delete-btn w-8 h-8 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition flex items-center justify-center border border-red-100" data-id="${s.id}" data-nisn="${escapeHtml(s.nisn)}"><i class="fas fa-trash-alt text-[10px]"></i></button>
-      </div></td>
+      <td class="py-4 px-6 text-center">
+        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold ${s.status === 'aktif' ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'}">
+          <span class="w-1.5 h-1.5 rounded-full ${s.status === 'aktif' ? 'bg-emerald-500' : 'bg-red-500'} mr-1.5"></span>
+          ${s.status.charAt(0).toUpperCase() + s.status.slice(1)}
+        </span>
+      </td>
+      <td class="py-4 px-6">
+        <div class="flex justify-center space-x-2">
+          <button class="edit-btn w-8 h-8 rounded-lg bg-amber-50 text-amber-600 hover:bg-amber-100 transition flex items-center justify-center border border-amber-100" data-id="${s.id}"><i class="fas fa-pen text-[10px]"></i></button>
+          <button class="delete-btn w-8 h-8 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition flex items-center justify-center border border-red-100" data-id="${s.id}" data-nisn="${escapeHtml(s.nisn)}"><i class="fas fa-trash-alt text-[10px]"></i></button>
+        </div>
+      </td>
     `;
   });
   
-  document.querySelectorAll('.edit-btn').forEach(btn => {
-    btn.addEventListener('click', () => editSiswa(btn.dataset.id));
-  });
-  document.querySelectorAll('.delete-btn').forEach(btn => {
-    btn.addEventListener('click', () => deleteSiswa(btn.dataset.id, btn.dataset.nisn));
-  });
+  // Re-bind Event Listeners Buttons
+  document.querySelectorAll('.edit-btn').forEach(btn => btn.onclick = () => editSiswa(btn.dataset.id));
+  document.querySelectorAll('.delete-btn').forEach(btn => btn.onclick = () => deleteSiswa(btn.dataset.id, btn.dataset.nisn));
   
+  // Update Info Jumlah
   const infoJumlah = document.getElementById('infoJumlah');
   if (infoJumlah) infoJumlah.innerText = `Menampilkan ${total} Siswa`;
   
+  // ======================== LOGIKA PAGINATION DENGAN PANAH ========================
   const paginationDiv = document.getElementById('pagination');
   if (paginationDiv) {
     paginationDiv.innerHTML = '';
-    for (let i = 1; i <= totalPages; i++) {
+    if (totalPages <= 1) return;
+
+    // 1. Tombol Previous
+    const prevBtn = document.createElement('button');
+    prevBtn.innerHTML = '<i class="fas fa-chevron-left text-[10px]"></i>';
+    prevBtn.className = `w-9 h-9 rounded-lg border flex items-center justify-center transition ${currentPage === 1 ? 'text-slate-200 border-slate-100 cursor-not-allowed' : 'text-slate-500 border-slate-200 hover:bg-slate-50 hover:text-blue-600'}`;
+    prevBtn.onclick = () => { if(currentPage > 1) { currentPage--; renderTable(); } };
+    paginationDiv.appendChild(prevBtn);
+
+    // 2. Hitung Range Angka (Maksimal 5 angka tampil)
+    let startPage = Math.max(1, currentPage - 2);
+    let endPage = Math.min(totalPages, startPage + 4);
+    if (endPage - startPage < 4) startPage = Math.max(1, endPage - 4);
+
+    for (let i = startPage; i <= endPage; i++) {
       const btn = document.createElement('button');
       btn.innerText = i;
-      btn.className = `w-8 h-8 rounded-lg ${i === currentPage ? 'bg-blue-500 text-white' : 'bg-white border border-slate-200 text-slate-400 hover:bg-slate-50'} flex items-center justify-center transition`;
-      btn.addEventListener('click', () => { currentPage = i; renderTable(); });
+      btn.className = `w-9 h-9 rounded-lg text-xs font-bold transition flex items-center justify-center ${
+        i === currentPage 
+        ? 'bg-blue-600 text-white border-blue-600 shadow-md shadow-blue-200' 
+        : 'bg-white border border-slate-200 text-slate-500 hover:border-blue-400 hover:text-blue-600'
+      }`;
+      btn.onclick = () => { currentPage = i; renderTable(); };
       paginationDiv.appendChild(btn);
     }
+
+    // 3. Tombol Next
+    const nextBtn = document.createElement('button');
+    nextBtn.innerHTML = '<i class="fas fa-chevron-right text-[10px]"></i>';
+    nextBtn.className = `w-9 h-9 rounded-lg border flex items-center justify-center transition ${currentPage === totalPages ? 'text-slate-200 border-slate-100 cursor-not-allowed' : 'text-slate-500 border-slate-200 hover:bg-slate-50 hover:text-blue-600'}`;
+    nextBtn.onclick = () => { if(currentPage < totalPages) { currentPage++; renderTable(); } };
+    paginationDiv.appendChild(nextBtn);
   }
 }
 

@@ -6,6 +6,10 @@
     <title>Admin Dashboard - SIAKAD PRO</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="firebase-config.js"></script>
+    
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <style>
@@ -327,31 +331,111 @@ style.innerHTML = `
   input::-webkit-credentials-auto-fill-button { display: none !important; }
 `;
 document.head.appendChild(style);
-
+// ==========================================
+  // 6. CHART JS (STATISTIK DISTRIBUSI SISWA)
   // ==========================================
-  // 6. CHART JS (STATISTIK)
-  // ==========================================
+  
+  // 1. Deklarasi Variabel Global
+  let mainChart; 
   const ctx = document.getElementById('mainStatsChart').getContext('2d');
-  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: ['Guru', 'Siswa', 'Mata Pelajaran'],
-      datasets: [{
-        label: 'Total Entitas',
-        data: [24, 458, 12],
-        backgroundColor: ['rgba(79, 70, 229, 0.8)', 'rgba(37, 99, 235, 0.8)', 'rgba(16, 185, 129, 0.8)'],
-        borderWidth: 0,
-        borderRadius: 12,
-        barThickness: 60
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: { y: { beginAtZero: true }, x: { grid: { display: false } } }
-    }
-  });
+
+  // 2. Fungsi Inisialisasi Chart (Tampilan Awal)
+  function initChart() {
+    mainChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['1-A', '1-B', '2-A', '2-B', '3-A', '3-B', '4-A', '4-B', '5-A', '5-B', '6-A', '6-B'],
+        datasets: [{
+          label: 'Jumlah Siswa',
+          data: [], // Akan diisi otomatis dari database
+          backgroundColor: 'rgba(59, 130, 246, 0.8)',
+          hoverBackgroundColor: 'rgba(37, 99, 235, 1)',
+          borderRadius: 8,
+          barThickness: 'flex',
+          maxBarThickness: 35
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { 
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: '#1e293b',
+            padding: 12,
+            callbacks: {
+              label: (context) => ` ${context.raw} Siswa`
+            }
+          }
+        },
+        scales: {
+          y: { 
+            beginAtZero: true, 
+            ticks: { 
+              stepSize: 1, // Agar angka skala sumbu Y pas (1, 2, 3...)
+              color: '#94a3b8' 
+            },
+            grid: { color: 'rgba(241, 245, 249, 1)', drawBorder: false }
+          },
+          x: { 
+            grid: { display: false },
+            ticks: { color: '#64748b', font: { weight: 'bold' } }
+          }
+        }
+      }
+    });
+  }
+
+  // 3. Fungsi Menghitung Data dari Database
+  function updateChartData(allStudents) {
+    if (!mainChart) return;
+
+    // LIHAT DI KONSOL: Apakah datanya muncul? 
+    // Klik tanda panah kecil di samping 'Data dari Firebase' untuk melihat nama kolomnya
+    console.log("Data dari Firebase:", allStudents);
+
+    const listKelas = ['1-A', '1-B', '2-A', '2-B', '3-A', '3-B', '4-A', '4-B', '5-A', '5-B', '6-A', '6-B'];
+    
+    const dataCounts = listKelas.map(namaKelas => {
+      // Pastikan nama properti 'kelas' di Firestore kamu huruf kecil semua. 
+      // Kalau di database kamu namanya 'Kelas' (K besar), ganti s.kelas menjadi s.Kelas
+      const count = allStudents.filter(s => {
+        return s.kelas === namaKelas || s.Kelas === namaKelas;
+      }).length;
+      return count;
+    });
+
+    console.log("Hasil hitung per kelas:", dataCounts);
+
+    mainChart.data.datasets[0].data = dataCounts;
+    mainChart.update();
+  }
+
+  // 4. Koneksi ke Firestore (Real-time)
+  function loadDashboardStats() {
+    initChart(); // Jalankan grafik pertama kali
+
+    // Ambil data dari koleksi 'students' secara real-time
+    db.collection("students").onSnapshot((snapshot) => {
+      const allStudents = snapshot.docs.map(doc => doc.data());
+      
+      // Update grafik
+      updateChartData(allStudents);
+      
+      // Update angka total di card (Kotak Biru)
+      // Kita cari elemen H3 di dalam kotak biru "Jumlah Siswa"
+      const studentCard = document.querySelector('.bg-blue-100').nextElementSibling;
+      const totalH3 = studentCard.querySelector('h3');
+      if (totalH3) {
+        totalH3.innerText = allStudents.length;
+      }
+    }, (error) => {
+      console.error("Gagal koneksi ke Firebase:", error);
+    });
+  }
+
+  // Jalankan seluruh fungsi saat halaman selesai dimuat
+  document.addEventListener("DOMContentLoaded", loadDashboardStats);
   
 </script>
   </body>

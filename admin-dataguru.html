@@ -43,9 +43,8 @@
   </head>
   <body class="bg-slate-50 font-sans text-slate-900">
     <div class="flex min-h-screen">
-      <aside
-        class="w-64 bg-[#0f172a] text-white flex-shrink-0 hidden md:flex flex-col"
-      >
+      <aside class="w-64 bg-[#0f172a] text-white flex-shrink-0 hidden md:flex flex-col h-screen sticky top-0">
+      
         <div class="p-6 border-b border-slate-800 flex items-center space-x-3">
           <i class="fas fa-shield-alt text-2xl text-blue-400"></i>
           <span class="text-xl font-bold tracking-tight">ADMIN PANEL</span>
@@ -138,59 +137,73 @@
         </header>
 
         <main class="p-8">
-          <div
-            class="bg-white rounded-[2.5rem] shadow-sm border border-slate-200 p-8 animate-fadeIn"
-          >
-            <div
-              class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4"
-            >
+          <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-200 p-10 animate-fadeIn">
+            
+            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-10 gap-6">
               <div>
-                <h3
-                  class="text-2xl font-black text-slate-800 tracking-tight uppercase"
-                >
+                <h3 class="text-3xl font-black text-[#1e293b] tracking-tight uppercase">
                   Data Tenaga Pengajar
                 </h3>
-                <p class="text-slate-400 text-xs font-medium italic">
+                <p class="text-slate-400 text-sm font-medium mt-1 italic">
                   Kelola akun dan informasi guru SDN Ganting
                 </p>
               </div>
-              <div class="flex items-center space-x-3 w-full md:w-auto">
+
+              <div class="flex flex-wrap items-center gap-4 w-full lg:w-auto">
+                
+                <div class="relative min-w-[180px]">
+                  <select id="filterJabatan" class="w-full bg-white border border-slate-200 rounded-2xl py-3 px-5 text-sm font-bold text-slate-600 appearance-none cursor-pointer focus:ring-2 focus:ring-blue-500 outline-none shadow-sm">
+                    <option value="">Semua Jabatan</option>
+                    <option value="wali">Wali Kelas</option>
+                    <option value="mapel">Guru Mapel</option>
+                  </select>
+                </div>
+
+                <div class="relative flex-1 md:w-64">
+                  <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400">
+                    <i class="fas fa-search text-sm"></i>
+                  </span>
+                  <input
+                    type="text"
+                    id="searchGuru"
+                    placeholder="Cari Guru..."
+                    class="w-full bg-[#f8fafc] border border-slate-100 rounded-2xl py-3 pl-12 pr-4 text-sm focus:ring-2 focus:ring-blue-500 outline-none shadow-inner"
+                  />
+                </div>
+
                 <button
                   onclick="toggleBulkModal()"
-                  class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 px-6 rounded-2xl text-sm transition-all shadow-lg shadow-emerald-100 flex items-center"
+                  class="bg-[#059669] hover:bg-[#047857] text-white font-bold py-3 px-6 rounded-2xl text-sm transition-all shadow-lg shadow-emerald-200/50 flex items-center gap-2"
                 >
-                  <i class="fas fa-file-import mr-2 text-xs"></i> Import Bulk
-                  (JSON)
+                  <i class="fas fa-file-import"></i> Import Bulk
                 </button>
+                
                 <button
                   id="btnTambahGuru"
-                  class="bg-slate-900 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-2xl text-sm transition-all shadow-lg shadow-slate-200 flex items-center"
+                  class="bg-[#a855f7] hover:bg-[#9333ea] text-white font-bold py-3 px-6 rounded-2xl text-sm transition-all shadow-lg shadow-purple-200/50 flex items-center gap-2"
                 >
-                  <i class="fas fa-plus mr-2 text-xs"></i> Tambah Guru Baru
+                  <i class="fas fa-plus-circle"></i> Tambah Guru
                 </button>
+
+               
               </div>
             </div>
 
-            <div class="overflow-hidden rounded-3xl border border-slate-100">
+            <div class="overflow-hidden rounded-3xl border border-slate-100 shadow-xl shadow-slate-50">
               <table class="w-full text-left border-collapse">
                 <thead>
-                  <tr
-                    class="bg-slate-800 text-white uppercase text-[11px] tracking-widest font-black"
-                  >
-                    <th class="py-5 px-6 text-center">No</th>
+                  <tr class="bg-[#1e293b] text-white uppercase text-[12px] tracking-[0.1em] font-bold">
+                    <th class="py-5 px-8 text-center w-20">No</th>
                     <th class="py-5 px-6">Informasi Guru</th>
                     <th class="py-5 px-6 text-center">Wali Kelas</th>
                     <th class="py-5 px-6">Kontak / Email</th>
-                    <th class="py-5 px-6">Password</th>
-                    <th class="py-5 px-6 text-center">Aksi</th>
+                    <th class="py-5 px-6 text-center">Password</th>
+                    <th class="py-5 px-8 text-center">Aksi</th>
                   </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-100" id="teacherTableBody">
+                <tbody class="divide-y divide-slate-50" id="teacherTableBody">
                   <tr>
-                    <td
-                      colspan="6"
-                      class="p-10 text-center text-slate-400 italic"
-                    >
+                    <td colspan="6" class="p-10 text-center text-slate-400 italic">
                       Memuat data dari database...
                     </td>
                   </tr>
@@ -198,9 +211,7 @@
               </table>
             </div>
 
-            <div
-              class="mt-6 flex justify-between items-center text-[10px] font-black text-slate-400 uppercase tracking-widest"
-            >
+            <div class="mt-6 flex justify-between items-center text-[10px] font-black text-slate-400 uppercase tracking-widest">
               <p id="totalGuruLabel">Menghitung data...</p>
             </div>
           </div>
@@ -209,153 +220,168 @@
     </div>
 
     <div
-      id="modalGuru"
-      class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4"
-    >
-      <div
-        class="bg-white w-full max-w-md rounded-[2.5rem] p-8 shadow-2xl animate-fadeIn border border-slate-100"
+<div
+  id="modalGuru"
+  class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4"
+>
+  <div
+    class="bg-white w-full max-w-md rounded-[2.5rem] p-8 shadow-2xl animate-fadeIn border border-slate-100"
+  >
+    <div class="flex justify-between items-center mb-6">
+      <h3
+        class="text-xl font-black text-slate-800 tracking-tight uppercase"
       >
-        <div class="flex justify-between items-center mb-6">
-          <h3
-            class="text-xl font-black text-slate-800 tracking-tight uppercase"
+        Input Data Guru
+      </h3>
+      <button
+        onclick="toggleModal()"
+        class="text-slate-400 hover:text-red-500 transition"
+      >
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <form id="formGuru" class="space-y-5 p-2" autocomplete="off">
+      <div>
+        <label
+          class="flex items-center text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 ml-1"
+        >
+          <i class="fas fa-user-circle mr-2 text-blue-500"></i> Nama Lengkap & Gelar
+        </label>
+        <input
+          type="text"
+          id="namaGuru"
+          required
+          name="nama_lengkap"
+          placeholder="Masukkan nama lengkap & gelar..."
+          class="w-full bg-slate-50 border-2 border-slate-100 rounded-[1.5rem] py-3.5 px-5 text-sm font-bold text-slate-700 focus:border-blue-400 focus:bg-white focus:ring-4 focus:ring-blue-100 outline-none transition-all duration-300 shadow-sm"
+        />
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div>
+          <label
+            class="flex items-center text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 ml-1"
           >
-            Input Data Guru
-          </h3>
-          <button
-            onclick="toggleModal()"
-            class="text-slate-400 hover:text-red-500 transition"
-          >
-            <i class="fas fa-times"></i>
-          </button>
+            <i class="fas fa-at mr-2 text-purple-500"></i> Username Login
+          </label>
+          <input
+            type="text"
+            id="userGuru"
+            required
+            name="username_baru"
+            placeholder="Buat username..."
+            class="w-full bg-slate-50 border-2 border-slate-100 rounded-[1.5rem] py-3.5 px-5 text-sm font-bold text-slate-700 focus:border-purple-400 focus:bg-white focus:ring-4 focus:ring-purple-100 outline-none transition-all duration-300 shadow-sm"
+          />
         </div>
 
-        <form id="formGuru" class="space-y-5 p-2" autocomplete="off">
-          <div>
-            <label
-              class="flex items-center text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 ml-1"
+        <div>
+          <label
+            class="flex items-center text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 ml-1"
+          >
+            <i class="fas fa-chalkboard-teacher mr-2 text-emerald-500"></i> Wali Kelas
+          </label>
+          <div class="relative">
+            <select
+              id="kelasGuru"
+              name="wali_kelas"
+              class="w-full bg-slate-50 border-2 border-slate-100 rounded-[1.5rem] py-3.5 px-5 text-sm font-bold text-slate-700 focus:border-emerald-400 focus:bg-white focus:ring-4 focus:ring-emerald-100 outline-none transition-all duration-300 shadow-sm appearance-none cursor-pointer"
             >
-              <i class="fas fa-user-circle mr-2 text-blue-500"></i> Nama Lengkap
-              & Gelar
-            </label>
-            <input
-              type="text"
-              id="namaGuru"
-              required
-              name="nama_lengkap"
-              placeholder="Masukkan nama lengkap & gelar..."
-              class="w-full bg-slate-50 border-2 border-slate-100 rounded-[1.5rem] py-3.5 px-5 text-sm font-bold text-slate-700 focus:border-blue-400 focus:bg-white focus:ring-4 focus:ring-blue-100 outline-none transition-all duration-300 shadow-sm"
-            />
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <div>
-              <label
-                class="flex items-center text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 ml-1"
-              >
-                <i class="fas fa-at mr-2 text-purple-500"></i> Username Login
-              </label>
-              <input
-                type="text"
-                id="userGuru"
-                required
-                name="username_baru"
-                placeholder="Buat username..."
-                class="w-full bg-slate-50 border-2 border-slate-100 rounded-[1.5rem] py-3.5 px-5 text-sm font-bold text-slate-700 focus:border-purple-400 focus:bg-white focus:ring-4 focus:ring-purple-100 outline-none transition-all duration-300 shadow-sm"
-              />
-            </div>
-
-            <div>
-              <label
-                class="flex items-center text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 ml-1"
-              >
-                <i class="fas fa-chalkboard-teacher mr-2 text-emerald-500"></i>
-                Wali Kelas
-              </label>
-              <div class="relative">
-                <select
-                  id="kelasGuru"
-                  name="wali_kelas"
-                  class="w-full bg-slate-50 border-2 border-slate-100 rounded-[1.5rem] py-3.5 px-5 text-sm font-bold text-slate-700 focus:border-emerald-400 focus:bg-white focus:ring-4 focus:ring-emerald-100 outline-none transition-all duration-300 shadow-sm appearance-none cursor-pointer"
-                >
-                  <option value="" disabled selected>
-                    Pilih Kelas (Opsional)
-                  </option>
-                  <option value="-">Bukan Wali Kelas</option>
-                  <option value="1-A">1-A</option>
-                  <option value="1-B">1-B</option>
-                  <option value="2-A">2-A</option>
-                  <option value="2-B">2-B</option>
-                  <option value="3-A">3-A</option>
-                  <option value="3-B">3-B</option>
-                  <option value="4-A">4-A</option>
-                  <option value="4-B">4-B</option>
-                  <option value="5-A">5-A</option>
-                  <option value="5-B">5-B</option>
-                  <option value="6-A">6-A</option>
-                  <option value="6-B">6-B</option>
-                </select>
-                <div
-                  class="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400"
-                >
-                  <i class="fas fa-chevron-down text-xs"></i>
-                </div>
-              </div>
+              <option value="" disabled selected>Pilih Kelas (Opsional)</option>
+              <option value="-">Bukan Wali Kelas</option>
+              <option value="1-A">1-A</option>
+              <option value="1-B">1-B</option>
+              <option value="2-A">2-A</option>
+              <option value="2-B">2-B</option>
+              <option value="3-A">3-A</option>
+              <option value="3-B">3-B</option>
+              <option value="4-A">4-A</option>
+              <option value="4-B">4-B</option>
+              <option value="5-A">5-A</option>
+              <option value="5-B">5-B</option>
+              <option value="6-A">6-A</option>
+              <option value="6-B">6-B</option>
+            </select>
+            <div class="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+              <i class="fas fa-chevron-down text-xs"></i>
             </div>
           </div>
-
-          <div>
-            <label
-              class="flex items-center text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 ml-1"
-            >
-              <i class="fas fa-envelope mr-2 text-amber-500"></i> Alamat Email
-            </label>
-            <input
-              type="email"
-              id="emailGuru"
-              required
-              name="email_baru"
-              placeholder="contoh@sdnganting.sch.id"
-              class="w-full bg-slate-50 border-2 border-slate-100 rounded-[1.5rem] py-3.5 px-5 text-sm font-bold text-slate-700 focus:border-amber-400 focus:bg-white focus:ring-4 focus:ring-amber-100 outline-none transition-all duration-300 shadow-sm"
-            />
-          </div>
-
-          <div>
-            <label
-              class="flex items-center text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 ml-1"
-            >
-              <i class="fas fa-lock mr-2 text-rose-500"></i> Password Baru
-            </label>
-            <div class="relative">
-              <input
-                type="password"
-                id="passGuru"
-                required
-                name="password_baru"
-                autocomplete="new-password"
-                placeholder="Buat password minimal 8 karakter..."
-                class="w-full bg-slate-50 border-2 border-slate-100 rounded-[1.5rem] py-3.5 px-5 text-sm font-bold text-slate-700 focus:border-rose-400 focus:bg-white focus:ring-4 focus:ring-rose-100 outline-none transition-all duration-300 shadow-sm"
-              />
-            </div>
-          </div>
-
-          <div class="flex space-x-4 pt-6">
-            <button
-              type="button"
-              onclick="toggleModal()"
-              class="flex-1 py-4 px-4 bg-slate-100 text-slate-500 font-black rounded-[1.5rem] hover:bg-slate-200 transition-all duration-300 flex items-center justify-center uppercase text-[11px] tracking-widest"
-            >
-              Batal
-            </button>
-            <button
-              type="submit"
-              class="flex-1 py-4 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-black rounded-[1.5rem] hover:from-blue-700 hover:to-indigo-700 shadow-xl shadow-blue-200 transition-all duration-300 flex items-center justify-center uppercase text-[11px] tracking-widest"
-            >
-              Simpan Data Baru
-            </button>
-          </div>
-        </form>
+        </div>
       </div>
-    </div>
+
+      <div>
+        <label
+          class="flex items-center text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 ml-1"
+        >
+          <i class="fas fa-envelope mr-2 text-amber-500"></i> Alamat Email
+        </label>
+        <input
+          type="email"
+          id="emailGuru"
+          required
+          name="email_baru"
+          placeholder="contoh@sdnganting.sch.id"
+          class="w-full bg-slate-50 border-2 border-slate-100 rounded-[1.5rem] py-3.5 px-5 text-sm font-bold text-slate-700 focus:border-amber-400 focus:bg-white focus:ring-4 focus:ring-amber-100 outline-none transition-all duration-300 shadow-sm"
+        />
+      </div>
+
+      <div id="oldPassContainer" class="hidden animate-fadeIn">
+        <label
+          class="flex items-center text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 ml-1"
+        >
+          <i class="fas fa-key mr-2 text-slate-400"></i> Password Saat Ini
+        </label>
+        <div class="relative">
+          <input
+            type="text"
+            id="oldPassGuru"
+            readonly
+            class="w-full bg-slate-100 border-2 border-slate-200 rounded-[1.5rem] py-3.5 px-5 text-sm font-bold text-slate-500 cursor-not-allowed outline-none shadow-inner"
+          />
+          <div class="absolute right-5 top-1/2 -translate-y-1/2 text-[10px] font-black text-amber-500 uppercase tracking-tighter">
+            ReadOnly
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <label
+          id="labelPass"
+          class="flex items-center text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 ml-1"
+        >
+          <i class="fas fa-lock mr-2 text-rose-500"></i> Password Baru
+        </label>
+        <div class="relative">
+          <input
+            type="password"
+            id="passGuru"
+            required
+            name="password_baru"
+            autocomplete="new-password"
+            placeholder="Buat password minimal 8 karakter..."
+            class="w-full bg-slate-50 border-2 border-slate-100 rounded-[1.5rem] py-3.5 px-5 text-sm font-bold text-slate-700 focus:border-rose-400 focus:bg-white focus:ring-4 focus:ring-rose-100 outline-none transition-all duration-300 shadow-sm"
+          />
+        </div>
+      </div>
+
+      <div class="flex space-x-4 pt-6">
+        <button
+          type="button"
+          onclick="toggleModal()"
+          class="flex-1 py-4 px-4 bg-slate-100 text-slate-500 font-black rounded-[1.5rem] hover:bg-slate-200 transition-all duration-300 flex items-center justify-center uppercase text-[11px] tracking-widest"
+        >
+          Batal
+        </button>
+        <button
+          type="submit"
+          class="flex-1 py-4 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-black rounded-[1.5rem] hover:from-blue-700 hover:to-indigo-700 shadow-xl shadow-blue-200 transition-all duration-300 flex items-center justify-center uppercase text-[11px] tracking-widest"
+        >
+          Simpan Data Baru
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
 
     <div
       id="modalBulk"
@@ -412,7 +438,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="firebase-config.js"></script>
     <script src="admin.js"></script>
   </body>
