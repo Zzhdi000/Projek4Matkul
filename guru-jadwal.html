@@ -98,7 +98,7 @@
 
       <div class="flex-1 flex flex-col">
         <header
-          class="bg-white shadow-sm py-4 px-8 flex justify-between items-center"
+          class="bg-white shadow-sm py-4 px-8 flex justify-between items-center sticky top-0 z-40"
         >
           <h2 class="text-xl font-bold text-slate-800">Jadwal Mengajar</h2>
           <div class="relative">
@@ -114,16 +114,25 @@
                 </p>
                 <p
                   class="text-xs font-bold text-slate-800 uppercase group-hover:text-blue-600 transition"
-                >
-                  Endang Darwati, S.Pd
-                </p>
+                ></p>
               </div>
               <div
                 class="w-10 h-10 rounded-full bg-[#0091d5] flex items-center justify-center text-white font-bold text-sm border-2 border-white shadow-md group-hover:scale-105 transition-all"
-              >
-                ED
-              </div>
+              ></div>
             </button>
+            <div
+              id="profileDropdown"
+              class="absolute right-0 mt-3 w-72 bg-white rounded-[2rem] shadow-2xl border border-slate-100 p-6 hidden animate-fadeIn z-50"
+            >
+              <div class="text-center mb-4">
+                <div
+                  class="w-16 h-16 bg-blue-50 rounded-full mx-auto flex items-center justify-center text-[#0091d5] text-xl font-black border-4 border-blue-100 mb-2"
+                ></div>
+                <h4 class="text-sm font-black text-slate-800"></h4>
+                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest"></p>
+              </div>
+              <div class="space-y-3" id="dropdownContent"></div>
+            </div>
           </div>
         </header>
 
@@ -228,6 +237,7 @@
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-50" id="jadwal-body">
+                  <!-- Jadwal statis (tetap seperti contoh) -->
                   <tr class="hover:bg-slate-50/50 transition">
                     <td class="px-8 py-5">
                       <span
@@ -305,7 +315,7 @@
                       class="px-8 py-5 text-center font-medium text-slate-500"
                     >
                       Kelas 04
-                    </td>
+                     </td>
                   </tr>
                 </tbody>
               </table>
@@ -313,21 +323,20 @@
           </div>
 
           <div class="hidden print-only mt-20 text-right">
-            <p class="text-sm">Surabaya, 6 April 2026</p>
+            <p class="text-sm" id="print-date-placeholder">Surabaya, 6 April 2026</p>
             <div class="h-24"></div>
-            <p class="font-bold underline text-sm">Endang Darwati, S.Pd</p>
-            <p class="text-xs text-slate-500 italic uppercase tracking-widest">
-              NIP. 19850101XXXXXXXX
-            </p>
+            <p class="font-bold underline text-sm" id="print-name-placeholder">Endang Darwati, S.Pd</p>
+            <p class="text-xs text-slate-500 italic uppercase tracking-widest" id="print-nip-placeholder"></p>
           </div>
         </main>
       </div>
     </div>
 
-    <script>
-      // Sesuai dengan logic profile dashboard Anda
-      const profileBtn = document.getElementById("profileBtn");
-      // Tambahkan logic dropdown jika diperlukan di sini
-    </script>
+    <!-- Firebase dan script profile dinamis -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="guru-jadwal.js"></script>
   </body>
 </html>

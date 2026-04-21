@@ -1,27 +1,218 @@
-// ==================== GURU NILAI - ALL FUNCTIONS ====================
-// Data dari localStorage
+// ==================== GURU NILAI - FINAL (SEMUA FITUR) ====================
+
+// ==================== DATA GURU DARI LOCALSTORAGE ====================
+let guruData = {
+    nama: localStorage.getItem("userName") || "Guru",
+    role: localStorage.getItem("userRole") || "guru",
+    waliKelas: localStorage.getItem("waliKelas") || "",
+    userId: localStorage.getItem("userId") || "",
+    mapel: localStorage.getItem("userMapel") || "Matematika",
+    email: ""
+};
+
+// ==================== UPDATE HEADER PROFILE ====================
+function updateHeaderProfile() {
+    const namaHeader = document.querySelector("#profileBtn .text-right p:last-child");
+    if (namaHeader && guruData.nama) namaHeader.innerText = guruData.nama;
+    const avatarHeader = document.querySelector("#profileBtn .rounded-full");
+    if (avatarHeader && guruData.nama) {
+        const inisial = guruData.nama.split(" ").map(n => n[0]).join("").substring(0,2).toUpperCase();
+        avatarHeader.innerText = inisial;
+    }
+    const avatarDropdown = document.querySelector("#profileDropdown .w-16.h-16");
+    if (avatarDropdown && guruData.nama) {
+        const inisial = guruData.nama.split(" ").map(n => n[0]).join("").substring(0,2).toUpperCase();
+        avatarDropdown.innerText = inisial;
+    }
+    const namaDropdown = document.querySelector("#profileDropdown h4");
+    if (namaDropdown && guruData.nama) namaDropdown.innerText = guruData.nama;
+}
+
+// ==================== RENDER DROPDOWN PROFILE ====================
+function renderProfileDropdown() {
+    const dropdownContent = document.getElementById("dropdownContent");
+    if (!dropdownContent) return;
+    const isWaliKelas = (guruData.waliKelas && guruData.waliKelas !== "");
+    const tugasText = isWaliKelas ? `Wali Kelas ${guruData.waliKelas}` : (guruData.mapel !== "-" ? guruData.mapel : "Guru Mata Pelajaran");
+    const emailText = guruData.email || "email@sekolah.com";
+    dropdownContent.innerHTML = `
+        <div class="animate-fadeIn">
+            <div class="mb-3">
+                <label class="text-[10px] font-bold text-slate-400 uppercase ml-2">Tugas</label>
+                <div class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 text-sm font-bold text-slate-500 cursor-not-allowed">${escapeHtml(tugasText)}</div>
+            </div>
+            <div class="mb-3">
+                <label class="text-[10px] font-bold text-slate-400 uppercase ml-2">Email</label>
+                <div class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 text-sm font-bold text-slate-500 cursor-not-allowed">${escapeHtml(emailText)}</div>
+            </div>
+            <button onclick="window.openChangePasswordForm(event)" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-xl text-xs font-bold transition shadow-lg shadow-blue-200 mt-2">Ganti Password</button>
+            <hr class="border-slate-50 my-2">
+            <a href="login.html" class="flex items-center justify-center text-red-500 text-[11px] font-bold hover:bg-red-50 py-2 rounded-lg transition uppercase"><i class="fas fa-sign-out-alt mr-2"></i> KELUAR SISTEM</a>
+        </div>`;
+}
+
+// ==================== FORM GANTI PASSWORD & LUPA PASSWORD ====================
+window.openChangePasswordForm = function(e) {
+    if (e) e.stopPropagation();
+    const dropdownContent = document.getElementById("dropdownContent");
+    if (!dropdownContent) return;
+    dropdownContent.innerHTML = `
+        <div class="animate-fadeIn">
+            <div class="flex items-center mb-4">
+                <button onclick="window.renderProfileDropdown(); event.stopPropagation();" class="text-slate-400 hover:text-slate-800 mr-2"><i class="fas fa-arrow-left text-xs"></i></button>
+                <h4 class="text-xs font-black text-slate-800 uppercase">Ganti Password</h4>
+            </div>
+            <div class="mb-3 relative">
+                <label class="text-[10px] font-bold text-slate-400 uppercase mb-1 block">Password Lama</label>
+                <div class="relative">
+                    <input type="password" id="oldPass" class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 text-sm pr-10 outline-none focus:ring-2 focus:ring-blue-500">
+                    <button type="button" onclick="window.togglePasswordField('oldPass', this)" class="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-blue-500"><i class="fas fa-eye text-xs"></i></button>
+                </div>
+            </div>
+            <div class="mb-3 relative">
+                <label class="text-[10px] font-bold text-slate-400 uppercase mb-1 block">Password Baru</label>
+                <div class="relative">
+                    <input type="password" id="newPass" class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 text-sm pr-10 outline-none focus:ring-2 focus:ring-blue-500">
+                    <button type="button" onclick="window.togglePasswordField('newPass', this)" class="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-blue-500"><i class="fas fa-eye text-xs"></i></button>
+                </div>
+            </div>
+            <div class="mb-2 relative">
+                <label class="text-[10px] font-bold text-slate-400 uppercase mb-1 block">Konfirmasi Password Baru</label>
+                <div class="relative">
+                    <input type="password" id="confirmPass" class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 text-sm pr-10 outline-none focus:ring-2 focus:ring-blue-500">
+                    <button type="button" onclick="window.togglePasswordField('confirmPass', this)" class="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-blue-500"><i class="fas fa-eye text-xs"></i></button>
+                </div>
+            </div>
+            <div class="text-right mb-3">
+                <a href="#" onclick="window.forgotPassword(event)" class="text-[10px] text-blue-500 hover:underline">Lupa password?</a>
+            </div>
+            <button onclick="window.submitChangePassword(); event.stopPropagation();" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-xl text-xs font-bold transition uppercase">Simpan Password Baru</button>
+        </div>`;
+};
+
+window.togglePasswordField = function(inputId, btn) {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+    const icon = btn.querySelector('i');
+    if (input.type === "password") {
+        input.type = "text";
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+    } else {
+        input.type = "password";
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+    }
+};
+
+window.submitChangePassword = async function(e) {
+    if (e) e.stopPropagation();
+    const oldPass = document.getElementById("oldPass").value;
+    const newPass = document.getElementById("newPass").value;
+    const confirmPass = document.getElementById("confirmPass").value;
+    if (!oldPass || !newPass || !confirmPass) {
+        Swal.fire("Error", "Semua field harus diisi", "error");
+        return;
+    }
+    if (newPass.length < 6) {
+        Swal.fire("Error", "Password baru minimal 6 karakter", "error");
+        return;
+    }
+    if (newPass !== confirmPass) {
+        Swal.fire("Error", "Password baru dan konfirmasi tidak cocok", "error");
+        return;
+    }
+    try {
+        const user = firebase.auth().currentUser;
+        if (!user) throw new Error("User tidak terautentikasi");
+        const credential = firebase.auth.EmailAuthProvider.credential(user.email, oldPass);
+        await user.reauthenticateWithCredential(credential);
+        await user.updatePassword(newPass);
+        Swal.fire({ title: "Berhasil!", text: "Password telah diperbarui.", icon: "success", timer: 1500, showConfirmButton: false });
+        renderProfileDropdown();
+        const profileDropdown = document.getElementById("profileDropdown");
+        if (profileDropdown) profileDropdown.classList.add("hidden");
+    } catch (error) {
+        let pesan = "Gagal mengganti password. Periksa password lama.";
+        if (error.code === 'auth/wrong-password') pesan = "Password lama salah.";
+        Swal.fire("Error", pesan, "error");
+    }
+};
+
+window.forgotPassword = async function(e) {
+    if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+    try {
+        const user = firebase.auth().currentUser;
+        if (!user || !user.email) {
+            Swal.fire("Error", "Email user tidak ditemukan.", "error");
+            return;
+        }
+        await firebase.auth().sendPasswordResetEmail(user.email);
+        Swal.fire({
+            title: "Email Terkirim!",
+            text: `Link reset password telah dikirim ke ${user.email}. Cek inbox atau folder spam.`,
+            icon: "success",
+            confirmButtonText: "OK"
+        });
+        setTimeout(() => { renderProfileDropdown(); }, 2000);
+    } catch (error) {
+        Swal.fire("Error", "Gagal mengirim email reset. " + error.message, "error");
+    }
+};
+
+// Event profile button
+const profileBtn = document.getElementById("profileBtn");
+const profileDropdownElem = document.getElementById("profileDropdown");
+if (profileBtn && profileDropdownElem) {
+    profileBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        profileDropdownElem.classList.toggle("hidden");
+        if (!profileDropdownElem.classList.contains("hidden")) renderProfileDropdown();
+    });
+    window.addEventListener("click", (e) => {
+        if (!profileBtn.contains(e.target) && !profileDropdownElem.contains(e.target)) {
+            profileDropdownElem.classList.add("hidden");
+        }
+    });
+}
+
+// ==================== SEMUA FUNGSI NILAI ====================
 const userName = localStorage.getItem("userName");
 const guruwaliKelas = localStorage.getItem("waliKelas");
 
-// Elemen DOM
 const searchInput = document.getElementById("search-siswa");
 const filterKelasSelect = document.getElementById("filter-kelas");
 const filterSemesterSelect = document.getElementById("filter-semester");
 const filterMapelSelect = document.getElementById("filter-mapel");
 const tableBody = document.getElementById("table-body-nilai");
 const btnSimpan = document.getElementById("btn-simpan-nilai");
-const btnExportPDF = document.querySelector(".bg-slate-800");
+const btnExportPDF = document.getElementById("export-pdf-btn");
 
-// State
 let allSiswa = [];
 let allNilai = [];
 let currentKelas = "all";
 let currentSemester = "Ganjil";
-let currentMapel = "Matematika";
+let currentMapel = guruData.mapel !== "-" ? guruData.mapel : "Matematika";
 let currentUserRole = guruwaliKelas ? "walas" : "mapel";
 
 let GEMINI_API_KEY = localStorage.getItem("gemini_api_key");
 const GEMINI_MODEL = "gemini-2.5-flash";
+
+function chunkArray(arr, size) {
+    const chunks = [];
+    for (let i = 0; i < arr.length; i += size) {
+        chunks.push(arr.slice(i, i + size));
+    }
+    return chunks;
+}
+
+function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m]));
+}
 
 async function askGemini(prompt) {
     if (!GEMINI_API_KEY) return null;
@@ -68,7 +259,6 @@ Jangan gunakan kata "berdasarkan data" atau "AI". Tulis seperti guru asli.`;
 
     const result = await askGemini(prompt);
     if (result) return result;
-    // fallback statis jika AI gagal
     if (rata >= 85) return "Sangat baik, pertahankan prestasinya! Terus tingkatkan latihan soal.";
     if (rata >= 70) return "Baik, masih ada ruang peningkatan. Fokus pada materi yang kurang dikuasai.";
     if (rata >= 60) return "Cukup, perlu bimbingan lebih intensif dan mengulang materi.";
@@ -83,93 +273,6 @@ function fallbackNaratif(siswa, nilai) {
     return "Perlu perhatian khusus, konsultasikan dengan guru dan orang tua.";
 }
 
-// ==================== HELPER ====================
-function escapeHtml(str) {
-    if (!str) return '';
-    return str.replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m]));
-}
-
-// ==================== PROFILE DROPDOWN ====================
-function resetDropdown() {
-    const dropdownContent = document.getElementById("dropdownContent");
-    if (!dropdownContent) return;
-    dropdownContent.innerHTML = `
-        <div class="animate-fadeIn">
-            <label class="text-[10px] font-bold text-slate-400 uppercase ml-2">Mata Pelajaran</label>
-            <div class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 text-sm font-bold text-slate-500 mb-3 cursor-not-allowed">${currentMapel}</div>
-            <label class="text-[10px] font-bold text-slate-400 uppercase ml-2 mb-1 block">Password Guru</label>
-            <div class="relative w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 flex items-center justify-between mb-3">
-                <span id="passText" class="text-sm font-bold text-slate-500 select-none">••••••••</span>
-                <button onclick="window.toggleViewPassword(event, 'passText', 'eyeIconFront')" class="text-slate-300 hover:text-blue-500 transition"><i id="eyeIconFront" class="fas fa-eye text-xs"></i></button>
-            </div>
-            <button onclick="window.ubahKeFormPassword(event)" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-xl text-xs font-bold transition shadow-lg shadow-blue-200 mt-2">Update Password</button>
-            <hr class="border-slate-50 my-2">
-            <a href="login.html" class="flex items-center justify-center text-red-500 text-[11px] font-bold hover:bg-red-50 py-2 rounded-lg transition uppercase"><i class="fas fa-sign-out-alt mr-2"></i> KELUAR SISTEM</a>
-        </div>`;
-}
-
-window.ubahKeFormPassword = function(e) {
-    if (e) e.stopPropagation();
-    const dropdownContent = document.getElementById("dropdownContent");
-    if (!dropdownContent) return;
-    dropdownContent.innerHTML = `
-        <div class="animate-fadeIn">
-            <div class="flex items-center mb-4"><button onclick="window.resetDropdown(event)" class="text-slate-400 hover:text-slate-800 mr-2"><i class="fas fa-arrow-left text-xs"></i></button><h4 class="text-xs font-black text-slate-800 uppercase">Ganti Password</h4></div>
-            <input type="password" id="oldPass" placeholder="Password Lama" class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 text-sm mb-3 outline-none focus:ring-2 focus:ring-blue-500">
-            <input type="password" id="newPass" placeholder="Password Baru" class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 text-sm mb-3 outline-none focus:ring-2 focus:ring-blue-500">
-            <button onclick="window.simpanDanReset(event)" class="w-full bg-slate-800 hover:bg-emerald-600 text-white py-3 rounded-xl text-xs font-bold transition uppercase">Simpan</button>
-        </div>`;
-};
-
-window.simpanDanReset = function(e) {
-    if (e) e.stopPropagation();
-    Swal.fire({ title: "Berhasil!", text: "Password diperbarui.", icon: "success", timer: 1500, showConfirmButton: false });
-    resetDropdown();
-    const profileDropdown = document.getElementById("profileDropdown");
-    if (profileDropdown) profileDropdown.classList.add("hidden");
-};
-
-window.toggleViewPassword = function(event, targetId, iconId) {
-    if (event) event.stopPropagation();
-    const target = document.getElementById(targetId);
-    const icon = document.getElementById(iconId);
-    if (target && icon) {
-        if (target.innerText === "••••••••") {
-            target.innerText = "admin123";
-            icon.classList.replace('fa-eye', 'fa-eye-slash');
-        } else {
-            target.innerText = "••••••••";
-            icon.classList.replace('fa-eye-slash', 'fa-eye');
-        }
-    }
-};
-
-// Event profile button
-const profileBtn = document.getElementById("profileBtn");
-const profileDropdown = document.getElementById("profileDropdown");
-if (profileBtn && profileDropdown) {
-    profileBtn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        profileDropdown.classList.toggle("hidden");
-        if (!profileDropdown.classList.contains("hidden")) resetDropdown();
-    });
-    window.addEventListener("click", (e) => {
-        if (!profileBtn.contains(e.target) && !profileDropdown.contains(e.target)) {
-            profileDropdown.classList.add("hidden");
-        }
-    });
-}
-
-// Update nama guru di header
-if (userName) {
-    const namaElem = document.querySelector("#profileBtn .text-right p:last-child");
-    if (namaElem) namaElem.innerText = userName;
-    const inisial = userName.split(" ").map(n => n[0]).join("").substring(0,2);
-    const avatarElem = document.querySelector("#profileBtn .rounded-full");
-    if (avatarElem) avatarElem.innerText = inisial;
-}
-
-// ==================== LOAD SISWA & NILAI ====================
 async function loadSiswa() {
     let query = db.collection("students").orderBy("nama", "asc");
     if (currentUserRole === "walas") {
@@ -186,15 +289,18 @@ async function loadSiswa() {
 async function loadNilai() {
     if (allSiswa.length === 0) { renderTable(); return; }
     const siswaIds = allSiswa.map(s => s.id);
-    const nilaiSnapshot = await db.collection("nilai")
-        .where("siswaId", "in", siswaIds)
-        .where("semester", "==", currentSemester)
-        .where("mapel", "==", currentMapel)
-        .get();
     allNilai = [];
-    nilaiSnapshot.forEach(doc => allNilai.push({ id: doc.id, ...doc.data() }));
+    const chunks = chunkArray(siswaIds, 30);
+    for (const chunk of chunks) {
+        const nilaiSnapshot = await db.collection("nilai")
+            .where("siswaId", "in", chunk)
+            .where("semester", "==", currentSemester)
+            .where("mapel", "==", currentMapel)
+            .get();
+        nilaiSnapshot.forEach(doc => allNilai.push({ id: doc.id, ...doc.data() }));
+    }
     renderTable();
-}   
+} 
 
 function renderTable() {
     if (!tableBody) return;
@@ -205,7 +311,7 @@ function renderTable() {
         filtered = filtered.filter(s => s.nama.toLowerCase().includes(searchTerm) || (s.nisn && s.nisn.includes(searchTerm)));
     }
     filtered.forEach(siswa => {
-        const nilai = allNilai.find(n => n.siswaId === siswa.id) || { uh1: 0, uh2: 0, uts: 0, rataRata: 0 };
+        const nilai = allNilai.find(n => n.siswaId === siswa.id) || { uh1: 0, uh2: 0, uts: 0 };
         const rata = ((nilai.uh1 || 0) + (nilai.uh2 || 0) + (nilai.uts || 0)) / 3;
         const rataBulat = Math.round(rata * 10) / 10;
         const row = tableBody.insertRow();
@@ -217,26 +323,56 @@ function renderTable() {
             <td class="px-6 py-3 text-center"><input type="number" class="nilai-input w-20 text-center border rounded-lg px-2 py-1" data-siswa="${siswa.id}" data-field="uh2" value="${nilai.uh2 || 0}" min="0" max="100" step="0.1"></td>
             <td class="px-6 py-3 text-center"><input type="number" class="nilai-input w-20 text-center border rounded-lg px-2 py-1" data-siswa="${siswa.id}" data-field="uts" value="${nilai.uts || 0}" min="0" max="100" step="0.1"></td>
             <td class="px-6 py-3 text-center font-bold rata-rata" data-siswa="${siswa.id}">${rataBulat}</td>
-            <td class="px-6 py-3 text-center"><button class="text-blue-500 hover:text-blue-700 btn-detail" data-siswa="${siswa.id}"><i class="fas fa-chart-line"></i> Detail</button></td>
+            <td class="px-6 py-3 text-center">
+                <button class="text-blue-500 hover:text-blue-700 btn-detail mr-2" data-siswa="${siswa.id}"><i class="fas fa-chart-line"></i></button>
+                <button class="text-emerald-500 hover:text-emerald-700 btn-print-rapor" data-siswa="${siswa.id}"><i class="fas fa-print"></i></button>
+            </td>
         `;
     });
+    
+    // Event listener untuk input nilai (update rata-rata)
     document.querySelectorAll('.nilai-input').forEach(inp => {
-        inp.addEventListener('input', function() {
-            const siswaId = this.dataset.siswa;
-            const row = this.closest('tr');
-            const uh1 = parseFloat(row.querySelector('input[data-field="uh1"]').value) || 0;
-            const uh2 = parseFloat(row.querySelector('input[data-field="uh2"]').value) || 0;
-            const uts = parseFloat(row.querySelector('input[data-field="uts"]').value) || 0;
-            const rata = (uh1 + uh2 + uts) / 3;
-            row.querySelector('.rata-rata').innerText = Math.round(rata * 10) / 10;
-        });
+        inp.removeEventListener('input', handleNilaiInput);
+        inp.addEventListener('input', handleNilaiInput);
     });
+    
+    // Event listener untuk tombol detail
     document.querySelectorAll('.btn-detail').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const siswaId = btn.dataset.siswa;
-            showDetailSiswa(siswaId);
-        });
+        btn.removeEventListener('click', handleDetailClick);
+        btn.addEventListener('click', handleDetailClick);
     });
+    
+    // Event listener untuk tombol print (gunakan event delegation atau langsung attach)
+    document.querySelectorAll('.btn-print-rapor').forEach(btn => {
+        btn.removeEventListener('click', handlePrintClick);
+        btn.addEventListener('click', handlePrintClick);
+    });
+}
+
+// Handler functions
+function handleNilaiInput(e) {
+    const input = e.currentTarget;
+    const siswaId = input.dataset.siswa;
+    const row = input.closest('tr');
+    const uh1 = parseFloat(row.querySelector('input[data-field="uh1"]').value) || 0;
+    const uh2 = parseFloat(row.querySelector('input[data-field="uh2"]').value) || 0;
+    const uts = parseFloat(row.querySelector('input[data-field="uts"]').value) || 0;
+    const rata = (uh1 + uh2 + uts) / 3;
+    row.querySelector('.rata-rata').innerText = Math.round(rata * 10) / 10;
+}
+
+function handleDetailClick(e) {
+    const btn = e.currentTarget;
+    const siswaId = btn.dataset.siswa;
+    showDetailSiswa(siswaId);
+}
+
+function handlePrintClick(e) {
+    const btn = e.currentTarget;
+    const siswaId = btn.dataset.siswa;
+    if (siswaId) {
+        exportSingleStudentPDF(siswaId);
+    }
 }
 
 async function showDetailSiswa(siswaId) {
@@ -285,7 +421,6 @@ async function simpanNilai() {
     await loadNilai();
 }
 
-// ==================== FUNGSI EDITOR MODAL & PDF ====================
 function showNaratifEditorModal(results) {
     return new Promise((resolve) => {
         const modalDiv = document.createElement('div');
@@ -338,6 +473,10 @@ function showNaratifEditorModal(results) {
 
 function generatePDFFromResults(results) {
     const { jsPDF } = window.jspdf;
+    if (!jsPDF) {
+        Swal.fire("Error", "jsPDF tidak terload", "error");
+        return;
+    }
     const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
     const headers = [['NISN', 'Nama Siswa', 'Kelas', 'UH1', 'UH2', 'UTS', 'Rata-rata', 'Evaluasi']];
     const body = results.map(r => {
@@ -347,7 +486,7 @@ function generatePDFFromResults(results) {
     doc.setFontSize(16);
     doc.text(`Laporan Nilai Semester ${currentSemester} - ${currentMapel}`, 14, 20);
     doc.setFontSize(10);
-    doc.text(`Dicetak: ${new Date().toLocaleDateString('id-ID')} | Guru: ${userName || 'Guru'}`, 14, 30);
+    doc.text(`Dicetak: ${new Date().toLocaleDateString('id-ID')} | Guru: ${guruData.nama || 'Guru'}`, 14, 30);
     doc.autoTable({
         head: headers,
         body: body,
@@ -362,117 +501,397 @@ function generatePDFFromResults(results) {
     Swal.fire("Berhasil!", "PDF dengan evaluasi yang sudah diedit telah diunduh.", "success");
 }
 
-// ==================== EXPORT PDF DENGAN BATASAN 5 SISWA AI ====================
-async function exportToPDF() {
-    if (!allSiswa.length) {
-        Swal.fire("Info", "Tidak ada data siswa.", "info");
-        return;
-    }
+// ==================== EXPORT FUNCTIONS ====================
 
-    const totalSiswa = allSiswa.length;
-    const maxAI = 2;
-
-    const { value: useAI } = await Swal.fire({
-        title: "Generate Evaluasi Rapor",
-        html: `
-            <p>Jumlah siswa: <strong>${totalSiswa}</strong></p>
-            <p class="text-left text-sm mt-2">
-                ⚠️ Karena keterbatasan kuota API Gemini, hanya <strong>${maxAI} siswa pertama</strong> yang akan menggunakan AI.<br>
-                Sisanya akan menggunakan <strong>naratif statis</strong> (berdasarkan nilai rata-rata).
-            </p>
-            <p class="text-left text-sm text-slate-500 mt-2">Anda tetap bisa mengedit semua naratif sebelum export PDF.</p>
-        `,
-        icon: "question",
-        showCancelButton: true,
-        confirmButtonText: "Lanjutkan",
-        cancelButtonText: "Batal",
-        customClass: { popup: "rounded-2xl" }
+async function exportCombinedStatis() {
+    if (!allSiswa.length) { Swal.fire("Info", "Tidak ada data siswa.", "info"); return; }
+    const statisResults = allSiswa.map(siswa => {
+        const nilai = allNilai.find(n => n.siswaId === siswa.id) || { uh1: 0, uh2: 0, uts: 0 };
+        return { siswa, nilai, naratif: fallbackNaratif(siswa, nilai) };
     });
+    generatePDFFromResults(statisResults);
+}
 
-    if (!useAI) return;
-
-    // Cek API key
+async function exportCombinedWithAI() {
+    if (!allSiswa.length) return;
+    const maxAI = 2;
     if (!GEMINI_API_KEY) {
         const { value: key } = await Swal.fire({
             title: "🔑 Masukkan API Key Gemini",
-            text: "AI naratif memerlukan API Key dari Google AI Studio (gratis).",
             input: "text",
             inputPlaceholder: "Masukkan API Key Anda",
-            showCancelButton: true,
-            confirmButtonText: "Simpan",
-            cancelButtonText: "Batal",
-            customClass: { popup: "rounded-2xl" }
+            showCancelButton: true
         });
         if (key && key.trim()) {
             GEMINI_API_KEY = key.trim();
             localStorage.setItem("gemini_api_key", GEMINI_API_KEY);
         } else {
             Swal.fire("Info", "Menggunakan naratif statis.", "info");
-            const statisResults = allSiswa.map(siswa => {
-                const nilai = allNilai.find(n => n.siswaId === siswa.id) || { uh1: 0, uh2: 0, uts: 0 };
-                return { siswa, nilai, naratif: fallbackNaratif(siswa, nilai) };
-            });
-            const finalResults = await showNaratifEditorModal(statisResults);
-            if (finalResults) generatePDFFromResults(finalResults);
+            await exportCombinedStatis();
             return;
         }
     }
-
-    const items = allSiswa.map(siswa => {
-        const nilai = allNilai.find(n => n.siswaId === siswa.id) || { uh1: 0, uh2: 0, uts: 0 };
-        return { siswa, nilai };
-    });
-
-    let results = [];
-    let aiProcessed = 0;
-
-    if (maxAI > 0 && items.length > 0) {
-        await Swal.fire({
-            title: "Mengenerate Evaluasi AI",
-            html: `
-                <p>Memproses <span id="ai-count">0</span> dari ${Math.min(maxAI, items.length)} siswa dengan AI...</p>
-                <progress id="ai-progress" value="0" max="${Math.min(maxAI, items.length)}" style="width:100%; height:20px;"></progress>
-                <p id="ai-status" class="text-sm text-slate-500 mt-2">Mohon tunggu, jeda antar request 12 detik.</p>
-            `,
-            allowOutsideClick: false,
-            showConfirmButton: false
-        });
-    }
-
+    const items = allSiswa.map(siswa => ({
+        siswa,
+        nilai: allNilai.find(n => n.siswaId === siswa.id) || { uh1: 0, uh2: 0, uts: 0 }
+    }));
+    let allResults = [];
+    let aiResults = [];
     for (let i = 0; i < items.length; i++) {
-        const item = items[i];
         let naratif = "";
-
         if (i < maxAI) {
-            try {
-                naratif = await generateNaratifWithAI(item.siswa, item.nilai);
-                aiProcessed++;
-                const countSpan = document.getElementById("ai-count");
-                const progressBar = document.getElementById("ai-progress");
-                if (countSpan) countSpan.innerText = aiProcessed;
-                if (progressBar) progressBar.value = aiProcessed;
-                if (i < items.length - 1 && i < maxAI - 1) {
-                    await new Promise(r => setTimeout(r, 12000));
-                }
-            } catch (err) {
-                console.warn(`AI gagal untuk ${item.siswa.nama}:`, err);
-                naratif = fallbackNaratif(item.siswa, item.nilai);
-            }
+            naratif = await generateNaratifWithAI(items[i].siswa, items[i].nilai);
+            aiResults.push({ ...items[i], naratif });
         } else {
-            naratif = fallbackNaratif(item.siswa, item.nilai);
+            naratif = fallbackNaratif(items[i].siswa, items[i].nilai);
         }
-        results.push({ ...item, naratif });
+        allResults.push({ ...items[i], naratif });
     }
-
-    if (maxAI > 0 && items.length > 0) {
-        Swal.close();
+    const editedAIResults = await showNaratifEditorModal(aiResults);
+    if (editedAIResults) {
+        const finalResults = allResults.map(item => {
+            const edited = editedAIResults.find(e => e.siswa.id === item.siswa.id);
+            return edited ? { ...item, naratif: edited.naratif } : item;
+        });
+        generatePDFFromResults(finalResults);
     }
-
-    const finalResults = await showNaratifEditorModal(results);
-    if (finalResults) generatePDFFromResults(finalResults);
 }
 
-// ==================== EVENT LISTENER & FILTER ====================
+async function exportPerSiswaStatis() {
+    if (!allSiswa.length) { Swal.fire("Info", "Tidak ada data siswa.", "info"); return; }
+    Swal.fire({
+        title: "Mengekspor PDF per siswa...",
+        text: `Akan mengunduh ${allSiswa.length} file. Pastikan pop-up tidak diblokir.`,
+        icon: "info",
+        timer: 2000,
+        showConfirmButton: false
+    });
+    for (let i = 0; i < allSiswa.length; i++) {
+        const siswa = allSiswa[i];
+        const nilai = allNilai.find(n => n.siswaId === siswa.id) || { uh1: 0, uh2: 0, uts: 0 };
+        const naratif = fallbackNaratif(siswa, nilai);
+        generateSingleRaporPDF(siswa, nilai, naratif);
+        await new Promise(r => setTimeout(r, 300));
+    }
+    Swal.fire("Selesai", `PDF untuk ${allSiswa.length} siswa telah diunduh.`, "success");
+}
+
+async function exportPerSiswaWithAI() {
+    if (!allSiswa.length) return;
+    if (!GEMINI_API_KEY) {
+        const { value: key } = await Swal.fire({
+            title: "🔑 Masukkan API Key Gemini",
+            input: "text",
+            inputPlaceholder: "Masukkan API Key Anda",
+            showCancelButton: true
+        });
+        if (key && key.trim()) {
+            GEMINI_API_KEY = key.trim();
+            localStorage.setItem("gemini_api_key", GEMINI_API_KEY);
+        } else {
+            Swal.fire("Info", "Menggunakan naratif statis untuk semua siswa.", "info");
+            await exportPerSiswaStatis();
+            return;
+        }
+    }
+    for (let i = 0; i < allSiswa.length; i++) {
+        const siswa = allSiswa[i];
+        const nilai = allNilai.find(n => n.siswaId === siswa.id) || { uh1: 0, uh2: 0, uts: 0 };
+        await Swal.fire({
+            title: `Memproses ${siswa.nama}...`,
+            text: `Siswa ${i+1} dari ${allSiswa.length}`,
+            allowOutsideClick: false,
+            didOpen: () => Swal.showLoading()
+        });
+        const naratif = await generateNaratifWithAI(siswa, nilai);
+        Swal.close();
+        generateSingleRaporPDF(siswa, nilai, naratif);
+        await new Promise(r => setTimeout(r, 500));
+    }
+    Swal.fire("Selesai", `Semua PDF untuk ${allSiswa.length} siswa telah diunduh.`, "success");
+}
+
+// ==================== EXPORT SEMUA RAPOR DALAM SATU FILE (BANYAK HALAMAN) ====================
+async function exportAllRaporsCombined() {
+    if (!allSiswa.length) {
+        Swal.fire("Info", "Tidak ada data siswa.", "info");
+        return;
+    }
+    const { value: useAI } = await Swal.fire({
+        title: "Pilih Metode Evaluasi",
+        text: "Gunakan AI untuk evaluasi setiap siswa? (Bisa memakan waktu lama)",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Ya, Gunakan AI",
+        cancelButtonText: "Tidak, Pakai Statis",
+        reverseButtons: true
+    });
+    if (useAI === undefined) return;
+
+    const { jsPDF } = window.jspdf;
+    if (!jsPDF) {
+        Swal.fire("Error", "jsPDF tidak terload", "error");
+        return;
+    }
+    const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+    let firstPage = true;
+
+    for (let idx = 0; idx < allSiswa.length; idx++) {
+        const siswa = allSiswa[idx];
+        const nilai = allNilai.find(n => n.siswaId === siswa.id) || { uh1: 0, uh2: 0, uts: 0 };
+        let naratif = "";
+        if (useAI) {
+            if (!GEMINI_API_KEY) {
+                const { value: key } = await Swal.fire({
+                    title: "🔑 Masukkan API Key Gemini",
+                    input: "text",
+                    inputPlaceholder: "Masukkan API Key Anda",
+                    showCancelButton: true
+                });
+                if (key && key.trim()) {
+                    GEMINI_API_KEY = key.trim();
+                    localStorage.setItem("gemini_api_key", GEMINI_API_KEY);
+                } else {
+                    naratif = fallbackNaratif(siswa, nilai);
+                }
+            }
+            if (!naratif) {
+                await Swal.fire({
+                    title: `Memproses ${siswa.nama}...`,
+                    text: `Siswa ${idx+1} dari ${allSiswa.length}`,
+                    allowOutsideClick: false,
+                    didOpen: () => Swal.showLoading()
+                });
+                naratif = await generateNaratifWithAI(siswa, nilai);
+                Swal.close();
+            }
+        } else {
+            naratif = fallbackNaratif(siswa, nilai);
+        }
+        if (!naratif) naratif = fallbackNaratif(siswa, nilai);
+
+        if (!firstPage) doc.addPage();
+        firstPage = false;
+
+        const uh1 = nilai.uh1 || 0;
+        const uh2 = nilai.uh2 || 0;
+        const uts = nilai.uts || 0;
+        const rata = ((uh1 + uh2 + uts) / 3).toFixed(1);
+        doc.setFontSize(16);
+        doc.setFont("helvetica", "bold");
+        doc.text("LAPORAN HASIL BELAJAR (RAPOR)", 105, 20, { align: "center" });
+        doc.setFontSize(12);
+        doc.setFont("helvetica", "normal");
+        doc.text("SD NEGERI GANTING - SIDOARJO", 105, 30, { align: "center" });
+        doc.text(`Tahun Ajaran 2025/2026 - Semester ${currentSemester}`, 105, 38, { align: "center" });
+        doc.setFontSize(10);
+        doc.setFont("helvetica", "bold");
+        doc.text("IDENTITAS SISWA", 20, 55);
+        doc.setFont("helvetica", "normal");
+        doc.text(`Nama : ${siswa.nama}`, 20, 63);
+        doc.text(`NISN : ${siswa.nisn || '-'}`, 20, 71);
+        doc.text(`Kelas : ${siswa.kelas}`, 20, 79);
+        doc.text(`Mata Pelajaran : ${currentMapel}`, 20, 87);
+        const headers = [["Komponen", "Nilai"]];
+        const data = [
+            ["Nilai Harian 1 (UH1)", uh1],
+            ["Nilai Harian 2 (UH2)", uh2],
+            ["Nilai Tengah Semester (UTS)", uts],
+            ["Rata-rata", rata]
+        ];
+        doc.autoTable({
+            startY: 95,
+            head: headers,
+            body: data,
+            theme: 'striped',
+            headStyles: { fillColor: [37, 99, 235], textColor: 255, fontSize: 10 },
+            bodyStyles: { fontSize: 10 },
+            margin: { left: 20, right: 20 }
+        });
+        const finalY = doc.lastAutoTable.finalY + 10;
+        doc.setFont("helvetica", "bold");
+        doc.text("Evaluasi Perkembangan Siswa", 20, finalY);
+        doc.setFont("helvetica", "normal");
+        const splitNaratif = doc.splitTextToSize(naratif, 170);
+        doc.text(splitNaratif, 20, finalY + 8);
+        const today = new Date();
+        const tglString = today.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+        doc.setFont("helvetica", "italic");
+        doc.text(`Sidoarjo, ${tglString}`, 150, 270, { align: "right" });
+        doc.text(`Guru Pengampu`, 150, 285, { align: "right" });
+        doc.setFont("helvetica", "bold");
+        doc.text(`${guruData.nama}`, 150, 295, { align: "right" });
+    }
+    doc.save(`Rapor_Semua_Siswa_${currentMapel}_${currentSemester}.pdf`);
+    Swal.fire("Berhasil!", `PDF rapor untuk ${allSiswa.length} siswa telah diunduh.`, "success");
+}
+
+// ==================== TOMBOL UTAMA (5 PILIHAN) ====================
+async function exportToPDF() {
+    await Swal.fire({
+        title: "Export PDF",
+        text: "Pilih mode dan metode:",
+        icon: "question",
+        showConfirmButton: false,
+        showCancelButton: true,
+        cancelButtonText: "Batal",
+        html: `
+            <div class="grid grid-cols-2 gap-3 mt-4">
+                <button id="btn-gabungan-statis" class="swal2-confirm bg-blue-600 text-white px-4 py-2 rounded-lg">Gabungan (Statis)</button>
+                <button id="btn-gabungan-ai" class="swal2-confirm bg-green-600 text-white px-4 py-2 rounded-lg">Gabungan (AI)</button>
+                <button id="btn-per-siswa-statis" class="swal2-confirm bg-purple-600 text-white px-4 py-2 rounded-lg">Per Siswa (Statis)</button>
+                <button id="btn-per-siswa-ai" class="swal2-confirm bg-orange-600 text-white px-4 py-2 rounded-lg">Per Siswa (AI)</button>
+                <button id="btn-semua-rapor" class="swal2-confirm bg-indigo-600 text-white px-4 py-2 rounded-lg col-span-2">📚 Semua Rapor (Satu File)</button>
+            </div>
+        `,
+        didOpen: () => {
+            document.getElementById('btn-gabungan-statis').onclick = () => { Swal.close(); exportCombinedStatis(); };
+            document.getElementById('btn-gabungan-ai').onclick = () => { Swal.close(); exportCombinedWithAI(); };
+            document.getElementById('btn-per-siswa-statis').onclick = () => { Swal.close(); exportPerSiswaStatis(); };
+            document.getElementById('btn-per-siswa-ai').onclick = () => { Swal.close(); exportPerSiswaWithAI(); };
+            document.getElementById('btn-semua-rapor').onclick = () => { Swal.close(); exportAllRaporsCombined(); };
+        }
+    });
+}
+
+// ==================== SINGLE STUDENT PDF (TOMBOL PRINTER) ====================
+async function exportSingleStudentPDF(siswaId) {
+    try {
+        if (!allSiswa.length) {
+            Swal.fire("Info", "Data siswa belum dimuat, silakan tunggu.", "info");
+            return;
+        }
+        
+        const siswa = allSiswa.find(s => s.id === siswaId);
+        if (!siswa) {
+            Swal.fire("Error", "Data siswa tidak ditemukan", "error");
+            return;
+        }
+        
+        const nilai = allNilai.find(n => n.siswaId === siswaId) || { uh1: 0, uh2: 0, uts: 0 };
+        
+        const result = await Swal.fire({
+            title: "Cetak Rapor",
+            text: `Pilih metode evaluasi untuk ${siswa.nama}:`,
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: "Gunakan AI",
+            cancelButtonText: "Langsung Cetak (Statis)",
+            reverseButtons: true
+        });
+        
+        if (result.dismiss) return;
+        
+        let naratif = "";
+        
+        if (!result.isConfirmed) {
+            // Statis
+            naratif = fallbackNaratif(siswa, nilai);
+        } else {
+            // AI
+            if (!GEMINI_API_KEY) {
+                const { value: key } = await Swal.fire({
+                    title: "🔑 Masukkan API Key Gemini",
+                    input: "text",
+                    inputPlaceholder: "Masukkan API Key Anda",
+                    showCancelButton: true
+                });
+                if (key && key.trim()) {
+                    GEMINI_API_KEY = key.trim();
+                    localStorage.setItem("gemini_api_key", GEMINI_API_KEY);
+                } else {
+                    Swal.fire("Info", "Menggunakan naratif statis.", "info");
+                    naratif = fallbackNaratif(siswa, nilai);
+                }
+            }
+            if (!naratif) {
+                Swal.fire({ title: "Mengenerate...", text: "AI sedang menulis evaluasi, mohon tunggu.", allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+                naratif = await generateNaratifWithAI(siswa, nilai);
+                Swal.close();
+            }
+        }
+        
+        if (!naratif || naratif.trim() === "") {
+            naratif = fallbackNaratif(siswa, nilai);
+        }
+        
+        if (typeof window.jspdf === 'undefined' || !window.jspdf.jsPDF) {
+            Swal.fire("Error", "Library PDF tidak terload. Refresh halaman.", "error");
+            return;
+        }
+        
+        generateSingleRaporPDF(siswa, nilai, naratif);
+    } catch (err) {
+        console.error("Error di exportSingleStudentPDF:", err);
+        Swal.fire("Error", "Terjadi kesalahan: " + err.message, "error");
+    }
+}
+
+function generateSingleRaporPDF(siswa, nilai, naratif) {
+    try {
+        if (typeof window.jspdf === 'undefined' || !window.jspdf.jsPDF) {
+            Swal.fire("Error", "jsPDF tidak tersedia", "error");
+            return;
+        }
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+        const uh1 = nilai.uh1 || 0;
+        const uh2 = nilai.uh2 || 0;
+        const uts = nilai.uts || 0;
+        const rata = ((uh1 + uh2 + uts) / 3).toFixed(1);
+        doc.setFontSize(16);
+        doc.setFont("helvetica", "bold");
+        doc.text("LAPORAN HASIL BELAJAR (RAPOR)", 105, 20, { align: "center" });
+        doc.setFontSize(12);
+        doc.setFont("helvetica", "normal");
+        doc.text("SD NEGERI GANTING - SIDOARJO", 105, 30, { align: "center" });
+        doc.text(`Tahun Ajaran 2025/2026 - Semester ${currentSemester}`, 105, 38, { align: "center" });
+        doc.setFontSize(10);
+        doc.setFont("helvetica", "bold");
+        doc.text("IDENTITAS SISWA", 20, 55);
+        doc.setFont("helvetica", "normal");
+        doc.text(`Nama : ${siswa.nama}`, 20, 63);
+        doc.text(`NISN : ${siswa.nisn || '-'}`, 20, 71);
+        doc.text(`Kelas : ${siswa.kelas}`, 20, 79);
+        doc.text(`Mata Pelajaran : ${currentMapel}`, 20, 87);
+        const headers = [["Komponen", "Nilai"]];
+        const data = [
+            ["Nilai Harian 1 (UH1)", uh1],
+            ["Nilai Harian 2 (UH2)", uh2],
+            ["Nilai Tengah Semester (UTS)", uts],
+            ["Rata-rata", rata]
+        ];
+        doc.autoTable({
+            startY: 95,
+            head: headers,
+            body: data,
+            theme: 'striped',
+            headStyles: { fillColor: [37, 99, 235], textColor: 255, fontSize: 10 },
+            bodyStyles: { fontSize: 10 },
+            margin: { left: 20, right: 20 }
+        });
+        const finalY = doc.lastAutoTable.finalY + 10;
+        doc.setFont("helvetica", "bold");
+        doc.text("Evaluasi Perkembangan Siswa", 20, finalY);
+        doc.setFont("helvetica", "normal");
+        const splitNaratif = doc.splitTextToSize(naratif, 170);
+        doc.text(splitNaratif, 20, finalY + 8);
+        const today = new Date();
+        const tglString = today.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+        doc.setFont("helvetica", "italic");
+        doc.text(`Sidoarjo, ${tglString}`, 150, 270, { align: "right" });
+        doc.text(`Guru Pengampu`, 150, 285, { align: "right" });
+        doc.setFont("helvetica", "bold");
+        doc.text(`${guruData.nama}`, 150, 295, { align: "right" });
+        doc.save(`Rapor_${siswa.nama}_${currentMapel}_${currentSemester}.pdf`);
+        Swal.fire("Berhasil!", `Rapor untuk ${siswa.nama} telah diunduh.`, "success");
+    } catch (err) {
+        console.error("Error di generateSingleRaporPDF:", err);
+        Swal.fire("Error", "Gagal membuat PDF: " + err.message, "error");
+    }
+}
+
+// ==================== SETUP FILTERS & EVENT LISTENERS ====================
 function setupFilters() {
     if (filterKelasSelect) {
         if (currentUserRole === "walas") {
@@ -480,16 +899,36 @@ function setupFilters() {
             filterKelasSelect.disabled = true;
         } else {
             filterKelasSelect.disabled = false;
-            filterKelasSelect.addEventListener("change", async (e) => { currentKelas = e.target.value; await loadSiswa(); });
+            filterKelasSelect.addEventListener("change", async (e) => {
+                currentKelas = e.target.value;
+                await loadSiswa();
+            });
         }
     }
     if (filterSemesterSelect) {
         filterSemesterSelect.value = "Ganjil";
-        filterSemesterSelect.addEventListener("change", async (e) => { currentSemester = e.target.value; await loadNilai(); });
+        filterSemesterSelect.addEventListener("change", async (e) => {
+            currentSemester = e.target.value;
+            await loadNilai();
+        });
     }
     if (filterMapelSelect) {
-        filterMapelSelect.value = "Matematika";
-        filterMapelSelect.addEventListener("change", async (e) => { currentMapel = e.target.value; await loadNilai(); });
+        if (currentUserRole === "mapel") {
+            filterMapelSelect.disabled = true;
+            if (guruData.mapel && guruData.mapel !== "-") {
+                filterMapelSelect.value = guruData.mapel;
+                currentMapel = guruData.mapel;
+            } else {
+                filterMapelSelect.value = "Matematika";
+                currentMapel = "Matematika";
+            }
+        } else {
+            filterMapelSelect.disabled = false;
+            filterMapelSelect.addEventListener("change", async (e) => {
+                currentMapel = e.target.value;
+                await loadNilai();
+            });
+        }
     }
     if (searchInput) searchInput.addEventListener("input", () => renderTable());
     if (btnSimpan) btnSimpan.addEventListener("click", simpanNilai);
@@ -497,11 +936,24 @@ function setupFilters() {
 }
 
 // ==================== INISIALISASI ====================
-document.addEventListener("DOMContentLoaded", async () => {
+firebase.auth().onAuthStateChanged((user) => {
+    if (user && user.email) {
+        guruData.email = user.email;
+        localStorage.setItem("userEmail", user.email);
+    } else {
+        guruData.email = localStorage.getItem("userEmail") || "";
+    }
+    updateHeaderProfile();
+    renderProfileDropdown();
     if (filterKelasSelect && filterKelasSelect.options.length <= 1) {
         const kelasList = ['1-A','1-B','2-A','2-B','3-A','3-B','4-A','4-B','5-A','5-B','6-A','6-B'];
-        kelasList.forEach(k => { const opt = document.createElement("option"); opt.value = k; opt.innerText = k; filterKelasSelect.appendChild(opt); });
+        kelasList.forEach(k => {
+            const opt = document.createElement("option");
+            opt.value = k;
+            opt.innerText = k;
+            filterKelasSelect.appendChild(opt);
+        });
     }
     setupFilters();
-    await loadSiswa();
+    loadSiswa();
 });

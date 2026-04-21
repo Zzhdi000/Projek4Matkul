@@ -96,58 +96,26 @@
       </aside>
 
       <div class="flex-1 flex flex-col">
-        <header
-          class="bg-white shadow-sm py-4 px-8 flex justify-between items-center"
-        >
-          <h2 class="text-xl font-bold text-slate-800">Input Nilai Siswa</h2>
-          <div class="relative">
-            <button
-              id="profileBtn"
-              class="flex items-center space-x-3 focus:outline-none group"
-            >
-              <div class="text-right mr-2 hidden sm:block">
-                <p
-                  class="text-[10px] font-bold bg-blue-100 text-blue-700 px-2 py-0.5 rounded-md uppercase inline-block mb-1"
-                >
-                  Guru Pengampu
-                </p>
-                <p
-                  class="text-xs font-bold text-slate-800 uppercase group-hover:text-blue-600 transition"
-                >
-                  Endang Darwati, S.Pd
-                </p>
-              </div>
-              <div
-                class="w-10 h-10 rounded-full bg-[#0091d5] flex items-center justify-center text-white font-bold text-sm border-2 border-white shadow-md group-hover:scale-105 transition-all"
-              >
-                ED
-              </div>
-            </button>
-
-            <div
-              id="profileDropdown"
-              class="absolute right-0 mt-3 w-72 bg-white rounded-[2rem] shadow-2xl border border-slate-100 p-6 hidden animate-fadeIn overflow-hidden z-50"
-            >
-              <div class="text-center mb-4">
-                <div
-                  class="w-16 h-16 bg-blue-50 rounded-full mx-auto flex items-center justify-center text-[#0091d5] text-xl font-black border-4 border-blue-100 mb-2"
-                >
-                  ED
-                </div>
-                <h4 class="text-sm font-black text-slate-800">
-                  Endang Darwati
-                </h4>
-                <p
-                  class="text-[10px] text-slate-400 font-bold uppercase tracking-widest"
-                >
-                  NIP: 19850101XXXXXXXX
-                </p>
-              </div>
-
-              <div class="space-y-3" id="dropdownContent"></div>
-            </div>
-          </div>
-        </header>
+<header class="bg-white shadow-sm py-4 px-8 flex justify-between items-center sticky top-0 z-40">
+  <h2 class="text-xl font-bold text-slate-800 tracking-tight">Input Nilai Siswa</h2>
+  <div class="relative">
+    <button id="profileBtn" class="flex items-center space-x-3 focus:outline-none group">
+      <div class="text-right mr-2 hidden sm:block">
+        <p class="text-[10px] font-bold bg-blue-100 text-blue-700 px-2 py-0.5 rounded-md uppercase inline-block mb-1">Guru Pengampu</p>
+        <p class="text-xs font-bold text-slate-800 uppercase group-hover:text-blue-600 transition"></p>
+      </div>
+      <div class="w-10 h-10 rounded-full bg-[#0091d5] flex items-center justify-center text-white font-bold text-sm border-2 border-white shadow-md group-hover:scale-105 transition-all"></div>
+    </button>
+    <div id="profileDropdown" class="absolute right-0 mt-3 w-72 bg-white rounded-[2rem] shadow-2xl border border-slate-100 p-6 hidden animate-fadeIn z-50">
+      <div class="text-center mb-4">
+        <div class="w-16 h-16 bg-blue-50 rounded-full mx-auto flex items-center justify-center text-[#0091d5] text-xl font-black border-4 border-blue-100 mb-2"></div>
+        <h4 class="text-sm font-black text-slate-800"></h4>
+        <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest"></p>
+      </div>
+      <div class="space-y-3" id="dropdownContent"></div>
+    </div>
+  </div>
+</header>
 
         <main class="p-8">
           <div
@@ -171,7 +139,17 @@
             >
               <option value="all">Pilih Kelas</option>
               <option value="1-A">1-A</option>
+              <option value="1-B">1-B</option>
               <option value="2-A">2-A</option>
+              <option value="2-B">2-B</option>
+              <option value="3-A">3-A</option>
+              <option value="3-B">3-B</option>
+              <option value="4-A">4-A</option>
+              <option value="4-B">4-B</option>
+              <option value="5-A">5-A</option>
+              <option value="5-B">5-B</option>
+              <option value="6-A">6-A</option>
+              <option value="6-B">6-B</option>
             </select>
             <select
               id="filter-semester"
@@ -190,12 +168,10 @@
               <option>Informatika</option>
             </select>
 
-            <button
-              class="bg-slate-800 text-white px-6 py-2.5 rounded-xl text-sm font-bold hover:bg-slate-900 transition flex items-center"
-            >
-              <i class="fas fa-file-pdf mr-2"></i> Export PDF
-            </button>
-          </div>
+             <button id="export-pdf-btn" onclick="exportToPDF()" class="bg-slate-800 text-white px-6 py-2.5 rounded-xl text-sm font-bold hover:bg-slate-900 transition flex items-center">
+    <i class="fas fa-file-pdf mr-2"></i> Export PDF
+  </button>
+</div>
 
           <div
             class="bg-white rounded-[2rem] shadow-sm border border-slate-200 overflow-hidden"
