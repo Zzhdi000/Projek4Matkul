@@ -1,172 +1,302 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Dashboard - SIAKAD PRO</title>
+    <title>Admin Beranda - SIAKAD PRO</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
     <script src="firebase-config.js"></script>
-    
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
     <style>
       @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
-      .animate-fadeIn { animation: fadeIn 0.4s ease-out forwards; }
-      .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-      .custom-scrollbar::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
+      .animate-fadeIn {
+        animation: fadeIn 0.4s ease-out forwards;
+      }
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 4px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #1e293b;
+        border-radius: 10px;
+      }
     </style>
   </head>
   <body class="bg-slate-50 font-sans text-slate-900">
     <div class="flex min-h-screen">
-      <aside class="w-64 bg-[#0f172a] text-white flex-shrink-0 hidden md:flex flex-col h-screen sticky top-0">
+      <aside
+        class="w-64 bg-[#0f172a] text-white flex-shrink-0 hidden md:flex flex-col h-screen sticky top-0"
+      >
         <div class="p-6 border-b border-slate-800 flex items-center space-x-3">
           <i class="fas fa-shield-alt text-2xl text-blue-400"></i>
-          <span class="text-xl font-bold tracking-tight">ADMIN PANEL</span>
+          <span class="text-xl font-bold tracking-tight">BAGIAN ADMIN</span>
         </div>
-        
-        <nav class="flex-1 mt-6 px-4 space-y-1 overflow-y-auto custom-scrollbar">
-          <a href="admin-dashboard.html" class="flex items-center py-3 px-4 bg-[#2563eb] text-white rounded-xl transition shadow-lg shadow-blue-900/20">
-            <i class="fas fa-th-large mr-3 w-5"></i> Dashboard
+
+        <nav
+          class="flex-1 mt-6 px-4 space-y-1 overflow-y-auto custom-scrollbar"
+        >
+          <a
+            href="admin-dashboard.html"
+            class="flex items-center py-3 px-4 bg-[#2563eb] text-white rounded-xl transition shadow-lg shadow-blue-900/20"
+          >
+            <i class="fas fa-th-large mr-3 w-5"></i> Beranda
           </a>
-          <a href="admin-dataguru.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
+          <a
+            href="admin-dataguru.html"
+            class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition"
+          >
             <i class="fas fa-user-tie mr-3 w-5"></i> Data Guru
           </a>
-          <a href="admin-datasiswa.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
+          <a
+            href="admin-datasiswa.html"
+            class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition"
+          >
             <i class="fas fa-user-graduate mr-3 w-5"></i> Data Siswa
           </a>
-          <a href="admin-jadwalguru.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
+          <a
+            href="admin-jadwalguru.html"
+            class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition"
+          >
             <i class="fas fa-calendar-alt mr-3 w-5"></i> Jadwal Guru
           </a>
-          <a href="admin-nilai.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
+          <a
+            href="admin-nilai.html"
+            class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition"
+          >
             <i class="fas fa-star mr-3 w-5"></i> Nilai Siswa
           </a>
-          <a href="admin-kelolaberita.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
+          <a
+            href="admin-kelolaberita.html"
+            class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition"
+          >
             <i class="fas fa-newspaper mr-3 w-5"></i> Kelola Berita
           </a>
         </nav>
 
         <div class="p-6 border-t border-slate-800 mt-auto">
-          <a href="login.html#login" class="flex items-center text-red-400 hover:text-red-300 font-bold transition">
-            <i class="fas fa-sign-out-alt mr-3"></i> Logout
+          <a
+            href="login.html#login"
+            class="flex items-center text-red-400 hover:text-red-300 font-bold transition"
+          >
+            <i class="fas fa-sign-out-alt mr-3"></i> Keluar
           </a>
         </div>
       </aside>
 
       <div class="flex-1 flex flex-col">
-       <header class="bg-white shadow-sm py-4 px-8 flex justify-between items-center relative z-50">
-  <h2 class="text-xl font-bold text-slate-800 tracking-tight uppercase">Selamat Datang, Admin !</h2>
-  
-  <div class="relative">
-    <button id="profileBtn" class="flex items-center space-x-3 focus:outline-none group">
-      <div class="text-right mr-2 hidden sm:block">
-        <p class="text-xs font-bold text-slate-800 uppercase group-hover:text-blue-600 transition">Administrator</p>
-        <p class="text-[10px] text-slate-400 font-medium group-hover:text-slate-500 transition">Sistem Informasi Akademik</p>
-      </div>
-      <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-white font-bold text-sm border-2 border-white shadow-md group-hover:scale-105 transition-all">
-        AD
-      </div>
-    </button>
+        <header
+          class="bg-white shadow-sm py-4 px-8 flex justify-between items-center relative z-50"
+        >
+          <h2 class="text-xl font-bold text-slate-800 tracking-tight uppercase">
+            Selamat Datang, Admin !
+          </h2>
 
-    <div id="profileDropdown" class="absolute right-0 mt-3 w-72 bg-white rounded-[2rem] shadow-2xl border border-slate-100 p-6 hidden animate-fadeIn overflow-hidden">
-      <div class="text-center mb-4">
-        <div class="w-16 h-16 bg-slate-100 rounded-full mx-auto flex items-center justify-center text-slate-800 text-xl font-black border-4 border-blue-50 mb-2">
-          AD
-        </div>
-        <h4 class="text-sm font-black text-slate-800">Admin Utama</h4>
-        <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">ID: ADM-GANTING-01</p>
-      </div>
+          <div class="relative">
+            <button
+              id="profileBtn"
+              class="flex items-center space-x-3 focus:outline-none group"
+            >
+              <div class="text-right mr-2 hidden sm:block">
+                <p
+                  class="text-xs font-bold text-slate-800 uppercase group-hover:text-blue-600 transition"
+                >
+                  Administrator
+                </p>
+                <p
+                  class="text-[10px] text-slate-400 font-medium group-hover:text-slate-500 transition"
+                >
+                  Sistem Informasi Akademik
+                </p>
+              </div>
+              <div
+                class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-white font-bold text-sm border-2 border-white shadow-md group-hover:scale-105 transition-all"
+              >
+                AD
+              </div>
+            </button>
 
-      <div class="space-y-3">
-        <div>
-          <label class="text-[10px] font-bold text-slate-400 uppercase ml-2">Username</label>
-          <div class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 text-sm font-bold text-slate-500 cursor-not-allowed">
-            admin_siakad
+            <div
+              id="profileDropdown"
+              class="absolute right-0 mt-3 w-72 bg-white rounded-[2rem] shadow-2xl border border-slate-100 p-6 hidden animate-fadeIn overflow-hidden"
+            >
+              <div class="text-center mb-4">
+                <div
+                  class="w-16 h-16 bg-slate-100 rounded-full mx-auto flex items-center justify-center text-slate-800 text-xl font-black border-4 border-blue-50 mb-2"
+                >
+                  AD
+                </div>
+                <h4 class="text-sm font-black text-slate-800">Admin Utama</h4>
+                <p
+                  class="text-[10px] text-slate-400 font-bold uppercase tracking-widest"
+                >
+                  ID: ADM-GANTING-01
+                </p>
+              </div>
+
+              <div class="space-y-3">
+                <div>
+                  <label
+                    class="text-[10px] font-bold text-slate-400 uppercase ml-2"
+                    >Username</label
+                  >
+                  <div
+                    class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 text-sm font-bold text-slate-500 cursor-not-allowed"
+                  >
+                    admin_siakad
+                  </div>
+                </div>
+
+                <div>
+                  <label
+                    class="text-[10px] font-bold text-slate-400 uppercase ml-2 mb-1 block"
+                    >Password</label
+                  >
+                  <div
+                    class="relative w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 flex items-center justify-between transition-all"
+                  >
+                    <span
+                      id="passText"
+                      class="text-sm font-bold text-slate-500 select-none"
+                      style="cursor: not-allowed"
+                      >••••••••</span
+                    >
+
+                    <button
+                      type="button"
+                      onclick="toggleViewPassword(event)"
+                      class="text-slate-300 hover:text-blue-500 transition-colors focus:outline-none flex items-center justify-center"
+                      style="cursor: pointer"
+                    >
+                      <i id="eyeIcon" class="fas fa-eye text-xs"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <button
+                  class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-xl text-xs font-bold transition shadow-lg shadow-blue-200 mt-2"
+                >
+                  Update Password
+                </button>
+
+                <hr class="border-slate-50 my-2" />
+
+                <a
+                  href="login.html"
+                  class="flex items-center justify-center text-red-500 text-[11px] font-bold hover:bg-red-50 py-2 rounded-lg transition"
+                >
+                  <i class="fas fa-sign-out-alt mr-2"></i> KELUAR SISTEM
+                </a>
+              </div>
+            </div>
           </div>
-        </div>
-
-      <div>
-  <label class="text-[10px] font-bold text-slate-400 uppercase ml-2 mb-1 block">Password</label>
-  <div class="relative w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 flex items-center justify-between transition-all">
-    
-    <span id="passText" class="text-sm font-bold text-slate-500 select-none" style="cursor: not-allowed;">••••••••</span>
-    
-    <button 
-      type="button"
-      onclick="toggleViewPassword(event)" 
-      class="text-slate-300 hover:text-blue-500 transition-colors focus:outline-none flex items-center justify-center"
-      style="cursor: pointer;"
-    >
-      <i id="eyeIcon" class="fas fa-eye text-xs"></i>
-    </button>
-  </div>
-</div>
-
-        <button class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-xl text-xs font-bold transition shadow-lg shadow-blue-200 mt-2">
-          Update Password
-        </button>
-        
-        <hr class="border-slate-50 my-2">
-        
-        <a href="login.html" class="flex items-center justify-center text-red-500 text-[11px] font-bold hover:bg-red-50 py-2 rounded-lg transition">
-          <i class="fas fa-sign-out-alt mr-2"></i> KELUAR SISTEM
-        </a>
-      </div>
-    </div>
-  </div>
-</header>
+        </header>
 
         <main class="p-8 space-y-8">
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6 animate-fadeIn">
-            <div class="bg-white p-6 rounded-[2.5rem] border border-slate-100 shadow-sm flex items-center space-x-4">
-              <div class="w-14 h-14 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center text-2xl"><i class="fas fa-user-tie"></i></div>
+            <div
+              class="bg-white p-6 rounded-[2.5rem] border border-slate-100 shadow-sm flex items-center space-x-4"
+            >
+              <div
+                class="w-14 h-14 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center text-2xl"
+              >
+                <i class="fas fa-user-tie"></i>
+              </div>
               <div>
-                <p class="text-slate-400 text-xs font-bold uppercase tracking-wider">Jumlah Guru</p>
+                <p
+                  class="text-slate-400 text-xs font-bold uppercase tracking-wider"
+                >
+                  Jumlah Guru
+                </p>
                 <h3 class="text-2xl font-black text-slate-800">24</h3>
               </div>
             </div>
 
-            <div class="bg-white p-6 rounded-[2.5rem] border border-slate-100 shadow-sm flex items-center space-x-4">
-              <div class="w-14 h-14 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center text-2xl"><i class="fas fa-user-graduate"></i></div>
+            <div
+              class="bg-white p-6 rounded-[2.5rem] border border-slate-100 shadow-sm flex items-center space-x-4"
+            >
+              <div
+                class="w-14 h-14 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center text-2xl"
+              >
+                <i class="fas fa-user-graduate"></i>
+              </div>
               <div>
-                <p class="text-slate-400 text-xs font-bold uppercase tracking-wider">Jumlah Siswa</p>
+                <p
+                  class="text-slate-400 text-xs font-bold uppercase tracking-wider"
+                >
+                  Jumlah Siswa
+                </p>
                 <h3 class="text-2xl font-black text-slate-800">458</h3>
               </div>
             </div>
 
-            <div class="bg-white p-6 rounded-[2.5rem] border border-slate-100 shadow-sm flex items-center space-x-4">
-              <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center text-2xl"><i class="fas fa-book-open"></i></div>
+            <div
+              class="bg-white p-6 rounded-[2.5rem] border border-slate-100 shadow-sm flex items-center space-x-4"
+            >
+              <div
+                class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center text-2xl"
+              >
+                <i class="fas fa-book-open"></i>
+              </div>
               <div>
-                <p class="text-slate-400 text-xs font-bold uppercase tracking-wider">Mata Pelajaran</p>
+                <p
+                  class="text-slate-400 text-xs font-bold uppercase tracking-wider"
+                >
+                  Mata Pelajaran
+                </p>
                 <h3 class="text-2xl font-black text-slate-800">12</h3>
               </div>
             </div>
           </div>
 
-          <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-200 animate-fadeIn" style="animation-delay: 0.2s;">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+          <div
+            class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-200 animate-fadeIn"
+            style="animation-delay: 0.2s"
+          >
+            <div
+              class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4"
+            >
               <div>
-                <h3 class="text-lg font-bold text-slate-800 uppercase tracking-tight">Statistik Data Akademik</h3>
-                <p class="text-slate-400 text-xs font-medium">Visualisasi perbandingan total entitas sistem</p>
+                <h3
+                  class="text-lg font-bold text-slate-800 uppercase tracking-tight"
+                >
+                  Statistik Data Akademik
+                </h3>
+                <p class="text-slate-400 text-xs font-medium">
+                  Visualisasi perbandingan total entitas sistem
+                </p>
               </div>
-              
+
               <div class="flex space-x-2">
-                <select class="bg-slate-100 border-none rounded-xl text-xs font-bold py-2.5 px-4 outline-none focus:ring-2 focus:ring-blue-500 transition">
+                <select
+                  class="bg-slate-100 border-none rounded-xl text-xs font-bold py-2.5 px-4 outline-none focus:ring-2 focus:ring-blue-500 transition"
+                >
                   <option>Maret</option>
                   <option>April</option>
                 </select>
-                <select class="bg-slate-100 border-none rounded-xl text-xs font-bold py-2.5 px-4 outline-none focus:ring-2 focus:ring-blue-500 transition">
+                <select
+                  class="bg-slate-100 border-none rounded-xl text-xs font-bold py-2.5 px-4 outline-none focus:ring-2 focus:ring-blue-500 transition"
+                >
                   <option>2026</option>
                   <option>2025</option>
                 </select>
               </div>
             </div>
-            
+
             <div class="relative h-[350px] w-full">
               <canvas id="mainStatsChart"></canvas>
             </div>
@@ -176,75 +306,78 @@
     </div>
 
     <script>
-  // ==========================================
-  // 1. KONFIGURASI ELEMEN UTAMA
-  // ==========================================
-  const profileBtn = document.getElementById('profileBtn');
-  const profileDropdown = document.getElementById('profileDropdown');
+      // ==========================================
+      // 1. KONFIGURASI ELEMEN UTAMA
+      // ==========================================
+      const profileBtn = document.getElementById("profileBtn");
+      const profileDropdown = document.getElementById("profileDropdown");
 
-  // ==========================================
-  // 2. FUNGSI TOGGLE MATA (KONSISTEN)
-  // ==========================================
-  // Fungsi ini bisa menangani SPAN (teks) maupun INPUT (field)
-  function toggleViewPassword(e, targetId, iconId) {
-    if (e) e.stopPropagation();
-    
-    const target = document.getElementById(targetId);
-    const icon = document.getElementById(iconId);
-    const dummyPassword = "admin123"; 
+      // ==========================================
+      // 2. FUNGSI TOGGLE MATA (KONSISTEN)
+      // ==========================================
+      // Fungsi ini bisa menangani SPAN (teks) maupun INPUT (field)
+      function toggleViewPassword(e, targetId, iconId) {
+        if (e) e.stopPropagation();
 
-    // Jika target adalah SPAN (Tampilan Depan)
-    if (target.tagName === "SPAN") {
-      if (target.innerText === "••••••••") {
-        target.innerText = dummyPassword;
-        icon.classList.replace('fa-eye', 'fa-eye-slash');
-        target.classList.replace('text-slate-500', 'text-slate-800');
-      } else {
-        target.innerText = "••••••••";
-        icon.classList.replace('fa-eye-slash', 'fa-eye');
-        target.classList.replace('text-slate-800', 'text-slate-500');
+        const target = document.getElementById(targetId);
+        const icon = document.getElementById(iconId);
+        const dummyPassword = "admin123";
+
+        // Jika target adalah SPAN (Tampilan Depan)
+        if (target.tagName === "SPAN") {
+          if (target.innerText === "••••••••") {
+            target.innerText = dummyPassword;
+            icon.classList.replace("fa-eye", "fa-eye-slash");
+            target.classList.replace("text-slate-500", "text-slate-800");
+          } else {
+            target.innerText = "••••••••";
+            icon.classList.replace("fa-eye-slash", "fa-eye");
+            target.classList.replace("text-slate-800", "text-slate-500");
+          }
+        }
+        // Jika target adalah INPUT (Tampilan Update)
+        else if (target.tagName === "INPUT") {
+          if (target.type === "password") {
+            target.type = "text";
+            icon.classList.replace("fa-eye", "fa-eye-slash");
+          } else {
+            target.type = "password";
+            icon.classList.replace("fa-eye-slash", "fa-eye");
+          }
+        }
       }
-    } 
-    // Jika target adalah INPUT (Tampilan Update)
-    else if (target.tagName === "INPUT") {
-      if (target.type === "password") {
-        target.type = "text";
-        icon.classList.replace('fa-eye', 'fa-eye-slash');
-      } else {
-        target.type = "password";
-        icon.classList.replace('fa-eye-slash', 'fa-eye');
-      }
-    }
-  }
 
-  // ==========================================
-  // 3. LOGIKA DROPDOWN
-  // ==========================================
-  profileBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    profileDropdown.classList.toggle('hidden');
-    resetDropdown(); 
-  });
+      // ==========================================
+      // 3. LOGIKA DROPDOWN
+      // ==========================================
+      profileBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        profileDropdown.classList.toggle("hidden");
+        resetDropdown();
+      });
 
-  profileDropdown.addEventListener('click', (e) => {
-    e.stopPropagation();
-    if (e.target.innerText.includes('Update Password')) {
-      ubahKeFormPassword();
-    }
-  });
+      profileDropdown.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (e.target.innerText.includes("Update Password")) {
+          ubahKeFormPassword();
+        }
+      });
 
-  window.addEventListener('click', (e) => {
-    if (!profileBtn.contains(e.target) && !profileDropdown.contains(e.target)) {
-      profileDropdown.classList.add('hidden');
-    }
-  });
+      window.addEventListener("click", (e) => {
+        if (
+          !profileBtn.contains(e.target) &&
+          !profileDropdown.contains(e.target)
+        ) {
+          profileDropdown.classList.add("hidden");
+        }
+      });
 
-  // ==========================================
-  // 4. TAMPILAN 1: PROFIL TERKUNCI
-  // ==========================================
-  function resetDropdown() {
-    const container = profileDropdown.querySelector('.space-y-3');
-    container.innerHTML = `
+      // ==========================================
+      // 4. TAMPILAN 1: PROFIL TERKUNCI
+      // ==========================================
+      function resetDropdown() {
+        const container = profileDropdown.querySelector(".space-y-3");
+        container.innerHTML = `
       <div class="animate-fadeIn">
         <div>
           <label class="text-[10px] font-bold text-slate-400 uppercase ml-2">Username</label>
@@ -273,14 +406,14 @@
         </a>
       </div>
     `;
-  }
+      }
 
-  // ==========================================
-  // 5. TAMPILAN 2: FORM UPDATE (IKON MATA SAMA)
-  // ==========================================
-  function ubahKeFormPassword() {
-    const container = profileDropdown.querySelector('.space-y-3');
-    container.innerHTML = `
+      // ==========================================
+      // 5. TAMPILAN 2: FORM UPDATE (IKON MATA SAMA)
+      // ==========================================
+      function ubahKeFormPassword() {
+        const container = profileDropdown.querySelector(".space-y-3");
+        container.innerHTML = `
       <div class="animate-fadeIn">
         <div class="flex items-center mb-4">
           <button onclick="resetDropdown()" class="text-slate-400 hover:text-slate-800 transition mr-2">
@@ -310,133 +443,164 @@
         </button>
       </div>
     `;
-  }
+      }
 
-  function simpanDanReset() {
-    const oldP = document.getElementById('oldPass').value;
-    const newP = document.getElementById('newPass').value;
-    if(oldP && newP) {
-      alert("Password Berhasil Diperbarui!");
-      resetDropdown();
-      profileDropdown.classList.add('hidden');
-    } else {
-      alert("Harap isi semua kolom!");
-    }
-  }
-// Menghilangkan ikon mata bawaan browser (Edge/Chrome) lewat JS
-const style = document.createElement('style');
-style.innerHTML = `
+      function simpanDanReset() {
+        const oldP = document.getElementById("oldPass").value;
+        const newP = document.getElementById("newPass").value;
+        if (oldP && newP) {
+          alert("Password Berhasil Diperbarui!");
+          resetDropdown();
+          profileDropdown.classList.add("hidden");
+        } else {
+          alert("Harap isi semua kolom!");
+        }
+      }
+      // Menghilangkan ikon mata bawaan browser (Edge/Chrome) lewat JS
+      const style = document.createElement("style");
+      style.innerHTML = `
   input::-ms-reveal, input::-ms-clear { display: none !important; }
   input::-webkit-contacts-auto-fill-button, 
   input::-webkit-credentials-auto-fill-button { display: none !important; }
 `;
-document.head.appendChild(style);
-// ==========================================
-  // 6. CHART JS (STATISTIK DISTRIBUSI SISWA)
-  // ==========================================
-  
-  // 1. Deklarasi Variabel Global
-  let mainChart; 
-  const ctx = document.getElementById('mainStatsChart').getContext('2d');
+      document.head.appendChild(style);
+      // ==========================================
+      // 6. CHART JS (STATISTIK DISTRIBUSI SISWA)
+      // ==========================================
 
-  // 2. Fungsi Inisialisasi Chart (Tampilan Awal)
-  function initChart() {
-    mainChart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: ['1-A', '1-B', '2-A', '2-B', '3-A', '3-B', '4-A', '4-B', '5-A', '5-B', '6-A', '6-B'],
-        datasets: [{
-          label: 'Jumlah Siswa',
-          data: [], // Akan diisi otomatis dari database
-          backgroundColor: 'rgba(59, 130, 246, 0.8)',
-          hoverBackgroundColor: 'rgba(37, 99, 235, 1)',
-          borderRadius: 8,
-          barThickness: 'flex',
-          maxBarThickness: 35
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: { 
-          legend: { display: false },
-          tooltip: {
-            backgroundColor: '#1e293b',
-            padding: 12,
-            callbacks: {
-              label: (context) => ` ${context.raw} Siswa`
-            }
-          }
-        },
-        scales: {
-          y: { 
-            beginAtZero: true, 
-            ticks: { 
-              stepSize: 1, // Agar angka skala sumbu Y pas (1, 2, 3...)
-              color: '#94a3b8' 
-            },
-            grid: { color: 'rgba(241, 245, 249, 1)', drawBorder: false }
+      // 1. Deklarasi Variabel Global
+      let mainChart;
+      const ctx = document.getElementById("mainStatsChart").getContext("2d");
+
+      // 2. Fungsi Inisialisasi Chart (Tampilan Awal)
+      function initChart() {
+        mainChart = new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: [
+              "1-A",
+              "1-B",
+              "2-A",
+              "2-B",
+              "3-A",
+              "3-B",
+              "4-A",
+              "4-B",
+              "5-A",
+              "5-B",
+              "6-A",
+              "6-B",
+            ],
+            datasets: [
+              {
+                label: "Jumlah Siswa",
+                data: [], // Akan diisi otomatis dari database
+                backgroundColor: "rgba(59, 130, 246, 0.8)",
+                hoverBackgroundColor: "rgba(37, 99, 235, 1)",
+                borderRadius: 8,
+                barThickness: "flex",
+                maxBarThickness: 35,
+              },
+            ],
           },
-          x: { 
-            grid: { display: false },
-            ticks: { color: '#64748b', font: { weight: 'bold' } }
-          }
-        }
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                backgroundColor: "#1e293b",
+                padding: 12,
+                callbacks: {
+                  label: (context) => ` ${context.raw} Siswa`,
+                },
+              },
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: {
+                  stepSize: 1, // Agar angka skala sumbu Y pas (1, 2, 3...)
+                  color: "#94a3b8",
+                },
+                grid: { color: "rgba(241, 245, 249, 1)", drawBorder: false },
+              },
+              x: {
+                grid: { display: false },
+                ticks: { color: "#64748b", font: { weight: "bold" } },
+              },
+            },
+          },
+        });
       }
-    });
-  }
 
-  // 3. Fungsi Menghitung Data dari Database
-  function updateChartData(allStudents) {
-    if (!mainChart) return;
+      // 3. Fungsi Menghitung Data dari Database
+      function updateChartData(allStudents) {
+        if (!mainChart) return;
 
-    // LIHAT DI KONSOL: Apakah datanya muncul? 
-    // Klik tanda panah kecil di samping 'Data dari Firebase' untuk melihat nama kolomnya
-    console.log("Data dari Firebase:", allStudents);
+        // LIHAT DI KONSOL: Apakah datanya muncul?
+        // Klik tanda panah kecil di samping 'Data dari Firebase' untuk melihat nama kolomnya
+        console.log("Data dari Firebase:", allStudents);
 
-    const listKelas = ['1-A', '1-B', '2-A', '2-B', '3-A', '3-B', '4-A', '4-B', '5-A', '5-B', '6-A', '6-B'];
-    
-    const dataCounts = listKelas.map(namaKelas => {
-      // Pastikan nama properti 'kelas' di Firestore kamu huruf kecil semua. 
-      // Kalau di database kamu namanya 'Kelas' (K besar), ganti s.kelas menjadi s.Kelas
-      const count = allStudents.filter(s => {
-        return s.kelas === namaKelas || s.Kelas === namaKelas;
-      }).length;
-      return count;
-    });
+        const listKelas = [
+          "1-A",
+          "1-B",
+          "2-A",
+          "2-B",
+          "3-A",
+          "3-B",
+          "4-A",
+          "4-B",
+          "5-A",
+          "5-B",
+          "6-A",
+          "6-B",
+        ];
 
-    console.log("Hasil hitung per kelas:", dataCounts);
+        const dataCounts = listKelas.map((namaKelas) => {
+          // Pastikan nama properti 'kelas' di Firestore kamu huruf kecil semua.
+          // Kalau di database kamu namanya 'Kelas' (K besar), ganti s.kelas menjadi s.Kelas
+          const count = allStudents.filter((s) => {
+            return s.kelas === namaKelas || s.Kelas === namaKelas;
+          }).length;
+          return count;
+        });
 
-    mainChart.data.datasets[0].data = dataCounts;
-    mainChart.update();
-  }
+        console.log("Hasil hitung per kelas:", dataCounts);
 
-  // 4. Koneksi ke Firestore (Real-time)
-  function loadDashboardStats() {
-    initChart(); // Jalankan grafik pertama kali
-
-    // Ambil data dari koleksi 'students' secara real-time
-    db.collection("students").onSnapshot((snapshot) => {
-      const allStudents = snapshot.docs.map(doc => doc.data());
-      
-      // Update grafik
-      updateChartData(allStudents);
-      
-      // Update angka total di card (Kotak Biru)
-      // Kita cari elemen H3 di dalam kotak biru "Jumlah Siswa"
-      const studentCard = document.querySelector('.bg-blue-100').nextElementSibling;
-      const totalH3 = studentCard.querySelector('h3');
-      if (totalH3) {
-        totalH3.innerText = allStudents.length;
+        mainChart.data.datasets[0].data = dataCounts;
+        mainChart.update();
       }
-    }, (error) => {
-      console.error("Gagal koneksi ke Firebase:", error);
-    });
-  }
 
-  // Jalankan seluruh fungsi saat halaman selesai dimuat
-  document.addEventListener("DOMContentLoaded", loadDashboardStats);
-  
-</script>
+      // 4. Koneksi ke Firestore (Real-time)
+      function loadDashboardStats() {
+        initChart(); // Jalankan grafik pertama kali
+
+        // Ambil data dari koleksi 'students' secara real-time
+        db.collection("students").onSnapshot(
+          (snapshot) => {
+            const allStudents = snapshot.docs.map((doc) => doc.data());
+
+            // Update grafik
+            updateChartData(allStudents);
+
+            // Update angka total di card (Kotak Biru)
+            // Kita cari elemen H3 di dalam kotak biru "Jumlah Siswa"
+            const studentCard =
+              document.querySelector(".bg-blue-100").nextElementSibling;
+            const totalH3 = studentCard.querySelector("h3");
+            if (totalH3) {
+              totalH3.innerText = allStudents.length;
+            }
+          },
+          (error) => {
+            console.error("Gagal koneksi ke Firebase:", error);
+          },
+        );
+      }
+
+      // Jalankan seluruh fungsi saat halaman selesai dimuat
+      document.addEventListener("DOMContentLoaded", loadDashboardStats);
+    </script>
   </body>
 </html>

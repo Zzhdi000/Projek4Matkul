@@ -1,106 +1,165 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pengaturan User - ADMIN PANEL</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-</head>
-<body class="bg-slate-50 font-sans">
-
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body class="bg-slate-50 font-sans">
     <div class="flex min-h-screen">
-        <aside class="w-64 bg-slate-900 text-white flex-shrink-0 hidden md:flex flex-col">
-            <div class="p-6 border-b border-slate-800 flex items-center space-x-3">
-                <i class="fas fa-user-shield text-2xl text-blue-400"></i>
-                <span class="text-xl font-bold tracking-tight">ADMIN PANEL</span>
-            </div>
-            <nav class="flex-1 mt-6 px-4 space-y-2">
-                <a href="admin-dashboard.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
-                    <i class="fas fa-database mr-3"></i> Data Master
-                </a>
-                <a href="admin-users.html" class="flex items-center py-3 px-4 bg-blue-600 text-white rounded-xl transition shadow-lg shadow-blue-900/20">
-                    <i class="fas fa-users-cog mr-3"></i> Pengaturan User
-                </a>
-                <a href="admin-laporan.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
-                    <i class="fas fa-print mr-3"></i> Laporan Cetak
-                </a>
-            </nav>
-            <div class="p-6 border-t border-slate-800">
-                <a href="loginv2.html" class="flex items-center text-red-400 hover:text-red-300 transition">
-                    <i class="fas fa-sign-out-alt mr-3"></i> Logout
-                </a>
-            </div>
-        </aside>
-
-        <div class="flex-1 flex flex-col">
-            <header class="bg-white shadow-sm py-4 px-8 flex justify-between items-center">
-                <h2 class="text-xl font-bold text-slate-800">Manajemen Hak Akses</h2>
-                <div class="flex items-center space-x-2">
-                    <span class="text-xs font-bold bg-blue-100 text-blue-700 px-3 py-1 rounded-full uppercase">Super Admin</span>
-                    <img src="https://ui-avatars.com/api/?name=Admin&background=0D8ABC&color=fff" class="w-10 h-10 rounded-full border-2 border-slate-200">
-                </div>
-            </header>
-
-            <main class="p-8">
-                <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
-                    <div class="p-6 border-b flex justify-between items-center">
-                        <h4 class="font-bold text-slate-800 text-lg">Daftar Akun Pengguna</h4>
-                        <button class="bg-blue-600 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-blue-700 transition">
-                            <i class="fas fa-user-plus mr-2"></i> Buat Akun Baru
-                        </button>
-                    </div>
-                    <div class="p-6 overflow-x-auto">
-                        <table class="w-full text-left">
-                            <thead class="bg-slate-50 text-slate-400 text-[10px] uppercase font-bold tracking-widest">
-                                <tr>
-                                    <th class="px-6 py-4">Username</th>
-                                    <th class="px-6 py-4">Role / Hak Akses</th>
-                                    <th class="px-6 py-4 text-center">Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-slate-100 text-sm">
-                                <tr>
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center">
-                                            <div class="w-8 h-8 rounded-lg bg-orange-100 text-orange-600 flex items-center justify-center mr-3">
-                                                <i class="fas fa-user text-xs"></i>
-                                            </div>
-                                            <span class="font-bold text-slate-700">ayah_budi_2026</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-[10px] font-black uppercase">Wali Murid</span>
-                                    </td>
-                                    <td class="px-6 py-4 text-center">
-                                        <button class="text-blue-500 hover:text-blue-700 mr-3" title="Reset Password"><i class="fas fa-key"></i></button>
-                                        <button class="text-red-400 hover:text-red-600"><i class="fas fa-trash"></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="px-6 py-4">
-                                        <div class="flex items-center">
-                                            <div class="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center mr-3">
-                                                <i class="fas fa-graduation-cap text-xs"></i>
-                                            </div>
-                                            <span class="font-bold text-slate-700">guru_siti_aminah</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-[10px] font-black uppercase">Guru</span>
-                                    </td>
-                                    <td class="px-6 py-4 text-center">
-                                        <button class="text-blue-500 hover:text-blue-700 mr-3" title="Reset Password"><i class="fas fa-key"></i></button>
-                                        <button class="text-red-400 hover:text-red-600"><i class="fas fa-trash"></i></button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </main>
+      <aside
+        class="w-64 bg-slate-900 text-white flex-shrink-0 hidden md:flex flex-col"
+      >
+        <div class="p-6 border-b border-slate-800 flex items-center space-x-3">
+          <i class="fas fa-user-shield text-2xl text-blue-400"></i>
+          <span class="text-xl font-bold tracking-tight">BAGIAN ADMIN</span>
         </div>
-    </div>
+        <nav class="flex-1 mt-6 px-4 space-y-2">
+          <a
+            href="admin-dashboard.html"
+            class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition"
+          >
+            <i class="fas fa-database mr-3"></i> Data Master
+          </a>
+          <a
+            href="admin-users.html"
+            class="flex items-center py-3 px-4 bg-blue-600 text-white rounded-xl transition shadow-lg shadow-blue-900/20"
+          >
+            <i class="fas fa-users-cog mr-3"></i> Pengaturan User
+          </a>
+          <a
+            href="admin-laporan.html"
+            class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition"
+          >
+            <i class="fas fa-print mr-3"></i> Laporan Cetak
+          </a>
+        </nav>
+        <div class="p-6 border-t border-slate-800">
+          <a
+            href="loginv2.html"
+            class="flex items-center text-red-400 hover:text-red-300 transition"
+          >
+            <i class="fas fa-sign-out-alt mr-3"></i> Keluar
+          </a>
+        </div>
+      </aside>
 
-</body>
+      <div class="flex-1 flex flex-col">
+        <header
+          class="bg-white shadow-sm py-4 px-8 flex justify-between items-center"
+        >
+          <h2 class="text-xl font-bold text-slate-800">Manajemen Hak Akses</h2>
+          <div class="flex items-center space-x-2">
+            <span
+              class="text-xs font-bold bg-blue-100 text-blue-700 px-3 py-1 rounded-full uppercase"
+              >Super Admin</span
+            >
+            <img
+              src="https://ui-avatars.com/api/?name=Admin&background=0D8ABC&color=fff"
+              class="w-10 h-10 rounded-full border-2 border-slate-200"
+            />
+          </div>
+        </header>
+
+        <main class="p-8">
+          <div
+            class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden"
+          >
+            <div class="p-6 border-b flex justify-between items-center">
+              <h4 class="font-bold text-slate-800 text-lg">
+                Daftar Akun Pengguna
+              </h4>
+              <button
+                class="bg-blue-600 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-blue-700 transition"
+              >
+                <i class="fas fa-user-plus mr-2"></i> Buat Akun Baru
+              </button>
+            </div>
+            <div class="p-6 overflow-x-auto">
+              <table class="w-full text-left">
+                <thead
+                  class="bg-slate-50 text-slate-400 text-[10px] uppercase font-bold tracking-widest"
+                >
+                  <tr>
+                    <th class="px-6 py-4">Username</th>
+                    <th class="px-6 py-4">Role / Hak Akses</th>
+                    <th class="px-6 py-4 text-center">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 text-sm">
+                  <tr>
+                    <td class="px-6 py-4">
+                      <div class="flex items-center">
+                        <div
+                          class="w-8 h-8 rounded-lg bg-orange-100 text-orange-600 flex items-center justify-center mr-3"
+                        >
+                          <i class="fas fa-user text-xs"></i>
+                        </div>
+                        <span class="font-bold text-slate-700"
+                          >ayah_budi_2026</span
+                        >
+                      </div>
+                    </td>
+                    <td class="px-6 py-4">
+                      <span
+                        class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-[10px] font-black uppercase"
+                        >Wali Murid</span
+                      >
+                    </td>
+                    <td class="px-6 py-4 text-center">
+                      <button
+                        class="text-blue-500 hover:text-blue-700 mr-3"
+                        title="Reset Password"
+                      >
+                        <i class="fas fa-key"></i>
+                      </button>
+                      <button class="text-red-400 hover:text-red-600">
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="px-6 py-4">
+                      <div class="flex items-center">
+                        <div
+                          class="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center mr-3"
+                        >
+                          <i class="fas fa-graduation-cap text-xs"></i>
+                        </div>
+                        <span class="font-bold text-slate-700"
+                          >guru_siti_aminah</span
+                        >
+                      </div>
+                    </td>
+                    <td class="px-6 py-4">
+                      <span
+                        class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-[10px] font-black uppercase"
+                        >Guru</span
+                      >
+                    </td>
+                    <td class="px-6 py-4 text-center">
+                      <button
+                        class="text-blue-500 hover:text-blue-700 mr-3"
+                        title="Reset Password"
+                      >
+                        <i class="fas fa-key"></i>
+                      </button>
+                      <button class="text-red-400 hover:text-red-600">
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </body>
 </html>

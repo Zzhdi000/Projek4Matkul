@@ -47,7 +47,7 @@
       
         <div class="p-6 border-b border-slate-800 flex items-center space-x-3">
           <i class="fas fa-shield-alt text-2xl text-blue-400"></i>
-          <span class="text-xl font-bold tracking-tight">ADMIN PANEL</span>
+          <span class="text-xl font-bold tracking-tight">BAGIAN ADMIN</span>
         </div>
 
         <nav class="flex-1 mt-6 px-4 space-y-1">
@@ -55,7 +55,7 @@
             href="admin-dashboard.html"
             class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition"
           >
-            <i class="fas fa-th-large mr-3 w-5"></i> Dashboard
+            <i class="fas fa-th-large mr-3 w-5"></i> Beranda
           </a>
           <a
             href="admin-dataguru.html"
@@ -94,7 +94,7 @@
             href="login.html#login"
             class="flex items-center text-red-400 hover:text-red-300 font-bold"
           >
-            <i class="fas fa-sign-out-alt mr-3"></i> Logout
+            <i class="fas fa-sign-out-alt mr-3"></i> Keluar
           </a>
         </div>
       </aside>
@@ -196,8 +196,8 @@
                     <th class="py-5 px-8 text-center w-20">No</th>
                     <th class="py-5 px-6">Informasi Guru</th>
                     <th class="py-5 px-6 text-center">Wali Kelas</th>
-                    <th class="py-5 px-6">Kontak / Email</th>
-                    <th class="py-5 px-6 text-center">Password</th>
+                    <th class="py-5 px-6">Kontak / Surel</th>
+                    <th class="py-5 px-6 text-center">Kata Sandi</th>
                     <th class="py-5 px-8 text-center">Aksi</th>
                   </tr>
                 </thead>
@@ -263,14 +263,14 @@
           <label
             class="flex items-center text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 ml-1"
           >
-            <i class="fas fa-at mr-2 text-purple-500"></i> Username Login
+            <i class="fas fa-at mr-2 text-purple-500"></i> Login Nama Pengguna
           </label>
           <input
             type="text"
             id="userGuru"
             required
             name="username_baru"
-            placeholder="Buat username..."
+            placeholder="Buat Nama Pengguna..."
             class="w-full bg-slate-50 border-2 border-slate-100 rounded-[1.5rem] py-3.5 px-5 text-sm font-bold text-slate-700 focus:border-purple-400 focus:bg-white focus:ring-4 focus:ring-purple-100 outline-none transition-all duration-300 shadow-sm"
           />
         </div>
@@ -313,7 +313,7 @@
         <label
           class="flex items-center text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 ml-1"
         >
-          <i class="fas fa-envelope mr-2 text-amber-500"></i> Alamat Email
+          <i class="fas fa-envelope mr-2 text-amber-500"></i> Surel
         </label>
         <input
           type="email"
@@ -329,7 +329,7 @@
         <label
           class="flex items-center text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 ml-1"
         >
-          <i class="fas fa-key mr-2 text-slate-400"></i> Password Saat Ini
+          <i class="fas fa-key mr-2 text-slate-400"></i> Kata Sandi Saat Ini
         </label>
         <div class="relative">
           <input
@@ -349,7 +349,7 @@
           id="labelPass"
           class="flex items-center text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 ml-1"
         >
-          <i class="fas fa-lock mr-2 text-rose-500"></i> Password Baru
+          <i class="fas fa-lock mr-2 text-rose-500"></i> Kata Sandi Baru
         </label>
         <div class="relative">
           <input
@@ -358,7 +358,7 @@
             required
             name="password_baru"
             autocomplete="new-password"
-            placeholder="Buat password minimal 8 karakter..."
+            placeholder="Buat Kata Sandi minimal 8 karakter..."
             class="w-full bg-slate-50 border-2 border-slate-100 rounded-[1.5rem] py-3.5 px-5 text-sm font-bold text-slate-700 focus:border-rose-400 focus:bg-white focus:ring-4 focus:ring-rose-100 outline-none transition-all duration-300 shadow-sm"
           />
         </div>
