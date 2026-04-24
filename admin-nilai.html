@@ -1,668 +1,330 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Nilai Siswa - SIAKAD SD Negeri Ganting</title>
+    <title>Manajemen Nilai - SDN GANTING</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <style>
-      .hidden-section {
-        display: none;
-      }
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(10px);
+        :root {
+            --p-red: #C9494C;
+            --p-rose: #FF9178;
+            --p-yellow: #F7EA7F;
+            --p-orange: #F25A2D;
+            --p-green: #82C697;
+            --p-blue: #057711;
+            
+            --bg-body: #FDFDFB;
+            --bg-sidebar: #FFFFFF;
+            --text-main: #2D2D2D;
+            --accent: var(--p-red);
+            --card-bg: #FFFFFF;
+            --border: rgba(0,0,0,0.1);
+            --dropdown-bg: #FFFFFF;
         }
-        to {
-          opacity: 1;
-          transform: translateY(0);
+
+        .dark-mode {
+            --bg-body: #0F0F12; 
+            --bg-sidebar: #000000;
+            --text-main: #FFFFFF;
+            --accent: var(--p-rose);
+            --card-bg: rgba(30, 30, 35, 0.8); 
+            --border: rgba(255, 255, 255, 0.15);
+            --dropdown-bg: #1A1A1D;
+            background: radial-gradient(circle at 80% 0%, #432e1f 0%, #0F0F12 50%) !important;
         }
-      }
-      .animate-fadeIn {
-        animation: fadeIn 0.4s ease-out forwards;
-      }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            transition: all 0.4s ease;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .glass-card {
+            background-color: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+        }
+
+        .nav-link {
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 14px;
+            font-size: 13px;
+            color: #555;
+            font-weight: 700;
+        }
+
+        .dark-mode .nav-link { color: #9CA3AF; }
+
+        .nav-link.active {
+            background-color: var(--accent);
+            color: white !important;
+            box-shadow: 0 8px 20px -6px var(--accent);
+        }
+
+        .group-label {
+            font-size: 10px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--p-red);
+            margin: 25px 0 10px 16px;
+        }
+
+        /* Transition for view switching */
+        .view-section { transition: all 0.3s ease; }
+        .hidden { display: none; }
     </style>
-  </head>
-  <body class="bg-slate-50 font-sans text-slate-900">
-    <div class="flex min-h-screen">
-      <aside
-        class="w-64 bg-[#0f172a] text-white flex-shrink-0 hidden md:flex flex-col h-screen sticky top-0"
-      >
-        <div class="p-6 border-b border-slate-800 flex items-center space-x-3">
-          <i class="fas fa-shield-alt text-2xl text-blue-400"></i>
-          <span class="text-xl font-bold tracking-tight">BAGIAN ADMIN</span>
-        </div>
+</head>
 
-        <nav
-          class="flex-1 mt-6 px-4 space-y-1 overflow-y-auto custom-scrollbar"
-        >
-          <a
-            href="admin-dashboard.html"
-            class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition"
-          >
-            <i class="fas fa-th-large mr-3 w-5"></i> Beranda
-          </a>
-          <a
-            href="admin-dataguru.html"
-            class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition"
-          >
-            <i class="fas fa-user-tie mr-3 w-5"></i> Data Guru
-          </a>
-          <a
-            href="admin-datasiswa.html"
-            class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition"
-          >
-            <i class="fas fa-user-graduate mr-3 w-5"></i> Data Siswa
-          </a>
-          <a
-            href="admin-jadwalguru.html"
-            class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition"
-          >
-            <i class="fas fa-calendar-alt mr-3 w-5"></i> Jadwal Guru
-          </a>
-          <a
-            href="admin-nilai.html"
-            class="flex items-center py-3 px-4 bg-[#2563eb] text-white rounded-xl transition shadow-lg shadow-blue-900/20"
-          >
-            <i class="fas fa-star mr-3 w-5"></i> Nilai Siswa
-          </a>
-          <a
-            href="admin-kelolaberita.html"
-            class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition"
-          >
-            <i class="fas fa-newspaper mr-3 w-5"></i> Kelola Berita
-          </a>
-        </nav>
+<body class="font-sans antialiased min-h-screen">
 
-        <div class="p-6 border-t border-slate-800 mt-auto">
-          <a
-            href="login.html#login"
-            class="flex items-center text-red-400 hover:text-red-300 font-bold transition"
-          >
-            <i class="fas fa-sign-out-alt mr-3"></i> Keluar
-          </a>
-        </div>
-      </aside>
+<div class="flex p-5 gap-5 min-h-screen">
 
-      <div class="flex-1 flex flex-col">
-        <header
-          class="bg-white shadow-sm py-4 px-8 flex justify-between items-center relative z-50"
-        >
-          <h2 class="text-xl font-bold text-slate-800 tracking-tight uppercase">
-            Selamat Datang, Admin !
-          </h2>
-
-          <div class="relative">
-            <button
-              id="profileBtn"
-              class="flex items-center space-x-3 focus:outline-none group"
-            >
-              <div class="text-right mr-2 hidden sm:block">
-                <p
-                  class="text-xs font-bold text-slate-800 uppercase group-hover:text-blue-600 transition"
-                >
-                  Administrator
-                </p>
-                <p
-                  class="text-[10px] text-slate-400 font-medium group-hover:text-slate-500 transition"
-                >
-                  Sistem Informasi Akademik
-                </p>
-              </div>
-              <div
-                class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-white font-bold text-sm border-2 border-white shadow-md group-hover:scale-105 transition-all"
-              >
-                AD
-              </div>
-            </button>
-
-            <div
-              id="profileDropdown"
-              class="absolute right-0 mt-3 w-72 bg-white rounded-[2rem] shadow-2xl border border-slate-100 p-6 hidden animate-fadeIn overflow-hidden"
-            >
-              <div class="text-center mb-4">
-                <div
-                  class="w-16 h-16 bg-slate-100 rounded-full mx-auto flex items-center justify-center text-slate-800 text-xl font-black border-4 border-blue-50 mb-2"
-                >
-                  AD
+    <aside class="w-72 flex flex-col justify-between bg-[var(--bg-sidebar)] rounded-[30px] p-7 shadow-xl sticky top-5 h-[calc(100vh-40px)]">
+        <div>
+            <div class="flex items-center gap-4 mb-10 px-2">
+                <div class="w-11 h-11 flex items-center justify-center">
+                    <img src="asset/logogtg.png" alt="Logo" class="w-full h-full object-contain"> 
                 </div>
-                <h4 class="text-sm font-black text-slate-800">Admin Utama</h4>
-                <p
-                  class="text-[10px] text-slate-400 font-bold uppercase tracking-widest"
-                >
-                  ID: ADM-GANTING-01
-                </p>
-              </div>
-
-              <div class="space-y-3">
                 <div>
-                  <label
-                    class="text-[10px] font-bold text-slate-400 uppercase ml-2"
-                    >Username</label
-                  >
-                  <div
-                    class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 text-sm font-bold text-slate-500 cursor-not-allowed"
-                  >
-                    admin_siakad
-                  </div>
+                    <h1 class="text-xl font-black leading-tight tracking-tight">SDN GANTING</h1>
+                    <p class="text-[9px] font-bold text-gray-400 uppercase tracking-widest">Master Panel</p>
                 </div>
-
-                <div>
-                  <label
-                    class="text-[10px] font-bold text-slate-400 uppercase ml-2 mb-1 block"
-                    >Password</label
-                  >
-                  <div
-                    class="relative w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 flex items-center justify-between transition-all"
-                  >
-                    <span
-                      id="passText"
-                      class="text-sm font-bold text-slate-500 select-none"
-                      style="cursor: not-allowed"
-                      >••••••••</span
-                    >
-
-                    <button
-                      type="button"
-                      onclick="toggleViewPassword(event)"
-                      class="text-slate-300 hover:text-blue-500 transition-colors focus:outline-none flex items-center justify-center"
-                      style="cursor: pointer"
-                    >
-                      <i id="eyeIcon" class="fas fa-eye text-xs"></i>
-                    </button>
-                  </div>
-                </div>
-
-                <button
-                  class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-xl text-xs font-bold transition shadow-lg shadow-blue-200 mt-2"
-                >
-                  Update Password
-                </button>
-
-                <hr class="border-slate-50 my-2" />
-
-                <a
-                  href="login.html"
-                  class="flex items-center justify-center text-red-500 text-[11px] font-bold hover:bg-red-50 py-2 rounded-lg transition"
-                >
-                  <i class="fas fa-sign-out-alt mr-2"></i> KELUAR SISTEM
-                </a>
-              </div>
             </div>
-          </div>
+
+            <nav>
+                <p class="group-label">Navigasi Utama</p>
+                <a href="admin-dashboard.html" class="nav-link"><i class="fas fa-th-large w-5"></i> Beranda</a>
+
+                <p class="group-label">Kependidikan</p>
+                <a href="admin-datasiswa.html" class="nav-link"><i class="fas fa-user-graduate w-5"></i> Data Siswa</a>
+                <a href="admin-dataguru.html" class="nav-link"><i class="fas fa-chalkboard-teacher w-5"></i> Data Guru</a>
+
+                <p class="group-label">Manajemen</p>
+                <a href="admin-jadwalguru.html" class="nav-link"><i class="fas fa-clipboard-list w-5"></i> Jadwal Guru</a>
+                <a href="admin-nilai.html" class="nav-link active"><i class="fas fa-file-invoice w-5"></i> Nilai Siswa</a>
+                <a href="admin-kelolaberita.html" class="nav-link"><i class="fas fa-broadcast-tower w-5"></i> Kelola Berita</a>
+            </nav>
+        </div>
+
+        <div class="pt-6 border-t border-[var(--border)]">
+            <button onclick="handleLogout()" class="w-full flex items-center gap-3 py-3 px-4 text-[var(--p-red)] font-black hover:bg-[var(--p-red)] hover:text-white rounded-xl transition-all cursor-pointer">
+                <i class="fas fa-sign-out-alt w-5"></i> <span>Keluar Sistem</span>
+            </button>
+        </div>
+    </aside>
+
+    <div class="flex-1 space-y-6">
+
+        <header class="flex justify-between items-center glass-card px-8 py-5 sticky top-0 z-50">
+            <div>
+                <h2 class="text-2xl font-black uppercase">Manajemen Nilai</h2>
+                <p class="text-xs font-bold opacity-50 uppercase tracking-widest" id="headerSub">Data Nilai Per Mata Pelajaran</p>
+            </div>
+            
+            <div class="flex items-center gap-5">
+                <button onclick="toggleTheme()" class="w-12 h-12 flex items-center justify-center rounded-2xl bg-gray-100 dark:bg-white/10 border border-[var(--border)] transition-all">
+                    <i id="themeIcon" class="fas fa-moon text-[var(--accent)] text-xl"></i>
+                </button>
+                
+                <div class="relative">
+                    <button id="profileBtn" class="flex items-center gap-3 p-1.5 pr-5 bg-gray-100 dark:bg-white/10 rounded-full border border-[var(--border)]">
+                        <img src="https://ui-avatars.com/api/?name=Admin&background=C9494C&color=fff" class="w-10 h-10 rounded-full border-2 border-white">
+                        <span class="text-sm font-black">Admin Johny</span>
+                        <i class="fas fa-chevron-down text-[10px] opacity-40"></i>
+                    </button>
+                    <div id="profileDropdown" class="hidden absolute right-0 mt-4 w-80 bg-[var(--dropdown-bg)] border border-[var(--border)] rounded-[24px] shadow-2xl p-6 z-[9999]">
+                        <div id="profileContent"></div>
+                    </div>
+                </div>
+            </div>
         </header>
 
-        <main class="p-8">
-          <div
-            class="bg-white rounded-[2.5rem] shadow-sm border border-slate-200 p-8 animate-fadeIn"
-          >
-            <div class="mb-10">
-              <h3
-                class="text-2xl font-black text-slate-800 tracking-tight mb-6"
-              >
-                Manajemen Nilai
-              </h3>
-              <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <select
-                  class="bg-slate-50 border border-slate-200 rounded-2xl py-3 px-4 text-sm font-bold text-slate-600 outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  <option value="1A">Kelas 1A</option>
-                  <option value="1B">Kelas 1B</option>
-                </select>
-
-                <select
-                  class="bg-slate-50 border border-slate-200 rounded-2xl py-3 px-4 text-sm font-bold text-slate-600 outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  <option value="1">Semester Ganjil</option>
-                  <option value="2">Semester Genap</option>
-                </select>
-
-                <select
-                  id="mapelSelector"
-                  class="bg-blue-50 border border-blue-200 rounded-2xl py-3 px-4 text-sm font-bold text-blue-700 outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
-                >
-                  <option value="">-- Pilih Mata Pelajaran --</option>
-                  <option value="Matematika">Matematika</option>
-                  <option value="B. Indonesia">Bahasa Indonesia</option>
-                  <option value="IPA">IPA</option>
-                </select>
-
-                <div class="relative">
-                  <span
-                    class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400"
-                    ><i class="fas fa-search text-sm"></i
-                  ></span>
-                  <input
-                    type="text"
-                    placeholder="Cari nama siswa..."
-                    class="w-full bg-slate-50 border border-slate-200 rounded-2xl py-3 pl-10 pr-4 text-sm outline-none"
-                  />
+        <section id="viewMapel" class="view-section space-y-6">
+            <div class="glass-card p-8">
+                <div class="flex justify-between items-center mb-8">
+                    <h3 class="font-black text-sm uppercase tracking-widest opacity-60">Pilih Mata Pelajaran</h3>
+                    <div class="flex gap-3">
+                         <select class="bg-gray-50 dark:bg-white/5 border border-[var(--border)] px-4 py-3 rounded-2xl text-[10px] font-black uppercase outline-none cursor-pointer">
+                            <option>Semester Ganjil 2025/2026</option>
+                            <option>Semester Genap 2025/2026</option>
+                        </select>
+                    </div>
                 </div>
-              </div>
-            </div>
 
-            <div id="viewRingkasan" class="animate-fadeIn">
-              <div class="flex items-center space-x-2 mb-4">
-                <span class="w-2 h-6 bg-blue-500 rounded-full"></span>
-                <h4
-                  class="font-bold text-slate-700 uppercase text-xs tracking-wider"
-                >
-                  Ringkasan Nilai Kelas 1A (A-Z)
-                </h4>
-              </div>
-              <div
-                class="overflow-hidden rounded-3xl border border-slate-100 shadow-sm"
-              >
-                <table class="w-full text-left border-collapse">
-                  <thead>
-                    <tr
-                      class="bg-slate-800 text-white uppercase text-[10px] tracking-widest font-bold"
-                    >
-                      <th class="py-5 px-6">Nama Siswa</th>
-                      <th class="py-5 px-6 text-center">Matematika</th>
-                      <th class="py-5 px-6 text-center">B. Indo</th>
-                      <th class="py-5 px-6 text-center">IPA</th>
-                      <th class="py-5 px-6 text-center">IPS</th>
-                      <th class="py-5 px-6 text-center bg-blue-700">Rerata</th>
-                    </tr>
-                  </thead>
-                  <tbody class="divide-y divide-slate-100">
-                    <tr>
-                      <td class="py-4 px-6 font-bold text-slate-800">
-                        Aditya Pratama
-                      </td>
-                      <td class="text-center">85</td>
-                      <td class="text-center">80</td>
-                      <td class="text-center">88</td>
-                      <td class="text-center">82</td>
-                      <td
-                        class="text-center font-black bg-blue-50/50 text-blue-700"
-                      >
-                        83.7
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="py-4 px-6 font-bold text-slate-800">
-                        Bagus Setiawan
-                      </td>
-                      <td class="text-center">78</td>
-                      <td class="text-center">85</td>
-                      <td class="text-center">80</td>
-                      <td class="text-center">88</td>
-                      <td
-                        class="text-center font-black bg-blue-50/50 text-blue-700"
-                      >
-                        82.7
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="py-4 px-6 font-bold text-slate-800">
-                        Citra Lestari
-                      </td>
-                      <td class="text-center">92</td>
-                      <td class="text-center">90</td>
-                      <td class="text-center">85</td>
-                      <td class="text-center">90</td>
-                      <td
-                        class="text-center font-black bg-blue-50/50 text-blue-700"
-                      >
-                        89.2
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="py-4 px-6 font-bold text-slate-800">
-                        Dedi Kurniawan
-                      </td>
-                      <td class="text-center">70</td>
-                      <td class="text-center">75</td>
-                      <td class="text-center">72</td>
-                      <td class="text-center">80</td>
-                      <td
-                        class="text-center font-black bg-blue-50/50 text-blue-700"
-                      >
-                        74.2
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="py-4 px-6 font-bold text-slate-800">
-                        Rahmat Abdul Kadir
-                      </td>
-                      <td class="text-center">85</td>
-                      <td class="text-center">90</td>
-                      <td class="text-center">78</td>
-                      <td class="text-center">88</td>
-                      <td
-                        class="text-center font-black bg-blue-50/50 text-blue-700"
-                      >
-                        85.2
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="glass-card p-6 border-l-4 border-l-[var(--p-red)] hover:scale-[1.02] transition-all cursor-pointer group" onclick="showDetailNilai('Matematika', 'Bu Endang, S.Pd')">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-12 h-12 bg-[var(--p-red)]/10 text-[var(--p-red)] rounded-2xl flex items-center justify-center text-xl">
+                                <i class="fas fa-calculator"></i>
+                            </div>
+                            <span class="text-[9px] font-black bg-gray-100 dark:bg-white/10 px-3 py-1 rounded-full uppercase">6 Kelas</span>
+                        </div>
+                        <h4 class="text-xl font-black mb-1">Matematika</h4>
+                        <p class="text-xs font-bold opacity-50 mb-6">Koordinator: Bu Endang, S.Pd</p>
+                        <div class="flex justify-between items-center pt-4 border-t border-dashed border-[var(--border)]">
+                            <span class="text-[10px] font-black text-[var(--p-red)]">LIHAT DETAIL <i class="fas fa-arrow-right ml-1 group-hover:ml-3 transition-all"></i></span>
+                            <span class="text-[10px] font-bold opacity-30 uppercase tracking-tighter">Updated: 2h ago</span>
+                        </div>
+                    </div>
 
-            <div id="viewDetail" class="hidden-section animate-fadeIn">
-              <div class="flex items-center justify-between mb-4">
-                <div class="flex items-center space-x-2">
-                  <span class="w-2 h-6 bg-amber-500 rounded-full"></span>
-                  <h4
-                    class="font-bold text-slate-700 uppercase text-xs tracking-wider"
-                  >
-                    Detail Nilai:
-                    <span
-                      id="labelMapel"
-                      class="text-blue-600 underline"
-                    ></span>
-                  </h4>
+                    <div class="glass-card p-6 border-l-4 border-l-[var(--p-green)] hover:scale-[1.02] transition-all cursor-pointer group" onclick="showDetailNilai('Bahasa Indonesia', 'Bu Ningsih, S.Pd')">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-12 h-12 bg-[var(--p-green)]/10 text-[var(--p-blue)] rounded-2xl flex items-center justify-center text-xl">
+                                <i class="fas fa-book-open"></i>
+                            </div>
+                            <span class="text-[9px] font-black bg-gray-100 dark:bg-white/10 px-3 py-1 rounded-full uppercase">6 Kelas</span>
+                        </div>
+                        <h4 class="text-xl font-black mb-1">B. Indonesia</h4>
+                        <p class="text-xs font-bold opacity-50 mb-6">Koordinator: Bu Ningsih, S.Pd</p>
+                        <div class="flex justify-between items-center pt-4 border-t border-dashed border-[var(--border)]">
+                            <span class="text-[10px] font-black text-[var(--p-blue)]">LIHAT DETAIL <i class="fas fa-arrow-right ml-1 group-hover:ml-3 transition-all"></i></span>
+                            <span class="text-[10px] font-bold opacity-30 uppercase tracking-tighter">Updated: 5h ago</span>
+                        </div>
+                    </div>
                 </div>
-                <button
-                  class="bg-slate-800 text-white px-6 py-2.5 rounded-xl text-sm font-bold hover:bg-slate-900 transition flex items-center"
-                >
-                  <i class="fas fa-file-pdf mr-2"></i> Export PDF
+            </div>
+        </section>
+
+        <section id="viewDetail" class="view-section hidden space-y-6">
+            <div class="flex items-center gap-4">
+                <button onclick="backToMapel()" class="w-10 h-10 glass-card flex items-center justify-center hover:bg-[var(--p-red)] hover:text-white transition-all">
+                    <i class="fas fa-arrow-left"></i>
                 </button>
-              </div>
-
-              <div
-                class="overflow-hidden rounded-3xl border border-slate-100 shadow-sm"
-              >
-                <table class="w-full text-left border-collapse">
-                  <thead>
-                    <tr
-                      class="bg-slate-800 text-white uppercase text-[10px] tracking-widest font-bold"
-                    >
-                      <th class="py-5 px-6">Nama Siswa</th>
-                      <th class="py-5 px-6 text-center">UH 1</th>
-                      <th class="py-5 px-6 text-center">UH 2</th>
-                      <th class="py-5 px-6 text-center">UTS</th>
-                      <th class="py-5 px-6 text-center bg-blue-700">RERATA</th>
-                    </tr>
-                  </thead>
-                  <tbody class="divide-y divide-slate-100">
-                    <tr>
-                      <td class="py-4 px-6 font-bold text-slate-800">
-                        Aditya Pratama
-                      </td>
-                      <td class="text-center">
-                        <input
-                          type="number"
-                          value="85"
-                          class="w-12 text-center bg-slate-50 rounded-lg"
-                        />
-                      </td>
-                      <td class="text-center">
-                        <input
-                          type="number"
-                          value="80"
-                          class="w-12 text-center bg-slate-50 rounded-lg"
-                        />
-                      </td>
-                      <td class="text-center">
-                        <input
-                          type="number"
-                          value="88"
-                          class="w-12 text-center bg-slate-50 rounded-lg"
-                        />
-                      </td>
-                      <td
-                        class="text-center font-black bg-blue-50/50 text-blue-800"
-                      >
-                        84.3
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="py-4 px-6 font-bold text-slate-800">
-                        Bagus Setiawan
-                      </td>
-                      <td class="text-center">
-                        <input
-                          type="number"
-                          value="78"
-                          class="w-12 text-center bg-slate-50 rounded-lg"
-                        />
-                      </td>
-                      <td class="text-center">
-                        <input
-                          type="number"
-                          value="85"
-                          class="w-12 text-center bg-slate-50 rounded-lg"
-                        />
-                      </td>
-                      <td class="text-center">
-                        <input
-                          type="number"
-                          value="80"
-                          class="w-12 text-center bg-slate-50 rounded-lg"
-                        />
-                      </td>
-                      <td
-                        class="text-center font-black bg-blue-50/50 text-blue-800"
-                      >
-                        81.0
-                      </td>
-                    </tr>
-                    <tr>
-                      <td class="py-4 px-6 font-bold text-slate-800">
-                        Citra Lestari
-                      </td>
-                      <td class="text-center">
-                        <input
-                          type="number"
-                          value="95"
-                          class="w-12 text-center bg-slate-50 rounded-lg"
-                        />
-                      </td>
-                      <td class="text-center">
-                        <input
-                          type="number"
-                          value="90"
-                          class="w-12 text-center bg-slate-50 rounded-lg"
-                        />
-                      </td>
-                      <td class="text-center">
-                        <input
-                          type="number"
-                          value="92"
-                          class="w-12 text-center bg-slate-50 rounded-lg"
-                        />
-                      </td>
-                      <td
-                        class="text-center font-black bg-blue-50/50 text-blue-800"
-                      >
-                        92.3
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+                <div>
+                    <h3 id="detailTitle" class="text-xl font-black uppercase">---</h3>
+                    <p id="detailGuru" class="text-xs font-bold opacity-50 uppercase tracking-widest">---</p>
+                </div>
             </div>
-          </div>
-        </main>
-      </div>
+
+            <div class="glass-card p-8">
+                <div class="flex justify-between items-center mb-8">
+                    <div class="flex gap-3">
+                        <button class="bg-[var(--p-red)] text-white px-6 py-3 rounded-2xl font-black text-xs shadow-lg shadow-red-100 hover:brightness-110 transition-all">
+                            <i class="fas fa-file-excel mr-2"></i> EXPORT NILAI
+                        </button>
+                    </div>
+                    <select class="bg-gray-50 dark:bg-white/5 border border-[var(--border)] px-4 py-3 rounded-2xl text-[10px] font-black uppercase outline-none">
+                        <option>Semua Kelas</option>
+                        <option>Kelas 1-A</option>
+                        <option>Kelas 2-A</option>
+                    </select>
+                </div>
+
+                <div class="table-container overflow-x-auto">
+                    <table class="w-full text-left border-separate border-spacing-y-3">
+                        <thead>
+                            <tr class="text-[10px] font-black uppercase tracking-widest opacity-50 px-6">
+                                <th class="pb-4 pl-6">Nama Siswa</th>
+                                <th class="pb-4">Kelas</th>
+                                <th class="pb-4 text-center">Tugas</th>
+                                <th class="pb-4 text-center">UTS</th>
+                                <th class="pb-4 text-center">UAS</th>
+                                <th class="pb-4 text-center">Akhir</th>
+                                <th class="pb-4 text-right pr-6">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBodyNilai">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
     </div>
+</div>
 
-    <script>
-      // ==========================================
-      // 1. KONFIGURASI ELEMEN UTAMA
-      // ==========================================
-      const profileBtn = document.getElementById("profileBtn");
-      const profileDropdown = document.getElementById("profileDropdown");
+<script>
+    // Logic Ganti View
+    function showDetailNilai(mapel, guru) {
+        document.getElementById('viewMapel').classList.add('hidden');
+        document.getElementById('viewDetail').classList.remove('hidden');
+        document.getElementById('detailTitle').innerText = "Detail Nilai: " + mapel;
+        document.getElementById('detailGuru').innerText = "Guru Pengampu: " + guru;
+        document.getElementById('headerSub').innerText = "Rincian Nilai Siswa";
 
-      // ==========================================
-      // 2. FUNGSI TOGGLE MATA (KONSISTEN)
-      // ==========================================
-      // Fungsi ini bisa menangani SPAN (teks) maupun INPUT (field)
-      function toggleViewPassword(e, targetId, iconId) {
-        if (e) e.stopPropagation();
+        // Simulasi isi data tabel berdasarkan mapel
+        const tbody = document.getElementById('tableBodyNilai');
+        tbody.innerHTML = `
+            <tr class="bg-gray-50/50 dark:bg-white/5 hover:bg-gray-100 dark:hover:bg-white/10 transition-all group">
+                <td class="py-5 pl-6 rounded-l-3xl font-black text-sm">Ahmad Fauzi</td>
+                <td class="py-5 text-xs font-bold">1-A</td>
+                <td class="py-5 text-center font-bold text-xs">90</td>
+                <td class="py-5 text-center font-bold text-xs">85</td>
+                <td class="py-5 text-center font-bold text-xs">88</td>
+                <td class="py-5 text-center font-black text-sm text-[var(--p-red)]">87.6</td>
+                <td class="py-5 pr-6 rounded-r-3xl text-right">
+                    <span class="px-3 py-1 rounded-full bg-green-100 text-green-700 dark:bg-green-500/20 text-[9px] font-black uppercase">Tuntas</span>
+                </td>
+            </tr>
+            <tr class="bg-gray-50/50 dark:bg-white/5 hover:bg-gray-100 dark:hover:bg-white/10 transition-all group">
+                <td class="py-5 pl-6 rounded-l-3xl font-black text-sm">Siti Aminah</td>
+                <td class="py-5 text-xs font-bold">1-A</td>
+                <td class="py-5 text-center font-bold text-xs">70</td>
+                <td class="py-5 text-center font-bold text-xs">65</td>
+                <td class="py-5 text-center font-bold text-xs">60</td>
+                <td class="py-5 text-center font-black text-sm text-orange-500">65.0</td>
+                <td class="py-5 pr-6 rounded-r-3xl text-right">
+                    <span class="px-3 py-1 rounded-full bg-orange-100 text-orange-700 dark:bg-orange-500/20 text-[9px] font-black uppercase">Remidial</span>
+                </td>
+            </tr>
+        `;
+    }
 
-        const target = document.getElementById(targetId);
-        const icon = document.getElementById(iconId);
-        const dummyPassword = "admin123";
+    function backToMapel() {
+        document.getElementById('viewDetail').classList.add('hidden');
+        document.getElementById('viewMapel').classList.remove('hidden');
+        document.getElementById('headerSub').innerText = "Data Nilai Per Mata Pelajaran";
+    }
 
-        // Jika target adalah SPAN (Tampilan Depan)
-        if (target.tagName === "SPAN") {
-          if (target.innerText === "••••••••") {
-            target.innerText = dummyPassword;
-            icon.classList.replace("fa-eye", "fa-eye-slash");
-            target.classList.replace("text-slate-500", "text-slate-800");
-          } else {
-            target.innerText = "••••••••";
-            icon.classList.replace("fa-eye-slash", "fa-eye");
-            target.classList.replace("text-slate-800", "text-slate-500");
-          }
-        }
-        // Jika target adalah INPUT (Tampilan Update)
-        else if (target.tagName === "INPUT") {
-          if (target.type === "password") {
-            target.type = "text";
-            icon.classList.replace("fa-eye", "fa-eye-slash");
-          } else {
-            target.type = "password";
-            icon.classList.replace("fa-eye-slash", "fa-eye");
-          }
-        }
-      }
+    // Theme & Logout (Sesuai kode asli)
+    function toggleTheme() {
+        document.body.classList.toggle("dark-mode");
+        const icon = document.getElementById("themeIcon");
+        icon.classList.toggle("fa-moon");
+        icon.classList.toggle("fa-sun");
+    }
 
-      // ==========================================
-      // 3. LOGIKA DROPDOWN
-      // ==========================================
-      profileBtn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        profileDropdown.classList.toggle("hidden");
-        resetDropdown();
-      });
+    const btn = document.getElementById("profileBtn");
+    const drop = document.getElementById("profileDropdown");
+    btn.onclick = (e) => { e.stopPropagation(); drop.classList.toggle("hidden"); renderProfile(); };
+    window.onclick = () => { drop.classList.add("hidden"); };
 
-      profileDropdown.addEventListener("click", (e) => {
-        e.stopPropagation();
-        if (e.target.innerText.includes("Update Password")) {
-          ubahKeFormPassword();
-        }
-      });
+    function renderProfile() {
+        document.getElementById("profileContent").innerHTML = `
+            <div class="text-center mb-6 border-b border-[var(--border)] pb-6">
+                <div class="w-16 h-16 bg-[var(--p-red)] rounded-2xl mx-auto flex items-center justify-center text-white text-2xl font-black mb-3">MN</div>
+                <p class="font-black text-lg text-[var(--text-main)]">Miftahun Nikmah</p>
+                <p class="text-[9px] opacity-50 uppercase font-black tracking-widest mt-1">Super Administrator</p>
+            </div>
+            <button class="w-full bg-[var(--p-red)] text-white py-3 rounded-xl text-[10px] font-black hover:brightness-110 transition-all">KEAMANAN AKUN</button>
+        `;
+    }
 
-      window.addEventListener("click", (e) => {
-        if (
-          !profileBtn.contains(e.target) &&
-          !profileDropdown.contains(e.target)
-        ) {
-          profileDropdown.classList.add("hidden");
-        }
-      });
-
-      // ==========================================
-      // 4. TAMPILAN 1: PROFIL TERKUNCI
-      // ==========================================
-      function resetDropdown() {
-        const container = profileDropdown.querySelector(".space-y-3");
-        container.innerHTML = `
-      <div class="animate-fadeIn">
-        <div>
-          <label class="text-[10px] font-bold text-slate-400 uppercase ml-2">Username</label>
-          <div class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 text-sm font-bold text-slate-500 mb-3 select-none" style="cursor: not-allowed;">
-            admin_siakad
-          </div>
-        </div>
-
-        <div>
-          <label class="text-[10px] font-bold text-slate-400 uppercase ml-2">Password</label>
-          <div class="relative w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 flex items-center justify-between mb-3" style="cursor: not-allowed;">
-            <span id="passText" class="text-sm font-bold text-slate-500 select-none">••••••••</span>
-            <button type="button" onclick="toggleViewPassword(event, 'passText', 'eyeIconFront')" class="text-slate-300 hover:text-blue-500 transition focus:outline-none" style="cursor: pointer;">
-              <i id="eyeIconFront" class="fas fa-eye text-xs"></i>
-            </button>
-          </div>
-        </div>
-
-        <button class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-xl text-xs font-bold transition shadow-lg shadow-blue-200 mt-2">
-          Update Password
-        </button>
-        
-        <hr class="border-slate-50 my-2">
-        <a href="login.html" class="flex items-center justify-center text-red-500 text-[11px] font-bold hover:bg-red-50 py-2 rounded-lg transition uppercase">
-          <i class="fas fa-sign-out-alt mr-2"></i> KELUAR SISTEM
-        </a>
-      </div>
-    `;
-      }
-
-      // ==========================================
-      // 5. TAMPILAN 2: FORM UPDATE (IKON MATA SAMA)
-      // ==========================================
-      function ubahKeFormPassword() {
-        const container = profileDropdown.querySelector(".space-y-3");
-        container.innerHTML = `
-      <div class="animate-fadeIn">
-        <div class="flex items-center mb-4">
-          <button onclick="resetDropdown()" class="text-slate-400 hover:text-slate-800 transition mr-2">
-            <i class="fas fa-arrow-left text-xs"></i>
-          </button>
-          <h4 class="text-xs font-black text-slate-800 uppercase">Ganti Password</h4>
-        </div>
-
-        <label class="text-[10px] font-bold text-slate-400 uppercase ml-2 mb-1 block">Password Lama</label>
-        <div class="relative mb-3">
-          <input type="password" id="oldPass" placeholder="••••••••" class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500 transition">
-          <button type="button" onclick="toggleViewPassword(event, 'oldPass', 'eyeIconOld')" class="absolute right-3 top-2.5 text-slate-300 hover:text-blue-500 transition focus:outline-none">
-            <i id="eyeIconOld" class="fas fa-eye text-xs"></i>
-          </button>
-        </div>
-        
-        <label class="text-[10px] font-bold text-slate-400 uppercase ml-2 mb-1 block">Password Baru</label>
-        <div class="relative mb-3">
-          <input type="password" id="newPass" placeholder="Minimal 8 karakter" class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500 transition">
-          <button type="button" onclick="toggleViewPassword(event, 'newPass', 'eyeIconNew')" class="absolute right-3 top-2.5 text-slate-300 hover:text-blue-500 transition focus:outline-none">
-            <i id="eyeIconNew" class="fas fa-eye text-xs"></i>
-          </button>
-        </div>
-        
-        <button onclick="simpanDanReset()" class="w-full bg-slate-800 hover:bg-emerald-600 text-white py-3 rounded-xl text-xs font-bold transition shadow-lg mt-2 uppercase tracking-wider">
-          Simpan Perubahan
-        </button>
-      </div>
-    `;
-      }
-
-      function simpanDanReset() {
-        const oldP = document.getElementById("oldPass").value;
-        const newP = document.getElementById("newPass").value;
-        if (oldP && newP) {
-          alert("Password Berhasil Diperbarui!");
-          resetDropdown();
-          profileDropdown.classList.add("hidden");
-        } else {
-          alert("Harap isi semua kolom!");
-        }
-      }
-      // Menghilangkan ikon mata bawaan browser (Edge/Chrome) lewat JS
-      const style = document.createElement("style");
-      style.innerHTML = `
-  input::-ms-reveal, input::-ms-clear { display: none !important; }
-  input::-webkit-contacts-auto-fill-button, 
-  input::-webkit-credentials-auto-fill-button { display: none !important; }
-`;
-      document.head.appendChild(style);
-    </script>
-
-    <script>
-      const mapelSelector = document.getElementById("mapelSelector");
-      const viewRingkasan = document.getElementById("viewRingkasan");
-      const viewDetail = document.getElementById("viewDetail");
-      const labelMapel = document.getElementById("labelMapel");
-
-      mapelSelector.addEventListener("change", function () {
-        if (this.value !== "") {
-          viewRingkasan.classList.add("hidden-section");
-          viewDetail.classList.remove("hidden-section");
-          labelMapel.innerText = this.value;
-        } else {
-          viewRingkasan.classList.remove("hidden-section");
-          viewDetail.classList.add("hidden-section");
-        }
-      });
-    </script>
-  </body>
+    function handleLogout() {
+        Swal.fire({
+            title: 'Keluar?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#C9494C',
+            confirmButtonText: 'Ya, Keluar'
+        }).then((result) => {
+            if (result.isConfirmed) window.location.href = "login.html";
+        });
+    }
+</script>
+</body>
 </html>

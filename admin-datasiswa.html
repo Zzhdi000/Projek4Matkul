@@ -1,518 +1,402 @@
 <!doctype html>
 <html lang="id">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Data Siswa - SIAKAD PRO</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-    />
-    <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
-    <style>
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(10px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      .animate-fadeIn {
-        animation: fadeIn 0.4s ease-out forwards;
-      }
-    </style>
-  </head>
-  <body class="bg-slate-50 font-sans text-slate-900">
-    <div class="flex min-h-screen">
-      <!-- SIDEBAR (sama seperti kode Anda, tidak perlu diubah) -->
-      <aside class="w-64 bg-[#0f172a] text-white flex-shrink-0 hidden md:flex flex-col h-screen sticky top-0">
-        <div class="p-6 border-b border-slate-800 flex items-center space-x-3">
-          <i class="fas fa-shield-alt text-2xl text-blue-400"></i>
-          <span class="text-xl font-bold tracking-tight">BAGIAN ADMIN</span>
-        </div>
-        <nav class="flex-1 mt-6 px-4 space-y-1">
-          <a
-            href="admin-dashboard.html"
-            class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition"
-            ><i class="fas fa-th-large mr-3 w-5"></i> Beranda</a
-          >
-          <a
-            href="admin-dataguru.html"
-            class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition"
-            ><i class="fas fa-user-tie mr-3 w-5"></i> Data Guru</a
-          >
-          <a
-            href="admin-datasiswa.html"
-            class="flex items-center py-3 px-4 bg-[#2563eb] text-white rounded-xl transition shadow-lg shadow-blue-900/20"
-            ><i class="fas fa-user-graduate mr-3 w-5"></i> Data Siswa</a
-          >
-          <a
-            href="admin-jadwalguru.html"
-            class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition"
-            ><i class="fas fa-calendar-alt mr-3 w-5"></i> Jadwal Guru</a
-          >
-          <a
-            href="admin-nilai.html"
-            class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition"
-            ><i class="fas fa-star mr-3 w-5"></i> Nilai Siswa</a
-          >
-          <a
-            href="admin-kelolaberita.html"
-            class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition"
-            ><i class="fas fa-newspaper mr-3 w-5"></i> Kelola Berita</a
-          >
-        </nav>
-        <div class="p-6 border-t border-slate-800">
-          <a
-            href="login.html#login"
-            class="flex items-center text-red-400 hover:text-red-300 font-bold"
-            ><i class="fas fa-sign-out-alt mr-3"></i> Keluar</a
-          >
-        </div>
-      </aside>
+    <title>Data Siswa - Master Panel SDN Ganting</title>
 
-      <div class="flex-1 flex flex-col">
-        <!-- HEADER (profile dropdown) sama seperti kode Anda, tidak diubah) -->
-        <header
-          class="bg-white shadow-sm py-4 px-8 flex justify-between items-center relative z-50"
-        >
-          <h2 class="text-xl font-bold text-slate-800 tracking-tight uppercase">
-            Selamat Datang, Admin !
-          </h2>
-          <div class="relative">
-            <button
-              id="profileBtn"
-              class="flex items-center space-x-3 focus:outline-none group"
-            >
-              <div class="text-right mr-2 hidden sm:block">
-                <p
-                  class="text-xs font-bold text-slate-800 uppercase group-hover:text-blue-600 transition"
-                >
-                  Administrator
-                </p>
-                <p
-                  class="text-[10px] text-slate-400 font-medium group-hover:text-slate-500 transition"
-                >
-                  Sistem Informasi Akademik
-                </p>
-              </div>
-              <div
-                class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-white font-bold text-sm border-2 border-white shadow-md group-hover:scale-105 transition-all"
-              >
-                AD
-              </div>
-            </button>
-            <div
-              id="profileDropdown"
-              class="absolute right-0 mt-3 w-72 bg-white rounded-[2rem] shadow-2xl border border-slate-100 p-6 hidden animate-fadeIn overflow-hidden"
-            >
-              <div class="text-center mb-4">
-                <div
-                  class="w-16 h-16 bg-slate-100 rounded-full mx-auto flex items-center justify-center text-slate-800 text-xl font-black border-4 border-blue-50 mb-2"
-                >
-                  AD
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+
+    <style>
+        :root {
+            /* Palette No. 27 */
+            --p-red: #C9494C;
+            --p-rose: #FF9178;
+            --p-yellow: #F7EA7F;
+            --p-orange: #F25A2D;
+            --p-green: #82C697;
+            --p-blue: #057711;
+            
+            --bg-body: #FDFDFB;
+            --bg-sidebar: #FFFFFF;
+            --text-main: #2D2D2D;
+            --accent: var(--p-red);
+            --card-bg: #FFFFFF;
+            --border: rgba(0,0,0,0.1);
+        }
+
+         .dark-mode {
+            /* Mapping Dark Mode */
+            --bg-body: #0F0F12; 
+            --bg-sidebar: #000000;
+            --text-main: #FFFFFF;
+            --accent: var(--p-rose);
+            --card-bg: rgba(30, 30, 35, 0.8); 
+            --border: rgba(255, 255, 255, 0.15);
+            --dropdown-bg: #1A1A1D;
+            --table-head: #1E1E24;
+            background: radial-gradient(circle at 80% 0%, #432e1f 0%, #0F0F12 50%) !important;
+        }
+        
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            transition: all 0.4s ease;
+        }
+
+        .glass-card {
+            background-color: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            transition: all 0.4s ease;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .nav-link {
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 14px;
+            font-size: 13px;
+            color: #555;
+            font-weight: 700;
+        }
+
+        .dark-mode .nav-link { color: #9CA3AF; }
+
+        .nav-link:hover {
+            background: rgba(0,0,0,0.05);
+            color: var(--accent);
+        }
+
+        .nav-link.active {
+            background-color: var(--accent);
+            color: white !important;
+            box-shadow: 0 8px 20px -6px var(--accent);
+        }
+
+        .group-label {
+            font-size: 10px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--p-red);
+            margin: 25px 0 10px 16px;
+        }
+
+        /* Custom Scrollbar for Table */
+        .table-container::-webkit-scrollbar {
+            height: 8px;
+        }
+        .table-container::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 10px;
+        }
+
+        .custom-table thead {
+            background: var(--p-red);
+            color: white;
+        }
+        
+        .dark-mode .custom-table thead {
+            background: var(--p-rose);
+            color: #000;
+        }
+
+        input, select, textarea {
+            background-color: rgba(0,0,0,0.03) !important;
+        }
+        
+        .dark-mode input, .dark-mode select, .dark-mode textarea {
+            background-color: rgba(255,255,255,0.05) !important;
+            color: white;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn { animation: fadeIn 0.4s ease-out forwards; }
+    </style>
+</head>
+
+<body class="font-sans antialiased min-h-screen">
+
+<div class="flex p-5 gap-5 min-h-screen">
+
+    <aside class="w-72 flex flex-col justify-between bg-[var(--bg-sidebar)] rounded-[30px] p-7 shadow-xl">
+        <div>
+            <div class="flex items-center gap-4 mb-10 px-2">
+                <div class="w-11 h-11 flex items-center justify-center">
+                    <img src="asset/logogtg.png" alt="Logo" class="w-full h-full object-contain"> 
                 </div>
-                <h4 class="text-sm font-black text-slate-800">Admin Utama</h4>
-                <p
-                  class="text-[10px] text-slate-400 font-bold uppercase tracking-widest"
-                >
-                  ID: ADM-GANTING-01
-                </p>
-              </div>
-              <div class="space-y-3">
                 <div>
-                  <label
-                    class="text-[10px] font-bold text-slate-400 uppercase ml-2"
-                    >Username</label
-                  >
-                  <div
-                    class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 text-sm font-bold text-slate-500 cursor-not-allowed"
-                  >
-                    admin_siakad
-                  </div>
+                    <h1 class="text-xl font-black leading-tight tracking-tight">SDN GANTING</h1>
+                    <p class="text-[9px] font-bold text-gray-400 uppercase tracking-widest">Master Panel</p>
                 </div>
-                <div>
-                  <label
-                    class="text-[10px] font-bold text-slate-400 uppercase ml-2 mb-1 block"
-                    >Password</label
-                  >
-                  <div
-                    class="relative w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 flex items-center justify-between"
-                  >
-                    <span
-                      id="passText"
-                      class="text-sm font-bold text-slate-500 select-none"
-                      style="cursor: not-allowed"
-                      >••••••••</span
-                    ><button
-                      type="button"
-                      onclick="toggleViewPassword(event)"
-                      class="text-slate-300 hover:text-blue-500 transition-colors focus:outline-none"
-                    >
-                      <i id="eyeIcon" class="fas fa-eye text-xs"></i>
-                    </button>
-                  </div>
-                </div>
-                <button
-                  class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-xl text-xs font-bold transition shadow-lg shadow-blue-200 mt-2"
-                >
-                  Update Password
-                </button>
-                <hr class="border-slate-50 my-2" />
-                <a
-                  href="login.html"
-                  class="flex items-center justify-center text-red-500 text-[11px] font-bold hover:bg-red-50 py-2 rounded-lg transition"
-                  ><i class="fas fa-sign-out-alt mr-2"></i> KELUAR SISTEM</a
-                >
-              </div>
             </div>
-          </div>
+
+            <nav>
+                <p class="group-label">Navigasi Utama</p>
+                <a href="admin-dashboard.html" class="nav-link"><i class="fas fa-th-large w-5"></i> Beranda</a>
+
+                <p class="group-label">Kependidikan</p>
+                <a href="admin-datasiswa.html" class="nav-link active"><i class="fas fa-user-graduate w-5"></i> Data Siswa</a>
+                <a href="admin-dataguru.html" class="nav-link"><i class="fas fa-chalkboard-teacher w-5"></i> Data Guru</a>
+
+                <p class="group-label">Manajemen</p>
+                <a href="admin-jadwalguru.html" class="nav-link"><i class="fas fa-clipboard-list w-5"></i> Jadwal Guru</a>
+                <a href="admin-nilai.html" class="nav-link"><i class="fas fa-file-invoice w-5"></i> Nilai Siswa</a>
+                <a href="admin-kelolaberita.html" class="nav-link"><i class="fas fa-broadcast-tower w-5"></i> Kelola Berita</a>
+            </nav>
+        </div>
+
+        <div class="pt-6 border-t border-[var(--border)] relative z-[999]">
+    <button 
+        type="button"
+        onclick="handleLogout()" 
+        class="w-full flex items-center gap-3 py-3 px-4 text-[var(--p-red)] font-black hover:bg-[var(--p-red)] hover:text-white rounded-xl transition-all cursor-pointer border-none bg-transparent"
+        style="cursor: pointer !important;"
+    >
+        <i class="fas fa-sign-out-alt w-5"></i> 
+        <span>Keluar Sistem</span>
+    </button>
+</div>
+    </aside>
+
+    <div class="flex-1 space-y-6">
+
+        <header class="flex justify-between items-center glass-card px-8 py-5 relative z-50">
+            <div>
+                <h2 class="text-2xl font-black uppercase">DATA SISWA</h2>
+                <p class="text-xs font-bold opacity-50 uppercase tracking-widest">Manajemen Murid Ganting</p>
+            </div>
+            
+            <div class="flex items-center gap-5">
+                <button onclick="document.body.classList.toggle('dark-mode')" class="w-12 h-12 flex items-center justify-center rounded-2xl bg-gray-100 dark:bg-white/10 border border-[var(--border)] transition-all hover:scale-110">
+                    <i class="fas fa-moon text-[var(--accent)] text-xl"></i>
+                </button>
+                
+                <div class="flex items-center gap-3 p-1.5 pr-5 bg-gray-100 dark:bg-white/10 rounded-full border border-[var(--border)]">
+                    <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-white font-bold text-sm">AD</div>
+                    <span class="text-sm font-black italic">Administrator</span>
+                </div>
+            </div>
         </header>
 
-        <main class="p-8">
-          <div
-            class="bg-white rounded-[2.5rem] shadow-sm border border-slate-200 p-8 animate-fadeIn"
-          >
-            <div
-              class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8 gap-4"
-            >
-              <div>
-                <h3 class="text-2xl font-black text-slate-800 tracking-tight uppercase">
-                  Data Siswa
-                </h3>
-                <p class="text-slate-400 text-xs font-medium">
-                  Manajemen data murid SD Negeri Ganting
-                </p>
-              </div>
-              <div class="flex flex-wrap items-center gap-3 w-full lg:w-auto">
-                <!-- Tambahkan id="filterKelas" -->
-                <select
-                  id="filterKelas"
-                  class="bg-slate-50 border border-slate-200 rounded-xl py-2.5 px-4 text-sm font-bold text-slate-600 outline-none focus:ring-2 focus:ring-blue-500 transition-all cursor-pointer"
-                >
-                  <option value="">Semua Kelas</option>
-                  <option value="1-A">Kelas 1A</option>
-                  <option value="1-B">Kelas 1B</option>
-                  <option value="2-A">Kelas 2A</option>
-                  <option value="2-B">Kelas 2B</option>
-                  <option value="3-A">Kelas 3A</option>
-                  <option value="3-B">Kelas 3B</option> 
-                  <option value="4-A">Kelas 4A</option>
-                  <option value="4-B">Kelas 4B</option>
-                  <option value="5-A">Kelas 5A</option>
-                  <option value="5-B">Kelas 5B</option>
-                  <option value="6-A">Kelas 6A</option>
-                  <option value="6-B">Kelas 6B</option>
-                </select>
-                <div class="relative flex-1 md:w-64">
-                  <span
-                    class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400"
-                    ><i class="fas fa-search text-sm"></i
-                  ></span>
-                  <!-- Tambahkan id="searchInput" -->
-                  <input
-                    type="text"
-                    id="searchInput"
-                    placeholder="Cari Siswa..."
-                    class="w-full bg-slate-50 border border-slate-200 rounded-xl py-2.5 pl-10 pr-4 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all"
-                  />
+        <main class="glass-card p-8 animate-fadeIn">
+            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-10 gap-5">
+                <div class="flex flex-wrap gap-3">
+                    <button id="btnImportBulk" class="bg-[var(--p-green)] text-white font-black py-3.5 px-6 rounded-2xl text-[10px] uppercase tracking-widest hover:brightness-110 transition shadow-lg">
+                        <i class="fas fa-file-excel mr-2"></i> Masukkan Excel
+                    </button>
+                    <button id="btnManualAdd" class="bg-[var(--p-orange)] text-white font-black py-3.5 px-6 rounded-2xl text-[10px] uppercase tracking-widest hover:brightness-110 transition shadow-lg">
+                        <i class="fas fa-plus-circle mr-2"></i> Tambah Siswa
+                    </button>
+                    <button id="btnPasteJson" class="bg-indigo-500 text-white font-black py-3.5 px-6 rounded-2xl text-[10px] uppercase tracking-widest hover:brightness-110 transition shadow-lg">
+                        <i class="fas fa-code mr-2"></i> Tempel JSON
+                    </button>
                 </div>
-                <button
-                  id="btnImportBulk"
-                  class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-5 rounded-xl text-sm transition shadow-md flex items-center gap-2"
-                >
-                  <i class="fas fa-upload"></i> Masukkan Excel
-                </button>
-                <button
-                  id="btnManualAdd"
-                  class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2.5 px-5 rounded-xl text-sm transition shadow-md flex items-center gap-2"
-                >
-                  <i class="fas fa-plus-circle"></i> Tambah Siswa
-                </button>
-                <button
-                  id="btnPasteJson"
-                  class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 px-5 rounded-xl text-sm transition shadow-md flex items-center gap-2"
-                >
-                  <i class="fas fa-paste"></i> Tempel JSON
-                </button>
-              </div>
+                
+                <div class="flex flex-wrap gap-3 w-full lg:w-auto">
+                    <select id="filterKelas" class="border-2 border-transparent rounded-2xl px-4 py-3 text-xs font-black outline-none focus:border-[var(--accent)] transition-all cursor-pointer">
+                        <option value="">SEMUA KELAS</option>
+                        <option value="1-A">KELAS 1-A</option>
+                        <option value="1-B">KELAS 1-B</option>
+                        <option value="2-A">KELAS 2-A</option>
+                        <option value="2-B">KELAS 2-B</option>
+                        <option value="3-A">KELAS 3-A</option>
+                        <option value="3-B">KELAS 3-B</option>
+                        <option value="4-A">KELAS 4-A</option>
+                        <option value="4-B">KELAS 4-B</option>
+                        <option value="5-A">KELAS 5-A</option>
+                        <option value="5-B">KELAS 5-B</option>
+                        <option value="6-A">KELAS 6-A</option>
+                        <option value="6-B">KELAS 6-B</option>
+                    </select>
+                    <div class="relative flex-1 md:w-64">
+                        <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 opacity-30 text-xs"></i>
+                        <input type="text" id="searchInput" placeholder="CARI SISWA..." class="w-full border-2 border-transparent focus:border-[var(--accent)] rounded-2xl pl-11 pr-5 py-3 text-xs font-black outline-none transition-all" />
+                    </div>
+                </div>
             </div>
 
-            <div class="overflow-hidden rounded-2xl border border-slate-100">
-              <table class="w-full text-left border-collapse">
-                <thead
-                  class="bg-slate-800 text-white uppercase text-[11px] tracking-widest font-bold"
-                >
-                  <tr>
-                    <th class="py-4 px-6 text-center">NISN</th>
-                    <th class="py-4 px-6">Nama Siswa</th>
-                    <th class="py-4 px-6 text-center">Kelas</th>
-                    <th class="py-4 px-6">Nama Wali</th>
-                    <th class="py-4 px-6 text-center">Kontak</th>
-                    <th class="py-4 px-6 text-center">Status</th>
-                    <th class="py-4 px-6 text-center">Aksi</th>
-                  </tr>
-                </thead>
-                <!-- Tambahkan id="siswaTableBody" -->
-                <tbody
-                  id="siswaTableBody"
-                  class="divide-y divide-slate-100"
-                ></tbody>
-              </table>
+            <div class="overflow-hidden rounded-[24px] border border-[var(--border)]">
+                <table class="w-full text-left border-collapse custom-table">
+                    <thead>
+                        <tr class="text-[10px] font-black uppercase tracking-widest">
+                            <th class="py-5 px-6 text-center">NISN</th>
+                            <th class="py-5 px-6">Nama Siswa</th>
+                            <th class="py-5 px-6 text-center">Kelas</th>
+                            <th class="py-5 px-6">Nama Wali</th>
+                            <th class="py-5 px-6 text-center">Kontak</th>
+                            <th class="py-5 px-6 text-center">Status</th>
+                            <th class="py-5 px-6 text-center border-l border-white/10">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="siswaTableBody" class="text-xs font-bold divide-y divide-[var(--border)]">
+                        </tbody>
+                </table>
             </div>
 
-           <div class="mt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-bold text-slate-400 uppercase tracking-widest">
-    <p id="infoJumlah">Menampilkan 0 Siswa</p>
-
-    <div id="pagination" class="flex items-center justify-center gap-2">
-        </div>
-
-    <div class="hidden md:block w-[120px]"></div> 
+            <div class="mt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+                <p id="infoJumlah" class="text-[10px] font-black opacity-40 uppercase tracking-widest">Memuat data...</p>
+                <div id="pagination" class="flex gap-2"></div>
+            </div>
+        </main>
+    </div>
 </div>
 
-          <!-- MODAL IMPORT EXCEL -->
-          <div
-            id="modalImport"
-            class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 hidden transition-all"
-          >
-            <div
-              class="bg-white rounded-2xl shadow-2xl w-full max-w-4xl mx-4 max-h-[90vh] overflow-y-auto animate-fadeIn"
-            >
-              <div
-                class="sticky top-0 bg-white border-b border-slate-100 px-6 py-4 flex justify-between items-center"
-              >
-                <h3 class="text-lg font-black text-slate-800">
-                  <i class="fas fa-file-upload text-emerald-500 mr-2"></i>Import
-                  Data Siswa (Bulk)
-                </h3>
-                <button
-                  id="closeModalBtn"
-                  class="text-slate-400 hover:text-slate-600 transition"
-                >
-                  <i class="fas fa-times text-xl"></i>
-                </button>
-              </div>
-              <div class="p-6">
-                <div
-                  id="uploadArea"
-                  class="border-2 border-dashed border-slate-200 rounded-xl p-8 text-center hover:border-emerald-400 transition cursor-pointer"
-                >
-                  <i
-                    class="fas fa-cloud-upload-alt text-4xl text-slate-400 mb-3"
-                  ></i>
-                  <p class="text-slate-600 font-medium">
-                    Klik atau seret file ke sini
-                  </p>
-                  <p class="text-xs text-slate-400 mt-1">
-                    Mendukung .xlsx, .xls, .csv (maks 5MB)
-                  </p>
-                  <input
-                    type="file"
-                    id="fileInput"
-                    accept=".xlsx,.xls,.csv"
-                    class="hidden"
-                  />
-                </div>
-                <div id="previewContainer" class="mt-6 hidden">
-                  <h4 class="font-bold text-slate-700 mb-2">
-                    Pratinjau Data (10 baris pertama)
-                  </h4>
-                  <div class="overflow-x-auto border rounded-xl">
-                    <table class="min-w-full text-sm" id="previewTable">
-                      <thead class="bg-slate-100 text-slate-700">
-                        <tr></tr>
-                      </thead>
-                      <tbody></tbody>
-                    </table>
-                  </div>
-                  <div class="flex justify-end gap-3 mt-4">
-                    <button
-                      id="cancelImportBtn"
-                      class="px-4 py-2 border rounded-xl text-slate-600 hover:bg-slate-50"
-                    >
-                      Batal</button
-                    ><button
-                      id="confirmImportBtn"
-                      class="px-4 py-2 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700"
-                    >
-                      Konfirmasi Import
-                    </button>
-                  </div>
-                </div>
-              </div>
+<div id="modalImport" class="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-[999] hidden">
+    <div class="bg-[var(--card-bg)] w-full max-w-2xl mx-4 rounded-[30px] shadow-2xl overflow-hidden border border-[var(--border)]">
+        <div class="p-8 border-b border-[var(--border)] flex justify-between items-center">
+            <h3 class="font-black text-xl uppercase italic">Import Data Excel</h3>
+            <button id="closeModalBtn" class="text-gray-400 hover:text-red-500 transition"><i class="fas fa-times text-xl"></i></button>
+        </div>
+        <div class="p-8">
+            <div id="uploadArea" class="border-2 border-dashed border-[var(--border)] rounded-[24px] p-10 text-center hover:border-[var(--p-green)] transition cursor-pointer">
+                <i class="fas fa-cloud-upload-alt text-4xl text-gray-300 mb-4"></i>
+                <p class="font-black text-xs uppercase tracking-widest">Klik atau seret file excel ke sini</p>
+                <input type="file" id="fileInput" accept=".xlsx,.xls,.csv" class="hidden" />
             </div>
-          </div>
-
-          <!-- MODAL TAMBAH MANUAL  -->
-          <div
-            id="modalManual"
-            class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 hidden transition-all"
-          >
-            <div
-              class="bg-white rounded-2xl shadow-2xl w-full max-w-lg mx-4 animate-fadeIn"
-            >
-              <div
-                class="sticky top-0 bg-white border-b border-slate-100 px-6 py-4 flex justify-between items-center"
-              >
-                <h3 class="text-lg font-black text-slate-800">
-                  <i class="fas fa-user-plus text-purple-500 mr-2"></i
-                  >Tambah/Edit Data Siswa
-                </h3>
-                <button
-                  id="closeManualModalBtn"
-                  class="text-slate-400 hover:text-slate-600 transition"
-                >
-                  <i class="fas fa-times text-xl"></i>
-                </button>
-              </div>
-              <div class="p-6">
-                <form id="manualForm">
-                  <div class="mb-4">
-                    <label
-                      class="block text-xs font-bold text-slate-500 uppercase mb-1"
-                      >NISN *</label
-                    ><input
-                      type="text"
-                      id="manualNisn"
-                      required
-                      class="w-full border border-slate-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-purple-500 focus:outline-none"
-                    />
-                  </div>
-                  <div class="mb-4">
-                    <label
-                      class="block text-xs font-bold text-slate-500 uppercase mb-1"
-                      >Nama Siswa *</label
-                    ><input
-                      type="text"
-                      id="manualNama"
-                      required
-                      class="w-full border border-slate-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-purple-500 focus:outline-none"
-                    />
-                  </div>
-                  <div class="mb-4">
-                    <label
-                      class="block text-xs font-bold text-slate-500 uppercase mb-1"
-                      >Kelas *</label
-                    ><input
-                      type="text"
-                      id="manualKelas"
-                      required
-                      placeholder="Contoh: 1A"
-                      class="w-full border border-slate-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-purple-500 focus:outline-none"
-                    />
-                  </div>
-                  <div class="mb-4">
-                    <label
-                      class="block text-xs font-bold text-slate-500 uppercase mb-1"
-                      >Nama Wali *</label
-                    ><input
-                      type="text"
-                      id="manualWali"
-                      required
-                      class="w-full border border-slate-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-purple-500 focus:outline-none"
-                    />
-                  </div>
-                  <!-- Field NO HP yang sebelumnya hilang -->
-                  <div class="mb-4">
-                    <label
-                      class="block text-xs font-bold text-slate-500 uppercase mb-1"
-                      >No. HP (opsional)</label
-                    ><input
-                      type="text"
-                      id="manualNoHp"
-                      class="w-full border border-slate-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-purple-500 focus:outline-none"
-                    />
-                  </div>
-                  <div class="mb-6">
-                    <label
-                      class="block text-xs font-bold text-slate-500 uppercase mb-1"
-                      >Status</label
-                    ><select
-                      id="manualStatus"
-                      class="w-full border border-slate-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-purple-500 focus:outline-none"
-                    >
-                      <option value="aktif">Aktif</option>
-                      <option value="nonaktif">Nonaktif</option>
-                    </select>
-                  </div>
-                  <div class="flex justify-end gap-3">
-                    <button
-                      type="button"
-                      id="cancelManualBtn"
-                      class="px-4 py-2 border rounded-xl text-slate-600 hover:bg-slate-50"
-                    >
-                      Batal</button
-                    ><button
-                      type="submit"
-                      class="px-4 py-2 bg-purple-600 text-white rounded-xl hover:bg-purple-700"
-                    >
-                      Simpan
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-
-          <!-- MODAL TEMPEL JSON  -->
-          <div
-            id="modalPasteJson"
-            class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 hidden transition-all"
-          >
-            <div
-              class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl mx-4 animate-fadeIn"
-            >
-              <div
-                class="sticky top-0 bg-white border-b border-slate-100 px-6 py-4 flex justify-between items-center"
-              >
-                <h3 class="text-lg font-black text-slate-800">
-                  <i class="fas fa-code text-indigo-500 mr-2"></i>Tempel JSON
-                </h3>
-                <button
-                  id="closePasteModalBtn"
-                  class="text-slate-400 hover:text-slate-600 transition"
-                >
-                  <i class="fas fa-times text-xl"></i>
-                </button>
-              </div>
-              <div class="p-6">
-                <textarea
-                  id="jsonPasteArea"
-                  rows="10"
-                  class="w-full border border-slate-200 rounded-xl p-4 text-sm font-mono focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-                  placeholder='[{"nisn":"003","nama":"Ahmad","kelas":"1A","nama_wali":"Siti","status":"aktif"}]'
-                ></textarea>
+            <div id="previewContainer" class="mt-6 hidden">
+                <div class="overflow-x-auto border rounded-xl max-h-60">
+                    <table class="w-full text-xs" id="previewTable"><tbody class="divide-y"></tbody></table>
+                </div>
                 <div class="flex justify-end gap-3 mt-6">
-                  <button
-                    id="cancelPasteBtn"
-                    class="px-4 py-2 border rounded-xl text-slate-600 hover:bg-slate-50"
-                  >
-                    Batal</button
-                  ><button
-                    id="confirmPasteBtn"
-                    class="px-4 py-2 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700"
-                  >
-                    Impor
-                  </button>
+                    <button id="cancelImportBtn" class="px-6 py-3 font-black text-[10px] uppercase bg-gray-100 dark:bg-white/10 rounded-xl">Batal</button>
+                    <button id="confirmImportBtn" class="px-6 py-3 font-black text-[10px] uppercase bg-[var(--p-green)] text-white rounded-xl">Konfirmasi Import</button>
                 </div>
-              </div>
             </div>
-          </div>
-        </main>
-      </div>
+        </div>
     </div>
+</div>
 
-    <!-- Firebase dan script module -->
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-    <!-- file firebase-config.js harus ada dan menginisialisasi Firebase -->
-    <script src="firebase-config.js"></script>
-    <!-- SEKARANG ditambahkan type="module" -->
-    <script src="admin-datasiswa.js"></script>
-  </body>
+<div id="modalManual" class="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-[999] hidden">
+    <div class="bg-[var(--card-bg)] w-full max-w-lg mx-4 rounded-[30px] shadow-2xl border border-[var(--border)]">
+        <div class="p-8 border-b border-[var(--border)] flex justify-between items-center">
+            <h3 class="font-black text-xl uppercase italic">Data Siswa</h3>
+            <button id="closeManualModalBtn" class="text-gray-400 hover:text-red-500 transition"><i class="fas fa-times text-xl"></i></button>
+        </div>
+        <form id="manualForm" class="p-8 space-y-4">
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="text-[10px] font-black uppercase opacity-50 ml-1">NISN *</label>
+                    <input type="text" id="manualNisn" required class="w-full border-2 border-transparent focus:border-[var(--accent)] rounded-2xl p-4 text-xs font-bold outline-none transition-all" />
+                </div>
+                <div>
+                    <label class="text-[10px] font-black uppercase opacity-50 ml-1">Kelas *</label>
+                    <input type="text" id="manualKelas" required placeholder="Contoh: 1A" class="w-full border-2 border-transparent focus:border-[var(--accent)] rounded-2xl p-4 text-xs font-bold outline-none transition-all" />
+                </div>
+            </div>
+            <div>
+                <label class="text-[10px] font-black uppercase opacity-50 ml-1">Nama Siswa *</label>
+                <input type="text" id="manualNama" required class="w-full border-2 border-transparent focus:border-[var(--accent)] rounded-2xl p-4 text-xs font-bold outline-none transition-all" />
+            </div>
+            <div>
+                <label class="text-[10px] font-black uppercase opacity-50 ml-1">Nama Wali *</label>
+                <input type="text" id="manualWali" required class="w-full border-2 border-transparent focus:border-[var(--accent)] rounded-2xl p-4 text-xs font-bold outline-none transition-all" />
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="text-[10px] font-black uppercase opacity-50 ml-1">No. HP</label>
+                    <input type="text" id="manualNoHp" class="w-full border-2 border-transparent focus:border-[var(--accent)] rounded-2xl p-4 text-xs font-bold outline-none transition-all" />
+                </div>
+                <div>
+                    <label class="text-[10px] font-black uppercase opacity-50 ml-1">Status</label>
+                    <select id="manualStatus" class="w-full border-2 border-transparent focus:border-[var(--accent)] rounded-2xl p-4 text-xs font-bold outline-none transition-all">
+                        <option value="aktif">AKTIF</option>
+                        <option value="nonaktif">NONAKTIF</option>
+                    </select>
+                </div>
+            </div>
+            <div class="pt-4 flex gap-3">
+                <button type="button" id="cancelManualBtn" class="flex-1 py-4 text-xs font-black uppercase bg-gray-100 dark:bg-white/10 rounded-2xl hover:bg-gray-200 transition">Batal</button>
+                <button type="submit" class="flex-1 py-4 text-xs font-black uppercase bg-[var(--p-red)] text-white rounded-2xl shadow-lg hover:brightness-110 transition">Simpan Data</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="modalPasteJson" class="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-[999] hidden">
+    <div class="bg-[var(--card-bg)] w-full max-w-2xl mx-4 rounded-[30px] border border-[var(--border)] overflow-hidden">
+        <div class="p-8 border-b border-[var(--border)] flex justify-between items-center">
+            <h3 class="font-black text-xl uppercase italic">Tempel JSON</h3>
+            <button id="closePasteModalBtn" class="text-gray-400 hover:text-red-500 transition"><i class="fas fa-times text-xl"></i></button>
+        </div>
+        <div class="p-8">
+            <textarea id="jsonPasteArea" rows="8" class="w-full border-2 border-transparent focus:border-[var(--accent)] rounded-2xl p-4 text-xs font-mono outline-none transition-all" placeholder='[{"nisn":"003","nama":"Ahmad","kelas":"1A","nama_wali":"Siti","status":"aktif"}]'></textarea>
+            <div class="flex justify-end gap-3 mt-6">
+                <button id="cancelPasteBtn" class="px-6 py-3 font-black text-[10px] uppercase bg-gray-100 dark:bg-white/10 rounded-xl">Batal</button>
+                <button id="confirmPasteBtn" class="px-6 py-3 font-black text-[10px] uppercase bg-indigo-600 text-white rounded-xl">Impor JSON</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+function handleLogout() {
+    // Cek apakah library SweetAlert2 sudah terload
+    if (typeof Swal === 'undefined') {
+        if(confirm("Yakin ingin keluar?")) {
+            window.location.href = "login.html#login";
+        }
+        return;
+    }
+
+    const isDark = document.body.classList.contains('dark-mode');
+
+    Swal.fire({
+        title: 'Konfirmasi Keluar',
+        text: "Apakah Anda yakin ingin mengakhiri sesi admin ini?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#C9494C',
+        cancelButtonColor: isDark ? '#374151' : '#9CA3AF',
+        confirmButtonText: 'Ya, Keluar',
+        cancelButtonText: 'Batal',
+        background: isDark ? '#1A1A1D' : '#FFFFFF',
+        color: isDark ? '#FFFFFF' : '#2D2D2D',
+        borderRadius: '25px',
+        customClass: {
+            confirmButton: 'font-bold uppercase text-xs tracking-widest px-6 py-3',
+            cancelButton: 'font-bold uppercase text-xs tracking-widest px-6 py-3'
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = "login.html#login";
+        }
+    });
+}
+
+// Tambahan: Pastikan sidebar tidak tertutup elemen lain
+// (Hanya jika masih tidak bisa diklik)
+document.addEventListener("DOMContentLoaded", function() {
+    const aside = document.querySelector('aside');
+    if(aside) aside.style.zIndex = "100";
+});
+</script>
+
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+
+<script src="firebase-config.js"></script>
+
+<script src="admin-datasiswa.js"></script>
+ 
+
+</body>
 </html>
