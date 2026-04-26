@@ -3,154 +3,97 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SDN GANTING - Vibrant Palette No. 27</title>
+    <title>SDN GANTING - Master Panel</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-    />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 
     <style>
-      :root {
-        /* Soft Modern Dashboard Palette */
-        --p-red: #e5e7eb; /* abu sangat soft (ganti fungsi merah) */
-        --p-rose: #a5b4fc; /* ungu pastel */
-        --p-yellow: #e6b85c; /* kuning lembut */
-        --p-orange: #93c5fd; /* biru muda */
-        --p-green: #86efac; /* hijau pastel */
-        --p-blue: #60a5fa; /* biru utama */
-        --p-red: #ef4444;
+        :root {
+            --accent-blue: #63a4ff;
+            --p-rose: #a5b4fc;
+            --p-yellow: #e6b85c;
+            --p-green: #86efac;
+            --bg-body: #FDFDFB;
+            --bg-sidebar: #FFFFFF;
+            --text-main: #2D2D2D;
+            --card-bg: #FFFFFF;
+            --border: rgba(0,0,0,0.1);
+        }
 
-        /* UI Mapping */
-        --text-muted: #94a3b8;
-        --bg-body: #f5f7fb; /* abu terang clean */
-        --bg-sidebar: #ffffff;
-        --text-main: #1f2937;
-        --accent: #60a5fa; /* biru soft */
-        --card-bg: #ffffff;
-        --border: rgba(0, 0, 0, 0.06);
-        --dropdown-bg: #ffffff;
-      }
+        .dark-mode {
+            --bg-body: #0F0F12; 
+            --bg-sidebar: #000000;
+            --text-main: #FFFFFF;
+            --card-bg: rgba(30, 30, 35, 0.8); 
+            --border: rgba(255, 255, 255, 0.15);
+            background: radial-gradient(circle at 80% 0%, #432e1f 0%, #0F0F12 50%) !important;
+        }
 
-      .dark-mode {
-        /* Mapping Dark Mode */
-        --bg-body: #0f0f12;
-        --bg-sidebar: #000000;
-        --text-main: #ffffff;
-        --accent: var(--p-rose);
-        --card-bg: rgba(30, 30, 35, 0.8);
-        --border: rgba(255, 255, 255, 0.15);
-        --dropdown-bg: #1a1a1d;
-        --table-head: #1e1e24;
-        background: radial-gradient(
-          circle at 80% 0%,
-          #432e1f 0%,
-          #0f0f12 50%
-        ) !important;
-      }
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            transition: all 0.4s ease;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 20px; /* Padding luar biar sama kayak jadwal */
+        }
 
-      body {
-        background-color: var(--bg-body);
-        color: var(--text-main);
-        transition: all 0.4s ease;
-      }
+        .glass-card {
+            background-color: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+        }
 
-      .glass-card {
-        background-color: var(--card-bg);
-        backdrop-filter: blur(12px);
-        border: 1px solid var(--border);
-        border-radius: 24px;
-      }
+        /* Navigasi Sidebar */
+        .nav-link {
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 14px;
+            font-size: 13px;
+            color: #555;
+            font-weight: 700;
+        }
+        .dark-mode .nav-link { color: #9CA3AF; }
+        .nav-link.active {
+            background-color: var(--accent-blue);
+            color: white !important;
+            box-shadow: 0 8px 20px -6px var(--accent-blue);
+        }
 
-      body {
-        background-color: var(--bg-body);
-        color: var(--text-main);
-        transition: all 0.4s ease;
-        font-family: "Inter", sans-serif;
-        margin: 0;
-        padding: 20px;
-      }
+        .group-label {
+            font-size: 10px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-blue);
+            margin: 25px 0 10px 16px;
+        }
 
-      .dropdown-solid {
-        background-color: var(--dropdown-bg);
-        border: 1px solid var(--border);
-        border-radius: 20px;
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-      }
+        /* Card Gradients (Fungsi Asli Kembali) */
+        .grad-red { background: linear-gradient(135deg, #60a5fa, #a5b4fc); }
+        .grad-orange { background: linear-gradient(135deg, #a78bfa, #c4b5fd); }
+        .grad-green { background: linear-gradient(135deg, #e6b85c, #f2d184); }
 
-      .nav-link {
-        transition: all 0.3s;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 12px 16px;
-        border-radius: 14px;
-        font-size: 13px;
-        color: #555;
-        font-weight: 700;
-      }
+        .btn-logout { color: #ef4444 !important; }
+        .btn-logout:hover { background-color: #fef2f2 !important; }
 
-      .dark-mode .nav-link {
-        color: #9ca3af;
-      }
-
-      .dark-mode .group-label {
-        color: #94a3b8;
-      }
-
-      .nav-link:hover {
-        background: rgba(0, 0, 0, 0.05);
-        color: var(--accent);
-      }
-
-      .nav-link.active {
-        background-color: var(--accent);
-        color: white !important;
-        box-shadow: 0 8px 20px -6px var(--accent);
-      }
-
-      .group-label {
-        font-size: 10px;
-        font-weight: 800;
-        text-transform: uppercase;
-        letter-spacing: 1.5px;
-        color: #64748b; /* Warna Slate agar kontras dengan background putih */
-        margin: 25px 0 10px 16px;
-        opacity: 0.8;
-      }
-
-      /* Gradient berdasarkan Palet No. 27 */
-      .grad-red {
-        background: linear-gradient(135deg, #60a5fa, #a5b4fc);
-      }
-
-      .grad-orange {
-        background: linear-gradient(135deg, #a78bfa, #c4b5fd);
-      }
-
-      .grad-green {
-        background: linear-gradient(135deg, #e6b85c, #f2d184);
-      }
-      /* Styling khusus tombol logout */
-      .btn-logout {
-        color: #ef4444 !important;
-        border: 1.5px solid transparent;
-      }
-
-      .btn-logout:hover {
-        background-color: #fef2f2 !important; /* Merah sangat muda saat hover */
-        border-color: #fee2e2;
-      }
-
-      .dark-mode .btn-logout:hover {
-        background-color: rgba(239, 68, 68, 0.1) !important;
-      }
+        .dropdown-solid {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        }
     </style>
   </head>
 
-  <body class="font-sans antialiased min-h-screen">
+  <body class="font-sans antialiased min-h-screen p-5">
     <div class="flex p-5 gap-5 min-h-screen">
       <aside
         class="w-72 flex flex-col justify-between bg-[var(--bg-sidebar)] rounded-[30px] p-7 shadow-xl"
@@ -178,7 +121,7 @@
 
           <nav>
             <p class="group-label">Navigasi Utama</p>
-            <a href="#" class="nav-link active"
+            <a href="admin-dashboard.html" class="nav-link active"
               ><i class="fas fa-th-large w-5"></i> Beranda</a
             >
 
@@ -216,44 +159,24 @@
       </aside>
 
       <div class="flex-1 space-y-6">
-        <header
-          class="flex justify-between items-center glass-card px-8 py-5 relative z-50"
-        >
+        <header class="flex justify-between items-center glass-card px-8 py-5">
           <div>
             <h2 class="text-2xl font-black">BERANDA</h2>
-            <p class="text-xs font-bold opacity-50 uppercase tracking-widest">
-              Selamat Datang, Miftahun Nikmah
-            </p>
+            <p class="text-xs font-bold opacity-50 uppercase tracking-widest">Selamat Datang, Miftahun Nikmah</p>
           </div>
 
           <div class="flex items-center gap-5">
-            <button
-              onclick="toggleTheme()"
-              class="w-12 h-12 flex items-center justify-center rounded-2xl bg-gray-100 dark:bg-white/10 border border-[var(--border)] transition-all hover:scale-110"
-            >
-              <i
-                id="themeIcon"
-                class="fas fa-moon text-[var(--accent)] text-xl"
-              ></i>
+            <button onclick="toggleTheme()" class="w-12 h-12 flex items-center justify-center rounded-2xl bg-gray-100 dark:bg-white/10 border border-[var(--border)] transition-all hover:scale-110">
+              <i id="themeIcon" class="fas fa-moon text-[var(--accent)] text-xl"></i>
             </button>
 
             <div class="relative">
-              <button
-                id="profileBtn"
-                class="flex items-center gap-3 p-1.5 pr-5 bg-gray-100 dark:bg-white/10 rounded-full border border-[var(--border)] hover:bg-gray-200 dark:hover:bg-white/20 transition-all"
-              >
-                <img
-                  src="https://ui-avatars.com/api/?name=Admin&background=C9494C&color=fff"
-                  class="w-10 h-10 rounded-full border-2 border-white"
-                />
+              <button id="profileBtn" class="flex items-center gap-3 p-1.5 pr-5 bg-gray-100 dark:bg-white/10 rounded-full border border-[var(--border)] hover:bg-gray-200 dark:hover:bg-white/20 transition-all">
+                <img src="https://ui-avatars.com/api/?name=Admin&background=C9494C&color=fff" class="w-10 h-10 rounded-full border-2 border-white" />
                 <span class="text-sm font-black">Admin Johny</span>
                 <i class="fas fa-chevron-down text-[10px] opacity-40"></i>
               </button>
-
-              <div
-                id="profileDropdown"
-                class="hidden absolute right-0 mt-4 w-80 dropdown-solid p-6 z-[9999] animate-in fade-in slide-in-from-top-3 duration-300"
-              >
+              <div id="profileDropdown" class="hidden absolute right-0 mt-4 w-80 dropdown-solid p-6 z-[9999]">
                 <div id="profileContent"></div>
               </div>
             </div>
@@ -261,293 +184,179 @@
         </header>
 
         <div class="grid grid-cols-3 gap-6">
-          <div
-            class="glass-card p-7 grad-red text-white border-none shadow-xl relative overflow-hidden"
-          >
+          <div class="glass-card p-7 grad-red text-white border-none shadow-xl relative overflow-hidden">
             <div class="relative z-10">
-              <p class="text-xs font-bold opacity-80 uppercase tracking-widest">
-                Tenaga Pendidik
-              </p>
+              <p class="text-xs font-bold opacity-80 uppercase tracking-widest">Tenaga Pendidik</p>
               <h3 class="text-4xl font-black mt-2">24</h3>
-              <div
-                class="mt-4 text-[10px] font-black bg-white/20 w-fit px-3 py-1 rounded-full"
-              >
-                Aktif & Terdaftar
-              </div>
+              <div class="mt-4 text-[10px] font-black bg-white/20 w-fit px-3 py-1 rounded-full">Aktif & Terdaftar</div>
             </div>
-            <i
-              class="fas fa-user-tie absolute -right-4 -bottom-4 text-8xl opacity-10"
-            ></i>
+            <i class="fas fa-user-tie absolute -right-4 -bottom-4 text-8xl opacity-10"></i>
           </div>
 
-          <div
-            class="glass-card p-7 grad-orange text-white border-none shadow-xl relative overflow-hidden"
-          >
+          <div class="glass-card p-7 grad-orange text-white border-none shadow-xl relative overflow-hidden">
             <div class="relative z-10">
-              <p class="text-xs font-bold opacity-80 uppercase tracking-widest">
-                Peserta Didik
-              </p>
-              <h3 class="text-4xl font-black mt-2">458</h3>
-              <div
-                class="mt-4 text-[10px] font-black bg-white/20 w-fit px-3 py-1 rounded-full"
-              >
-                Data Terintegrasi
-              </div>
+              <p class="text-xs font-bold opacity-80 uppercase tracking-widest">Peserta Didik</p>
+              <h3 class="text-4xl font-black mt-2">360</h3>
+              <div class="mt-4 text-[10px] font-black bg-white/20 w-fit px-3 py-1 rounded-full">Data Terintegrasi</div>
             </div>
-            <i
-              class="fas fa-users absolute -right-4 -bottom-4 text-8xl opacity-10"
-            ></i>
+            <i class="fas fa-users absolute -right-4 -bottom-4 text-8xl opacity-10"></i>
           </div>
 
-          <div
-            class="glass-card p-7 grad-green text-white border-none shadow-xl relative overflow-hidden"
-          >
+          <div class="glass-card p-7 grad-green text-white border-none shadow-xl relative overflow-hidden">
             <div class="relative z-10">
-              <p class="text-xs font-bold opacity-80 uppercase tracking-widest">
-                Mata Pelajaran
-              </p>
+              <p class="text-xs font-bold opacity-80 uppercase tracking-widest">Mata Pelajaran</p>
               <h3 class="text-4xl font-black mt-2">12</h3>
-              <div
-                class="mt-4 text-[10px] font-black bg-white/20 w-fit px-3 py-1 rounded-full"
-              >
-                Kurikulum 2026
-              </div>
+              <div class="mt-4 text-[10px] font-black bg-white/20 w-fit px-3 py-1 rounded-full">Kurikulum 2026</div>
             </div>
-            <i
-              class="fas fa-book absolute -right-4 -bottom-4 text-8xl opacity-10"
-            ></i>
+            <i class="fas fa-book absolute -right-4 -bottom-4 text-8xl opacity-10"></i>
           </div>
         </div>
 
         <div class="grid grid-cols-3 gap-6">
-          <div
-            class="glass-card p-7 grad-green text-white border-none shadow-xl relative overflow-hidden"
-          >
-            <div>
-              <div
-                class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-[var(--p-green)] shadow-md mb-6"
-              >
-                <i class="fas fa-sticky-note text-xl"></i>
-              </div>
-              <h3
-                class="text-2xl font-black text-[var(--p-green)] dark:text-[white]"
-              >
-                Agenda Hari Ini
-              </h3>
-              <div
-                id="notesText"
-                contenteditable="true"
-                class="text-sm mt-5 leading-relaxed font-bold text-[#6B5B00] dark:text-white/80 outline-none"
-              >
-                Ketik catatan di sini...
-              </div>
-            </div>
-
-            <i
-              class="fas fa-sticky-note absolute -right-3 -bottom-3 text-8xl opacity-10"
-            ></i>
+          <div class="glass-card p-7 grad-green text-white border-none shadow-xl relative overflow-hidden">
+            <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-[var(--p-green)] mb-6"><i class="fas fa-sticky-note text-xl"></i></div>
+            <h3 class="text-2xl font-black text-[var(--p-green)] dark:text-white">Agenda Hari Ini</h3>
+            <div id="notesText" contenteditable="true" class="text-sm mt-5 font-bold text-[#6B5B00] dark:text-white/80 outline-none">Ketik catatan...</div>
+            <i class="fas fa-sticky-note absolute -right-3 -bottom-3 text-8xl opacity-10"></i>
           </div>
 
           <div class="glass-card p-8 col-span-2 shadow-sm">
-            <h3
-              class="font-black text-sm uppercase tracking-widest opacity-80 mb-8"
-            >
-              Statistik Siswa
-            </h3>
-            <div class="h-64">
-              <canvas id="mainStatsChart"></canvas>
-            </div>
+            <h3 class="font-black text-sm uppercase tracking-widest opacity-80 mb-8">Statistik Siswa Per Kelas</h3>
+            <div class="h-64"><canvas id="mainStatsChart"></canvas></div>
           </div>
         </div>
       </div>
     </div>
 
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="firebase-config.js"></script>
+
     <script>
-      function toggleTheme() {
-        const body = document.body;
-        const icon = document.getElementById("themeIcon");
-        body.classList.toggle("dark-mode");
-        icon.classList.toggle("fa-moon");
-        icon.classList.toggle("fa-sun");
+      let studentChart;
+
+      // --- CHART LOGIC (MODERNIZED) ---
+      async function loadStatistik() {
+        const ctx = document.getElementById("mainStatsChart").getContext("2d");
+        
+        try {
+          const snapshot = await db.collection("students").get();
+          const kelasMap = { "1-A": 0, "1-B": 0, "2-A": 0, "2-B": 0, "3-A": 0, "3-B": 0, "4-A": 0, "4-B": 0, "5-A": 0, "5-B": 0, "6-A": 0, "6-B": 0 };
+
+          snapshot.forEach(doc => {
+            let k = doc.data().kelas;
+            if (!k) return;
+            k = k.toString().toUpperCase().trim().replace(/\s/g, "");
+            if (!k.includes("-") && k.length === 2) k = k[0] + "-" + k[1];
+            if (kelasMap[k] !== undefined) kelasMap[k]++;
+          });
+
+          renderChart(ctx, kelasMap);
+        } catch (e) { console.error(e); }
       }
 
-      const btn = document.getElementById("profileBtn");
-      const drop = document.getElementById("profileDropdown");
-      const content = document.getElementById("profileContent");
-
-      btn.onclick = (e) => {
-        e.stopPropagation();
-        drop.classList.toggle("hidden");
-        renderProfile();
-      };
-
-      window.onclick = () => drop.classList.add("hidden");
-
-      function renderProfile() {
-        content.innerHTML = `
-            <div class="text-center mb-6 border-b border-[var(--border)] pb-6">
-                <div class="w-20 h-20 bg-[var(--p-red)] rounded-3xl mx-auto flex items-center justify-center text-white text-3xl font-black shadow-xl mb-4">MN</div>
-                <p class="font-black text-xl text-[var(--text-main)]">Miftahun Nikmah</p>
-                <p class="text-[10px] opacity-60 uppercase font-black tracking-widest mt-1">Super Administrator</p>
-            </div>
-            <div class="space-y-3">
-                <div class="flex justify-between items-center text-xs p-4 bg-gray-100 dark:bg-white/5 rounded-2xl">
-                    <span class="opacity-50 font-bold uppercase">ID Admin</span>
-                    <span class="font-black">#MN-2026-04</span>
-                </div>
-                <button onclick="renderPass(event)" class="w-full bg-[var(--p-red)] text-white py-4 rounded-2xl text-xs font-black shadow-lg shadow-red-100 dark:shadow-none hover:brightness-110 transition-all">
-                    <i class="fas fa-lock mr-2"></i> Keamanan Akun
-                </button>
-            </div>
-        `;
-      }
-
-      function renderPass(e) {
-        e.stopPropagation();
-        content.innerHTML = `
-            <div class="flex items-center mb-6">
-                <button onclick="renderProfile()" class="mr-4 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 dark:bg-white/10 transition"><i class="fas fa-arrow-left text-xs"></i></button>
-                <h4 class="font-black text-sm">Ganti Password</h4>
-            </div>
-            <div class="space-y-4">
-                <input type="password" placeholder="Password Lama" class="w-full bg-gray-50 dark:bg-white/10 p-4 rounded-2xl text-xs outline-none border-2 border-transparent focus:border-[var(--accent)]">
-                <input type="password" placeholder="Password Baru" class="w-full bg-gray-50 dark:bg-white/10 p-4 rounded-2xl text-xs outline-none border-2 border-transparent focus:border-[var(--accent)]">
-                <button onclick="alert('Password Berhasil Diubah!'); renderProfile();" class="w-full bg-black dark:bg-white text-white dark:text-black py-4 rounded-2xl text-xs font-black">Simpan Perubahan</button>
-            </div>
-        `;
-      }
-
-      const ctx = document.getElementById("mainStatsChart");
-      new Chart(ctx, {
-        type: "bar",
-        data: {
-          labels: [
-            "1-A",
-            "1-B",
-            "2-A",
-            "2-B",
-            "3-A",
-            "3-B",
-            "4-A",
-            "4-B",
-            "5-A",
-            "5-B",
-            "6-A",
-            "6-B",
-          ],
-          datasets: [
-            {
-              data: [27, 30, 28, 29, 30, 27, 28, 30, 29, 30, 28, 29],
-
-              backgroundColor: [
-                "#5FBF6A",
-                "#A7E3B0",
-                "#5FBF6A",
-                "#A7E3B0",
-                "#5FBF6A",
-                "#A7E3B0",
-                "#5FBF6A",
-                "#A7E3B0",
-                "#5FBF6A",
-                "#A7E3B0",
-                "#5FBF6A",
-                "#A7E3B0",
-              ],
-
-              borderRadius: 50,
-              barThickness: 22,
-            },
-          ],
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
-          scales: {
-            y: {
-              grid: { color: "rgba(0,0,0,0.05)", drawBorder: false },
-              ticks: { color: "#888", font: { weight: "bold" } },
-            },
-            x: {
-              grid: { display: false },
-              ticks: { color: "#444", font: { weight: "black", size: 11 } },
-            },
-          },
-        },
-      });
-
-      const notesData = {
-        0: "Minggu:\nSistem dalam mode pemeliharaan rutin mingguan.",
-        1: "Senin:\nUpacara bendera. Validasi data kehadiran siswa jam pertama.",
-        2: "Selasa:\nPenginputan nilai harian semester genap oleh wali kelas.",
-        3: "Rabu:\nAudit keamanan database dan pembaruan log aktivitas.",
-        4: "Kamis:\nRekapitulasi berkas kurikulum merdeka untuk akreditasi.",
-        5: "Jumat:\nLaporan mingguan selesai. Pastikan backup data sudah aman.",
-        6: "Sabtu:\nPelatihan IT untuk staf administrasi sekolah.",
-      };
-      document.getElementById("notesText").innerText =
-        notesData[new Date().getDay()];
-
-      // FUNGSI LOGOUT GLOBAL
-      function handleLogout() {
-        // Cek apakah library SweetAlert2 sudah terload
-        if (typeof Swal === "undefined") {
-          if (confirm("Yakin ingin keluar?")) {
-            window.location.href = "login.html#login";
-          }
-          return;
-        }
-
+      function renderChart(ctx, dataMap) {
         const isDark = document.body.classList.contains("dark-mode");
+        if (studentChart) studentChart.destroy();
 
-        Swal.fire({
-          title: "Konfirmasi Keluar",
-          text: "Apakah Anda yakin ingin mengakhiri sesi admin ini?",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#C9494C",
-          cancelButtonColor: isDark ? "#374151" : "#9CA3AF",
-          confirmButtonText: "Ya, Keluar",
-          cancelButtonText: "Batal",
-          background: isDark ? "#1A1A1D" : "#FFFFFF",
-          color: isDark ? "#FFFFFF" : "#2D2D2D",
-          borderRadius: "25px",
-          customClass: {
-            confirmButton:
-              "font-bold uppercase text-xs tracking-widest px-6 py-3",
-            cancelButton:
-              "font-bold uppercase text-xs tracking-widest px-6 py-3",
+        studentChart = new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: Object.keys(dataMap),
+            datasets: [{
+              data: Object.values(dataMap),
+              backgroundColor: Object.keys(dataMap).map((_, i) => i % 2 === 0 ? "#5FBF6A" : "#A7E3B0"),
+              borderRadius: 50,
+              barThickness: 22
+            }]
           },
-        }).then((result) => {
-          if (result.isConfirmed) {
-            window.location.href = "login.html#login";
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              y: { 
+                beginAtZero: true, 
+                grid: { color: isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)", drawBorder: false },
+                ticks: { color: "#94a3b8", font: { size: 10 } }
+              },
+              x: { 
+                grid: { display: false },
+                ticks: { color: isDark ? "#9CA3AF" : "#64748b", font: { size: 10, weight: "bold" } }
+              }
+            }
           }
         });
       }
 
-      // Tambahan: Pastikan sidebar tidak tertutup elemen lain
-      // (Hanya jika masih tidak bisa diklik)
-      document.addEventListener("DOMContentLoaded", function () {
-        const aside = document.querySelector("aside");
-        if (aside) aside.style.zIndex = "100";
-      });
+      // --- UI LOGIC ---
+      function toggleTheme() {
+    const body = document.body;
+    const icon = document.getElementById("themeIcon");
 
-      // --- NOTES LOGIC ---
-      const notesElement = document.getElementById("notesText");
-      if (notesElement) {
-        const saved = localStorage.getItem("admin_notes_sdn_ganting");
-        notesElement.innerText = saved || "Ketik catatan di sini...";
+    body.classList.toggle("dark-mode");
 
-        notesElement.oninput = () =>
-          localStorage.setItem(
-            "admin_notes_sdn_ganting",
-            notesElement.innerText,
-          );
-        notesElement.onfocus = () => {
-          if (notesElement.innerText.includes("Ketik"))
-            notesElement.innerText = "";
-        };
+    const isDark = body.classList.contains("dark-mode");
+
+    // simpan ke localStorage
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+
+    icon.classList.toggle("fa-moon");
+    icon.classList.toggle("fa-sun");
+}
+
+      function handleLogout() {
+        Swal.fire({
+          title: "Yakin Keluar?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Ya, Keluar",
+          confirmButtonColor: "#ef4444",
+          borderRadius: "20px"
+        }).then((res) => { if (res.isConfirmed) window.location.href = "login.html"; });
       }
+
+      // Profile Logic
+      const profileBtn = document.getElementById("profileBtn");
+      const profileDrop = document.getElementById("profileDropdown");
+      profileBtn.onclick = (e) => { e.stopPropagation(); profileDrop.classList.toggle("hidden"); renderProfile(); };
+      window.onclick = () => profileDrop.classList.add("hidden");
+
+      function renderProfile() {
+        document.getElementById("profileContent").innerHTML = `
+          <div class="text-center mb-6 border-b border-[var(--border)] pb-6">
+            <div class="w-20 h-20 bg-[var(--p-red)] rounded-3xl mx-auto flex items-center justify-center text-white text-3xl font-black mb-4">MN</div>
+            <p class="font-black text-xl text-[var(--text-main)]">Miftahun Nikmah</p>
+            <p class="text-[10px] opacity-60 uppercase font-black mt-1">Super Administrator</p>
+          </div>
+          <button onclick="alert('Keamanan diakses')" class="w-full bg-[var(--p-red)] text-white py-4 rounded-2xl text-xs font-black">Keamanan Akun</button>
+        `;
+      }
+
+      // Notes Logic
+      const notesElement = document.getElementById("notesText");
+      const savedNotes = localStorage.getItem("admin_notes_sdn_ganting");
+      if (savedNotes) notesElement.innerText = savedNotes;
+      notesElement.oninput = () => localStorage.setItem("admin_notes_sdn_ganting", notesElement.innerText);
+
+      // Init
+      document.addEventListener("DOMContentLoaded", loadStatistik);
+
+      function loadTheme() {
+    const savedTheme = localStorage.getItem("theme");
+
+    const body = document.body;
+    const icon = document.getElementById("themeIcon");
+
+    if (savedTheme === "dark") {
+        body.classList.add("dark-mode");
+        icon.classList.remove("fa-moon");
+        icon.classList.add("fa-sun");
+    }
+}
+
+loadTheme();
     </script>
   </body>
 </html>

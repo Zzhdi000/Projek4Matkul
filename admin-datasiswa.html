@@ -111,6 +111,18 @@
             color: white;
         }
         
+        .btn-logout {
+        color: #ef4444 !important;
+        border: 1.5px solid transparent;
+      }
+      .btn-logout:hover {
+        background-color: #fef2f2 !important; /* Merah sangat muda saat hover */
+        border-color: #fee2e2;
+      }
+
+      .dark-mode .btn-logout:hover {
+        background-color: rgba(239, 68, 68, 0.1) !important;
+      } 
         .dark-mode .custom-table thead {
             background: var(--p-rose);
             color: #000;
@@ -137,45 +149,68 @@
 
 <div class="flex p-5 gap-5 min-h-screen">
 
-    <aside class="w-72 flex flex-col justify-between bg-[var(--bg-sidebar)] rounded-[30px] p-7 shadow-xl">
+     <aside
+        class="w-72 flex flex-col justify-between bg-[var(--bg-sidebar)] rounded-[30px] p-7 shadow-xl"
+      >
         <div>
-            <div class="flex items-center gap-4 mb-10 px-2">
-                <div class="w-11 h-11 flex items-center justify-center">
-                    <img src="asset/logogtg.png" alt="Logo" class="w-full h-full object-contain"> 
-                </div>
-                <div>
-                    <h1 class="text-xl font-black leading-tight tracking-tight">SDN GANTING</h1>
-                    <p class="text-[9px] font-bold text-gray-400 uppercase tracking-widest">Master Panel</p>
-                </div>
+          <div class="flex items-center gap-4 mb-10 px-2">
+            <div class="w-11 h-11 flex items-center justify-center">
+              <img
+                src="asset/logogtg.png"
+                alt="Logo"
+                class="w-full h-full object-contain"
+              />
             </div>
+            <div>
+              <h1 class="text-xl font-black leading-tight tracking-tight">
+                SDN GANTING
+              </h1>
+              <p
+                class="text-[9px] font-bold text-gray-400 uppercase tracking-widest"
+              >
+                Master Panel
+              </p>
+            </div>
+          </div>
 
-            <nav>
-                <p class="group-label">Navigasi Utama</p>
-                <a href="admin-dashboard.html" class="nav-link"><i class="fas fa-th-large w-5"></i> Beranda</a>
+          <nav>
+            <p class="group-label">Navigasi Utama</p>
+            <a href="admin-dashboard.html" class="nav-link"
+              ><i class="fas fa-th-large w-5"></i> Beranda</a
+            >
 
-                <p class="group-label">Kependidikan</p>
-                <a href="admin-datasiswa.html" class="nav-link active"><i class="fas fa-user-graduate w-5"></i> Data Siswa</a>
-                <a href="admin-dataguru.html" class="nav-link"><i class="fas fa-chalkboard-teacher w-5"></i> Data Guru</a>
+            <p class="group-label">Kependidikan</p>
+            <a href="admin-datasiswa.html" class="nav-link active"
+              ><i class="fas fa-user-graduate w-5"></i> Data Siswa</a
+            >
+            <a href="admin-dataguru.html" class="nav-link"
+              ><i class="fas fa-chalkboard-teacher w-5"></i> Data Guru</a
+            >
 
-                <p class="group-label">Manajemen</p>
-                <a href="admin-jadwalguru.html" class="nav-link"><i class="fas fa-clipboard-list w-5"></i> Jadwal Guru</a>
-                <a href="admin-nilai.html" class="nav-link"><i class="fas fa-file-invoice w-5"></i> Nilai Siswa</a>
-                <a href="admin-kelolaberita.html" class="nav-link"><i class="fas fa-broadcast-tower w-5"></i> Kelola Berita</a>
-            </nav>
+            <p class="group-label">Manajemen</p>
+            <a href="admin-jadwalguru.html" class="nav-link"
+              ><i class="fas fa-clipboard-list w-5"></i> Jadwal Guru</a
+            >
+            <a href="admin-nilai.html" class="nav-link"
+              ><i class="fas fa-file-invoice w-5"></i> Nilai Siswa</a
+            >
+            <a href="admin-kelolaberita.html" class="nav-link"
+              ><i class="fas fa-broadcast-tower w-5"></i> Kelola Berita</a
+            >
+          </nav>
         </div>
 
         <div class="pt-6 border-t border-[var(--border)] relative z-[999]">
-    <button 
-        type="button"
-        onclick="handleLogout()" 
-        class="w-full flex items-center gap-3 py-3 px-4 text-[var(--p-red)] font-black hover:bg-[var(--p-red)] hover:text-white rounded-xl transition-all cursor-pointer border-none bg-transparent"
-        style="cursor: pointer !important;"
-    >
-        <i class="fas fa-sign-out-alt w-5"></i> 
-        <span>Keluar Sistem</span>
-    </button>
-</div>
-    </aside>
+          <button
+            type="button"
+            onclick="handleLogout()"
+            class="w-full flex items-center gap-3 py-3 px-4 btn-logout font-black rounded-xl transition-all cursor-pointer bg-transparent"
+          >
+            <i class="fas fa-sign-out-alt w-5"></i>
+            <span>Keluar Sistem</span>
+          </button>
+        </div>
+      </aside>
 
     <div class="flex-1 space-y-6">
 
@@ -186,8 +221,8 @@
             </div>
             
             <div class="flex items-center gap-5">
-                <button onclick="document.body.classList.toggle('dark-mode')" class="w-12 h-12 flex items-center justify-center rounded-2xl bg-gray-100 dark:bg-white/10 border border-[var(--border)] transition-all hover:scale-110">
-                    <i class="fas fa-moon text-[var(--accent)] text-xl"></i>
+                <button onclick="toggleTheme()" class="w-12 h-12 flex items-center justify-center rounded-2xl bg-gray-100 dark:bg-white/10 border border-[var(--border)] transition-all hover:scale-110">
+                    <i id="themeIcon" class="fas fa-moon text-[var(--accent)] text-xl"></i>                    
                 </button>
                 
                 <div class="flex items-center gap-3 p-1.5 pr-5 bg-gray-100 dark:bg-white/10 rounded-full border border-[var(--border)]">
@@ -347,6 +382,22 @@
     </div>
 </div>
 <script>
+
+    function toggleTheme() {
+    const body = document.body;
+    const icon = document.getElementById("themeIcon");
+
+    body.classList.toggle("dark-mode");
+
+    const isDark = body.classList.contains("dark-mode");
+
+    // simpan ke localStorage
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+
+    icon.classList.toggle("fa-moon");
+    icon.classList.toggle("fa-sun");
+}
+
 function handleLogout() {
     // Cek apakah library SweetAlert2 sudah terload
     if (typeof Swal === 'undefined') {
@@ -387,6 +438,23 @@ document.addEventListener("DOMContentLoaded", function() {
     const aside = document.querySelector('aside');
     if(aside) aside.style.zIndex = "100";
 });
+function loadTheme() {
+    const savedTheme = localStorage.getItem("theme");
+
+    const body = document.body;
+    const icon = document.getElementById("themeIcon");
+
+    if (savedTheme === "dark") {
+    body.classList.add("dark-mode");
+
+    if (icon) {
+        icon.classList.remove("fa-moon");
+        icon.classList.add("fa-sun");
+    }
+}
+}
+
+loadTheme();
 </script>
 
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>

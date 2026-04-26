@@ -11,37 +11,36 @@
 
     <style>
         :root {
-            /* Palette Color Scheme No. 27 */
-            --p-red: #C9494C;
-            --p-rose: #FF9178;
-            --p-yellow: #F7EA7F;
-            --p-orange: #F25A2D;
-            --p-green: #82C697;
-            --p-blue: #057711;
+            /* Palette Color Sesuai Dashboard */
+            --accent-blue: #63a4ff;
+            --card-blue: #8198f9;
+            --card-purple: #c096ff;
+            --card-yellow: #f1c973;
+            --card-green: #7fd69e;
             
-            /* Mapping Light Mode */
             --bg-body: #FDFDFB;
             --bg-sidebar: #FFFFFF;
             --text-main: #2D2D2D;
-            --accent: var(--p-red);
             --card-bg: #FFFFFF;
             --border: rgba(0,0,0,0.1);
-            --dropdown-bg: #FFFFFF;
-            --table-head: #F8FAFC;
+
+            /* WARNA TEKS GRID (Mode Terang: Hitam) */
+            --text-grid: #000000;
         }
 
         .dark-mode {
-            /* Mapping Dark Mode */
             --bg-body: #0F0F12; 
             --bg-sidebar: #000000;
             --text-main: #FFFFFF;
-            --accent: var(--p-rose);
             --card-bg: rgba(30, 30, 35, 0.8); 
             --border: rgba(255, 255, 255, 0.15);
-            --dropdown-bg: #1A1A1D;
-            --table-head: #1E1E24;
+
+            /* WARNA TEKS GRID (Mode Gelap: Putih) */
+            --text-grid: #FFFFFF;
+
             background: radial-gradient(circle at 80% 0%, #432e1f 0%, #0F0F12 50%) !important;
         }
+
 
         body {
             background-color: var(--bg-body);
@@ -59,13 +58,6 @@
             border-radius: 24px;
         }
 
-        .dropdown-solid {
-            background-color: var(--dropdown-bg);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-        }
-
         .nav-link {
             transition: all 0.3s;
             display: flex;
@@ -80,15 +72,10 @@
 
         .dark-mode .nav-link { color: #9CA3AF; }
 
-        .nav-link:hover {
-            background: rgba(0,0,0,0.05);
-            color: var(--accent);
-        }
-
         .nav-link.active {
-            background-color: var(--accent);
+            background-color: var(--accent-blue);
             color: white !important;
-            box-shadow: 0 8px 20px -6px var(--accent);
+            box-shadow: 0 8px 20px -6px var(--accent-blue);
         }
 
         .group-label {
@@ -96,271 +83,321 @@
             font-weight: 900;
             text-transform: uppercase;
             letter-spacing: 1.5px;
-            color: var(--p-red);
+            color: var(--accent-blue);
             margin: 25px 0 10px 16px;
         }
 
-        /* Custom Scrollbar for Table */
-        .table-container::-webkit-scrollbar {
-            height: 8px;
+        /* Time Grid Layout */
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: 100px repeat(6, 1fr);
+            border-top: 1px solid var(--border);
         }
-        .table-container::-webkit-scrollbar-thumb {
-            background: var(--border);
-            border-radius: 10px;
+
+        .grid-header {
+            padding: 15px;
+            text-align: center;
+            font-weight: 800;
+            font-size: 11px;
+            text-transform: uppercase;
+            color: var(--text-grid); /* Menggunakan Variabel Dinamis */
+            border-bottom: 1px solid var(--border);
         }
+
+        .time-slot {
+            padding: 25px 10px;
+            text-align: center;
+            font-size: 10px;
+            font-weight: 800;
+            color: var(--text-grid); /* Menggunakan Variabel Dinamis */
+            border-right: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .cell {
+            padding: 10px;
+            border-right: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            min-height: 110px;
+        }
+
+        .event-card {
+            border-radius: 14px;
+            padding: 10px;
+            color: white;
+            font-size: 10px;
+            margin-bottom: 6px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .btn-logout {
+        color: #ef4444 !important;
+        border: 1.5px solid transparent;
+      }
+      .btn-logout:hover {
+        background-color: #fef2f2 !important; /* Merah sangat muda saat hover */
+        border-color: #fee2e2;
+      }
+
+      .dark-mode .btn-logout:hover {
+        background-color: rgba(239, 68, 68, 0.1) !important;
+      }
+
+        .bg-blue { background-color: var(--card-blue); }
+        .bg-purple { background-color: var(--card-purple); }
+        .bg-yellow { background-color: var(--card-yellow); }
+        .bg-green { background-color: var(--card-green); }
+        .bg-red { background-color: #f87171; }
+        .bg-indigo { background-color: #818cf8; }
+        .bg-pink { background-color: #f472b6; }
+        .bg-violet { background-color: #a78bfa; }
+        .bg-cyan { background-color: #67e8f9; }
+        .bg-orange { background-color: #f97316; }
+        .bg-teal { background-color: #14b8a6; }
     </style>
 </head>
 
-<body class="font-sans antialiased min-h-screen">
+<body>
 
 <div class="flex p-5 gap-5 min-h-screen">
-
-    <aside class="w-72 flex flex-col justify-between bg-[var(--bg-sidebar)] rounded-[30px] p-7 shadow-xl">
+    <aside
+        class="w-72 flex flex-col justify-between bg-[var(--bg-sidebar)] rounded-[30px] p-7 shadow-xl"
+      >
         <div>
-            <div class="flex items-center gap-4 mb-10 px-2">
-                <div class="w-11 h-11 flex items-center justify-center">
-                    <img src="asset/logogtg.png" alt="Logo" class="w-full h-full object-contain"> 
-                </div>
-                <div>
-                    <h1 class="text-xl font-black leading-tight tracking-tight">SDN GANTING</h1>
-                    <p class="text-[9px] font-bold text-gray-400 uppercase tracking-widest">Master Panel</p>
-                </div>
+          <div class="flex items-center gap-4 mb-10 px-2">
+            <div class="w-11 h-11 flex items-center justify-center">
+              <img
+                src="asset/logogtg.png"
+                alt="Logo"
+                class="w-full h-full object-contain"
+              />
             </div>
+            <div>
+              <h1 class="text-xl font-black leading-tight tracking-tight">
+                SDN GANTING
+              </h1>
+              <p
+                class="text-[9px] font-bold text-gray-400 uppercase tracking-widest"
+              >
+                Master Panel
+              </p>
+            </div>
+          </div>
 
-            <nav>
-                <p class="group-label">Navigasi Utama</p>
-                <a href="admin-dashboard.html" class="nav-link"><i class="fas fa-th-large w-5"></i> Beranda</a>
+          <nav>
+            <p class="group-label">Navigasi Utama</p>
+            <a href="admin-dashboard.html" class="nav-link"
+              ><i class="fas fa-th-large w-5"></i> Beranda</a
+            >
 
-                <p class="group-label">Kependidikan</p>
-                <a href="admin-datasiswa.html" class="nav-link"><i class="fas fa-user-graduate w-5"></i> Data Siswa</a>
-                <a href="admin-dataguru.html" class="nav-link"><i class="fas fa-chalkboard-teacher w-5"></i> Data Guru</a>
+            <p class="group-label">Kependidikan</p>
+            <a href="admin-datasiswa.html" class="nav-link"
+              ><i class="fas fa-user-graduate w-5"></i> Data Siswa</a
+            >
+            <a href="admin-dataguru.html" class="nav-link"
+              ><i class="fas fa-chalkboard-teacher w-5"></i> Data Guru</a
+            >
 
-                <p class="group-label">Manajemen</p>
-                <a href="admin-jadwalguru.html" class="nav-link active"><i class="fas fa-clipboard-list w-5"></i> Jadwal Guru</a>
-                <a href="admin-nilai.html" class="nav-link"><i class="fas fa-file-invoice w-5"></i> Nilai Siswa</a>
-                <a href="admin-kelolaberita.html" class="nav-link"><i class="fas fa-broadcast-tower w-5"></i> Kelola Berita</a>
-            </nav>
+            <p class="group-label">Manajemen</p>
+            <a href="admin-jadwalguru.html" class="nav-link active"
+              ><i class="fas fa-clipboard-list w-5"></i> Jadwal Guru</a
+            >
+            <a href="admin-nilai.html" class="nav-link"
+              ><i class="fas fa-file-invoice w-5"></i> Nilai Siswa</a
+            >
+            <a href="admin-kelolaberita.html" class="nav-link"
+              ><i class="fas fa-broadcast-tower w-5"></i> Kelola Berita</a
+            >
+          </nav>
         </div>
 
         <div class="pt-6 border-t border-[var(--border)] relative z-[999]">
-    <button 
-        type="button"
-        onclick="handleLogout()" 
-        class="w-full flex items-center gap-3 py-3 px-4 text-[var(--p-red)] font-black hover:bg-[var(--p-red)] hover:text-white rounded-xl transition-all cursor-pointer border-none bg-transparent"
-        style="cursor: pointer !important;"
-    >
-        <i class="fas fa-sign-out-alt w-5"></i> 
-        <span>Keluar Sistem</span>
-    </button>
-</div>
-    </aside>
+          <button
+            type="button"
+            onclick="handleLogout()"
+            class="w-full flex items-center gap-3 py-3 px-4 btn-logout font-black rounded-xl transition-all cursor-pointer bg-transparent"
+          >
+            <i class="fas fa-sign-out-alt w-5"></i>
+            <span>Keluar Sistem</span>
+          </button>
+        </div>
+      </aside>
 
     <div class="flex-1 space-y-6">
-
-        <header class="flex justify-between items-center glass-card px-8 py-5 relative z-50">
+        <header class="flex justify-between items-center glass-card px-8 py-5">
             <div>
                 <h2 class="text-2xl font-black uppercase">Jadwal Guru</h2>
                 <p class="text-xs font-bold opacity-50 uppercase tracking-widest">Manajemen Waktu & KBM</p>
             </div>
             
             <div class="flex items-center gap-5">
-                <button onclick="toggleTheme()" class="w-12 h-12 flex items-center justify-center rounded-2xl bg-gray-100 dark:bg-white/10 border border-[var(--border)] transition-all hover:scale-110">
-                    <i id="themeIcon" class="fas fa-moon text-[var(--accent)] text-xl"></i>
+                <button onclick="toggleTheme()" class="w-12 h-12 flex items-center justify-center rounded-2xl bg-gray-100 dark:bg-white/10 border border-[var(--border)]">
+                    <i id="themeIcon" class="fas fa-moon text-[var(--accent-blue)] text-xl"></i>
                 </button>
                 
-                <div class="relative">
-                    <button id="profileBtn" class="flex items-center gap-3 p-1.5 pr-5 bg-gray-100 dark:bg-white/10 rounded-full border border-[var(--border)] hover:bg-gray-200 dark:hover:bg-white/20 transition-all">
-                        <img src="https://ui-avatars.com/api/?name=Admin&background=C9494C&color=fff" class="w-10 h-10 rounded-full border-2 border-white">
-                        <span class="text-sm font-black">Admin Johny</span>
-                        <i class="fas fa-chevron-down text-[10px] opacity-40"></i>
-                    </button>
-                    
-                    <div id="profileDropdown" class="hidden absolute right-0 mt-4 w-80 dropdown-solid p-6 z-[9999]">
-                        <div id="profileContent"></div>
-                    </div>
+                <div class="flex items-center gap-3 p-1.5 pr-5 bg-gray-100 dark:bg-white/10 rounded-full border border-[var(--border)]">
+                    <img src="https://ui-avatars.com/api/?name=Admin&background=63a4ff&color=fff" class="w-10 h-10 rounded-full border-2 border-white">
+                    <span class="text-sm font-black">Admin Johny</span>
+                    <i class="fas fa-chevron-down text-[10px] opacity-40"></i>
                 </div>
             </div>
         </header>
 
         <div class="glass-card p-8">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
-                <div class="flex gap-3 w-full md:w-auto">
-                    <button class="bg-[var(--p-red)] text-white px-6 py-3 rounded-2xl font-black text-xs shadow-lg shadow-red-200 dark:shadow-none hover:brightness-110 transition-all">
+            <div class="flex justify-between items-center mb-8">
+                <div class="flex gap-3">
+                    <button class="bg-[var(--accent-blue)] text-white px-6 py-3 rounded-2xl font-black text-xs shadow-lg shadow-blue-100">
                         <i class="fas fa-plus mr-2"></i> TAMBAH JADWAL
                     </button>
-                    <button class="bg-gray-100 dark:bg-white/10 px-6 py-3 rounded-2xl font-black text-xs hover:bg-gray-200 transition-all">
+                    <button class="bg-gray-100 dark:bg-white/10 px-6 py-3 rounded-2xl font-black text-xs">
                         <i class="fas fa-print mr-2"></i> CETAK
                     </button>
                 </div>
-
-                <div class="flex gap-3 w-full md:w-auto">
-                    <div class="relative flex-1 md:w-64">
-                        <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 opacity-30 text-xs"></i>
-                        <input type="text" placeholder="Cari guru atau mapel..." class="w-full bg-gray-50 dark:bg-white/5 border border-[var(--border)] pl-10 pr-4 py-3 rounded-2xl text-xs font-bold outline-none focus:border-[var(--accent)] transition-all">
-                    </div>
-                    <select class="bg-gray-50 dark:bg-white/5 border border-[var(--border)] px-4 py-3 rounded-2xl text-xs font-bold outline-none cursor-pointer">
-                        <option>Semua Kelas</option>
-                        <option>Kelas 1-A</option>
-                        <option>Kelas 2-A</option>
-                    </select>
+                <div class="flex items-center gap-4 bg-gray-50 dark:bg-white/5 p-2 px-4 rounded-2xl border border-[var(--border)]">
+                    <button class="text-gray-400 hover:text-[var(--accent-blue)]"><i class="fas fa-chevron-left text-xs"></i></button>
+                    <span class="text-xs font-black uppercase tracking-wider">April 2026</span>
+                    <button class="text-gray-400 hover:text-[var(--accent-blue)]"><i class="fas fa-chevron-right text-xs"></i></button>
                 </div>
             </div>
 
-            <div class="table-container overflow-x-auto">
-                <table class="w-full text-left border-separate border-spacing-y-3">
-                    <thead>
-                        <tr class="text-[10px] font-black uppercase tracking-widest opacity-50 px-6">
-                            <th class="pb-4 pl-6">ID</th>
-                            <th class="pb-4">Nama Guru</th>
-                            <th class="pb-4">Mata Pelajaran</th>
-                            <th class="pb-4 text-center">Kelas</th>
-                            <th class="pb-4">Hari</th>
-                            <th class="pb-4 text-center">Waktu</th>
-                            <th class="pb-4 text-right pr-6">Opsi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="bg-gray-50/50 dark:bg-white/5 hover:bg-gray-100 dark:hover:bg-white/10 transition-all group">
-                            <td class="py-5 pl-6 rounded-l-3xl font-black text-xs opacity-40">#004</td>
-                            <td class="py-5">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-8 h-8 rounded-full bg-[var(--p-orange)] flex items-center justify-center text-white text-[10px] font-bold">BE</div>
-                                    <span class="font-black text-sm">Bu Endang</span>
-                                </div>
-                            </td>
-                            <td class="py-5">
-                                <span class="bg-[var(--p-red)]/10 text-[var(--p-red)] px-3 py-1.5 rounded-xl text-[10px] font-black uppercase">Matematika</span>
-                            </td>
-                            <td class="py-5 text-center">
-                                <span class="font-bold text-xs">1A</span>
-                            </td>
-                            <td class="py-5 font-bold text-xs uppercase">Senin</td>
-                            <td class="py-5 text-center">
-                                <div class="bg-white dark:bg-black/20 border border-[var(--border)] inline-block px-3 py-1 rounded-lg font-mono text-[10px] font-bold">
-                                    07:00 - 08:30
-                                </div>
-                            </td>
-                            <td class="py-5 pr-6 rounded-r-3xl text-right">
-                                <div class="flex justify-end gap-2">
-                                    <button class="w-8 h-8 flex items-center justify-center rounded-xl bg-blue-50 dark:bg-blue-500/10 text-blue-500 hover:bg-blue-500 hover:text-white transition-all"><i class="fas fa-pen text-[10px]"></i></button>
-                                    <button class="w-8 h-8 flex items-center justify-center rounded-xl bg-red-50 dark:bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-all"><i class="fas fa-trash text-[10px]"></i></button>
-                                </div>
-                            </td>
-                        </tr>
+            <div class="overflow-x-auto rounded-3xl border border-[var(--bg-body)]">
+               <div id="scheduleGrid" class="schedule-grid min-w-[900px]">
+    <!-- HEADER -->
+    <div class="grid-header">Jam</div>
+    <div class="grid-header">Senin</div>
+    <div class="grid-header">Selasa</div>
+    <div class="grid-header">Rabu</div>
+    <div class="grid-header">Kamis</div>
+    <div class="grid-header">Jumat</div>
+    <div class="grid-header">Sabtu</div>
 
-                        <tr class="bg-gray-50/50 dark:bg-white/5 hover:bg-gray-100 dark:hover:bg-white/10 transition-all group">
-                            <td class="py-5 pl-6 rounded-l-3xl font-black text-xs opacity-40">#007</td>
-                            <td class="py-5">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-8 h-8 rounded-full bg-[var(--p-green)] flex items-center justify-center text-white text-[10px] font-bold">BN</div>
-                                    <span class="font-black text-sm">Bu Ningsih</span>
-                                </div>
-                            </td>
-                            <td class="py-5">
-                                <span class="bg-[var(--p-green)]/10 text-[var(--p-blue)] px-3 py-1.5 rounded-xl text-[10px] font-black uppercase">Bahasa Indonesia</span>
-                            </td>
-                            <td class="py-5 text-center">
-                                <span class="font-bold text-xs">2B</span>
-                            </td>
-                            <td class="py-5 font-bold text-xs uppercase">Selasa</td>
-                            <td class="py-5 text-center">
-                                <div class="bg-white dark:bg-black/20 border border-[var(--border)] inline-block px-3 py-1 rounded-lg font-mono text-[10px] font-bold">
-                                    09:00 - 10:30
-                                </div>
-                            </td>
-                            <td class="py-5 pr-6 rounded-r-3xl text-right">
-                                <div class="flex justify-end gap-2">
-                                    <button class="w-8 h-8 flex items-center justify-center rounded-xl bg-blue-50 dark:bg-blue-500/10 text-blue-500 hover:bg-blue-500 hover:text-white transition-all"><i class="fas fa-pen text-[10px]"></i></button>
-                                    <button class="w-8 h-8 flex items-center justify-center rounded-xl bg-red-50 dark:bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-all"><i class="fas fa-trash text-[10px]"></i></button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+    <!-- ROW 1 -->
+    <div class="time-slot">07:00 - 08:30</div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+
+    <!-- ROW 2 -->
+    <div class="time-slot">09:00 - 10:30</div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+</div>
+                    </div>
+                </div>
             </div>
         </div>
-
     </div>
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+<script src="firebase-config.js"></script>
 <script>
-    // Theme Toggle Logic
     function toggleTheme() {
-        const body = document.body;
-        const icon = document.getElementById("themeIcon");
-        body.classList.toggle("dark-mode");
-        icon.classList.toggle("fa-moon");
-        icon.classList.toggle("fa-sun");
-    }
+    const body = document.body;
+    const icon = document.getElementById("themeIcon");
 
-    // Profile Dropdown Logic
-    const btn = document.getElementById("profileBtn");
-    const drop = document.getElementById("profileDropdown");
-    const content = document.getElementById("profileContent");
+    body.classList.toggle("dark-mode");
 
-    btn.onclick = (e) => {
-        e.stopPropagation();
-        drop.classList.toggle("hidden");
-        renderProfile();
-    };
+    const isDark = body.classList.contains("dark-mode");
 
-    window.onclick = () => drop.classList.add("hidden");
+    // simpan ke localStorage
+    localStorage.setItem("theme", isDark ? "dark" : "light");
 
-    function renderProfile() {
-        content.innerHTML = `
-            <div class="text-center mb-6 border-b border-[var(--border)] pb-6">
-                <div class="w-20 h-20 bg-[var(--p-red)] rounded-3xl mx-auto flex items-center justify-center text-white text-3xl font-black shadow-xl mb-4">MN</div>
-                <p class="font-black text-xl text-[var(--text-main)]">Miftahun Nikmah</p>
-                <p class="text-[10px] opacity-60 uppercase font-black tracking-widest mt-1">Super Administrator</p>
-            </div>
-            <div class="space-y-3">
-                <div class="flex justify-between items-center text-xs p-4 bg-gray-100 dark:bg-white/5 rounded-2xl">
-                    <span class="opacity-50 font-bold uppercase">ID Admin</span>
-                    <span class="font-black">#MN-2026-04</span>
-                </div>
-                <button onclick="renderPass(event)" class="w-full bg-[var(--p-red)] text-white py-4 rounded-2xl text-xs font-black shadow-lg shadow-red-100 dark:shadow-none hover:brightness-110 transition-all">
-                    <i class="fas fa-lock mr-2"></i> Keamanan Akun
-                </button>
-            </div>
-        `;
-    }
+    icon.classList.toggle("fa-moon");
+    icon.classList.toggle("fa-sun");
+}
 
-    function renderPass(e) {
-        e.stopPropagation();
-        content.innerHTML = `
-            <div class="flex items-center mb-6">
-                <button onclick="renderProfile()" class="mr-4 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 dark:bg-white/10 transition"><i class="fas fa-arrow-left text-xs"></i></button>
-                <h4 class="font-black text-sm">Ganti Password</h4>
-            </div>
-            <div class="space-y-4">
-                <input type="password" placeholder="Password Lama" class="w-full bg-gray-50 dark:bg-white/10 p-4 rounded-2xl text-xs outline-none border-2 border-transparent focus:border-[var(--accent)]">
-                <input type="password" placeholder="Password Baru" class="w-full bg-gray-50 dark:bg-white/10 p-4 rounded-2xl text-xs outline-none border-2 border-transparent focus:border-[var(--accent)]">
-                <button onclick="alert('Password Berhasil Diubah!'); renderProfile();" class="w-full bg-black dark:bg-white text-white dark:text-black py-4 rounded-2xl text-xs font-black">Simpan Perubahan</button>
-            </div>
-        `;
-    }
-
-    // Logout Function
     function handleLogout() {
-        const isDark = document.body.classList.contains('dark-mode');
         Swal.fire({
-            title: 'Konfirmasi Keluar',
-            text: "Apakah Anda yakin ingin mengakhiri sesi admin ini?",
+            title: 'Keluar Sistem',
+            text: "Apakah Anda yakin?",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#C9494C',
-            cancelButtonColor: isDark ? '#374151' : '#9CA3AF',
-            confirmButtonText: 'Ya, Keluar',
-            cancelButtonText: 'Batal',
-            background: isDark ? '#1A1A1D' : '#FFFFFF',
-            color: isDark ? '#FFFFFF' : '#2D2D2D',
-            borderRadius: '25px',
+            confirmButtonColor: '#63a4ff',
+            confirmButtonText: 'Ya, Keluar'
         }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.href = "login.html#login";
-            }
+            if (result.isConfirmed) window.location.href = "login.html";
         });
     }
+
+    async function loadJadwal() {
+  const snapshot = await db.collection("jadwal_guru").get();
+
+  const hariIndex = {
+    senin: 1,
+    selasa: 2,
+    rabu: 3,
+    kamis: 4,
+    jumat: 5,
+    sabtu: 6
+  };
+
+  const cells = document.querySelectorAll(".cell");
+
+  snapshot.forEach(doc => {
+    const data = doc.data();
+    const jadwal = data.jadwal;
+
+    Object.keys(jadwal).forEach(hari => {
+      const events = jadwal[hari];
+      const col = hariIndex[hari];
+
+      events.forEach(ev => {
+        function getRowIndex(jam) {
+  if (jam.includes("07") || jam.includes("08")) return 0;
+  if (jam.includes("09") || jam.includes("10")) return 1;
+  return 0;
+}
+
+const rowIndex = getRowIndex(ev.jam);
+const cellIndex = rowIndex * 6 + (col - 1);
+        const cell = cells[cellIndex];
+
+        if (!cell) return;
+
+       const el = document.createElement("div");
+
+// ⬇️ TAMBAH DI SINI
+const colors = ["bg-blue", "bg-purple", "bg-yellow", "bg-green", "bg-red", "bg-indigo", "bg-pink", "bg-cyan", "bg-teal"];
+el.className = "event-card " + colors[Math.floor(Math.random() * colors.length)];
+
+        el.innerHTML = `
+          <p class="font-black uppercase">${data.mapel}</p>
+          <p class="opacity-80">${data.nama} (${ev.kelas})</p>
+          <p class="opacity-60 text-[9px]">${ev.jam}</p>
+        `;
+
+        cell.appendChild(el);
+      });
+    });
+  });
+}
+
+loadJadwal();
+function loadTheme() {
+    const savedTheme = localStorage.getItem("theme");
+
+    const body = document.body;
+    const icon = document.getElementById("themeIcon");
+
+    if (savedTheme === "dark") {
+        body.classList.add("dark-mode");
+        icon.classList.remove("fa-moon");
+        icon.classList.add("fa-sun");
+    }
+}
+
+loadTheme();
 </script>
+
 </body>
 </html>
