@@ -1,265 +1,389 @@
 <!doctype html>
 <html lang="id">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SDN GANTING - Vibrant Palette No. 27</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
 
     <style>
-        :root {
-            /* Palette Color Scheme No. 27 */
-            --p-red: #C9494C;
-            --p-rose: #FF9178;
-            --p-yellow: #F7EA7F;
-            --p-orange: #F25A2D;
-            --p-green: #82C697;
-            --p-blue: #057711;
-            
-            /* Mapping Light Mode */
-            --bg-body: #FDFDFB;
-            --bg-sidebar: #FFFFFF;
-            --text-main: #2D2D2D;
-            --accent: var(--p-red);
-            --card-bg: #FFFFFF;
-            --border: rgba(0,0,0,0.1);
-            --dropdown-bg: #FFFFFF;
-        }
+      :root {
+        /* Soft Modern Dashboard Palette */
+        --p-red: #e5e7eb; /* abu sangat soft (ganti fungsi merah) */
+        --p-rose: #a5b4fc; /* ungu pastel */
+        --p-yellow: #e6b85c; /* kuning lembut */
+        --p-orange: #93c5fd; /* biru muda */
+        --p-green: #86efac; /* hijau pastel */
+        --p-blue: #60a5fa; /* biru utama */
+        --p-red: #ef4444;
 
-         .dark-mode {
-            /* Mapping Dark Mode */
-            --bg-body: #0F0F12; 
-            --bg-sidebar: #000000;
-            --text-main: #FFFFFF;
-            --accent: var(--p-rose);
-            --card-bg: rgba(30, 30, 35, 0.8); 
-            --border: rgba(255, 255, 255, 0.15);
-            --dropdown-bg: #1A1A1D;
-            --table-head: #1E1E24;
-            background: radial-gradient(circle at 80% 0%, #432e1f 0%, #0F0F12 50%) !important;
-        }
+        /* UI Mapping */
+        --text-muted: #94a3b8;
+        --bg-body: #f5f7fb; /* abu terang clean */
+        --bg-sidebar: #ffffff;
+        --text-main: #1f2937;
+        --accent: #60a5fa; /* biru soft */
+        --card-bg: #ffffff;
+        --border: rgba(0, 0, 0, 0.06);
+        --dropdown-bg: #ffffff;
+      }
 
-        body {
-            background-color: var(--bg-body);
-            color: var(--text-main);
-            transition: all 0.4s ease;
-        }
+      .dark-mode {
+        /* Mapping Dark Mode */
+        --bg-body: #0f0f12;
+        --bg-sidebar: #000000;
+        --text-main: #ffffff;
+        --accent: var(--p-rose);
+        --card-bg: rgba(30, 30, 35, 0.8);
+        --border: rgba(255, 255, 255, 0.15);
+        --dropdown-bg: #1a1a1d;
+        --table-head: #1e1e24;
+        background: radial-gradient(
+          circle at 80% 0%,
+          #432e1f 0%,
+          #0f0f12 50%
+        ) !important;
+      }
 
-        .glass-card {
-            background-color: var(--card-bg);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-        }
+      body {
+        background-color: var(--bg-body);
+        color: var(--text-main);
+        transition: all 0.4s ease;
+      }
 
-        body {
-            background-color: var(--bg-body);
-            color: var(--text-main);
-            transition: all 0.4s ease;
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            padding: 20px;
-        }
+      .glass-card {
+        background-color: var(--card-bg);
+        backdrop-filter: blur(12px);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+      }
 
-        .dropdown-solid {
-            background-color: var(--dropdown-bg);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-        }
+      body {
+        background-color: var(--bg-body);
+        color: var(--text-main);
+        transition: all 0.4s ease;
+        font-family: "Inter", sans-serif;
+        margin: 0;
+        padding: 20px;
+      }
 
-        .nav-link {
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 16px;
-            border-radius: 14px;
-            font-size: 13px;
-            color: #555;
-            font-weight: 700;
-        }
+      .dropdown-solid {
+        background-color: var(--dropdown-bg);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+      }
 
-        .dark-mode .nav-link { color: #9CA3AF; }
+      .nav-link {
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 16px;
+        border-radius: 14px;
+        font-size: 13px;
+        color: #555;
+        font-weight: 700;
+      }
 
-        .nav-link:hover {
-            background: rgba(0,0,0,0.05);
-            color: var(--accent);
-        }
+      .dark-mode .nav-link {
+        color: #9ca3af;
+      }
 
-        .nav-link.active {
-            background-color: var(--accent);
-            color: white !important;
-            box-shadow: 0 8px 20px -6px var(--accent);
-        }
+      .dark-mode .group-label {
+        color: #94a3b8;
+      }
 
-        .group-label {
-            font-size: 10px;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: var(--p-red);
-            margin: 25px 0 10px 16px;
-        }
+      .nav-link:hover {
+        background: rgba(0, 0, 0, 0.05);
+        color: var(--accent);
+      }
 
-        /* Gradient berdasarkan Palet No. 27 */
-        .grad-red { background: linear-gradient(135deg, var(--p-red), var(--p-rose)); }
-        .grad-orange { background: linear-gradient(135deg, var(--p-orange), #FF8A5C); }
-        .grad-green { background: linear-gradient(135deg, var(--p-green), #5A9C72); }
+      .nav-link.active {
+        background-color: var(--accent);
+        color: white !important;
+        box-shadow: 0 8px 20px -6px var(--accent);
+      }
+
+      .group-label {
+        font-size: 10px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: #64748b; /* Warna Slate agar kontras dengan background putih */
+        margin: 25px 0 10px 16px;
+        opacity: 0.8;
+      }
+
+      /* Gradient berdasarkan Palet No. 27 */
+      .grad-red {
+        background: linear-gradient(135deg, #60a5fa, #a5b4fc);
+      }
+
+      .grad-orange {
+        background: linear-gradient(135deg, #a78bfa, #c4b5fd);
+      }
+
+      .grad-green {
+        background: linear-gradient(135deg, #e6b85c, #f2d184);
+      }
+      /* Styling khusus tombol logout */
+      .btn-logout {
+        color: #ef4444 !important;
+        border: 1.5px solid transparent;
+      }
+
+      .btn-logout:hover {
+        background-color: #fef2f2 !important; /* Merah sangat muda saat hover */
+        border-color: #fee2e2;
+      }
+
+      .dark-mode .btn-logout:hover {
+        background-color: rgba(239, 68, 68, 0.1) !important;
+      }
     </style>
-</head>
+  </head>
 
-<body class="font-sans antialiased min-h-screen">
-
-<div class="flex p-5 gap-5 min-h-screen">
-
-    <aside class="w-72 flex flex-col justify-between bg-[var(--bg-sidebar)] rounded-[30px] p-7 shadow-xl">
+  <body class="font-sans antialiased min-h-screen">
+    <div class="flex p-5 gap-5 min-h-screen">
+      <aside
+        class="w-72 flex flex-col justify-between bg-[var(--bg-sidebar)] rounded-[30px] p-7 shadow-xl"
+      >
         <div>
-            <div class="flex items-center gap-4 mb-10 px-2">
-                <div class="w-11 h-11 flex items-center justify-center">
-                    <img src="asset/logogtg.png" alt="Logo" class="w-full h-full object-contain"> 
-                </div>
-                <div>
-                    <h1 class="text-xl font-black leading-tight tracking-tight">SDN GANTING</h1>
-                    <p class="text-[9px] font-bold text-gray-400 uppercase tracking-widest">Master Panel</p>
-                </div>
+          <div class="flex items-center gap-4 mb-10 px-2">
+            <div class="w-11 h-11 flex items-center justify-center">
+              <img
+                src="asset/logogtg.png"
+                alt="Logo"
+                class="w-full h-full object-contain"
+              />
             </div>
+            <div>
+              <h1 class="text-xl font-black leading-tight tracking-tight">
+                SDN GANTING
+              </h1>
+              <p
+                class="text-[9px] font-bold text-gray-400 uppercase tracking-widest"
+              >
+                Master Panel
+              </p>
+            </div>
+          </div>
 
-            <nav>
-                <p class="group-label">Navigasi Utama</p>
-                <a href="#" class="nav-link active"><i class="fas fa-th-large w-5"></i> Beranda</a>
+          <nav>
+            <p class="group-label">Navigasi Utama</p>
+            <a href="#" class="nav-link active"
+              ><i class="fas fa-th-large w-5"></i> Beranda</a
+            >
 
-                <p class="group-label">Kependidikan</p>
-                <a href="admin-datasiswa.html" class="nav-link"><i class="fas fa-user-graduate w-5"></i> Data Siswa</a>
-                <a href="admin-dataguru.html" class="nav-link"><i class="fas fa-chalkboard-teacher w-5"></i> Data Guru</a>
+            <p class="group-label">Kependidikan</p>
+            <a href="admin-datasiswa.html" class="nav-link"
+              ><i class="fas fa-user-graduate w-5"></i> Data Siswa</a
+            >
+            <a href="admin-dataguru.html" class="nav-link"
+              ><i class="fas fa-chalkboard-teacher w-5"></i> Data Guru</a
+            >
 
-                <p class="group-label">Manajemen</p>
-                <a href="admin-jadwalguru.html" class="nav-link"><i class="fas fa-clipboard-list w-5"></i> Jadwal Guru</a>
-                <a href="admin-nilai.html" class="nav-link"><i class="fas fa-file-invoice w-5"></i> Nilai Siswa</a>
-                <a href="admin-kelolaberita.html" class="nav-link"><i class="fas fa-broadcast-tower w-5"></i> Kelola Berita</a>
-            </nav>
+            <p class="group-label">Manajemen</p>
+            <a href="admin-jadwalguru.html" class="nav-link"
+              ><i class="fas fa-clipboard-list w-5"></i> Jadwal Guru</a
+            >
+            <a href="admin-nilai.html" class="nav-link"
+              ><i class="fas fa-file-invoice w-5"></i> Nilai Siswa</a
+            >
+            <a href="admin-kelolaberita.html" class="nav-link"
+              ><i class="fas fa-broadcast-tower w-5"></i> Kelola Berita</a
+            >
+          </nav>
         </div>
 
         <div class="pt-6 border-t border-[var(--border)] relative z-[999]">
-    <button 
-        type="button"
-        onclick="handleLogout()" 
-        class="w-full flex items-center gap-3 py-3 px-4 text-[var(--p-red)] font-black hover:bg-[var(--p-red)] hover:text-white rounded-xl transition-all cursor-pointer border-none bg-transparent"
-        style="cursor: pointer !important;"
-    >
-        <i class="fas fa-sign-out-alt w-5"></i> 
-        <span>Keluar Sistem</span>
-    </button>
-</div>
-    </aside>
+          <button
+            type="button"
+            onclick="handleLogout()"
+            class="w-full flex items-center gap-3 py-3 px-4 btn-logout font-black rounded-xl transition-all cursor-pointer bg-transparent"
+          >
+            <i class="fas fa-sign-out-alt w-5"></i>
+            <span>Keluar Sistem</span>
+          </button>
+        </div>
+      </aside>
 
-    <div class="flex-1 space-y-6">
+      <div class="flex-1 space-y-6">
+        <header
+          class="flex justify-between items-center glass-card px-8 py-5 relative z-50"
+        >
+          <div>
+            <h2 class="text-2xl font-black">BERANDA</h2>
+            <p class="text-xs font-bold opacity-50 uppercase tracking-widest">
+              Selamat Datang, Miftahun Nikmah
+            </p>
+          </div>
 
-        <header class="flex justify-between items-center glass-card px-8 py-5 relative z-50">
-            <div>
-                <h2 class="text-2xl font-black">BERANDA</h2>
-                <p class="text-xs font-bold opacity-50 uppercase tracking-widest">Selamat Datang, Miftahun Nikmah</p>
+          <div class="flex items-center gap-5">
+            <button
+              onclick="toggleTheme()"
+              class="w-12 h-12 flex items-center justify-center rounded-2xl bg-gray-100 dark:bg-white/10 border border-[var(--border)] transition-all hover:scale-110"
+            >
+              <i
+                id="themeIcon"
+                class="fas fa-moon text-[var(--accent)] text-xl"
+              ></i>
+            </button>
+
+            <div class="relative">
+              <button
+                id="profileBtn"
+                class="flex items-center gap-3 p-1.5 pr-5 bg-gray-100 dark:bg-white/10 rounded-full border border-[var(--border)] hover:bg-gray-200 dark:hover:bg-white/20 transition-all"
+              >
+                <img
+                  src="https://ui-avatars.com/api/?name=Admin&background=C9494C&color=fff"
+                  class="w-10 h-10 rounded-full border-2 border-white"
+                />
+                <span class="text-sm font-black">Admin Johny</span>
+                <i class="fas fa-chevron-down text-[10px] opacity-40"></i>
+              </button>
+
+              <div
+                id="profileDropdown"
+                class="hidden absolute right-0 mt-4 w-80 dropdown-solid p-6 z-[9999] animate-in fade-in slide-in-from-top-3 duration-300"
+              >
+                <div id="profileContent"></div>
+              </div>
             </div>
-            
-            <div class="flex items-center gap-5">
-                <button onclick="toggleTheme()" class="w-12 h-12 flex items-center justify-center rounded-2xl bg-gray-100 dark:bg-white/10 border border-[var(--border)] transition-all hover:scale-110">
-                    <i id="themeIcon" class="fas fa-moon text-[var(--accent)] text-xl"></i>
-                </button>
-                
-                <div class="relative">
-                    <button id="profileBtn" class="flex items-center gap-3 p-1.5 pr-5 bg-gray-100 dark:bg-white/10 rounded-full border border-[var(--border)] hover:bg-gray-200 dark:hover:bg-white/20 transition-all">
-                        <img src="https://ui-avatars.com/api/?name=Admin&background=C9494C&color=fff" class="w-10 h-10 rounded-full border-2 border-white">
-                        <span class="text-sm font-black">Admin Johny</span>
-                        <i class="fas fa-chevron-down text-[10px] opacity-40"></i>
-                    </button>
-                    
-                    <div id="profileDropdown" class="hidden absolute right-0 mt-4 w-80 dropdown-solid p-6 z-[9999] animate-in fade-in slide-in-from-top-3 duration-300">
-                        <div id="profileContent"></div>
-                    </div>
-                </div>
-            </div>
+          </div>
         </header>
 
         <div class="grid grid-cols-3 gap-6">
-            <div class="glass-card p-7 grad-red text-white border-none shadow-xl relative overflow-hidden">
-                <div class="relative z-10">
-                    <p class="text-xs font-bold opacity-80 uppercase tracking-widest">Tenaga Pendidik</p>
-                    <h3 class="text-4xl font-black mt-2">24</h3>
-                    <div class="mt-4 text-[10px] font-black bg-white/20 w-fit px-3 py-1 rounded-full">Aktif & Terdaftar</div>
-                </div>
-                <i class="fas fa-user-tie absolute -right-4 -bottom-4 text-8xl opacity-10"></i>
+          <div
+            class="glass-card p-7 grad-red text-white border-none shadow-xl relative overflow-hidden"
+          >
+            <div class="relative z-10">
+              <p class="text-xs font-bold opacity-80 uppercase tracking-widest">
+                Tenaga Pendidik
+              </p>
+              <h3 class="text-4xl font-black mt-2">24</h3>
+              <div
+                class="mt-4 text-[10px] font-black bg-white/20 w-fit px-3 py-1 rounded-full"
+              >
+                Aktif & Terdaftar
+              </div>
             </div>
+            <i
+              class="fas fa-user-tie absolute -right-4 -bottom-4 text-8xl opacity-10"
+            ></i>
+          </div>
 
-            <div class="glass-card p-7 grad-orange text-white border-none shadow-xl relative overflow-hidden">
-                <div class="relative z-10">
-                    <p class="text-xs font-bold opacity-80 uppercase tracking-widest">Peserta Didik</p>
-                    <h3 class="text-4xl font-black mt-2">458</h3>
-                    <div class="mt-4 text-[10px] font-black bg-white/20 w-fit px-3 py-1 rounded-full">Data Terintegrasi</div>
-                </div>
-                <i class="fas fa-users absolute -right-4 -bottom-4 text-8xl opacity-10"></i>
+          <div
+            class="glass-card p-7 grad-orange text-white border-none shadow-xl relative overflow-hidden"
+          >
+            <div class="relative z-10">
+              <p class="text-xs font-bold opacity-80 uppercase tracking-widest">
+                Peserta Didik
+              </p>
+              <h3 class="text-4xl font-black mt-2">458</h3>
+              <div
+                class="mt-4 text-[10px] font-black bg-white/20 w-fit px-3 py-1 rounded-full"
+              >
+                Data Terintegrasi
+              </div>
             </div>
+            <i
+              class="fas fa-users absolute -right-4 -bottom-4 text-8xl opacity-10"
+            ></i>
+          </div>
 
-            <div class="glass-card p-7 grad-green text-white border-none shadow-xl relative overflow-hidden">
-                <div class="relative z-10">
-                    <p class="text-xs font-bold opacity-80 uppercase tracking-widest">Mata Pelajaran</p>
-                    <h3 class="text-4xl font-black mt-2">12</h3>
-                    <div class="mt-4 text-[10px] font-black bg-white/20 w-fit px-3 py-1 rounded-full">Kurikulum 2026</div>
-                </div>
-                <i class="fas fa-book absolute -right-4 -bottom-4 text-8xl opacity-10"></i>
+          <div
+            class="glass-card p-7 grad-green text-white border-none shadow-xl relative overflow-hidden"
+          >
+            <div class="relative z-10">
+              <p class="text-xs font-bold opacity-80 uppercase tracking-widest">
+                Mata Pelajaran
+              </p>
+              <h3 class="text-4xl font-black mt-2">12</h3>
+              <div
+                class="mt-4 text-[10px] font-black bg-white/20 w-fit px-3 py-1 rounded-full"
+              >
+                Kurikulum 2026
+              </div>
             </div>
+            <i
+              class="fas fa-book absolute -right-4 -bottom-4 text-8xl opacity-10"
+            ></i>
+          </div>
         </div>
 
         <div class="grid grid-cols-3 gap-6">
-            <div class="glass-card p-7 grad-green text-white border-none shadow-xl relative overflow-hidden">
-                <div>
-                    <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-[var(--p-green)] shadow-md mb-6">
-                        <i class="fas fa-sticky-note text-xl"></i>
-                    </div>
-                    <h3 class="text-2xl font-black text-[var(--p-green)] dark:text-[white]">Agenda Hari Ini</h3>
-                    <p id="notesText" class="text-sm mt-5 leading-relaxed font-bold text-[#6B5B00] dark:text-white/80"></p>
-                </div>
-                <div class="text-[10px] font-black text-[white] tracking-widest uppercase">Status: Terjadwal</div>
-                      <i class="fas fa-sticky-note absolute -right-3 -bottom-3 text-8xl opacity-10"></i>
-
+          <div
+            class="glass-card p-7 grad-green text-white border-none shadow-xl relative overflow-hidden"
+          >
+            <div>
+              <div
+                class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-[var(--p-green)] shadow-md mb-6"
+              >
+                <i class="fas fa-sticky-note text-xl"></i>
+              </div>
+              <h3
+                class="text-2xl font-black text-[var(--p-green)] dark:text-[white]"
+              >
+                Agenda Hari Ini
+              </h3>
+              <div
+                id="notesText"
+                contenteditable="true"
+                class="text-sm mt-5 leading-relaxed font-bold text-[#6B5B00] dark:text-white/80 outline-none"
+              >
+                Ketik catatan di sini...
+              </div>
             </div>
 
+            <i
+              class="fas fa-sticky-note absolute -right-3 -bottom-3 text-8xl opacity-10"
+            ></i>
+          </div>
 
-            <div class="glass-card p-8 col-span-2 shadow-sm">
-                <h3 class="font-black text-sm uppercase tracking-widest opacity-80 mb-8">Statistik Siswa</h3>
-                <div class="h-64">
-                    <canvas id="mainStatsChart"></canvas>
-                </div>
+          <div class="glass-card p-8 col-span-2 shadow-sm">
+            <h3
+              class="font-black text-sm uppercase tracking-widest opacity-80 mb-8"
+            >
+              Statistik Siswa
+            </h3>
+            <div class="h-64">
+              <canvas id="mainStatsChart"></canvas>
             </div>
+          </div>
         </div>
-
+      </div>
     </div>
-</div>
 
-<script>
-    function toggleTheme() {
+    <script>
+      function toggleTheme() {
         const body = document.body;
         const icon = document.getElementById("themeIcon");
         body.classList.toggle("dark-mode");
         icon.classList.toggle("fa-moon");
         icon.classList.toggle("fa-sun");
-    }
+      }
 
-    const btn = document.getElementById("profileBtn");
-    const drop = document.getElementById("profileDropdown");
-    const content = document.getElementById("profileContent");
+      const btn = document.getElementById("profileBtn");
+      const drop = document.getElementById("profileDropdown");
+      const content = document.getElementById("profileContent");
 
-    btn.onclick = (e) => {
+      btn.onclick = (e) => {
         e.stopPropagation();
         drop.classList.toggle("hidden");
         renderProfile();
-    };
+      };
 
-    window.onclick = () => drop.classList.add("hidden");
+      window.onclick = () => drop.classList.add("hidden");
 
-    function renderProfile() {
+      function renderProfile() {
         content.innerHTML = `
             <div class="text-center mb-6 border-b border-[var(--border)] pb-6">
                 <div class="w-20 h-20 bg-[var(--p-red)] rounded-3xl mx-auto flex items-center justify-center text-white text-3xl font-black shadow-xl mb-4">MN</div>
@@ -276,9 +400,9 @@
                 </button>
             </div>
         `;
-    }
+      }
 
-    function renderPass(e) {
+      function renderPass(e) {
         e.stopPropagation();
         content.innerHTML = `
             <div class="flex items-center mb-6">
@@ -291,83 +415,139 @@
                 <button onclick="alert('Password Berhasil Diubah!'); renderProfile();" class="w-full bg-black dark:bg-white text-white dark:text-black py-4 rounded-2xl text-xs font-black">Simpan Perubahan</button>
             </div>
         `;
-    }
+      }
 
-    const ctx = document.getElementById("mainStatsChart");
-    new Chart(ctx, {
+      const ctx = document.getElementById("mainStatsChart");
+      new Chart(ctx, {
         type: "bar",
         data: {
-            labels: ["1-A", "1-B", "2-A", "2-B", "3-A", "3-B", "4-A", "4-B", "5-A", "5-B", "6-A", "6-B"],
-            datasets: [{
-                data: [27, 30, 28, 29, 30, 27, 28, 30, 29, 30, 28, 29],
-                backgroundColor: "#F25A2D",
-                borderRadius: 15,
-                barThickness: 40
-            }]
+          labels: [
+            "1-A",
+            "1-B",
+            "2-A",
+            "2-B",
+            "3-A",
+            "3-B",
+            "4-A",
+            "4-B",
+            "5-A",
+            "5-B",
+            "6-A",
+            "6-B",
+          ],
+          datasets: [
+            {
+              data: [27, 30, 28, 29, 30, 27, 28, 30, 29, 30, 28, 29],
+
+              backgroundColor: [
+                "#5FBF6A",
+                "#A7E3B0",
+                "#5FBF6A",
+                "#A7E3B0",
+                "#5FBF6A",
+                "#A7E3B0",
+                "#5FBF6A",
+                "#A7E3B0",
+                "#5FBF6A",
+                "#A7E3B0",
+                "#5FBF6A",
+                "#A7E3B0",
+              ],
+
+              borderRadius: 50,
+              barThickness: 22,
+            },
+          ],
         },
         options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
-            scales: {
-                y: { grid: { color: 'rgba(0,0,0,0.05)', drawBorder: false }, ticks: { color: '#888', font: { weight: 'bold' } } },
-                x: { grid: { display: false }, ticks: { color: '#444', font: { weight: 'black', size: 11 } } }
-            }
-        }
-    });
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: {
+              grid: { color: "rgba(0,0,0,0.05)", drawBorder: false },
+              ticks: { color: "#888", font: { weight: "bold" } },
+            },
+            x: {
+              grid: { display: false },
+              ticks: { color: "#444", font: { weight: "black", size: 11 } },
+            },
+          },
+        },
+      });
 
-    const notesData = {
+      const notesData = {
         0: "Minggu:\nSistem dalam mode pemeliharaan rutin mingguan.",
         1: "Senin:\nUpacara bendera. Validasi data kehadiran siswa jam pertama.",
         2: "Selasa:\nPenginputan nilai harian semester genap oleh wali kelas.",
         3: "Rabu:\nAudit keamanan database dan pembaruan log aktivitas.",
         4: "Kamis:\nRekapitulasi berkas kurikulum merdeka untuk akreditasi.",
         5: "Jumat:\nLaporan mingguan selesai. Pastikan backup data sudah aman.",
-        6: "Sabtu:\nPelatihan IT untuk staf administrasi sekolah."
-    };
-    document.getElementById("notesText").innerText = notesData[new Date().getDay()];
+        6: "Sabtu:\nPelatihan IT untuk staf administrasi sekolah.",
+      };
+      document.getElementById("notesText").innerText =
+        notesData[new Date().getDay()];
 
-// FUNGSI LOGOUT GLOBAL
-function handleLogout() {
-    // Cek apakah library SweetAlert2 sudah terload
-    if (typeof Swal === 'undefined') {
-        if(confirm("Yakin ingin keluar?")) {
+      // FUNGSI LOGOUT GLOBAL
+      function handleLogout() {
+        // Cek apakah library SweetAlert2 sudah terload
+        if (typeof Swal === "undefined") {
+          if (confirm("Yakin ingin keluar?")) {
             window.location.href = "login.html#login";
+          }
+          return;
         }
-        return;
-    }
 
-    const isDark = document.body.classList.contains('dark-mode');
+        const isDark = document.body.classList.contains("dark-mode");
 
-    Swal.fire({
-        title: 'Konfirmasi Keluar',
-        text: "Apakah Anda yakin ingin mengakhiri sesi admin ini?",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#C9494C',
-        cancelButtonColor: isDark ? '#374151' : '#9CA3AF',
-        confirmButtonText: 'Ya, Keluar',
-        cancelButtonText: 'Batal',
-        background: isDark ? '#1A1A1D' : '#FFFFFF',
-        color: isDark ? '#FFFFFF' : '#2D2D2D',
-        borderRadius: '25px',
-        customClass: {
-            confirmButton: 'font-bold uppercase text-xs tracking-widest px-6 py-3',
-            cancelButton: 'font-bold uppercase text-xs tracking-widest px-6 py-3'
-        }
-    }).then((result) => {
-        if (result.isConfirmed) {
+        Swal.fire({
+          title: "Konfirmasi Keluar",
+          text: "Apakah Anda yakin ingin mengakhiri sesi admin ini?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#C9494C",
+          cancelButtonColor: isDark ? "#374151" : "#9CA3AF",
+          confirmButtonText: "Ya, Keluar",
+          cancelButtonText: "Batal",
+          background: isDark ? "#1A1A1D" : "#FFFFFF",
+          color: isDark ? "#FFFFFF" : "#2D2D2D",
+          borderRadius: "25px",
+          customClass: {
+            confirmButton:
+              "font-bold uppercase text-xs tracking-widest px-6 py-3",
+            cancelButton:
+              "font-bold uppercase text-xs tracking-widest px-6 py-3",
+          },
+        }).then((result) => {
+          if (result.isConfirmed) {
             window.location.href = "login.html#login";
-        }
-    });
-}
+          }
+        });
+      }
 
-// Tambahan: Pastikan sidebar tidak tertutup elemen lain
-// (Hanya jika masih tidak bisa diklik)
-document.addEventListener("DOMContentLoaded", function() {
-    const aside = document.querySelector('aside');
-    if(aside) aside.style.zIndex = "100";
-});
-</script>
-</body>
+      // Tambahan: Pastikan sidebar tidak tertutup elemen lain
+      // (Hanya jika masih tidak bisa diklik)
+      document.addEventListener("DOMContentLoaded", function () {
+        const aside = document.querySelector("aside");
+        if (aside) aside.style.zIndex = "100";
+      });
+
+      // --- NOTES LOGIC ---
+      const notesElement = document.getElementById("notesText");
+      if (notesElement) {
+        const saved = localStorage.getItem("admin_notes_sdn_ganting");
+        notesElement.innerText = saved || "Ketik catatan di sini...";
+
+        notesElement.oninput = () =>
+          localStorage.setItem(
+            "admin_notes_sdn_ganting",
+            notesElement.innerText,
+          );
+        notesElement.onfocus = () => {
+          if (notesElement.innerText.includes("Ketik"))
+            notesElement.innerText = "";
+        };
+      }
+    </script>
+  </body>
 </html>
