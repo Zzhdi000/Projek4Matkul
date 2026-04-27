@@ -10,24 +10,30 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
-        :root {
-            /* Palette Color Scheme No. 27 */
-            --p-red: #C9494C;
+         :root {
+            --accent-blue: #63a4ff;
+            --p-rose: #a5b4fc;
+            --p-yellow: #e6b85c;
+            --p-green: #86efac;
+            --bg-body: #FDFDFB;
+            --bg-sidebar: #FFFFFF;
+            --text-main: #2D2D2D;
+            --card-bg: #FFFFFF;
+            --border: rgba(0,0,0,0.1);
+             --p-red: #C9494C;
             --p-rose: #FF9178;
             --p-yellow: #F7EA7F;
             --p-orange: #F25A2D;
             --p-green: #82C697;
             --p-blue: #057711;
             
-            /* Mapping Light Mode */
             --bg-body: #FDFDFB;
             --bg-sidebar: #FFFFFF;
             --text-main: #2D2D2D;
-            --accent: var(--p-red);
+            --accent: var(--accent-blue);
             --card-bg: #FFFFFF;
             --border: rgba(0,0,0,0.1);
             --dropdown-bg: #FFFFFF;
-            --table-head: #F8FAFC;
         }
 
         .dark-mode {
@@ -35,7 +41,7 @@
             --bg-body: #0F0F12; 
             --bg-sidebar: #000000;
             --text-main: #FFFFFF;
-            --accent: var(--p-rose);
+            --accent: var(--accent-blue);
             --card-bg: rgba(30, 30, 35, 0.8); 
             --border: rgba(255, 255, 255, 0.15);
             --dropdown-bg: #1A1A1D;
@@ -82,13 +88,13 @@
 
         .nav-link:hover {
             background: rgba(0,0,0,0.05);
-            color: var(--accent);
+            color: var(--accent-blue);
         }
 
         .nav-link.active {
-            background-color: var(--accent);
+            background-color: var(--accent-blue);
             color: white !important;
-            box-shadow: 0 8px 20px -6px var(--accent);
+            box-shadow: 0 8px 20px -6px var(--accent-blue);
         }
 
         .group-label {
@@ -96,7 +102,7 @@
             font-weight: 900;
             text-transform: uppercase;
             letter-spacing: 1.5px;
-            color: var(--p-red);
+            color: var(--accent-blue);
             margin: 25px 0 10px 16px;
         }
 
@@ -117,7 +123,7 @@
 
 <div class="flex p-5 gap-5 min-h-screen">
 
-    <aside class="w-72 flex flex-col justify-between bg-[var(--bg-sidebar)] rounded-[30px] p-7 shadow-xl">
+    <aside class="w-72 flex flex-col justify-between bg-[var(--bg-sidebar)] rounded-[30px] p-7 shadow-xl sticky top-5 h-[calc(100vh-40px)]">
         <div>
             <div class="flex items-center gap-4 mb-10 px-2">
                 <div class="w-11 h-11 flex items-center justify-center">
@@ -183,7 +189,7 @@
             <div class="glass-card p-8">
                 <div class="flex justify-between items-center mb-8">
                     <h3 class="text-xl font-black uppercase text-[var(--text-main)]">Kategori Berita</h3>
-                    <button class="bg-[var(--p-red)] text-white px-6 py-3 rounded-2xl font-black text-xs shadow-lg shadow-red-200 dark:shadow-none hover:brightness-110 transition-all">
+                    <button class="bg-[var(--accent-blue)] text-white px-6 py-3 rounded-2xl font-black text-xs shadow-lg shadow-blue-200 dark:shadow-none hover:brightness-110 transition-all">
                         <i class="fas fa-plus mr-2"></i> TULIS BERITA
                     </button>
                 </div>
@@ -327,7 +333,7 @@
     function renderProfile() {
         content.innerHTML = `
             <div class="text-center mb-6 border-b border-[var(--border)] pb-6">
-                <div class="w-20 h-20 bg-[var(--p-red)] rounded-3xl mx-auto flex items-center justify-center text-white text-3xl font-black shadow-xl mb-4">MN</div>
+                <div class="w-20 h-20 bg-[var(--accent-blue)] rounded-3xl mx-auto flex items-center justify-center text-white text-3xl font-black shadow-xl mb-4">MN</div>
                 <p class="font-black text-xl text-[var(--text-main)]">Miftahun Nikmah</p>
                 <p class="text-[10px] opacity-60 uppercase font-black tracking-widest mt-1">Super Administrator</p>
             </div>
@@ -336,7 +342,7 @@
                     <span class="opacity-50 font-bold uppercase">ID Admin</span>
                     <span class="font-black text-[var(--text-main)]">#MN-2026-04</span>
                 </div>
-                <button class="w-full bg-[var(--p-red)] text-white py-4 rounded-2xl text-xs font-black shadow-lg shadow-red-100 dark:shadow-none hover:brightness-110 transition-all">
+                <button class="w-full bg-[var(--accent-blue)] text-white py-4 rounded-2xl text-xs font-black shadow-lg shadow-blue-100 dark:shadow-none hover:brightness-110 transition-all">
                     <i class="fas fa-lock mr-2"></i> Keamanan Akun
                 </button>
             </div>

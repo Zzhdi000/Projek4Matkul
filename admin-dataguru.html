@@ -9,12 +9,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
 
     <style>
-        :root {
-            /* Palette Color Scheme No. 27 */
-            --p-red: #C9494C;
+         :root {
+            --accent-blue: #63a4ff;
+            --p-rose: #a5b4fc;
+            --p-yellow: #e6b85c;
+            --p-green: #86efac;
+            --bg-body: #FDFDFB;
+            --bg-sidebar: #FFFFFF;
+            --text-main: #2D2D2D;
+            --card-bg: #FFFFFF;
+            --border: rgba(0,0,0,0.1);
+             --p-red: #C9494C;
             --p-rose: #FF9178;
+            --p-yellow: #F7EA7F;
             --p-orange: #F25A2D;
             --p-green: #82C697;
+            --p-blue: #057711;
             
             --bg-body: #FDFDFB;
             --bg-sidebar: #FFFFFF;
@@ -22,6 +32,7 @@
             --accent: var(--p-red);
             --card-bg: #FFFFFF;
             --border: rgba(0,0,0,0.1);
+            --dropdown-bg: #FFFFFF;
         }
 
          .dark-mode {
@@ -29,7 +40,7 @@
             --bg-body: #0F0F12; 
             --bg-sidebar: #000000;
             --text-main: #FFFFFF;
-            --accent: var(--p-rose);
+            --accent: var(--accent-blue);
             --card-bg: rgba(30, 30, 35, 0.8); 
             --border: rgba(255, 255, 255, 0.15);
             --dropdown-bg: #1A1A1D;
@@ -78,7 +89,7 @@
             font-weight: 900;
             text-transform: uppercase;
             letter-spacing: 1.5px;
-            color: var(--p-red);
+            color: var(--accent-blue);
             margin: 25px 0 10px 16px;
         }
 
@@ -116,7 +127,7 @@
 
 <div class="flex p-5 gap-5 min-h-screen">
 
-    <aside class="w-72 flex flex-col justify-between bg-[var(--bg-sidebar)] rounded-[30px] p-7 shadow-xl">
+    <aside class="w-72 flex flex-col justify-between bg-[var(--bg-sidebar)] rounded-[30px] p-7 shadow-xl sticky top-5 h-[calc(100vh-40px)]">
         <div>
             <div class="flex items-center gap-4 mb-10 px-2">
                 <div class="w-11 h-11 flex items-center justify-center">

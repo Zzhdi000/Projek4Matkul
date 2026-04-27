@@ -10,22 +10,30 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
-        :root {
-            /* Palette Color Sesuai Dashboard */
+         :root {
             --accent-blue: #63a4ff;
-            --card-blue: #8198f9;
-            --card-purple: #c096ff;
-            --card-yellow: #f1c973;
-            --card-green: #7fd69e;
-            
+            --p-rose: #a5b4fc;
+            --p-yellow: #e6b85c;
+            --p-green: #86efac;
             --bg-body: #FDFDFB;
             --bg-sidebar: #FFFFFF;
             --text-main: #2D2D2D;
             --card-bg: #FFFFFF;
             --border: rgba(0,0,0,0.1);
-
-            /* WARNA TEKS GRID (Mode Terang: Hitam) */
-            --text-grid: #000000;
+             --p-red: #C9494C;
+            --p-rose: #FF9178;
+            --p-yellow: #F7EA7F;
+            --p-orange: #F25A2D;
+            --p-green: #82C697;
+            --p-blue: #057711;
+            
+            --bg-body: #FDFDFB;
+            --bg-sidebar: #FFFFFF;
+            --text-main: #2D2D2D;
+            --accent: var(--p-red);
+            --card-bg: #FFFFFF;
+            --border: rgba(0,0,0,0.1);
+            --dropdown-bg: #FFFFFF;
         }
 
         .dark-mode {
@@ -160,9 +168,7 @@
 <body>
 
 <div class="flex p-5 gap-5 min-h-screen">
-    <aside
-        class="w-72 flex flex-col justify-between bg-[var(--bg-sidebar)] rounded-[30px] p-7 shadow-xl"
-      >
+    <aside class="w-72 flex flex-col justify-between bg-[var(--bg-sidebar)] rounded-[30px] p-7 shadow-xl sticky top-5 h-[calc(100vh-40px)]">
         <div>
           <div class="flex items-center gap-4 mb-10 px-2">
             <div class="w-11 h-11 flex items-center justify-center">
@@ -260,41 +266,115 @@
                 </div>
             </div>
 
-            <div class="overflow-x-auto rounded-3xl border border-[var(--bg-body)]">
-               <div id="scheduleGrid" class="schedule-grid min-w-[900px]">
-    <!-- HEADER -->
-    <div class="grid-header">Jam</div>
-    <div class="grid-header">Senin</div>
-    <div class="grid-header">Selasa</div>
-    <div class="grid-header">Rabu</div>
-    <div class="grid-header">Kamis</div>
-    <div class="grid-header">Jumat</div>
-    <div class="grid-header">Sabtu</div>
+            <!-- VIEW LIST GURU -->
+<section id="viewGuru" class="view-section space-y-6">
+  <div class="glass-card p-8">
+    <h3 class="font-black text-sm uppercase tracking-widest opacity-60 mb-6">
+      Pilih Guru
+    </h3>
 
-    <!-- ROW 1 -->
-    <div class="time-slot">07:00 - 08:30</div>
-    <div class="cell"></div>
-    <div class="cell"></div>
-    <div class="cell"></div>
-    <div class="cell"></div>
-    <div class="cell"></div>
-    <div class="cell"></div>
-
-    <!-- ROW 2 -->
-    <div class="time-slot">09:00 - 10:30</div>
-    <div class="cell"></div>
-    <div class="cell"></div>
-    <div class="cell"></div>
-    <div class="cell"></div>
-    <div class="cell"></div>
-    <div class="cell"></div>
-</div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div id="guruList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
     </div>
+  </div>
+</section>
+
+<!-- VIEW DETAIL -->
+<section id="viewDetailJadwal" class="view-section hidden space-y-6">
+  <div class="flex items-center gap-4">
+    <button onclick="backToGuru()" class="w-10 h-10 glass-card flex items-center justify-center hover:bg-[var(--accent-blue)] hover:text-white transition-all">
+      <i class="fas fa-arrow-left"></i>
+    </button>
+    <div>
+      <h3 id="detailNama" class="text-xl font-black uppercase">---</h3>
+      <p id="detailMapel" class="text-xs font-bold opacity-50 uppercase tracking-widest">---</p>
+    </div>
+  </div>
+
+  <div class="glass-card p-8">
+    <div id="detailJadwal">
+     <div id="scheduleGrid" class="schedule-grid min-w-[900px]">
+
+  <!-- HEADER -->
+  <div class="grid-header">Jam</div>
+  <div class="grid-header">Senin</div>
+  <div class="grid-header">Selasa</div>
+  <div class="grid-header">Rabu</div>
+  <div class="grid-header">Kamis</div>
+  <div class="grid-header">Jumat</div>
+  <div class="grid-header">Sabtu</div>
+
+  <!-- ROW 1 -->
+  <div class="time-slot">07:00 - 07:40</div>
+  <div class="cell"></div>
+  <div class="cell"></div>
+  <div class="cell"></div>
+  <div class="cell"></div>
+  <div class="cell"></div>
+  <div class="cell"></div>
+
+  <!-- ROW 2 -->
+  <div class="time-slot">07:40 - 08:20</div>
+  <div class="cell"></div>
+  <div class="cell"></div>
+  <div class="cell"></div>
+  <div class="cell"></div>
+  <div class="cell"></div>
+  <div class="cell"></div>
+
+  <div class="time-slot">08:20 - 09:00</div>
+  <div class="cell"></div>
+  <div class="cell"></div>
+  <div class="cell"></div>
+  <div class="cell"></div>
+  <div class="cell"></div>
+  <div class="cell"></div>
+
+  <div class="time-slot">09:30 - 10:10</div>
+  <div class="cell"></div>
+  <div class="cell"></div>
+  <div class="cell"></div>
+  <div class="cell"></div>
+  <div class="cell"></div>
+  <div class="cell"></div>
+
+  <div class="time-slot">10:10 - 10:50</div>
+  <div class="cell"></div>
+  <div class="cell"></div>
+  <div class="cell"></div>
+  <div class="cell"></div>
+  <div class="cell"></div>
+  <div class="cell"></div>
+
+  <div class="time-slot">10:50 - 11:30</div>
+  <div class="cell"></div>
+  <div class="cell"></div>
+  <div class="cell"></div>
+  <div class="cell"></div>
+  <div class="cell"></div>
+  <div class="cell"></div>
+
+  <div class="time-slot">11:30 - 12:10</div>
+  <div class="cell"></div>
+  <div class="cell"></div>
+  <div class="cell"></div>
+  <div class="cell"></div>
+  <div class="cell"></div>
+  <div class="cell"></div>
+
+  <div class="time-slot">12:10 - 12:50</div>
+  <div class="cell"></div>
+  <div class="cell"></div>
+  <div class="cell"></div>
+  <div class="cell"></div>
+  <div class="cell"></div>
+  <div class="cell"></div>
+
 </div>
+    </div>
+  </div>
+</section>
+        </div>
+    </div>  
 
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
@@ -330,7 +410,66 @@
     }
 
     async function loadJadwal() {
+  const timeSlots = [
+  "07:00 - 07:40",
+  "07:40 - 08:20",
+  "08:20 - 09:00",
+  "09:30 - 10:10",
+  "10:10 - 10:50",
+  "10:50 - 11:30",
+  "11:30 - 12:10",
+  "12:10 - 12:50"
+];
+
+  const container = document.getElementById("guruList");
+  container.innerHTML = "";
+
   const snapshot = await db.collection("jadwal_guru").get();
+
+  snapshot.forEach(doc => {
+    const data = doc.data();
+
+    const card = document.createElement("div");
+    card.className = "glass-card p-6 border-l-4 border-l-[var(--accent-blue)] hover:scale-[1.02] transition-all cursor-pointer";
+
+    card.onclick = () => showDetailJadwal(data);
+
+    card.innerHTML = `
+      <div class="flex justify-between items-start mb-4">
+        <div class="w-12 h-12 bg-[var(--accent-blue)]/10 text-[var(--accent-blue)] rounded-2xl flex items-center justify-center text-xl">
+          <i class="fas fa-chalkboard-teacher"></i>
+        </div>
+        <span class="text-[9px] font-black bg-gray-100 dark:bg-white/10 px-3 py-1 rounded-full uppercase">
+          ${Object.keys(data.jadwal).length} Hari
+        </span>
+      </div>
+
+      <h4 class="text-xl font-black mb-1">${data.nama}</h4>
+      <p class="text-xs font-bold opacity-50 mb-6">${data.mapel}</p>
+
+      <div class="flex justify-between items-center pt-4 border-t border-dashed border-[var(--border)]">
+        <span class="text-[10px] font-black text-[var(--accent-blue)]">
+          LIHAT JADWAL <i class="fas fa-arrow-right ml-1"></i>
+        </span>
+      </div>
+    `;
+
+    container.appendChild(card);
+  });
+}
+loadJadwal();
+function showDetailJadwal(data) {
+  document.getElementById("viewGuru").classList.add("hidden");
+  document.getElementById("viewDetailJadwal").classList.remove("hidden");
+
+  document.getElementById("detailNama").innerText = data.nama;
+  document.getElementById("detailMapel").innerText = data.mapel;
+
+  const grid = document.getElementById("scheduleGrid");
+  const cells = grid.querySelectorAll(".cell");
+
+  // 🔥 RESET dulu (hapus isi lama)
+  cells.forEach(cell => cell.innerHTML = "");
 
   const hariIndex = {
     senin: 1,
@@ -341,48 +480,52 @@
     sabtu: 6
   };
 
-  const cells = document.querySelectorAll(".cell");
+  Object.keys(data.jadwal).forEach(hari => {
+    const events = data.jadwal[hari];
+    const col = hariIndex[hari];
 
-  snapshot.forEach(doc => {
-    const data = doc.data();
-    const jadwal = data.jadwal;
+    events.forEach(ev => {
+     function getRowIndex(jam) {
+  const start = jam.split("–")[0].replace(".", ":");
+  const hour = parseInt(start.split(":")[0]);
 
-    Object.keys(jadwal).forEach(hari => {
-      const events = jadwal[hari];
-      const col = hariIndex[hari];
+  if (hour === 7) return 0;
+  if (hour === 8) return 1;
+  if (hour === 9) return 2;
+  if (hour === 10) return 3;
+  if (hour === 12 || hour === 13) return 4;
 
-      events.forEach(ev => {
-        function getRowIndex(jam) {
-  if (jam.includes("07") || jam.includes("08")) return 0;
-  if (jam.includes("09") || jam.includes("10")) return 1;
   return 0;
 }
 
 const rowIndex = getRowIndex(ev.jam);
-const cellIndex = rowIndex * 6 + (col - 1);
-        const cell = cells[cellIndex];
+const cellIndex = rowIndex * 7 + col;
+      const cell = cells[cellIndex];
+      if (!cell) return;
 
-        if (!cell) return;
+      const el = document.createElement("div");
 
-       const el = document.createElement("div");
+      const colors = ["bg-blue","bg-purple","bg-yellow","bg-green"];
+      el.className = "event-card " + colors[Math.floor(Math.random()*colors.length)];
 
-// ⬇️ TAMBAH DI SINI
-const colors = ["bg-blue", "bg-purple", "bg-yellow", "bg-green", "bg-red", "bg-indigo", "bg-pink", "bg-cyan", "bg-teal"];
-el.className = "event-card " + colors[Math.floor(Math.random() * colors.length)];
+      el.innerHTML = `
+        <p class="font-black uppercase">${data.mapel}</p>
+        <p class="opacity-80">${data.nama} (${ev.kelas})</p>
+        <p class="opacity-60 text-[9px]">${ev.jam}</p>
+      `;
 
-        el.innerHTML = `
-          <p class="font-black uppercase">${data.mapel}</p>
-          <p class="opacity-80">${data.nama} (${ev.kelas})</p>
-          <p class="opacity-60 text-[9px]">${ev.jam}</p>
-        `;
-
-        cell.appendChild(el);
-      });
+      cell.appendChild(el);
     });
   });
 }
+function backToGuru() {
+  document.getElementById("viewDetailJadwal").classList.add("hidden");
+  document.getElementById("viewGuru").classList.remove("hidden");
 
-loadJadwal();
+  // 🔥 optional: bersihin grid
+  const cells = document.querySelectorAll(".cell");
+  cells.forEach(cell => cell.innerHTML = "");
+}
 function loadTheme() {
     const savedTheme = localStorage.getItem("theme");
 
