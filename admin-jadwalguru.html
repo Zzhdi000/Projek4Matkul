@@ -30,10 +30,11 @@
             --bg-body: #FDFDFB;
             --bg-sidebar: #FFFFFF;
             --text-main: #2D2D2D;
-            --accent: var(--p-red);
+            --accent: var(--accent-blue);
             --card-bg: #FFFFFF;
             --border: rgba(0,0,0,0.1);
             --dropdown-bg: #FFFFFF;
+            
         }
 
         .dark-mode {
@@ -50,6 +51,16 @@
         }
 
 
+        .nav-link:hover {
+        background: rgba(0, 0, 0, 0.05);
+        color: var(--accent);
+      }
+      .nav-link.active {
+        background-color: var(--accent);
+        color: white !important;
+        box-shadow: 0 8px 20px -6px var(--accent);
+      }
+      
         body {
             background-color: var(--bg-body);
             color: var(--text-main);
@@ -151,10 +162,10 @@
         background-color: rgba(239, 68, 68, 0.1) !important;
       }
 
-        .bg-blue { background-color: var(--card-blue); }
-        .bg-purple { background-color: var(--card-purple); }
-        .bg-yellow { background-color: var(--card-yellow); }
-        .bg-green { background-color: var(--card-green); }
+        .bg-blue { background-color: #60a5fa; }
+        .bg-purple { background-color: #a78bfa; }
+        .bg-yellow { background-color: #ffd942; }
+        .bg-green { background-color: #4ade80; }
         .bg-red { background-color: #f87171; }
         .bg-indigo { background-color: #818cf8; }
         .bg-pink { background-color: #f472b6; }
@@ -505,7 +516,7 @@ const cellIndex = rowIndex * 7 + col;
 
       const el = document.createElement("div");
 
-      const colors = ["bg-blue","bg-purple","bg-yellow","bg-green"];
+      const colors = ["bg-blue","bg-purple","bg-indigo","bg-green", "bg-red", "bg-pink", "bg-violet", "bg-teal"];
       el.className = "event-card " + colors[Math.floor(Math.random()*colors.length)];
 
       el.innerHTML = `
