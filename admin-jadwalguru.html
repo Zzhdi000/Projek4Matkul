@@ -292,6 +292,7 @@
   .cell, .event-card {
     page-break-inside: avoid;
   }
+  
 }
     </style>
 </head>
@@ -387,15 +388,31 @@
                         <i class="fas fa-plus mr-2"></i> TAMBAH JADWAL
                     </button>
                     <button onclick="printJadwal()" 
-class="bg-gray-100 dark:bg-white/10 px-6 py-3 rounded-2xl font-black text-xs">
+class="bg-blue dark:bg-white/10 px-6 py-3 rounded-2xl font-black text-xs shadow-lg shadow-blue-100 text-white">
   <i class="fas fa-print mr-2"></i> CETAK
 </button>
                 </div>
-                <div class="flex items-center gap-4 bg-gray-50 dark:bg-white/5 p-2 px-4 rounded-2xl border border-[var(--border)]">
-                    <button class="text-gray-400 hover:text-[var(--accent-blue)]"><i class="fas fa-chevron-left text-xs"></i></button>
-                    <span class="text-xs font-black uppercase tracking-wider">April 2026</span>
-                    <button class="text-gray-400 hover:text-[var(--accent-blue)]"><i class="fas fa-chevron-right text-xs"></i></button>
-                </div>
+               <div class="relative">
+  <button 
+    type="button"
+    onclick="document.getElementById('datePicker').showPicker()" 
+    class="flex items-center gap-3 bg-gray-50 dark:bg-white/5 p-2.5 px-5 rounded-full border border-[var(--border)] hover:border-[var(--accent-blue)] transition-all cursor-pointer group"
+  >
+    <i class="fas fa-calendar-alt text-[var(--accent-blue)] text-sm"></i>
+    
+    <span id="labelTanggal" class="text-[11px] font-black uppercase tracking-widest text-[var(--text-main)]">
+      28 April 2026
+    </span>
+  </button>
+
+  <input 
+    type="date" 
+    id="datePicker" 
+    onchange="updateTanggalLengkap(this.value)"
+    class="absolute opacity-0 pointer-events-none" 
+    style="top: 0; left: 0; width: 100%; height: 100%;"
+  >
+</div>
             </div>
 
             <!-- VIEW LIST GURU -->
@@ -563,30 +580,52 @@ class="bg-gray-100 dark:bg-white/10 px-6 py-3 rounded-2xl font-black text-xs">
     const data = doc.data();
 
     const card = document.createElement("div");
-    card.className = "glass-card p-6 border-l-4 border-l-[var(--accent-blue)] hover:scale-[1.02] transition-all cursor-pointer";
-
+   card.className = "glass-card p-3 border-l-4 border-l-[var(--accent-blue)] hover:scale-[1.02] transition-all cursor-pointer h-[110px] flex flex-col justify-between";
     card.onclick = () => showDetailJadwal(data);
 
-    card.innerHTML = `
-      <div class="flex justify-between items-start mb-4">
-        <div class="w-12 h-12 bg-[var(--accent-blue)]/10 text-[var(--accent-blue)] rounded-2xl flex items-center justify-center text-xl">
-          <i class="fas fa-chalkboard-teacher"></i>
-        </div>
-        <span class="text-[9px] font-black bg-gray-100 dark:bg-white/10 px-3 py-1 rounded-full uppercase">
-          ${Object.keys(data.jadwal).length} Hari
-        </span>
-      </div>
+    // Objek untuk menentukan warna dan ikon berdasarkan mata pelajaran
+const mapelConfig = {
+    'matematika': { color: 'red', icon: 'fa-calculator' },
+    'ipa': { color: 'blue', icon: 'fa-flask' },
+    'ips': { color: 'orange', icon: 'fa-globe-asia' },
+    'b. indonesia': { color: 'emerald', icon: 'fa-book-open' },
+    'pkn': { color: 'red', icon: 'fa-shield-alt' },
+    'agama': { color: 'green', icon: 'fa-mosque' },
+    'sbk': { color: 'purple', icon: 'fa-palette' },
+    'pjok': { color: 'yellow', icon: 'fa-running' },
+    'tik': { color: 'cyan', icon: 'fa-laptop-code' }
+};
 
-      <h4 class="text-xl font-black mb-1">${data.nama}</h4>
-      <p class="text-xs font-bold opacity-50 mb-6">${data.mapel}</p>
+// Ambil konfigurasi berdasarkan data.mapel (default ke biru jika tidak ditemukan)
+const config = mapelConfig[data.mapel.toLowerCase()] || { color: 'blue', icon: 'fa-chalkboard-teacher' };
 
-      <div class="flex justify-between items-center pt-4 border-t border-dashed border-[var(--border)]">
-        <span class="text-[10px] font-black text-[var(--accent-blue)]">
-          LIHAT JADWAL <i class="fas fa-arrow-right ml-1"></i>
-        </span>
-      </div>
-    `;
+// Tentukan variabel warna Tailwind
+const themeColor = config.color;
 
+   card.className = `glass-card p-4 border-l-4 border-${themeColor}-500 hover:scale-[1.02] transition-all cursor-pointer group`;
+
+card.innerHTML = `
+  <div class="flex justify-between items-center mb-3">
+    <div class="w-3 h-3 bg-${themeColor}-100 text-${themeColor}-600 dark:bg-${themeColor}-500/20 rounded-xl flex items-center justify-center text-lg">
+      <i class="fas ${config.icon}"></i>
+    </div>
+    <span class="text-[9px] font-black bg-gray-100 dark:bg-white/10 px-3 py-1 rounded-full uppercase">
+      ${Object.keys(data.jadwal).length} KELAS
+    </span>
+  </div>
+
+  <div class="space-y-1 mb-4">
+    <h4 class="text-sm font-black truncate text-[var(--text-main)] group-hover:text-${themeColor}-600 transition-colors">${data.nama}</h4>
+    <p class="text-[10px] font-bold opacity-50 uppercase tracking-wider">${data.mapel}</p>
+  </div>
+
+  <div class="border-t border-dashed border-[var(--border)] pt-3 flex justify-between items-center">
+    <span class="text-[9px] font-black text-${themeColor}-500 uppercase tracking-widest">
+      LIHAT DETAIL
+    </span>
+    <i class="fas fa-arrow-right text-[9px] text-${themeColor}-500 group-hover:translate-x-2 transition-transform"></i>
+  </div>
+`;
     container.appendChild(card);
   });
 }
@@ -735,6 +774,28 @@ function printJadwal() {
   window.print();
 }
 </script>
+<script>
+function updateTanggalLengkap(val) {
+    if(!val) return;
+    
+    const date = new Date(val);
+    
+    // Format: Tanggal Bulan Tahun (Contoh: 28 April 2026)
+    const options = { 
+        day: 'numeric', 
+        month: 'long', 
+        year: 'numeric' 
+    };
+    
+    const formattedDate = date.toLocaleDateString('id-ID', options);
+    
+    // Update teks pada tombol secara real-time
+    document.getElementById('labelTanggal').innerText = formattedDate;
+
+    // Tambahkan log di konsol untuk memastikan fungsi jalan
+    console.log("Tanggal terpilih: " + val);
+}
+</script>
 
 <div id="modalJadwal" class="fixed inset-0 bg-black/60 backdrop-blur-md z-[100] hidden flex items-center justify-center p-4">
   <div class="bg-white w-full max-w-lg p-8 rounded-[40px] shadow-2xl animate-fadeIn relative">
@@ -761,14 +822,34 @@ function printJadwal() {
           <label class="flex items-center gap-2 text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">
             <i class="fas fa-book text-orange-500 text-sm"></i> MATA PELAJARAN
           </label>
-          <input type="text" id="mapel" placeholder="Mapel..." class="w-full px-6 py-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-red-500/20 outline-none font-bold text-gray-700 placeholder:text-gray-300 transition-all" required>
+          <select id="mapel" class="w-full px-6 py-4 bg-gray-50 border-none rounded-2xl font-bold text-gray-700" required>
+  <option value="" disabled selected>Pilih Mapel</option>
+  <option>Matematika</option>
+  <option>Bahasa Indonesia</option>
+  <option>IPA</option>
+  <option>IPS</option>
+  <option>PKn</option>
+  <option>SBdP</option>
+  <option>PJOK</option>
+  <option>Agama</option>
+  <option>TIK</option>
+</select>
         </div>
 
         <div class="space-y-2">
           <label class="flex items-center gap-2 text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">
             <i class="fas fa-door-open text-green-500 text-sm"></i> KELAS
           </label>
-          <input type="text" id="kelas" placeholder="Pilih Kelas" class="w-full px-6 py-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-red-500/20 outline-none font-bold text-gray-700 placeholder:text-gray-300 transition-all" required>
+         <select id="kelas" class="w-full px-6 py-4 bg-gray-50 border-none rounded-2xl font-bold text-gray-700" required>
+  <option value="" disabled selected>Pilih Kelas</option>
+
+  <option>1A</option><option>1B</option>
+  <option>2A</option><option>2B</option>
+  <option>3A</option><option>3B</option>
+  <option>4A</option><option>4B</option>
+  <option>5A</option><option>5B</option>
+  <option>6A</option><option>6B</option>
+</select>
         </div>
       </div>
 
@@ -792,7 +873,18 @@ function printJadwal() {
           <label class="flex items-center gap-2 text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">
             <i class="fas fa-clock text-purple-500 text-sm"></i> JAM
           </label>
-          <input type="text" id="jam" placeholder="07:00 - 08:00" class="w-full px-6 py-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-red-500/20 outline-none font-bold text-gray-700 placeholder:text-gray-300 transition-all" required>
+         <select id="jam" class="w-full px-6 py-4 bg-gray-50 border-none rounded-2xl font-bold text-gray-700" required>
+  <option value="" disabled selected>Pilih Jam</option>
+
+  <option>07:00 - 07:40</option>
+  <option>07:40 - 08:20</option>
+  <option>08:20 - 09:00</option>
+  <option>09:30 - 10:10</option>
+  <option>10:10 - 10:50</option>
+  <option>10:50 - 11:30</option>
+  <option>11:30 - 12:10</option>
+  <option>12:10 - 12:50</option>
+</select>
         </div>
       </div>
 
