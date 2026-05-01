@@ -233,56 +233,62 @@
 
        <section id="viewMapel" class="view-section space-y-1">
   <div class="glass-card p-6">
-   <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
-  <div>
-    <h3 class="text-xl font-black uppercase tracking-tight">Manajemen Nilai</h3>
-    <p class="text-[10px] font-bold opacity-50 uppercase tracking-widest" id="ringkasanLabel">
-      Ringkasan Nilai Kelas 1A (A-Z)
-    </p>
-  </div>
-  
- <select id="filterKelas" onchange="updateLabel()" class="bg-gray-50 dark:bg-white/5 border border-[var(--border)] px-4 py-2.5 rounded-xl text-[11px] font-bold outline-none cursor-pointer">
-  <option value="1A">Kelas 1A</option>
-  <option value="1B">Kelas 1B</option>
-  <option value="2A">Kelas 2A</option>
-  <option value="2B">Kelas 2B</option>
-  <option value="3A">Kelas 3A</option>
-  <option value="3B">Kelas 3B</option>
-  <option value="4A">Kelas 4A</option>
-  <option value="4B">Kelas 4B</option>
-  <option value="5A">Kelas 5A</option>
-  <option value="5B">Kelas 5B</option>
-  <option value="6A">Kelas 6A</option>
-  <option value="6B">Kelas 6B</option>
-</select>
+  <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-8">
+
+  <!-- KIRI -->
+  <div class="flex flex-wrap gap-3">
+    <select id="filterKelas" onchange="updateLabel()" class="bg-gray-50 dark:bg-white/5 border border-[var(--border)] px-4 py-2.5 rounded-xl text-[11px] font-bold outline-none cursor-pointer">
+      <option value="">SEMUA KELAS</option>
+                        <option value="1-A">KELAS 1-A</option>
+                        <option value="1-B">KELAS 1-B</option>
+                        <option value="2-A">KELAS 2-A</option>
+                        <option value="2-B">KELAS 2-B</option>
+                        <option value="3-A">KELAS 3-A</option>
+                        <option value="3-B">KELAS 3-B</option>
+                        <option value="4-A">KELAS 4-A</option>
+                        <option value="4-B">KELAS 4-B</option>
+                        <option value="5-A">KELAS 5-A</option>
+                        <option value="5-B">KELAS 5-B</option>
+                        <option value="6-A">KELAS 6-A</option>
+                        <option value="6-B">KELAS 6-B</option>
+      <!-- dst -->
+    </select>
 
     <select class="bg-gray-50 dark:bg-white/5 border border-[var(--border)] px-4 py-2.5 rounded-xl text-[11px] font-bold outline-none cursor-pointer">
-      <option>Semester Ganjil</option>
-      <option>Semester Genap6</option>
+      <option>SEMESTER GANJIL</option>
+      <option>SEMESTER GENAP</option>
     </select>
 
     <select id="filterMapel" onchange="updateTableByMapel()" class="bg-gray-50 dark:bg-white/5 border border-[var(--border)] px-4 py-2.5 rounded-xl text-[11px] font-bold outline-none cursor-pointer focus:ring-2 focus:ring-blue-500 transition-all">
-  <option value="Semua">-- Semua Mata Pelajaran (Ringkasan) --</option>
-  <option value="Pendidikan Agama">Pendidikan Agama</option>
-  <option value="PPKn">PPKn</option>
-  <option value="Bahasa Indonesia">Bahasa Indonesia</option>
-  <option value="Matematika">Matematika</option>
+  <option value="Semua">SEMUA MATA PELAJARAN</option>
+  <option value="Pendidikan Agama">PAI</option>
+  <option value="PPKn">PPKN</option>
+  <option value="Bahasa Indonesia">BAHASA INDONESIA</option>
+  <option value="Matematika">MATEMATIKA</option>
   <option value="IPA">IPA</option>
   <option value="IPS">IPS</option>
-  <option value="SBdP (Seni Budaya)">SBdP (Seni Budaya)</option>
+  <option value="SBdP (Seni Budaya)">SBDP (Seni Budaya)</option>
   <option value="PJOK (Olahraga)">PJOK (Olahraga)</option>
-  <option value="Bahasa Inggris">Bahasa Inggris</option>
-  <option value="Bahasa Jawa / Mulok">Bahasa Jawa / Mulok</option>
+  <option value="Bahasa Inggris">BAHASA INGGRIS</option>
+  <option value="Bahasa Jawa / Mulok">BAHASA JAWA / MULOK</option>
 </select>
-
-   <div class="relative">
-  <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
-  <input type="text" id="searchSiswa" onkeyup="searchTable()" placeholder="Cari nama siswa..." class="bg-gray-50 dark:bg-white/5 border border-[var(--border)] pl-10 pr-4 py-2.5 rounded-xl text-[11px] outline-none w-64 focus:ring-2 focus:ring-blue-500">
-</div>
   </div>
+
+  <!-- KANAN -->
+  <div class="relative">
+    <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+    <input type="text" id="searchSiswa" onkeyup="searchTable()" 
+      placeholder="Cari nama siswa..." 
+      class="bg-gray-50 dark:bg-white/5 border border-[var(--border)] pl-10 pr-4 py-2.5 rounded-xl text-[11px] outline-none w-64 focus:ring-2 focus:ring-blue-500">
+  </div>
+
 </div>
+  
 
    <div class="overflow-x-auto">
+    <h3 id="ringkasanLabel" class="text-sm font-black mb-4">
+    RINGKASAN NILAI
+  </h3>
   <table class="w-full border-separate border-spacing-y-2 table-fixed min-w-[800px]">
     <thead>
       <tr id="tableHeader" class="bg-[#1e293b] text-white">
@@ -366,31 +372,24 @@
     // 3. Logika Isi Data (Gunakan mapel.toLowerCase() agar lebih aman dari salah ketik)
     const namaMapel = mapel.toLowerCase();
 
-    if (namaMapel.includes('Matematika')) {
-        tableContent = `
-            ${renderRow('Ahmad Fauzi', '1-A', 90, 85, 88, 87.6, 'Tuntas')}
-            ${renderRow('Siti Aminah', '1-A', 70, 65, 60, 65.0, 'Remidial')}
-        `;
-    } 
-    else if (namaMapel.includes('IPA')) {
-        tableContent = `
-            ${renderRow('Budi Santoso', '1-B', 88, 80, 90, 86.0, 'Tuntas')}
-            ${renderRow('Larasati', '1-B', 75, 70, 72, 72.3, 'Tuntas')}
-        `;
-    }
-    else if (namaMapel.includes('indonesia')) {
-        tableContent = `
-            ${renderRow('Andi Wijaya', '1-A', 85, 80, 82, 82.3, 'Tuntas')}
-            ${renderRow('Rina Pratama', '1-A', 60, 65, 50, 58.3, 'Remidial')}
-        `;
-    }
-    else {
-        // Data Dummy untuk mapel lain (Agama, TIK, dll) agar tidak kosong
-        tableContent = `
-            ${renderRow('Siswa Contoh ' + mapel, '1-C', 80, 80, 80, 80.0, 'Tuntas')}
-            ${renderRow('Siswa Dummy', '1-C', 50, 50, 50, 50.0, 'Remidial')}
-        `;
-    }
+if (namaMapel.includes('matematika')) {
+    tableContent = `
+        ${renderRow('Ahmad Fauzi', '1-A', 90, 85, 88, 87.6, 'Tuntas')}
+        ${renderRow('Siti Aminah', '1-A', 70, 65, 60, 65.0, 'Remidial')}
+    `;
+} 
+else if (namaMapel.includes('ipa')) {
+    tableContent = `
+        ${renderRow('Budi Santoso', '1-B', 88, 80, 90, 86.0, 'Tuntas')}
+        ${renderRow('Larasati', '1-B', 75, 70, 72, 72.3, 'Tuntas')}
+    `;
+}
+else if (namaMapel.includes('ips')) {
+    tableContent = `
+        ${renderRow('Andi Wijaya', '1-A', 85, 80, 82, 82.3, 'Tuntas')}
+        ${renderRow('Rina Pratama', '1-A', 60, 65, 50, 58.3, 'Remidial')}
+    `;
+}
 
     tbody.innerHTML = tableContent;
 }
@@ -454,7 +453,7 @@ function updateTableByMapel() {
 
     if (mapel === "Semua") {
         // Tampilan Ringkasan (Gambar 3 & 4)
-        label.innerText = "RINGKASAN NILAI KELAS 1A (A-Z)";
+        label.innerText = "RINGKASAN NILAI";
         header.innerHTML = `
             <th class="py-3 pl-6 text-left rounded-l-xl text-[10px] font-black uppercase tracking-widest">Nama Siswa</th>
             <th class="py-3 text-center text-[10px] font-black uppercase tracking-widest">Matematika</th>

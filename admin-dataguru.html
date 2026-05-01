@@ -68,7 +68,7 @@
         background-color: var(--card-bg);
         backdrop-filter: blur(12px);
         border: 1px solid var(--border);
-        border-radius: 30px;
+        border-radius: 24px;
       }
 
       .nav-link {
@@ -81,11 +81,6 @@
         font-size: 13px;
         color: #555;
         font-weight: 700;
-        cursor: pointer;
-        border: none;
-        background: transparent;
-        width: 100%;
-        text-align: left;
       }
 
       .dark-mode .nav-link {
@@ -157,10 +152,22 @@
         border-collapse: separate;
         border-spacing: 0 8px;
       }
+
+      .btn-logout {
+        color: #ef4444 !important;
+        border: 1.5px solid transparent;
+      }
+      .btn-logout:hover {
+        background-color: #fef2f2 !important;
+        border-color: #fee2e2;
+      }
+      .dark-mode .btn-logout:hover {
+        background-color: rgba(239, 68, 68, 0.1) !important;
+      }
     </style>
   </head>
 
-  <body>
+    <body class="font-sans antialiased min-h-screen p-5">
     <div class="flex p-5 gap-5 min-h-screen">
       <aside
         class="w-72 flex flex-col justify-between bg-[var(--bg-sidebar)] rounded-[30px] p-7 shadow-xl sticky top-5 h-[calc(100vh-40px)]"
@@ -217,8 +224,7 @@
           <button
             type="button"
             onclick="handleLogout()"
-            class="w-full flex items-center gap-3 py-3 px-4 text-[var(--p-red)] font-black hover:bg-[var(--p-red)] hover:text-white rounded-xl transition-all cursor-pointer border-none bg-transparent"
-            style="cursor: pointer !important"
+            class="w-full flex items-center gap-3 py-3 px-4 btn-logout font-black rounded-xl transition-all cursor-pointer bg-transparent"
           >
             <i class="fas fa-sign-out-alt w-5"></i>
             <span>Keluar Sistem</span>
@@ -270,8 +276,10 @@
               </button>
               <div
                 id="profileDropdown"
-                class="hidden absolute right-0 mt-4 w-72 bg-[var(--bg-sidebar)] rounded-[24px] shadow-2xl border border-[var(--border)] p-6 z-[9999] animate-fadeIn"
-              ></div>
+                class="hidden absolute right-0 mt-4 w-80 bg-[var(--dropdown-bg)] border border-[var(--border)] rounded-[24px] shadow-2xl p-6 z-[9999]"
+              >
+                <div id="profileContent"></div>
+              </div>
             </div>
           </div>
         </header>
@@ -656,12 +664,34 @@
         });
       }
 
-      // Tambahan: Pastikan sidebar tidak tertutup elemen lain
-      // (Hanya jika masih tidak bisa diklik)
-      document.addEventListener("DOMContentLoaded", function () {
-        const aside = document.querySelector("aside");
-        if (aside) aside.style.zIndex = "100";
-      });
+      // Profile Logic
+      const profileBtn = document.getElementById("profileBtn");
+      const profileDrop = document.getElementById("profileDropdown");
+      profileBtn.onclick = (e) => {
+        e.stopPropagation();
+        profileDrop.classList.toggle("hidden");
+        renderProfile();
+      };
+      window.onclick = () => profileDrop.classList.add("hidden");
+
+      function renderProfile() {
+        document.getElementById("profileContent").innerHTML = `
+          <div class="text-center mb-6 border-b border-[var(--border)] pb-6">
+            <div class="w-20 h-20 bg-[var(--accent-blue)] rounded-3xl mx-auto flex items-center justify-center text-white text-3xl font-black shadow-xl mb-4">MN</div>
+            <p class="font-black text-xl text-[var(--text-main)]">Miftahun Nikmah</p>
+            <p class="text-[10px] opacity-60 uppercase font-black tracking-widest mt-1">Super Administrator</p>
+          </div>
+          <div class="space-y-3">
+            <div class="flex justify-between items-center text-xs p-4 bg-gray-100 dark:bg-white/5 rounded-2xl">
+              <span class="opacity-50 font-bold uppercase">ID Admin</span>
+              <span class="font-black text-[var(--text-main)]">#MN-2026-04</span>
+            </div>
+            <button class="w-full bg-[var(--accent-blue)] text-white py-4 rounded-2xl text-xs font-black shadow-lg shadow-blue-100 dark:shadow-none hover:brightness-110 transition-all">
+              <i class="fas fa-lock mr-2"></i> Keamanan Akun
+            </button>
+          </div>
+        `;
+      }
 
       function loadTheme() {
         const savedTheme = localStorage.getItem("theme");
