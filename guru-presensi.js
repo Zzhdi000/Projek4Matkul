@@ -178,7 +178,6 @@ if (profileBtn && profileDropdownElem) {
     });
 }
 
-// Inisialisasi profile
 updateHeaderProfile();
 renderProfileDropdown();
 
@@ -199,29 +198,31 @@ function escapeHtml(str) {
   return str.replace(/[&<>]/g, (m) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[m]);
 }
 
-// ==================== LOAD SISWA (DENGAN FILTER KELAS) ====================
+// ==================== LOAD SISWA UNTUK PRESENSI (TANPA PAGING, DENGAN FILTER KELAS) ====================
 async function loadSiswaForPresensi() {
   try {
     let query = db.collection("students").orderBy("nama", "asc");
     
-    // Jika wali kelas, hanya tampilkan kelas wali (abaikan filter dropdown)
     if (guruwaliKelas && guruwaliKelas !== "null") {
       query = query.where("kelas", "==", guruwaliKelas);
-      // Nonaktifkan dropdown untuk wali kelas
       if (filterKelasSelect) {
         filterKelasSelect.disabled = true;
         filterKelasSelect.value = guruwaliKelas;
       }
       currentKelasFilter = guruwaliKelas;
     } else {
-      // Guru mapel: gunakan filter dari dropdown
       if (filterKelasSelect) {
         filterKelasSelect.disabled = false;
         currentKelasFilter = filterKelasSelect.value;
       }
-      if (currentKelasFilter !== "all") {
-        query = query.where("kelas", "==", currentKelasFilter);
+      // Jangan ambil data jika filter = "all" untuk menghindari lag
+      if (currentKelasFilter === "all") {
+        const tbody = document.querySelector("#siswa-table-body");
+        if (tbody) tbody.innerHTML = `<tr><td colspan="3" class="text-center py-10 text-amber-600 font-bold">⚠️ Silakan pilih kelas terlebih dahulu untuk mengisi presensi.</div></td></div>`;
+        allSiswa = [];
+        return;
       }
+      query = query.where("kelas", "==", currentKelasFilter);
     }
 
     const snapshot = await query.get();
@@ -229,32 +230,58 @@ async function loadSiswaForPresensi() {
     snapshot.forEach((doc) => allSiswa.push({ id: doc.id, ...doc.data() }));
     renderDaftarSiswa(searchInput ? searchInput.value : "");
     
-    // Jika tab rekap sedang aktif, refresh rekap juga
+    // Jika tab rekap sedang aktif, refresh rekap
     const rekapTab = document.getElementById("content-rekap");
     if (rekapTab && !rekapTab.classList.contains("hidden")) {
       loadRekapPresensi();
     }
   } catch (error) {
     console.error("Gagal ambil data:", error);
+    Swal.fire("Error", "Gagal memuat data siswa", "error");
   }
 }
 
-// ==================== LOAD REKAP (BERDASARKAN allSiswa YANG SUDAH DIFILTER) ====================
+// ==================== LOAD REKAP PRESENSI (OPTIMASI: TANPA PAGING, PARALEL QUERY) ====================
 window.loadRekapPresensi = async function () {
   const tbody = document.querySelector("#rekap-table-body");
   if (!tbody) return;
 
-  tbody.innerHTML = `<tr><td colspan="8" class="text-center py-10 text-slate-400 font-medium italic"><i class="fas fa-spinner fa-spin mr-2"></i> Menghitung kehadiran...</td></tr>`;
+  tbody.innerHTML = `<tr><td colspan="8" class="text-center py-10 text-slate-400"><i class="fas fa-spinner fa-pulse mr-2"></i> Menghitung kehadiran...</td></tr>`;
 
   try {
-    const presensiSnapshot = await db.collection("presensi").get();
-    const rekapData = {};
+    let kelasFilter = currentKelasFilter;
+    if (guruwaliKelas && guruwaliKelas !== "null") {
+      kelasFilter = guruwaliKelas;
+    } else {
+      if (filterKelasSelect) kelasFilter = filterKelasSelect.value;
+    }
 
-    // Inisialisasi hanya untuk siswa yang sedang ditampilkan (berdasarkan filter)
-    allSiswa.forEach((s) => {
-      rekapData[s.id] = {
-        id: s.id,
-        nama: s.nama,
+    if (kelasFilter === "all") {
+      tbody.innerHTML = `<tr><td colspan="8" class="text-center py-10 text-amber-600">⚠️ Pilih kelas tertentu untuk melihat rekap presensi.</td></tr>`;
+      return;
+    }
+
+    // Ambil semua siswa di kelas tersebut
+    const siswaSnapshot = await db.collection("students").where("kelas", "==", kelasFilter).orderBy("nama").get();
+    const siswaList = siswaSnapshot.docs.map(doc => ({ id: doc.id, nama: doc.data().nama }));
+
+    if (siswaList.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="8" class="text-center py-10 italic">Tidak ada siswa di kelas ini.</td></table>`;
+      return;
+    }
+
+    // Ambil semua presensi untuk siswa-siswa ini secara paralel (Promise.all) agar lebih cepat
+    const presensiPromises = siswaList.map(siswa => 
+      db.collection("presensi").where("siswaId", "==", siswa.id).get()
+    );
+    const allPresensiResults = await Promise.all(presensiPromises);
+
+    // Hitung rekap
+    const rekapData = {};
+    siswaList.forEach(siswa => {
+      rekapData[siswa.id] = {
+        id: siswa.id,
+        nama: siswa.nama,
         hadir: 0,
         izin: 0,
         sakit: 0,
@@ -262,32 +289,31 @@ window.loadRekapPresensi = async function () {
       };
     });
 
-    presensiSnapshot.forEach((doc) => {
-      const p = doc.data();
-      if (rekapData[p.siswaId]) {
-        const status = p.status ? p.status.toLowerCase() : "";
-        if (rekapData[p.siswaId][status] !== undefined) {
-          rekapData[p.siswaId][status]++;
+    allPresensiResults.forEach((snapshot, idx) => {
+      const siswaId = siswaList[idx].id;
+      snapshot.forEach(doc => {
+        const status = doc.data().status ? doc.data().status.toLowerCase() : "";
+        if (rekapData[siswaId][status] !== undefined) {
+          rekapData[siswaId][status]++;
         }
-      }
+      });
     });
 
+    // Render tabel rekap
     tbody.innerHTML = "";
     let no = 1;
-
     for (let id in rekapData) {
       const r = rekapData[id];
       const totalHadir = r.hadir;
-
       tbody.innerHTML += `
         <tr class="bg-white border-b border-slate-50 hover:bg-slate-50 transition" data-id="${r.id}">
             <td class="px-6 py-4 text-center font-bold text-slate-400 w-16">${no++}</td>
-            <td class="px-6 py-4 font-bold text-slate-800 uppercase text-xs">${escapeHtml(r.nama)}</td>
-            <td class="px-6 py-4 text-center text-emerald-600 font-bold">${r.hadir}</td>
-            <td class="px-6 py-4 text-center text-amber-600 font-bold">${r.izin}</td>
-            <td class="px-6 py-4 text-center text-blue-600 font-bold">${r.sakit}</td>
-            <td class="px-6 py-4 text-center text-red-600 font-bold">${r.alfa}</td>
-            <td class="px-6 py-4 text-center bg-emerald-50/50 font-black text-emerald-700 border-l border-slate-100">${totalHadir}</td>
+            <td class="px-6 py-4 font-bold text-slate-800 uppercase text-xs">${escapeHtml(r.nama)}</div></td>
+            <td class="px-6 py-4 text-center text-emerald-600 font-bold">${r.hadir}</div></td>
+            <td class="px-6 py-4 text-center text-amber-600 font-bold">${r.izin}</div></td>
+            <td class="px-6 py-4 text-center text-blue-600 font-bold">${r.sakit}</div></td>
+            <td class="px-6 py-4 text-center text-red-600 font-bold">${r.alfa}</div></td>
+            <td class="px-6 py-4 text-center bg-emerald-50/50 font-black text-emerald-700 border-l border-slate-100">${totalHadir}</div></td>
             <td class="px-6 py-4 text-center no-print">
               <div class="flex justify-center space-x-2">
                 <button onclick="editData('${r.id}')" class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white transition-all flex items-center justify-center border border-blue-100">
@@ -297,12 +323,13 @@ window.loadRekapPresensi = async function () {
                   <i class="fas fa-trash-alt text-[10px]"></i>
                 </button>
               </div>
-            </td>
-         </tr>`;
+            </div>
+          </tr>
+      `;
     }
   } catch (error) {
     console.error("Gagal load rekap:", error);
-    tbody.innerHTML = `<tr><td colspan="8" class="text-center py-10 text-red-400">Gagal memuat data.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="8" class="text-center py-10 text-red-400">Gagal memuat data. ${error.message}</div></td>`;
   }
 };
 
@@ -327,12 +354,10 @@ window.editData = async function (id) {
           <h2 class="text-[10px] font-black text-blue-500 uppercase tracking-[0.2em] mb-1">Edit Presensi</h2>
           <p class="text-lg font-black text-slate-800 tracking-tight leading-tight">${siswa.nama}</p>
         </div>
-
         <div class="mb-4">
           <label class="text-[9px] font-black text-slate-500 uppercase mb-1 block ml-1">Pilih Tanggal</label>
           <input type="date" id="edit-date-input" min="${formatDate(lastWeek)}" max="${formatDate(today)}" value="${selectedDate}" class="w-full p-2.5 rounded-xl border-2 border-slate-100 font-bold text-sm text-slate-700 outline-none focus:border-blue-400 transition-all">
         </div>
-
         <div class="grid grid-cols-1 gap-2 mb-6">
           <button type="button" data-val="hadir" class="opt-btn flex items-center justify-between px-4 py-3 rounded-xl bg-emerald-50 border-2 border-emerald-100 group">
             <span class="font-bold text-emerald-700 text-sm uppercase">Hadir</span>
@@ -351,7 +376,6 @@ window.editData = async function (id) {
             <i class="fas fa-times-circle text-rose-500 text-lg"></i>
           </button>
         </div>
-
         <div class="flex flex-col gap-2">
           <button type="button" id="final-save-btn" class="w-full py-3.5 rounded-xl text-xs font-black text-white bg-slate-200 cursor-not-allowed transition-all uppercase tracking-widest" disabled>Simpan Perubahan</button>
           <button type="button" onclick="Swal.close()" class="w-full py-3 rounded-xl text-xs font-bold text-rose-500 hover:bg-rose-50 border border-transparent hover:border-rose-100 uppercase tracking-widest">Batalkan</button>
@@ -422,7 +446,7 @@ window.editData = async function (id) {
         timer: 1000,
         showConfirmButton: false,
       });
-      loadRekapPresensi();
+      loadRekapPresensi(); // refresh rekap
     } catch (err) {
       Swal.fire("Gagal", "Database error!", "error");
     }
@@ -455,7 +479,7 @@ window.deleteData = function (id) {
           timer: 1000,
           showConfirmButton: false,
         });
-        loadRekapPresensi();
+        loadRekapPresensi(); // refresh rekap
       } catch (e) {
         Swal.fire("Gagal", "Gagal menghapus data.", "error");
       }
@@ -469,9 +493,7 @@ window.setAllPresence = function(status) {
   if (containers.length === 0) return;
   containers.forEach(container => {
     const radio = container.querySelector(`input[value="${status}"]`);
-    if (radio) {
-      radio.checked = true;
-    }
+    if (radio) radio.checked = true;
   });
   Swal.fire({
     icon: 'success',
@@ -495,17 +517,17 @@ function renderDaftarSiswa(keyword = "") {
   );
 
   tbody.innerHTML = filtered.length === 0
-    ? `<tr><td colspan="3" class="text-center py-10 text-slate-400 italic">Siswa tidak ditemukan...</td></tr>`
+    ? `<tr><td colspan="3" class="text-center py-10 text-slate-400 italic">Siswa tidak ditemukan...</div></td>`
     : "";
 
   filtered.forEach((siswa, idx) => {
     tbody.innerHTML += `
     <tr class="bg-white border-b border-slate-50 hover:bg-slate-50 transition">
-        <td class="px-6 py-4 text-center font-bold text-slate-400 w-16">${idx + 1}</td>
+        <td class="px-6 py-4 text-center font-bold text-slate-400 w-16">${idx + 1}</div>
         <td class="px-6 py-4">
             <div class="font-bold text-slate-800 uppercase text-xs">${escapeHtml(siswa.nama)}</div>
             <div class="text-[9px] text-slate-400 font-medium">NISN: ${siswa.nisn || "-"}</div>
-        </td>
+         </div>
         <td class="px-6 py-4"> 
             <div class="presence-container" data-siswa-id="${siswa.id}">
                 <label class="cursor-pointer"><input type="radio" name="status-${siswa.id}" value="hadir" class="presence-input" checked><div class="presence-label lab-hadir">HADIR</div></label>
@@ -513,8 +535,8 @@ function renderDaftarSiswa(keyword = "") {
                 <label class="cursor-pointer"><input type="radio" name="status-${siswa.id}" value="sakit" class="presence-input"><div class="presence-label lab-sakit">SAKIT</div></label>
                 <label class="cursor-pointer"><input type="radio" name="status-${siswa.id}" value="alfa" class="presence-input"><div class="presence-label lab-alfa">ALFA</div></label>
             </div>
-        </td>
-    </tr>`;
+         </div>
+     </tr>`;
   });
 }
 
@@ -583,6 +605,7 @@ if (filterKelasSelect) {
   filterKelasSelect.addEventListener("change", () => {
     if (!(guruwaliKelas && guruwaliKelas !== "null")) {
       loadSiswaForPresensi();
+      loadRekapPresensi(); // refresh rekap tanpa paging
     }
   });
 }
@@ -595,11 +618,9 @@ document.addEventListener("DOMContentLoaded", () => {
     dateInput.addEventListener("change", (e) => {
       selectedDate = e.target.value;
       renderDaftarSiswa(searchInput ? searchInput.value : "");
-      console.log("Tanggal diganti ke: " + selectedDate + ". Tabel di-refresh.");
     });
   }
   
-  // Set dropdown awal (khusus mapel) atau disable (khusus walas)
   if (guruwaliKelas && guruwaliKelas !== "null" && filterKelasSelect) {
     filterKelasSelect.disabled = true;
     filterKelasSelect.value = guruwaliKelas;
