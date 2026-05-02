@@ -118,6 +118,28 @@
       .hidden {
         display: none;
       }
+
+      /* Update CSS di dalam <style> */
+#profileDropdown {
+    backdrop-filter: blur(20px);
+    transform-origin: top right;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.show-profile {
+    display: block !important;
+    animation: profilePop 0.3s ease-out;
+}
+
+@keyframes profilePop {
+    from { opacity: 0; transform: scale(0.9) translateY(-10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* Pastikan header punya stack order tinggi */
+header {
+    z-index: 50 !important;
+}
     </style>
   </head>
 
@@ -210,25 +232,41 @@
             </button>
 
             <div class="relative">
-              <button
-                id="profileBtn"
-                class="flex items-center gap-3 p-1.5 pr-5 bg-gray-100 dark:bg-white/10 rounded-full border border-[var(--border)]"
-              >
-                <img
-                  src="https://ui-avatars.com/api/?name=Admin&background=C9494C&color=fff"
-                  class="w-10 h-10 rounded-full border-2 border-white"
-                />
-                <span class="text-sm font-black">Admin Johny</span>
-                <i class="fas fa-chevron-down text-[10px] opacity-40"></i>
-              </button>
-              <div
-                id="profileDropdown"
-                class="hidden absolute right-0 mt-4 w-80 bg-[var(--dropdown-bg)] border border-[var(--border)] rounded-[24px] shadow-2xl p-6 z-[9999]"
-              >
-                <div id="profileContent"></div>
-              </div>
+    <button
+        id="profileBtn"
+        class="flex items-center gap-3 p-1.5 pr-5 bg-gray-100 dark:bg-white/10 rounded-full border border-[var(--border)] hover:bg-gray-200 dark:hover:bg-white/20 transition-all cursor-pointer"
+    >
+        <div class="w-10 h-10 rounded-full bg-red-600 flex items-center justify-center text-white font-bold text-sm">AD</div>
+        <span class="text-sm font-black italic text-[var(--text-main)]">Admin Johny</span>
+        <i class="fas fa-chevron-down text-[10px] opacity-40"></i>
+    </button>
+
+    <div
+        id="profileDropdown"
+        class="hidden absolute right-0 mt-4 w-72 bg-[var(--card-bg)] border border-[var(--border)] rounded-[35px] shadow-2xl overflow-hidden z-[9999]"
+    >
+        <div class="p-8 flex flex-col items-center text-center">
+            <div class="w-24 h-24 bg-blue-400 rounded-3xl flex items-center justify-center text-white text-4xl font-black shadow-lg mb-6">
+                MN
             </div>
-          </div>
+            
+            <h3 class="text-xl font-black text-[var(--text-main)]">Miftahun Nikmah</h3>
+            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-6">Super Administrator</p>
+            
+            <hr class="w-full border-[var(--border)] mb-6">
+
+            <div class="w-full bg-gray-50 dark:bg-white/5 rounded-2xl p-4 flex justify-between items-center mb-4">
+                <span class="text-[10px] font-black opacity-40 uppercase">ID Admin</span>
+                <span class="text-[11px] font-black">#MN-2026-04</span>
+            </div>
+
+            <button class="w-full bg-blue-500 hover:bg-blue-600 text-white py-4 rounded-2xl text-xs font-black flex items-center justify-center gap-3 transition-all shadow-lg shadow-blue-500/30">
+                <i class="fas fa-lock"></i>
+                Keamanan Akun
+            </button>
+        </div>
+    </div>
+</div>
         </header>
 
        <section id="viewMapel" class="view-section space-y-1">
@@ -448,23 +486,17 @@ function searchTable() {
 } // Kurung penutup fungsi searchTable (TADI DI SINI KELEBIHAN)
 function updateTableByMapel() {
     const mapel = document.getElementById("filterMapel").value;
-    const header = document.querySelector("table thead tr");
+    const header = document.getElementById("tableHeader"); // ✅ lebih spesifik
     const label = document.getElementById("ringkasanLabel");
 
     if (mapel === "Semua") {
-        // Tampilan Ringkasan (Gambar 3 & 4)
+        // ✅ BALIK KE TAMPILAN AWAL (100% sama)
         label.innerText = "RINGKASAN NILAI";
-        header.innerHTML = `
-            <th class="py-3 pl-6 text-left rounded-l-xl text-[10px] font-black uppercase tracking-widest">Nama Siswa</th>
-            <th class="py-3 text-center text-[10px] font-black uppercase tracking-widest">Matematika</th>
-            <th class="py-3 text-center text-[10px] font-black uppercase tracking-widest">B. Indo</th>
-            <th class="py-3 text-center text-[10px] font-black uppercase tracking-widest">IPA</th>
-            <th class="py-3 text-center text-[10px] font-black uppercase tracking-widest">IPS</th>
-            <th class="py-3 pr-6 text-center rounded-r-xl bg-[#2563eb] text-[10px] font-black uppercase tracking-widest">Rerata</th>
-        `;
+        header.innerHTML = defaultHeader;
     } else {
-        // Tampilan Detail per Mapel (Gambar 7)
+        // ✅ TAMPILAN DETAIL
         label.innerHTML = `DETAIL NILAI: <span class="text-blue-600 font-black">${mapel.toUpperCase()}</span>`;
+
         header.innerHTML = `
             <th class="py-3 pl-6 text-left rounded-l-xl text-[10px] font-black uppercase tracking-widest">Nama Siswa</th>
             <th class="py-3 text-center text-[10px] font-black uppercase tracking-widest">UH 1</th>
@@ -496,14 +528,67 @@ function updateTableByMapel() {
   }
 
   // Penting: Jalankan ini saat halaman pertama kali dibuka
-  document.addEventListener("DOMContentLoaded", () => {
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme === "dark") {
-      document.body.classList.add("dark-mode");
-      const icon = document.getElementById("themeIcon");
-      if(icon) icon.classList.replace("fa-moon", "fa-sun");
-    }
-  });
+  let defaultHeader; // <-- bikin global
+
+document.addEventListener("DOMContentLoaded", () => {
+  // simpan header awal
+  defaultHeader = document.getElementById("tableHeader").innerHTML;
+
+  // ambil theme dari localStorage
+  const savedTheme = localStorage.getItem("theme");
+
+  if (savedTheme === "dark") {
+    document.body.classList.add("dark-mode");
+    const icon = document.getElementById("themeIcon");
+    if (icon) icon.classList.replace("fa-moon", "fa-sun");
+  }
+});
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const profileBtn = document.getElementById('profileBtn');
+    const profileDropdown = document.getElementById('profileDropdown');
+
+    // 1. Toggle dropdown saat tombol diklik
+    profileBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        profileDropdown.classList.toggle('hidden');
+        profileDropdown.classList.toggle('show-profile');
+    });
+
+    // 2. Tutup dropdown jika klik di luar area profil
+    document.addEventListener('click', function(e) {
+        if (!profileDropdown.contains(e.target) && !profileBtn.contains(e.target)) {
+            profileDropdown.classList.add('hidden');
+            profileDropdown.classList.remove('show-profile');
+        }
+    });
+
+    // 3. Efek Hover tambahan untuk tombol
+    profileBtn.addEventListener('mouseenter', () => {
+        profileBtn.querySelector('.fa-chevron-down').style.transform = 'translateY(2px)';
+    });
+    profileBtn.addEventListener('mouseleave', () => {
+        profileBtn.querySelector('.fa-chevron-down').style.transform = 'translateY(0)';
+    });
+});
+
+// Fungsi Logout (Jika belum ada)
+function handleLogout() {
+    Swal.fire({
+        title: 'Keluar Sistem?',
+        text: "Sesi Anda akan diakhiri.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#C9494C',
+        cancelButtonColor: '#63a4ff',
+        confirmButtonText: 'Ya, Keluar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = 'login.html';
+        }
+    })
+}
 </script>
   </body>
 </html>

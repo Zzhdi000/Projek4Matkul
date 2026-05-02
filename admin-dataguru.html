@@ -258,30 +258,38 @@
               ></i>
             </button>
 
-            <div class="relative">
-              <button
-                id="profileBtn"
-                class="flex items-center gap-3 p-1.5 pr-5 bg-gray-100 dark:bg-white/10 rounded-full border border-[var(--border)]"
-              >
-                <img
-                  src="https://ui-avatars.com/api/?name=Admin&background=C9494C&color=fff"
-                  class="w-9 h-9 rounded-full"
-                />
-                <div class="text-left hidden sm:block">
-                  <p class="text-[10px] font-black uppercase leading-none">
-                    Administrator
-                  </p>
-                  <p class="text-[9px] opacity-50 font-bold">Sistem Akademik</p>
-                </div>
-              </button>
-              <div
-                id="profileDropdown"
-                class="hidden absolute right-0 mt-4 w-80 bg-[var(--dropdown-bg)] border border-[var(--border)] rounded-[24px] shadow-2xl p-6 z-[9999]"
-              >
-                <div id="profileContent"></div>
-              </div>
+           <div class="relative">
+    <button id="profileBtn" class="flex items-center gap-3 p-1.5 pr-5 bg-gray-100 dark:bg-white/10 rounded-full border border-[var(--border)] hover:bg-gray-200 dark:hover:bg-white/20 transition-all text-[var(--text-main)]">
+        <div class="w-10 h-10 rounded-full bg-red-600 flex items-center justify-center text-white font-bold text-sm shadow-sm">
+            AJ
+        </div>
+        <span class="text-sm font-black italic">Admin Johny</span>
+        <i class="fas fa-chevron-down text-[10px] opacity-40"></i>
+    </button>
+    
+    <div id="profileDropdown" class="hidden absolute right-0 mt-4 w-72 bg-[var(--dropdown-bg)] border border-[var(--border)] p-8 z-[9999]">
+        <div class="flex flex-col items-center text-center">
+            <div class="w-24 h-24 bg-blue-400 rounded-3xl flex items-center justify-center text-white text-4xl font-black shadow-lg mb-6">
+                MN
             </div>
-          </div>
+            
+            <h3 class="text-xl font-black text-[var(--text-main)]">Miftahun Nikmah</h3>
+            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-6">Super Administrator</p>
+            
+            <hr class="w-full border-[var(--border)] mb-6">
+
+            <div class="w-full bg-gray-50 dark:bg-white/5 rounded-2xl p-4 flex justify-between items-center mb-4">
+                <span class="text-[10px] font-black opacity-40 uppercase">ID Admin</span>
+                <span class="text-[11px] font-black text-[var(--text-main)]">#MN-2026-04</span>
+            </div>
+
+            <button class="w-full bg-blue-500 hover:bg-blue-600 text-white py-4 rounded-2xl text-xs font-black flex items-center justify-center gap-3 transition-all shadow-lg shadow-blue-500/30">
+                <i class="fas fa-lock text-[10px]"></i>
+                Keamanan Akun
+            </button>
+        </div>
+    </div>
+</div>
         </header>
 
         <main class="glass-card p-8 animate-fadeIn">
