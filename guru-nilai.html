@@ -8,35 +8,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <style>
       @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(10px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
       }
-      .animate-fadeIn {
-        animation: fadeIn 0.3s ease-out forwards;
-      }
-      .swal2-popup {
-        border-radius: 2rem !important;
-        padding: 2rem !important;
-      }
-      .swal2-title {
-        font-weight: 800 !important;
-        color: #1e293b !important;
-      }
-      .swal2-input,
-      .swal2-textarea {
+      .animate-fadeIn { animation: fadeIn 0.3s ease-out forwards; }
+      .swal2-popup { border-radius: 2rem !important; padding: 2rem !important; }
+      .swal2-title { font-weight: 800 !important; color: #1e293b !important; }
+      .swal2-input, .swal2-textarea {
         border-radius: 1rem !important;
         font-size: 0.9rem !important;
         background: #f8fafc !important;
@@ -44,103 +25,65 @@
         text-align: left !important;
         padding: 0 1rem !important;
       }
-      /* Tambahan agar tabel lebih stabil */
-      table {
-        table-layout: fixed;
+      table { table-layout: fixed; }
+      select.border-amber-400 { border-width: 1.5px; transition: all 0.2s; }
+      button:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+      button:disabled, button[disabled] {
+        background-color: #94a3b8 !important;
+        border-color: #cbd5e1 !important;
+        color: #f1f5f9 !important;
+        opacity: 0.7;
+        cursor: not-allowed;
+        transform: none !important;
+        box-shadow: none !important;
       }
     </style>
   </head>
   <body class="bg-slate-50 font-sans text-slate-900">
     <div class="flex min-h-screen">
-      <aside
-        class="w-64 bg-[#0f172a] text-white flex-shrink-0 hidden md:flex flex-col h-screen sticky top-0"
-      >
+      <!-- SIDEBAR -->
+      <aside class="w-64 bg-[#0f172a] text-white flex-shrink-0 hidden md:flex flex-col h-screen sticky top-0">
         <div class="p-6 border-b border-slate-800 flex items-center space-x-3">
           <i class="fas fa-user-shield text-2xl text-blue-400"></i>
           <span class="text-xl font-bold tracking-tight">BAGIAN GURU</span>
         </div>
-
-        <nav
-          class="flex-1 mt-6 px-4 space-y-2 overflow-y-auto custom-scrollbar"
-        >
-          <a
-            href="guru-dashboard.html"
-            class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition"
-          >
+        <nav class="flex-1 mt-6 px-4 space-y-2 overflow-y-auto custom-scrollbar">
+          <a href="guru-dashboard.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
             <i class="fas fa-database mr-3"></i> Beranda
           </a>
-          <a
-            href="guru-presensi.html"
-            class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition"
-          >
+          <a href="guru-presensi.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
             <i class="fas fa-user-check mr-3"></i> Presensi Siswa
           </a>
-          <a
-            href="guru-nilai.html"
-            class="flex items-center py-3 px-4 bg-[#2563eb] text-white rounded-xl transition shadow-lg shadow-blue-900/20"
-          >
+          <a href="guru-nilai.html" class="flex items-center py-3 px-4 bg-[#2563eb] text-white rounded-xl transition shadow-lg shadow-blue-900/20">
             <i class="fas fa-file-invoice mr-3"></i> Nilai Siswa
           </a>
-          <a
-            href="guru-jadwal.html"
-            class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition"
-          >
+          <a href="guru-jadwal.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
             <i class="fas fa-calendar-alt mr-3"></i> Jadwal Mengajar
           </a>
         </nav>
-
         <div class="p-6 border-t border-slate-800 bg-[#0f172a]">
-          <a
-            href="login.html#login"
-            class="flex items-center text-red-400 hover:text-red-300 font-bold transition"
-          >
+          <a href="login.html#login" class="flex items-center text-red-400 hover:text-red-300 font-bold transition">
             <i class="fas fa-sign-out-alt mr-3"></i> Keluar
           </a>
         </div>
       </aside>
 
       <div class="flex-1 flex flex-col">
-        <header
-          class="bg-white shadow-sm py-4 px-8 flex justify-between items-center sticky top-0 z-40"
-        >
-          <h2 class="text-xl font-bold text-slate-800 tracking-tight">
-            Nilai Siswa
-          </h2>
+        <header class="bg-white shadow-sm py-4 px-8 flex justify-between items-center sticky top-0 z-40">
+          <h2 class="text-xl font-bold text-slate-800 tracking-tight">Nilai Siswa</h2>
           <div class="relative">
-            <button
-              id="profileBtn"
-              class="flex items-center space-x-3 focus:outline-none group"
-            >
+            <button id="profileBtn" class="flex items-center space-x-3 focus:outline-none group">
               <div class="text-right mr-2 hidden sm:block">
-                <p
-                  class="text-[10px] font-bold bg-blue-100 text-blue-700 px-2 py-0.5 rounded-md uppercase inline-block mb-1"
-                >
-                  Guru Pengampu
-                </p>
-                <p
-                  class="text-xs font-bold text-slate-800 uppercase group-hover:text-blue-600 transition"
-                  id="nama-guru-header"
-                ></p> 
+                <p class="text-[10px] font-bold bg-blue-100 text-blue-700 px-2 py-0.5 rounded-md uppercase inline-block mb-1">Guru Pengampu</p>
+                <p class="text-xs font-bold text-slate-800 uppercase group-hover:text-blue-600 transition" id="nama-guru-header"></p>
               </div>
-              <div
-                class="w-10 h-10 rounded-full bg-[#0091d5] flex items-center justify-center text-white font-bold text-sm border-2 border-white shadow-md group-hover:scale-105 transition-all"
-                id="initial-guru-header"
-              ></div>
+              <div class="w-10 h-10 rounded-full bg-[#0091d5] flex items-center justify-center text-white font-bold text-sm border-2 border-white shadow-md group-hover:scale-105 transition-all" id="initial-guru-header"></div>
             </button>
-            <div
-              id="profileDropdown"
-              class="absolute right-0 mt-3 w-72 bg-white rounded-[2rem] shadow-2xl border border-slate-100 p-6 hidden animate-fadeIn z-50"
-            >
+            <div id="profileDropdown" class="absolute right-0 mt-3 w-72 bg-white rounded-[2rem] shadow-2xl border border-slate-100 p-6 hidden animate-fadeIn z-50">
               <div class="text-center mb-4">
-                <div
-                  class="w-16 h-16 bg-blue-50 rounded-full mx-auto flex items-center justify-center text-[#0091d5] text-xl font-black border-4 border-blue-100 mb-2"
-                  id="initial-guru-dropdown"
-                ></div>
+                <div class="w-16 h-16 bg-blue-50 rounded-full mx-auto flex items-center justify-center text-[#0091d5] text-xl font-black border-4 border-blue-100 mb-2" id="initial-guru-dropdown"></div>
                 <h4 class="text-sm font-black text-slate-800" id="nama-guru-dropdown"></h4>
-                <p
-                  class="text-[10px] text-slate-400 font-bold uppercase tracking-widest"
-                  id="nip-guru-dropdown"
-                ></p>
+                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest" id="nip-guru-dropdown"></p>
               </div>
               <div class="space-y-3" id="dropdownContent"></div>
             </div>
@@ -148,63 +91,79 @@
         </header>
 
         <main class="p-8">
-  <div class="space-y-6 animate-fadeIn">
-    
-    <div class="bg-white p-5 rounded-[2rem] shadow-sm border border-slate-100 flex flex-wrap gap-4 items-center">
-      </div>
+          <div class="max-w-[1600px] mx-auto space-y-6 animate-fadeIn">
+            <!-- FILTER BAR -->
+            <div class="bg-white p-5 rounded-[2rem] shadow-sm border border-slate-100 flex flex-wrap gap-4 items-center">
+              <div class="flex-1 min-w-[250px] relative">
+                <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                <input type="text" id="search-siswa" placeholder="Cari Nama Siswa..." class="w-full pl-11 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 transition-all text-sm" />
+              </div>
+              <div class="flex flex-wrap gap-3 items-start">
+                <select id="filter-kelas" class="p-2.5 bg-white border border-slate-200 rounded-xl text-sm font-semibold outline-none focus:ring-2 focus:ring-blue-500 min-w-[100px]">
+                  <option value="all">1-A</option>
+                </select>
+                <select id="filter-semester" class="p-2.5 bg-white border border-slate-200 rounded-xl text-sm font-semibold outline-none focus:ring-2 focus:ring-blue-500 min-w-[150px]">
+                  <option value="Semester">Pilih Semester</option>
+                  <option value="Ganjil">Ganjil</option>
+                  <option value="Genap">Genap</option>
+                </select>
+                <select id="filter-mapel" class="p-2.5 bg-white border border-slate-200 rounded-xl text-sm font-semibold outline-none focus:ring-2 focus:ring-blue-500 min-w-[150px]">
+                  <option value="Mapel">Pilih Mapel</option>
+                </select>
+                <div class="flex flex-col">
+                  <button id="btn-export-pdf" class="bg-slate-800 text-white px-6 py-2.5 rounded-xl text-sm font-bold hover:bg-slate-900 transition flex items-center shadow-md active:scale-95">
+                    <i class="fas fa-file-pdf mr-2"></i> Cetak PDF
+                  </button>
+                  <div id="export-status-msg" class="text-[10px] mt-1.5 text-amber-600"></div>
+                </div>
+              </div>
+            </div>
 
-    <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-100 overflow-hidden">
-      <div class="p-8">
-        <div class="overflow-x-auto">
-          <table class="w-full text-left border-separate border-spacing-y-3" style="table-layout: fixed;">
-            <thead>
-              <tr class="text-slate-400 text-[10px] uppercase font-black tracking-widest">
-                <th class="px-4 py-2 w-[120px]">NISN</th>
-                <th class="px-4 py-2 w-[220px]">Nama Siswa</th>
-                <th class="px-4 py-2 w-[80px]">Kelas</th>
-                
-                <th class="px-4 py-2 text-center w-[100px]">UH1</th>
-                <th class="px-4 py-2 text-center w-[100px]">UH2</th>
-                <th class="px-4 py-2 text-center w-[100px]">UTS</th>
-                <th class="px-4 py-2 text-center w-[120px]">Rata-Rata</th>
-              </tr>
-            </thead>
-            <tbody id="table-body-nilai" class="text-sm">
-                <tr class="hover:bg-slate-50/50 transition">
-                    <td class="px-4 py-4 text-slate-400 font-medium">1000000001</td>
-                    <td class="px-4 py-4 font-bold text-slate-700 uppercase truncate">Aaira Zeline Putri</td>
-                    <td class="px-4 py-4 text-slate-500 font-bold">1-A</td>
-                    <td class="px-4 py-4 text-center">
-                        <input type="number" value="100" class="w-16 p-2 text-center bg-slate-50 border border-slate-100 rounded-lg font-bold text-slate-600 outline-none focus:ring-2 focus:ring-blue-500">
-                    </td>
-                    <td class="px-4 py-4 text-center">
-                        <input type="number" value="0" class="w-16 p-2 text-center bg-slate-50 border border-slate-100 rounded-lg font-bold text-slate-600 outline-none focus:ring-2 focus:ring-blue-500">
-                    </td>
-                    <td class="px-4 py-4 text-center">
-                        <input type="number" value="0" class="w-16 p-2 text-center bg-slate-50 border border-slate-100 rounded-lg font-bold text-slate-600 outline-none focus:ring-2 focus:ring-blue-500">
-                    </td>
-                    <td class="px-4 py-4 text-center font-black text-slate-800">33.3</td>
-                </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <div class="px-8 py-6 bg-slate-50/50 border-t border-slate-100 flex justify-end rounded-b-[2.5rem]">
-        <button id="btn-simpan-nilai" class="bg-[#2563eb] text-white px-10 py-3 rounded-2xl font-bold shadow-lg shadow-blue-200 hover:bg-blue-700 transition-all active:scale-95">
-          Simpan Perubahan
-        </button>
-      </div>
-    </div>
-  </div>
-</main>
+            <!-- TABLE CARD -->
+            <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-100 overflow-hidden">
+              <div class="p-8">
+                <div class="overflow-x-auto">
+                  <table class="min-w-full text-left border-separate border-spacing-y-2" style="table-layout: fixed;">
+                    <thead>
+                      <tr class="text-slate-400 text-[10px] uppercase font-black tracking-widest">
+                        <th class="px-4 py-3 w-[120px]">NISN</th>
+                        <th class="px-4 py-3 w-[220px]">Nama Siswa</th>
+                        <th class="px-4 py-3 w-[100px] text-center">Kelas</th>
+                        <th class="px-4 py-3 text-center w-[90px]">UH1</th>
+                        <th class="px-4 py-3 text-center w-[90px]">UH2</th>
+                        <th class="px-4 py-3 text-center w-[90px]">UTS</th>
+                        <th class="px-4 py-3 text-center w-[120px]">Rata-Rata</th>
+                       </tr>
+                    </thead>
+                    <tbody id="table-body-nilai" class="text-sm">
+                      <!-- Data akan diisi oleh JavaScript -->
+                      <tr class="hover:bg-slate-50 transition-colors">
+                        <td class="px-4 py-3 text-slate-500 font-medium">1000000001</td>
+                        <td class="px-4 py-3 font-bold text-slate-800 uppercase truncate">Aaira Zeline Putri</td>
+                        <td class="px-4 py-3 text-slate-600 font-bold text-center whitespace-nowrap">1-A</td>
+                        <td class="px-4 py-3 text-center"><input type="number" value="100" class="w-14 p-2 text-center bg-slate-50 border border-slate-200 rounded-xl font-bold text-slate-700 outline-none focus:ring-2 focus:ring-blue-500 text-xs transition-all"></td>
+                        <td class="px-4 py-3 text-center"><input type="number" value="0" class="w-14 p-2 text-center bg-slate-50 border border-slate-200 rounded-xl font-bold text-slate-700 outline-none focus:ring-2 focus:ring-blue-500 text-xs transition-all"></td>
+                        <td class="px-4 py-3 text-center"><input type="number" value="0" class="w-14 p-2 text-center bg-slate-50 border border-slate-200 rounded-xl font-bold text-slate-700 outline-none focus:ring-2 focus:ring-blue-500 text-xs transition-all"></td>
+                        <td class="px-4 py-3 text-center font-black text-blue-600">33.3</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="px-8 py-6 bg-slate-50/50 border-t border-slate-100 flex justify-end">
+                <button id="btn-simpan-nilai" class="bg-[#2563eb] text-white px-10 py-3 rounded-2xl font-bold shadow-lg shadow-blue-200 hover:bg-blue-700 transition-all active:scale-95 flex items-center">
+                  <i class="fas fa-save mr-2"></i> Simpan Perubahan
+                </button>
+              </div>
+            </div>
+          </div>
+        </main>
       </div>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-
     <script src="firebase-config.js"></script>
     <script src="guru-nilai.js"></script>
   </body>
