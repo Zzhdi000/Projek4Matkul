@@ -321,6 +321,48 @@
     from { opacity: 0; transform: scale(0.9) translateY(-10px); }
     to { opacity: 1; transform: scale(1) translateY(0); }
 }
+
+/* Sidebar Prominent Styling */
+aside {
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 0 1px rgba(0, 0, 0, 0.1) !important;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.dark-mode aside {
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 1px rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+@media print {
+
+  body * {
+    visibility: hidden !important;
+  }
+
+  /* 🔥 TAMBAHAN PENTING */
+  #areaCetakRekap {
+    display: block !important;
+  }
+
+  /* MODE REKAP */
+  body:not(.printing-detail) #areaCetakRekap,
+  body:not(.printing-detail) #areaCetakRekap * {
+    visibility: visible !important;
+  }
+
+  /* MODE DETAIL */
+  body.printing-detail #viewDetailJadwal,
+  body.printing-detail #viewDetailJadwal * {
+    visibility: visible !important;
+  }
+
+  #areaCetakRekap,
+  #viewDetailJadwal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+}
     </style>
 </head>
 
@@ -402,7 +444,7 @@
                 
                 <div class="relative">
     <button id="profileTrigger" class="flex items-center gap-3 p-1.5 pr-5 bg-gray-100 dark:bg-white/10 rounded-full border border-[var(--border)] hover:bg-gray-200 dark:hover:bg-white/20 transition-all cursor-pointer">
-        <div class="w-10 h-10 rounded-full bg-red-600 flex items-center justify-center text-white font-bold text-sm">AD</div>
+        <div class="w-10 h-10 rounded-full bg-blue-400 flex items-center justify-center text-white font-bold text-sm">AD</div>
         <span class="text-sm font-black italic">Admin Johny</span>
         <i class="fas fa-chevron-down text-[10px] opacity-50"></i>
     </button>
@@ -494,6 +536,24 @@ class="bg-indigo-500 text-white font-black py-3.5 px-6 rounded-2xl text-[10px] u
     </div>
     
   </div>
+  <!-- VIEW SEMUA GURU (MASTER SCHEDULE) -->
+<section id="viewSemuaGuru" class="view-section hidden space-y-6">
+  <div class="flex items-center gap-4">
+    <button onclick="backToGuru()" class="w-10 h-10 glass-card flex items-center justify-center hover:bg-[var(--accent-blue)] hover:text-white transition-all">
+      <i class="fas fa-arrow-left"></i>
+    </button>
+    <div>
+      <h3 class="text-xl font-black uppercase">Jadwal Seluruh Guru</h3>
+      <p class="text-xs font-bold opacity-50 uppercase tracking-widest">Master Schedule SDN Ganting</p>
+    </div>
+  </div>
+
+  <div class="glass-card p-8">
+    <div id="masterGrid" class="schedule-grid min-w-[900px]">
+      <!-- Konten akan diisi via JS -->
+    </div>
+  </div>
+</section>
 
   <div class="glass-card p-8">
     <div id="detailJadwal">
@@ -837,16 +897,97 @@ document.getElementById("formJadwal").addEventListener("submit", async (e) => {
   }
 });
 
+// Tambahkan fungsi baru ini di bagian <script>
+async function cetakRekapSemuaGuru() {
+    const tbody = document.getElementById("isiTabelRekap");
+    tbody.innerHTML = "<tr><td colspan='5' style='text-align:center; padding:20px;'>Memproses data...</td></tr>";
+
+    try {
+        // 1. Ambil semua data dari koleksi jadwal_guru
+        const snapshot = await db.collection("jadwal_guru").get();
+        let rows = "";
+
+        if (snapshot.empty) {
+            Swal.fire("Data Kosong", "Tidak ada jadwal untuk dicetak", "warning");
+            return;
+        }
+
+        // 2. Olah data untuk dimasukkan ke tabel
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            const namaGuru = data.nama;
+            const mapelUtama = data.mapel;
+
+            // Loop setiap hari dalam jadwal guru tersebut
+            if (data.jadwal) {
+                const daftarHari = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+                
+                daftarHari.forEach(hari => {
+                    const keyHari = hari.toLowerCase();
+                    if (data.jadwal[keyHari]) {
+                        data.jadwal[keyHari].forEach(slot => {
+                            rows += `
+                                <tr>
+                                    <td style="padding: 8px; text-align: center;">${slot.jam}</td>
+                                    <td style="padding: 8px; text-align: center;">${hari}</td>
+                                    <td style="padding: 8px;">${namaGuru}</td>
+                                    <td style="padding: 8px;">${slot.mapel || mapelUtama}</td>
+                                    <td style="padding: 8px; text-align: center;">${slot.kelas}</td>
+                                </tr>
+                            `;
+                        });
+                    }
+                });
+            }
+        });
+
+        tbody.innerHTML = rows;
+
+        // 3. Eksekusi Print
+        setTimeout(() => {
+            window.print();
+        }, 500);
+
+    } catch (error) {
+        console.error("Error cetak rekap:", error);
+        Swal.fire("Gagal", "Terjadi kesalahan saat mengambil data", "error");
+    }
+}
+
+// Update fungsi tombol cetak utama
 function printJadwal() {
-  const detail = document.getElementById("viewDetailJadwal");
+    const isDetailHidden = document
+        .getElementById("viewDetailJadwal")
+        .classList.contains("hidden");
 
-  // cek apakah lagi di halaman detail
-  if (detail.classList.contains("hidden")) {
-    Swal.fire("Pilih Guru Dulu!", "Silakan buka jadwal guru terlebih dahulu.", "warning");
-    return;
-  }
+    if (isDetailHidden) {
+        // MODE REKAP
+        document.body.classList.remove("printing-detail");
 
-  window.print();
+        Swal.fire({
+            title: 'Cetak Rekap?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Ya'
+        }).then((result) => {
+            if (result.isConfirmed) cetakRekapSemuaGuru();
+        });
+
+    } else {
+        // MODE DETAIL (PER GURU)
+        document.body.classList.add("printing-detail");
+
+        setTimeout(() => {
+            window.print();
+            document.body.classList.remove("printing-detail");
+        }, 200);
+    }
+}
+// Update fungsi backToGuru agar menutup master view juga
+function backToGuru() {
+  document.getElementById("viewDetailJadwal").classList.add("hidden");
+  document.getElementById("viewSemuaGuru").classList.add("hidden");
+  document.getElementById("viewGuru").classList.remove("hidden");
 }
 </script>
 <script>
@@ -995,7 +1136,28 @@ document.addEventListener("DOMContentLoaded", function() {
     </form>
   </div>
 </div>
-
+<!-- AREA KHUSUS CETAK REKAP (Standard Table) -->
+<div id="areaCetakRekap" class="hidden">
+    <div style="text-align: center; margin-bottom: 20px;">
+        <h2 style="text-transform: uppercase;">Rekap Jadwal Mengajar Guru</h2>
+        <h3 style="text-transform: uppercase;">SDN GANTING</h3>
+        <hr style="border: 1px solid #000;">
+    </div>
+    <table border="1" style="width: 100%; border-collapse: collapse; font-family: sans-serif; font-size: 12px;">
+        <thead>
+            <tr style="background-color: #f2f2f2;">
+                <th style="padding: 10px;">JAM</th>
+                <th style="padding: 10px;">HARI</th>
+                <th style="padding: 10px;">NAMA GURU</th>
+                <th style="padding: 10px;">MAPEL</th>
+                <th style="padding: 10px;">KELAS</th>
+            </tr>
+        </thead>
+        <tbody id="isiTabelRekap">
+            <!-- Data dari database masuk sini -->
+        </tbody>
+    </table>
+</div>
 
 </body>
 </html>

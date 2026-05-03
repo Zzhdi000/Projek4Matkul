@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Data Siswa - Master Panel SDN Ganting</title>
-
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
     <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
@@ -131,6 +131,17 @@
 
       .dark-mode .btn-logout:hover {
         background-color: rgba(239, 68, 68, 0.1) !important;
+      }
+
+      /* Sidebar Prominent Styling */
+      aside {
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 0 1px rgba(0, 0, 0, 0.1) !important;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+      }
+
+      .dark-mode aside {
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 1px rgba(255, 255, 255, 0.1) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08);
       } 
         .dark-mode .custom-table thead {
             background: var(--accent-blue);
@@ -251,7 +262,7 @@
                 
                <div class="relative">
     <button id="profileTrigger" class="flex items-center gap-3 p-1.5 pr-5 bg-gray-100 dark:bg-white/10 rounded-full border border-[var(--border)] hover:bg-gray-200 dark:hover:bg-white/20 transition-all cursor-pointer">
-        <div class="w-10 h-10 rounded-full bg-red-600 flex items-center justify-center text-white font-bold text-sm">AD</div>
+        <div class="w-10 h-10 rounded-full bg-blue-400 flex items-center justify-center text-white font-bold text-sm">AD</div>
         <span class="text-sm font-black italic">Admin Johny</span>
         <i class="fas fa-chevron-down text-[10px] opacity-50"></i>
     </button>
@@ -430,6 +441,7 @@
         </div>
     </div>
 </div>
+
 <script>
 
     function toggleTheme() {

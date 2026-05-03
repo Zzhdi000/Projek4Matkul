@@ -115,6 +115,34 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* Pastikan dropdown muncul di atas elemen lain */
+#profileDropdown {
+    backdrop-filter: blur(20px);
+    transform-origin: top right;
+}
+
+/* Animasi sederhana */
+.show-dropdown {
+    display: block !important;
+    animation: profilePop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes profilePop {
+    from { opacity: 0; transform: scale(0.9) translateY(-10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+        /* Sidebar Prominent Styling */
+        aside {
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 0 1px rgba(0, 0, 0, 0.1) !important;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        .dark-mode aside {
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 1px rgba(255, 255, 255, 0.1) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
         .hidden { display: none; }
     </style>
 </head>
@@ -172,32 +200,30 @@
                 </button>
                 
                 <div class="relative">
-    <button id="profileBtn" class="flex items-center gap-3 p-1.5 pr-5 bg-gray-100 dark:bg-white/10 rounded-full border border-[var(--border)] hover:bg-gray-200 dark:hover:bg-white/20 transition-all text-[var(--text-main)]">
-        <div class="w-10 h-10 rounded-full bg-red-600 flex items-center justify-center text-white font-bold text-sm shadow-sm">
-            AJ
-        </div>
+    <button id="profileTrigger" class="flex items-center gap-3 p-1.5 pr-5 bg-gray-100 dark:bg-white/10 rounded-full border border-[var(--border)] hover:bg-gray-200 dark:hover:bg-white/20 transition-all cursor-pointer">
+        <div class="w-10 h-10 rounded-full bg-blue-400 flex items-center justify-center text-white font-bold text-sm">AD</div>
         <span class="text-sm font-black italic">Admin Johny</span>
-        <i class="fas fa-chevron-down text-[10px] opacity-40"></i>
+        <i class="fas fa-chevron-down text-[10px] opacity-50"></i>
     </button>
-    
-    <div id="profileDropdown" class="hidden absolute right-0 mt-4 w-72 bg-[var(--dropdown-bg)] border border-[var(--border)] p-8 z-[9999]">
-        <div class="flex flex-col items-center text-center">
+
+    <div id="profileDropdown" class="absolute right-0 mt-4 w-72 bg-[var(--card-bg)] rounded-[30px] shadow-2xl border border-[var(--border)] overflow-hidden hidden animate-fadeIn z-[999]">
+        <div class="p-8 flex flex-col items-center text-center">
             <div class="w-24 h-24 bg-blue-400 rounded-3xl flex items-center justify-center text-white text-4xl font-black shadow-lg mb-6">
                 MN
             </div>
-            
+
             <h3 class="text-xl font-black text-[var(--text-main)]">Miftahun Nikmah</h3>
             <p class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-6">Super Administrator</p>
-            
+
             <hr class="w-full border-[var(--border)] mb-6">
 
             <div class="w-full bg-gray-50 dark:bg-white/5 rounded-2xl p-4 flex justify-between items-center mb-4">
                 <span class="text-[10px] font-black opacity-40 uppercase">ID Admin</span>
-                <span class="text-[11px] font-black text-[var(--text-main)]">#MN-2026-04</span>
+                <span class="text-[11px] font-black">#MN-2026-04</span>
             </div>
 
             <button class="w-full bg-blue-500 hover:bg-blue-600 text-white py-4 rounded-2xl text-xs font-black flex items-center justify-center gap-3 transition-all shadow-lg shadow-blue-500/30">
-                <i class="fas fa-lock text-[10px]"></i>
+                <i class="fas fa-lock"></i>
                 Keamanan Akun
             </button>
         </div>
@@ -338,36 +364,25 @@
 }
 
     // Profile Dropdown Logic
-    const btn = document.getElementById("profileBtn");
-    const drop = document.getElementById("profileDropdown");
-    const content = document.getElementById("profileContent");
+    document.addEventListener("DOMContentLoaded", function() {
+        const trigger = document.getElementById('profileTrigger');
+        const dropdown = document.getElementById('profileDropdown');
 
-    btn.onclick = (e) => {
-        e.stopPropagation();
-        drop.classList.toggle("hidden");
-        renderProfile();
-    };
+        // Toggle Dropdown saat tombol diklik
+        trigger.addEventListener('click', function(e) {
+            e.stopPropagation();
+            dropdown.classList.toggle('hidden');
+            dropdown.classList.toggle('show-dropdown');
+        });
 
-    window.onclick = () => drop.classList.add("hidden");
-
-    function renderProfile() {
-        content.innerHTML = `
-            <div class="text-center mb-6 border-b border-[var(--border)] pb-6">
-                <div class="w-20 h-20 bg-[var(--accent-blue)] rounded-3xl mx-auto flex items-center justify-center text-white text-3xl font-black shadow-xl mb-4">MN</div>
-                <p class="font-black text-xl text-[var(--text-main)]">Miftahun Nikmah</p>
-                <p class="text-[10px] opacity-60 uppercase font-black tracking-widest mt-1">Super Administrator</p>
-            </div>
-            <div class="space-y-3">
-                <div class="flex justify-between items-center text-xs p-4 bg-gray-100 dark:bg-white/5 rounded-2xl">
-                    <span class="opacity-50 font-bold uppercase">ID Admin</span>
-                    <span class="font-black text-[var(--text-main)]">#MN-2026-04</span>
-                </div>
-                <button class="w-full bg-[var(--accent-blue)] text-white py-4 rounded-2xl text-xs font-black shadow-lg shadow-blue-100 dark:shadow-none hover:brightness-110 transition-all">
-                    <i class="fas fa-lock mr-2"></i> Keamanan Akun
-                </button>
-            </div>
-        `;
-    }
+        // Tutup dropdown jika user klik di mana saja di luar card
+        document.addEventListener('click', function(e) {
+            if (!dropdown.contains(e.target) && !trigger.contains(e.target)) {
+                dropdown.classList.add('hidden');
+                dropdown.classList.remove('show-dropdown');
+            }
+        });
+    });
 
     // Logout Function
     function handleLogout() {
