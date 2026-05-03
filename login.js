@@ -1,4 +1,4 @@
-// login.js (final)
+// login.js - versi final dengan penyimpanan mapel
 document.getElementById('loginForm').addEventListener('submit', async function(e) {
     e.preventDefault();
 
@@ -24,9 +24,12 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
         const userData = userSnapshot.docs[0].data();
         const emailAsli = userData.email;
 
-        // Ambil wali kelas: jika kelas = "-" atau kosong, set ke string kosong
+        // Ambil wali kelas dan mapel (pastikan tidak undefined)
         let waliKelas = userData.kelas || "";
         if (waliKelas === "-") waliKelas = "";
+        
+        let userMapel = userData.mapel || "";
+        if (userMapel === "-") userMapel = "";
 
         // Login ke Firebase Auth
         const userCredential = await auth.signInWithEmailAndPassword(emailAsli, passwordInput);
@@ -34,12 +37,13 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
 
         const role = userData.role ? userData.role.toLowerCase() : "";
 
-        // Simpan session dengan kunci KONSISTEN
+        // Simpan session dengan kunci yang konsisten
         localStorage.setItem("isLoggedIn", "true");
         localStorage.setItem("userRole", role);
         localStorage.setItem("userId", uid);
         localStorage.setItem("userName", userData.nama || userInput);
-        localStorage.setItem("waliKelas", waliKelas);   // ← gunakan kunci ini
+        localStorage.setItem("waliKelas", waliKelas);
+        localStorage.setItem("userMapel", userMapel);   // ← penting untuk guru mapel
 
         // Redirect
         if (role === "admin") {
