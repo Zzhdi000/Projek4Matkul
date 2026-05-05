@@ -165,33 +165,62 @@
     to { opacity: 1; transform: scale(1) translateY(0); }
 }
 
-      table {
-        border-collapse: separate;
-        border-spacing: 0 8px;
-      }
+      /* --- MODIFIKASI DESAIN TABEL --- */
 
-      .btn-logout {
-        color: #ef4444 !important;
-        border: 1.5px solid transparent;
-      }
-      .btn-logout:hover {
-        background-color: #fef2f2 !important;
-        border-color: #fee2e2;
-      }
-      .dark-mode .btn-logout:hover {
-        background-color: rgba(239, 68, 68, 0.1) !important;
-      }
+/* Menghilangkan spacing antar baris agar header menyatu */
+table {
+    border-collapse: separate;
+    border-spacing: 0; /* Ubah dari 0 8px menjadi 0 */
+    width: 100%;
+}
 
-      /* Sidebar Prominent Styling */
-      aside {
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 0 1px rgba(0, 0, 0, 0.1) !important;
-        border: 1px solid rgba(0, 0, 0, 0.08);
-      }
+/* Desain Header Biru Sesuai Gambar */
+thead tr {
+    background-color: #63a4ff !important; /* Biru cerah accent */
+    color: white !important;
+}
 
-      .dark-mode aside {
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 1px rgba(255, 255, 255, 0.1) !important;
-        border: 1px solid rgba(255, 255, 255, 0.08);
-      }
+thead th {
+    padding: 18px 15px !important;
+    font-weight: 900 !important;
+    font-size: 10px !important;
+    letter-spacing: 1.5px !important;
+    text-transform: uppercase;
+    border: none !important;
+}
+
+/* Membuat sudut melengkung hanya di ujung header */
+thead th:first-child {
+    border-radius: 20px 0 0 0;
+}
+thead th:last-child {
+    border-radius: 0 20px 0 0;
+}
+
+/* Desain Baris Tabel */
+#teacherTableBody tr {
+    background-color: var(--card-bg);
+    transition: all 0.3s ease;
+}
+
+#teacherTableBody td {
+    padding: 20px 15px;
+    border-bottom: 1px solid var(--border); /* Garis pemisah antar baris */
+    color: var(--text-main);
+}
+
+/* Efek Hover agar interaktif */
+#teacherTableBody tr:hover {
+    background-color: rgba(99, 164, 255, 0.05);
+}
+
+/* Perbaikan untuk Dark Mode */
+.dark-mode thead tr {
+    background-color: #4a8df3 !important; /* Biru sedikit lebih gelap untuk DM */
+}
+.dark-mode #teacherTableBody td {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
     </style>
   </head>
 
@@ -261,62 +290,49 @@
       </aside>
 
       <div class="flex-1 space-y-6">
-        <header
-          class="flex justify-between items-center glass-card px-8 py-5 relative z-40"
-        >
-          <div>
-            <h2 class="text-2xl font-black uppercase tracking-tight">
-              Data Tenaga Pengajar
-            </h2>
-            <p
-              class="text-xs font-bold opacity-50 uppercase tracking-widest italic"
-            >
-              SDN Ganting - Manajemen Pendidik
-            </p>
-          </div>
+       <header class="flex justify-between items-center glass-card px-8 py-5 relative z-50">
+    <div>
+        <h2 class="text-2xl font-black uppercase tracking-tight">Data Tenaga Pengajar</h2>
+        <p class="text-xs font-bold opacity-50 uppercase tracking-widest italic">SDN Ganting - Manajemen Pendidik</p>
+    </div>
 
-          <div class="flex items-center gap-5">
-            <button
-              onclick="toggleTheme()"
-              class="w-11 h-11 flex items-center justify-center rounded-2xl bg-gray-100 dark:bg-white/10 border border-[var(--border)] transition-all hover:scale-110"
-            >
-              <i
-                id="themeIcon"
-                class="fas fa-moon text-[var(--accent)] text-lg"
-              ></i>
+    <div class="flex items-center gap-5">
+        <button onclick="toggleTheme()" class="w-11 h-11 flex items-center justify-center rounded-2xl bg-gray-100 dark:bg-white/10 border border-[var(--border)] transition-all hover:scale-110">
+            <i id="themeIcon" class="fas fa-moon text-[var(--accent)] text-lg"></i>
+        </button>
+
+        <div class="relative">
+            <button id="profileTrigger" class="flex items-center gap-3 p-1.5 pr-5 bg-gray-100 dark:bg-white/10 rounded-full border border-[var(--border)] hover:bg-gray-200 dark:hover:bg-white/20 transition-all cursor-pointer">
+                <div class="w-10 h-10 rounded-full bg-blue-400 flex items-center justify-center text-white font-bold text-sm shadow-inner">AD</div>
+                <span class="text-sm font-black italic">Admin Johny</span>
+                <i class="fas fa-chevron-down text-[10px] opacity-50"></i>
             </button>
 
-           <div class="relative">
-    <button id="profileTrigger" class="flex items-center gap-3 p-1.5 pr-5 bg-gray-100 dark:bg-white/10 rounded-full border border-[var(--border)] hover:bg-gray-200 dark:hover:bg-white/20 transition-all cursor-pointer">
-        <div class="w-10 h-10 rounded-full bg-blue-400 flex items-center justify-center text-white font-bold text-sm">AD</div>
-        <span class="text-sm font-black italic">Admin Johny</span>
-        <i class="fas fa-chevron-down text-[10px] opacity-50"></i>
-    </button>
+            <div id="profileDropdown" class="absolute right-0 mt-4 w-72 bg-[var(--card-bg)] rounded-[35px] shadow-[0_20px_50px_rgba(0,0,0,0.2)] border border-[var(--border)] overflow-hidden hidden z-[9999] backdrop-blur-xl">
+                <div class="p-8 flex flex-col items-center text-center">
+                    <div class="w-24 h-24 bg-blue-500 rounded-[30px] flex items-center justify-center text-white text-4xl font-black shadow-xl mb-6 transform rotate-3">
+                        <span class="-rotate-3">MN</span>
+                    </div>
 
-    <div id="profileDropdown" class="absolute right-0 mt-4 w-72 bg-[var(--card-bg)] rounded-[30px] shadow-2xl border border-[var(--border)] overflow-hidden hidden animate-fadeIn z-[999]">
-        <div class="p-8 flex flex-col items-center text-center">
-            <div class="w-24 h-24 bg-blue-400 rounded-3xl flex items-center justify-center text-white text-4xl font-black shadow-lg mb-6">
-                MN
+                    <h3 class="text-xl font-black text-[var(--text-main)] mb-1">Miftahun Nikmah</h3>
+                    <p class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-6">Super Administrator</p>
+
+                    <div class="w-full h-[1px] bg-gray-100 dark:bg-white/10 mb-6"></div>
+
+                    <div class="w-full bg-gray-50 dark:bg-white/5 rounded-2xl p-4 flex justify-between items-center mb-6 border border-[var(--border)]">
+                        <span class="text-[9px] font-black opacity-40 uppercase tracking-tighter">ID Admin</span>
+                        <span class="text-[11px] font-black text-[var(--text-main)]">#MN-2026-04</span>
+                    </div>
+
+                    <button class="w-full bg-blue-500 hover:bg-blue-600 text-white py-4 rounded-2xl text-xs font-black flex items-center justify-center gap-3 transition-all shadow-lg shadow-blue-500/30 active:scale-95">
+                        <i class="fas fa-lock"></i>
+                        Keamanan Akun
+                    </button>
+                </div>
             </div>
-
-            <h3 class="text-xl font-black text-[var(--text-main)]">Miftahun Nikmah</h3>
-            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-6">Super Administrator</p>
-
-            <hr class="w-full border-[var(--border)] mb-6">
-
-            <div class="w-full bg-gray-50 dark:bg-white/5 rounded-2xl p-4 flex justify-between items-center mb-4">
-                <span class="text-[10px] font-black opacity-40 uppercase">ID Admin</span>
-                <span class="text-[11px] font-black">#MN-2026-04</span>
-            </div>
-
-            <button class="w-full bg-blue-500 hover:bg-blue-600 text-white py-4 rounded-2xl text-xs font-black flex items-center justify-center gap-3 transition-all shadow-lg shadow-blue-500/30">
-                <i class="fas fa-lock"></i>
-                Keamanan Akun
-            </button>
         </div>
     </div>
-</div>
-        </header>
+</header>
 
         <main class="glass-card p-8 animate-fadeIn">
           <div
@@ -397,12 +413,35 @@
             </table>
           </div>
 
-          <div
-            class="mt-8 flex justify-between items-center text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]"
-          >
-            <p id="totalGuruLabel">Menghitung data...</p>
-            <p>SIAKAD PRO © 2026</p>
-          </div>
+         <div class="mt-8 flex flex-col md:flex-row justify-between items-center gap-6">
+    <div class="flex items-center gap-4">
+        <div class="flex items-center gap-2">
+            <p id="totalGuruLabel" class="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">
+                Menampilkan 1-10 dari 50 Data
+            </p>
+        </div>
+        <div class="h-4 w-[1px] bg-[var(--border)]"></div>
+        <p class="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">
+            SIAKAD PRO © 2026
+        </p>
+    </div>
+
+    <div class="flex items-center gap-2" id="paginationContainer">
+        <button onclick="changePage('prev')" class="w-10 h-10 flex items-center justify-center rounded-xl border border-[var(--border)] text-gray-400 hover:bg-[var(--accent)] hover:text-white transition-all group">
+            <i class="fas fa-chevron-left text-[10px]"></i>
+        </button>
+        
+        <div class="flex gap-2" id="pageNumbers">
+            <button class="w-10 h-10 flex items-center justify-center rounded-xl bg-[var(--accent)] text-white font-black text-[11px] shadow-lg shadow-blue-500/30">1</button>
+            <button class="w-10 h-10 flex items-center justify-center rounded-xl border border-[var(--border)] text-gray-500 font-black text-[11px] hover:bg-gray-100 dark:hover:bg-white/10 transition-all">2</button>
+            <button class="w-10 h-10 flex items-center justify-center rounded-xl border border-[var(--border)] text-gray-500 font-black text-[11px] hover:bg-gray-100 dark:hover:bg-white/10 transition-all">3</button>
+        </div>
+
+        <button onclick="changePage('next')" class="w-10 h-10 flex items-center justify-center rounded-xl border border-[var(--border)] text-gray-400 hover:bg-[var(--accent)] hover:text-white transition-all group">
+            <i class="fas fa-chevron-right text-[10px]"></i>
+        </button>
+    </div>
+</div>
         </main>
       </div>
     </div>
@@ -735,6 +774,35 @@
         }
       }
       loadTheme();
+
+      // Fungsi Navigasi Halaman
+let currentPage = 1;
+
+function changePage(action) {
+    if (action === 'next') {
+        currentPage++;
+        console.log("Pindah ke halaman:", currentPage);
+        // Panggil fungsi fetch data dari admin.js kamu di sini jika ada
+        // contoh: loadTeachers(currentPage); 
+    } else if (action === 'prev' && currentPage > 1) {
+        currentPage--;
+        console.log("Kembali ke halaman:", currentPage);
+    }
+    
+    // Memberikan feedback visual sederhana saat diklik
+    Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: 'info',
+        title: `Membuka Halaman ${currentPage}`,
+        showConfirmButton: false,
+        timer: 1500,
+        background: document.body.classList.contains('dark-mode') ? '#1a1a1d' : '#fff',
+        color: document.body.classList.contains('dark-mode') ? '#fff' : '#000'
+    });
+}
     </script>
+
+    
   </body>
 </html>

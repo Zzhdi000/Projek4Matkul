@@ -155,6 +155,38 @@ aside {
 header {
     z-index: 50 !important;
 }
+
+/* Styling Header Tabel Biru (Sesuai Gambar) */
+#tableHeader {
+    background-color: #63a4ff; /* Biru cerah sesuai gambar */
+    color: white;
+}
+
+#tableHeader th {
+    padding: 15px;
+    font-weight: 900;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+/* Radius pada ujung header */
+#tableHeader th:first-child {
+    border-top-left-radius: 20px;
+}
+#tableHeader th:last-child {
+    border-top-right-radius: 20px;
+}
+
+/* Baris tabel yang lebih bersih */
+.table-row {
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    transition: all 0.2s;
+}
+
+.dark-mode .table-row {
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
     </style>
   </head>
 
@@ -290,7 +322,7 @@ header {
 
   <!-- KIRI -->
   <div class="flex flex-wrap gap-3">
-    <select id="filterKelas" onchange="updateLabel()" class="bg-gray-50 dark:bg-white/5 border border-[var(--border)] px-4 py-2.5 rounded-xl text-[11px] font-bold outline-none cursor-pointer">
+    <select id="filterKelas" onchange="loadDataNilai()" class="bg-gray-50 dark:bg-white/5 border border-[var(--border)] px-4 py-2.5 rounded-xl text-[11px] font-bold outline-none cursor-pointer">
       <option value="">SEMUA KELAS</option>
                         <option value="1-A">KELAS 1-A</option>
                         <option value="1-B">KELAS 1-B</option>
@@ -356,46 +388,50 @@ header {
   </table>
 </div>
   </div>
+  
+  <div class="flex justify-between items-center mt-6 px-2">
+    <p id="showingText" class="text-[10px] font-bold opacity-50 uppercase"></p>
+    <div id="paginationControls" class="flex gap-2">
+        </div>
+</div>
 </section>
       </div>
     </div>
 
    <script>
     
-    // 1. LOGIKA SWITCHING VIEW & DATA DETAIL
-   async function loadDetailMapel(mapel) {
+  // Tambahkan filter kelas juga di fungsi Detail Mapel
+async function loadDetailMapel(mapel) {
     const tableBody = document.getElementById("tableBody");
+    const filterKelas = document.getElementById("filterKelas").value;
     tableBody.innerHTML = "";
 
-    const nilaiSnap = await db.collection("nilai")
-        .where("mapel", "==", mapel)
-        .get();
+    let query = db.collection("nilai").where("mapel", "==", mapel);
+    
+    // Jika ada filter kelas, tambahkan ke query
+    if (filterKelas !== "") {
+        query = query.where("kelas", "==", filterKelas);
+    }
+
+    const nilaiSnap = await query.get();
 
     nilaiSnap.forEach(doc => {
         const n = doc.data();
-
-        const nisn = n.nisn || "-";
-        const nama = n.nama || "-";
-        const kelas = n.kelas || "-";
-        const uh1 = n.uh1 || 0;
-        const uh2 = n.uh2 || 0;
-        const uts = n.uts || 0;
-        const rata = (((uh1 + uh2 + uts) / 3)).toFixed(1);
+        const rata = (((n.uh1 || 0) + (n.uh2 || 0) + (n.uts || 0)) / 3).toFixed(1);
 
         tableBody.innerHTML += `
-            <tr class="bg-white dark:bg-white/5 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                <td class="py-5 pl-6 rounded-l-2xl border-y border-l border-gray-100 dark:border-white/10 font-bold">${nisn}</td>
-                <td class="py-5 text-center border-y border-gray-100 dark:border-white/10 font-bold">${nama}</td>
-                <td class="py-5 text-center border-y border-gray-100 dark:border-white/10">${kelas}</td>
-                <td class="py-5 text-center border-y border-gray-100 dark:border-white/10">${uh1}</td>
-                <td class="py-5 text-center border-y border-gray-100 dark:border-white/10">${uh2}</td>
-                <td class="py-5 text-center border-y border-gray-100 dark:border-white/10">${uts}</td>
-                <td class="py-5 pr-6 text-center rounded-r-2xl border-y border-r border-gray-100 dark:border-white/10 bg-blue-50/50 dark:bg-blue-500/5 font-black text-blue-600">${rata}</td>
+            <tr class="table-row bg-white dark:bg-white/5 hover:bg-gray-50 dark:hover:bg-white/10 transition-all">
+                <td class="py-5 pl-6 font-bold text-xs">${n.nisn || "-"}</td>
+                <td class="py-5 text-center font-bold text-sm">${n.nama || "-"}</td>
+                <td class="py-5 text-center font-bold text-xs">${n.kelas || "-"}</td>
+                <td class="py-5 text-center font-bold text-xs">${n.uh1 || 0}</td>
+                <td class="py-5 text-center font-bold text-xs">${n.uh2 || 0}</td>
+                <td class="py-5 text-center font-bold text-xs">${n.uts || 0}</td>
+                <td class="py-5 pr-6 text-center font-black text-sm text-blue-500">${rata}</td>
             </tr>
         `;
     });
 }
-
 // PASTIKAN fungsi renderRow ini ada di dalam script kamu
 function renderRow(nama, kelas, tugas, uts, uas, akhir, status) {
     const statusClass = status.toLowerCase() === 'tuntas' 
@@ -420,79 +456,135 @@ function renderRow(nama, kelas, tugas, uts, uas, akhir, status) {
 }
 </script>
 <script>
-  let currentPage = 1;
+  
+
+let currentPage = 1;
 const rowsPerPage = 10;
-let allData = [];
+let filteredData = []; // Untuk menampung data yang sudah difilter
 
 async function loadDataNilai() {
     const tableBody = document.getElementById("tableBody");
-    tableBody.innerHTML = "";
+    const filterKelas = document.getElementById("filterKelas").value;
+    tableBody.innerHTML = `<tr class="text-center"><td colspan="4" class="py-10 opacity-50">Memuat data...</td></tr>`;
 
-    const studentsSnap = await db.collection("students").get();
-    const nilaiSnap = await db.collection("nilai").get();
+    try {
+        const studentsSnap = await db.collection("students").get();
+        const nilaiSnap = await db.collection("nilai").get();
 
-    let studentsMap = {};
-    let nilaiPerSiswa = {};
+        let studentsMap = {};
+        let nilaiPerSiswa = {};
+        let tempArray = [];
 
-    // mapping siswa
-    studentsSnap.forEach(doc => {
-        const s = doc.data();
-        const nisn = String(s.nisn);
-
-        studentsMap[nisn] = s;
-        nilaiPerSiswa[nisn] = [];
-    });
-
-    // kumpulkan semua nilai per siswa
-    nilaiSnap.forEach(doc => {
-        const n = doc.data();
-        const nisn = String(n.nisn);
-
-        if (nilaiPerSiswa[nisn]) {
-            nilaiPerSiswa[nisn].push(n);
-        }
-    });
-
-    // render per siswa
-    Object.keys(nilaiPerSiswa).forEach(nisn => {
-        const siswa = studentsMap[nisn];
-        const listNilai = nilaiPerSiswa[nisn];
-
-        if (!siswa || listNilai.length === 0) return;
-
-        let total = 0;
-        let count = 0;
-
-        listNilai.forEach(n => {
-            const avg = ((n.uh1 || 0) + (n.uh2 || 0) + (n.uts || 0)) / 3;
-            total += avg;
-            count++;
+        studentsSnap.forEach(doc => {
+            const s = doc.data();
+            const nisn = String(s.nisn);
+            if (filterKelas === "" || s.kelas === filterKelas) {
+                studentsMap[nisn] = s;
+                nilaiPerSiswa[nisn] = [];
+            }
         });
 
-        const rata = (total / count).toFixed(1);
+        nilaiSnap.forEach(doc => {
+            const n = doc.data();
+            const nisn = String(n.nisn);
+            if (nilaiPerSiswa[nisn]) nilaiPerSiswa[nisn].push(n);
+        });
 
+        // Susun data ke dalam array filteredData
+        Object.keys(nilaiPerSiswa).forEach(nisn => {
+            const siswa = studentsMap[nisn];
+            const listNilai = nilaiPerSiswa[nisn];
+            let rata = 0;
+            if (listNilai.length > 0) {
+                let total = 0;
+                listNilai.forEach(n => { total += ((n.uh1 || 0) + (n.uh2 || 0) + (n.uts || 0)) / 3; });
+                rata = (total / listNilai.length).toFixed(1);
+            }
+            tempArray.push({ ...siswa, nisn, rata });
+        });
+
+        filteredData = tempArray;
+        currentPage = 1; // Reset ke hal 1 setiap filter berubah
+        displayTableData();
+
+    } catch (error) {
+        console.error("Error:", error);
+    }
+}
+
+function displayTableData() {
+    const tableBody = document.getElementById("tableBody");
+    tableBody.innerHTML = "";
+
+    // Logika potong array (Pagination)
+    let start = (currentPage - 1) * rowsPerPage;
+    let end = start + rowsPerPage;
+    let paginatedItems = filteredData.slice(start, end);
+
+    if (paginatedItems.length === 0) {
+        tableBody.innerHTML = `<tr><td colspan="4" class="py-10 text-center opacity-50 font-bold">Data tidak ditemukan</td></tr>`;
+    }
+
+    paginatedItems.forEach(item => {
         tableBody.innerHTML += `
-        <tr class="bg-white dark:bg-white/5 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-            
-            <td class="py-5 pl-6 rounded-l-2xl border-y border-l border-gray-100 font-bold">
-                ${siswa.nama}
-            </td>
-
-            <td class="py-5 text-center border-y border-gray-100">
-                ${nisn}
-            </td>
-
-            <td class="py-5 text-center border-y border-gray-100">
-                ${siswa.kelas}
-            </td>
-
-            <td class="py-5 pr-6 text-center rounded-r-2xl border-y border-r border-gray-100 bg-blue-50 font-bold text-blue-600">
-                ${rata}
-            </td>
-
-        </tr>
-        `;
+            <tr class="table-row bg-white dark:bg-white/5 hover:bg-gray-50 dark:hover:bg-white/10 transition-all">
+                <td class="py-5 pl-6 font-bold text-sm text-[var(--text-main)]">${item.nama}</td>
+                <td class="py-5 text-center text-xs font-bold opacity-60">${item.nisn}</td>
+                <td class="py-5 text-center text-xs font-bold">${item.kelas}</td>
+                <td class="py-5 pr-6 text-center font-black text-sm text-blue-500">${item.rata}</td>
+            </tr>`;
     });
+
+    renderPagination();
+    updateShowingText(start, end);
+}
+
+function renderPagination() {
+    const container = document.getElementById("paginationControls");
+    container.innerHTML = "";
+    const totalPages = Math.ceil(filteredData.length / rowsPerPage);
+    
+    if (totalPages <= 1) return;
+
+    // Logika "Sliding Window" Maksimal 5 nomor
+    let startPage = Math.max(1, currentPage - 2);
+    let endPage = Math.min(totalPages, startPage + 4);
+    
+    if (endPage - startPage < 4) {
+        startPage = Math.max(1, endPage - 4);
+    }
+
+    // Tombol Prev
+    if (currentPage > 1) {
+        container.innerHTML += `<button onclick="changePage(${currentPage - 1})" class="px-3 py-2 rounded-xl border border-[var(--border)] text-[10px] font-black hover:bg-blue-500 hover:text-white transition-all"><i class="fas fa-chevron-left"></i></button>`;
+    }
+
+    // Tombol Angka
+    for (let i = startPage; i <= endPage; i++) {
+        const activeClass = i === currentPage ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/30' : 'bg-white dark:bg-white/5 text-[var(--text-main)]';
+        container.innerHTML += `
+            <button onclick="changePage(${i})" class="w-10 h-10 rounded-xl border border-[var(--border)] text-[10px] font-black transition-all ${activeClass}">
+                ${i}
+            </button>
+        `;
+    }
+
+    // Tombol Next
+    if (currentPage < totalPages) {
+        container.innerHTML += `<button onclick="changePage(${currentPage + 1})" class="px-3 py-2 rounded-xl border border-[var(--border)] text-[10px] font-black hover:bg-blue-500 hover:text-white transition-all"><i class="fas fa-chevron-right"></i></button>`;
+    }
+}
+
+function changePage(page) {
+    currentPage = page;
+    displayTableData();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function updateShowingText(start, end) {
+    const total = filteredData.length;
+    const actualEnd = end > total ? total : end;
+    document.getElementById("showingText").innerText = `Menampilkan ${total > 0 ? start + 1 : 0} - ${actualEnd} dari ${total} Siswa`;
 }
 
 document.addEventListener("DOMContentLoaded", loadDataNilai);

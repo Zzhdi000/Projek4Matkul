@@ -11,6 +11,8 @@ const filterJabatan = document.getElementById("filterJabatan");
 let allTeachers = []; // Variable pembantu untuk search/filter
 let editMode = false;
 let currentEditId = null;
+let currentPage = 1;
+const rowsPerPage = 6;
 
 // 2. LOGIKA MODAL
 function openAddModal() {
@@ -51,61 +53,73 @@ function toggleBulkModal() {
 if (btnTambahGuru) btnTambahGuru.addEventListener("click", openAddModal);
 
 // 3. RENDER TABLE
+// 3. RENDER TABLE
 function renderTable(dataArray) {
-  teacherTableBody.innerHTML = "";
+    teacherTableBody.innerHTML = "";
+    
+    // --- PAGINATION LOGIC ---
+    const start = (currentPage - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
+    const paginatedData = dataArray.slice(start, end);
+    const totalPages = Math.ceil(dataArray.length / rowsPerPage);
 
-  if (dataArray.length === 0) {
-    teacherTableBody.innerHTML = `<tr><td colspan="6" class="p-10 text-center text-slate-400 italic">Data tidak ditemukan.</td></tr>`;
-    totalGuruLabel.innerText = "Total: 0 Guru";
-    return;
-  }
+    if (dataArray.length === 0) {
+        teacherTableBody.innerHTML = `<tr><td colspan="6" class="p-10 text-center text-slate-400 italic">Data tidak ditemukan.</td></tr>`;
+        totalGuruLabel.innerText = "Menampilkan 0 Data";
+        return;
+    }
 
-  dataArray.forEach((data, index) => {
-    const isWali = data.kelas && data.kelas !== "-";
-    const row = `
+    // Render baris tabel
+    paginatedData.forEach((data, index) => {
+        const isWali = data.kelas && data.kelas !== "-";
+        const row = `
             <tr class="hover:bg-slate-50 transition-colors border-b border-slate-50">
-                <td class="py-4 px-6 text-center font-bold text-slate-400 text-sm">${index + 1}</td>
+                <td class="py-4 px-6 text-center font-bold text-slate-400 text-sm">${start + index + 1}</td>
                 <td class="py-4 px-6">
                     <div class="font-bold text-slate-800">${data.nama}</div>
                     <div class="text-[10px] text-blue-500 font-black uppercase tracking-tight">User: ${data.username}</div>
                 </td>
                 <td class="py-4 px-6 text-center">
-                    ${
-                      isWali
-                        ? `<span class="bg-blue-50 text-blue-600 font-bold px-3 py-1 rounded-lg text-[11px] border border-blue-100">${data.kelas}</span>`
+                    ${isWali 
+                        ? `<span class="bg-blue-50 text-blue-600 font-bold px-3 py-1 rounded-lg text-[11px] border border-blue-100">${data.kelas}</span>` 
                         : `<span class="text-slate-300 font-bold text-[10px] uppercase italic">Guru Mapel</span>`
                     }
                 </td>
                 <td class="py-4 px-6 text-slate-600 text-sm italic">${data.email}</td>
-                
                 <td class="py-4 px-6 text-center">
-                    <span class="text-slate-300 tracking-[0.5em] text-[10px] font-black bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100 shadow-sm inline-block">
-                        ••••••••
-                    </span>
+                    <span class="text-slate-300 tracking-[0.5em] text-[10px] font-black bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100 inline-block">••••••••</span>
                 </td>
-
                 <td class="py-4 px-6 text-center">
                     <div class="flex items-center justify-center gap-2">
-                        <button onclick="editGuru('${data.id}')" 
-                                class="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 hover:bg-amber-500 hover:text-white transition inline-flex items-center justify-center border border-amber-100 shadow-sm"
-                                title="Edit Data">
-                            <i class="fas fa-pencil-alt text-xs"></i>
-                        </button>
-                        
-                        <button onclick="hapusGuru('${data.id}', '${data.nama}', '${data.email}')" 
-                                class="w-9 h-9 rounded-xl bg-red-50 text-red-600 hover:bg-red-500 hover:text-white transition inline-flex items-center justify-center border border-red-100 shadow-sm"
-                                title="Hapus Data">
-                            <i class="fas fa-trash-alt text-xs"></i>
-                        </button>
+                        <button onclick="editGuru('${data.id}')" class="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 hover:bg-amber-500 hover:text-white transition inline-flex items-center justify-center border border-amber-100"><i class="fas fa-pencil-alt text-xs"></i></button>
+                        <button onclick="hapusGuru('${data.id}', '${data.nama}', '${data.email}')" class="w-9 h-9 rounded-xl bg-red-50 text-red-600 hover:bg-red-500 hover:text-white transition inline-flex items-center justify-center border border-red-100"><i class="fas fa-trash-alt text-xs"></i></button>
                     </div>
                 </td>
             </tr>`;
-    teacherTableBody.innerHTML += row;
-  });
+        teacherTableBody.innerHTML += row;
+    });
 
-  totalGuruLabel.innerText = `Total: ${dataArray.length} Guru Terdaftar`;
+    // Update Label Info (Kiri)
+    totalGuruLabel.innerText = `Menampilkan ${start + 1}-${Math.min(end, dataArray.length)} dari ${dataArray.length} Data`;
+
+    // --- UPDATE TOMBOL PAGINATION (KANAN) ---
+    const pageNumbersContainer = document.getElementById("pageNumbers");
+    if (pageNumbersContainer) {
+        let paginationHTML = "";
+        for (let i = 1; i <= totalPages; i++) {
+            paginationHTML += `
+                <button onclick="changePage(${i})" 
+                    class="w-10 h-10 flex items-center justify-center rounded-xl font-black text-[11px] transition-all 
+                    ${i === currentPage 
+                        ? 'bg-[var(--accent)] text-white shadow-lg shadow-blue-500/30' 
+                        : 'border border-[var(--border)] text-gray-500 hover:bg-gray-100 dark:hover:bg-white/10'}">
+                    ${i}
+                </button>
+            `;
+        }
+        pageNumbersContainer.innerHTML = paginationHTML;
+    }
 }
-
 // 4. LOAD DATA GURU
 function loadTeachers() {
   db.collection("users")
@@ -118,6 +132,7 @@ function loadTeachers() {
           ...doc.data(),
         }));
         applyFilter();
+       
       },
       (error) => {
         console.error("Error loading teachers: ", error);
@@ -126,7 +141,9 @@ function loadTeachers() {
 }
 
 // 5. FUNGSI FILTER & SEARCH
-function applyFilter() {
+function applyFilter(resetPage = true) {
+  if (resetPage) currentPage = 1;
+
   const keyword = searchGuru.value.toLowerCase();
   const jabatan = filterJabatan.value;
 
@@ -342,3 +359,18 @@ function showToast(message, type = "success") {
 }
 
 document.addEventListener("DOMContentLoaded", loadTeachers);
+
+// 10. FUNGSI NAVIGASI HALAMAN (PAGINATION)
+function changePage(page) {
+    const totalPages = Math.ceil(allTeachers.length / rowsPerPage);
+
+    if (page === 'next') {
+        if (currentPage < totalPages) currentPage++;
+    } else if (page === 'prev') {
+        if (currentPage > 1) currentPage--;
+    } else {
+        currentPage = page;
+    }
+
+    applyFilter(false); // Render ulang tabel tanpa reset ke hal 1
+}
