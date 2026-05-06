@@ -53,21 +53,6 @@
         box-shadow: 0 8px 20px -6px var(--accent);
       }
 
-      .dark-mode {
-        --bg-body: #0f0f12;
-        --bg-sidebar: #000000;
-        --text-main: #ffffff;
-        --accent: var(--accent-blue);
-        --card-bg: rgba(30, 30, 35, 0.8);
-        --border: rgba(255, 255, 255, 0.15);
-        --dropdown-bg: #1a1a1d;
-        background: radial-gradient(
-          circle at 80% 0%,
-          #432e1f 0%,
-          #0f0f12 50%
-        ) !important;
-      }
-
       body {
         background-color: var(--bg-body);
         color: var(--text-main);
@@ -146,11 +131,6 @@ aside {
     border: 1px solid rgba(0, 0, 0, 0.08);
 }
 
-.dark-mode aside {
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 1px rgba(255, 255, 255, 0.1) !important;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
 /* Pastikan header punya stack order tinggi */
 header {
     z-index: 50 !important;
@@ -184,9 +164,6 @@ header {
     transition: all 0.2s;
 }
 
-.dark-mode .table-row {
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-}
     </style>
   </head>
 
@@ -268,15 +245,6 @@ header {
           </div>
 
           <div class="flex items-center gap-5">
-            <button
-              onclick="toggleTheme()"
-              class="w-12 h-12 flex items-center justify-center rounded-2xl bg-gray-100 dark:bg-white/10 border border-[var(--border)] transition-all"
-            >
-              <i
-                id="themeIcon"
-                class="fas fa-moon text-[var(--accent)] text-xl"
-              ></i>
-            </button>
 
             <div class="relative">
     <button
@@ -654,39 +622,12 @@ function updateTableByMapel() {
 }
 </script>
 <script>
-  // Fungsi untuk mengganti tema
-  function toggleTheme() {
-    const body = document.body;
-    const icon = document.getElementById("themeIcon");
-
-    // Menambah/menghapus class .dark-mode yang sudah kamu buat di CSS
-    body.classList.toggle("dark-mode");
-
-    // Mengganti icon bulan/matahari
-    if (body.classList.contains("dark-mode")) {
-      icon.classList.replace("fa-moon", "fa-sun");
-      localStorage.setItem("theme", "dark"); // Simpan pilihan
-    } else {
-      icon.classList.replace("fa-sun", "fa-moon");
-      localStorage.setItem("theme", "light"); // Simpan pilihan
-    }
-  }
-
   // Penting: Jalankan ini saat halaman pertama kali dibuka
   let defaultHeader; // <-- bikin global
 
 document.addEventListener("DOMContentLoaded", () => {
   // simpan header awal
   defaultHeader = document.getElementById("tableHeader").innerHTML;
-
-  // ambil theme dari localStorage
-  const savedTheme = localStorage.getItem("theme");
-
-  if (savedTheme === "dark") {
-    document.body.classList.add("dark-mode");
-    const icon = document.getElementById("themeIcon");
-    if (icon) icon.classList.replace("fa-moon", "fa-sun");
-  }
 });
 </script>
 <script>

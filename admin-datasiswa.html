@@ -35,19 +35,6 @@
             --border: rgba(0,0,0,0.1);
             --dropdown-bg: #FFFFFF;
         }
-
-         .dark-mode {
-            /* Mapping Dark Mode */
-            --bg-body: #0F0F12; 
-            --bg-sidebar: #000000;
-            --text-main: #FFFFFF;
-            --accent: var(--accent-blue);
-            --card-bg: rgba(30, 30, 35, 0.8); 
-            --border: rgba(255, 255, 255, 0.15);
-            --dropdown-bg: #1A1A1D;
-            --table-head: #1E1E24;
-            background: radial-gradient(circle at 80% 0%, #432e1f 0%, #0F0F12 50%) !important;
-        }
         
 
         body {
@@ -139,22 +126,8 @@
         border: 1px solid rgba(0, 0, 0, 0.08);
       }
 
-      .dark-mode aside {
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 1px rgba(255, 255, 255, 0.1) !important;
-        border: 1px solid rgba(255, 255, 255, 0.08);
-      } 
-        .dark-mode .custom-table thead {
-            background: var(--accent-blue);
-            color: #000;
-        }
-
         input, select, textarea {
             background-color: rgba(0,0,0,0.03) !important;
-        }
-        
-        .dark-mode input, .dark-mode select, .dark-mode textarea {
-            background-color: rgba(255,255,255,0.05) !important;
-            color: white;
         }
 
         @keyframes fadeIn {
@@ -256,9 +229,6 @@
             </div>
             
             <div class="flex items-center gap-5">
-                <button onclick="toggleTheme()" class="w-12 h-12 flex items-center justify-center rounded-2xl bg-gray-100 dark:bg-white/10 border border-[var(--border)] transition-all hover:scale-110">
-                    <i id="themeIcon" class="fas fa-moon text-[var(--accent)] text-xl"></i>                    
-                </button>
                 
                <div class="relative">
     <button id="profileTrigger" class="flex items-center gap-3 p-1.5 pr-5 bg-gray-100 dark:bg-white/10 rounded-full border border-[var(--border)] hover:bg-gray-200 dark:hover:bg-white/20 transition-all cursor-pointer">
@@ -468,19 +438,17 @@ function handleLogout() {
         return;
     }
 
-    const isDark = document.body.classList.contains('dark-mode');
-
     Swal.fire({
         title: 'Konfirmasi Keluar',
         text: "Apakah Anda yakin ingin mengakhiri sesi admin ini?",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#C9494C',
-        cancelButtonColor: isDark ? '#374151' : '#9CA3AF',
+        cancelButtonColor: '#9CA3AF',
         confirmButtonText: 'Ya, Keluar',
         cancelButtonText: 'Batal',
-        background: isDark ? '#1A1A1D' : '#FFFFFF',
-        color: isDark ? '#FFFFFF' : '#2D2D2D',
+        background: '#FFFFFF',
+        color: '#2D2D2D',
         borderRadius: '25px',
         customClass: {
             confirmButton: 'font-bold uppercase text-xs tracking-widest px-6 py-3',
@@ -499,23 +467,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const aside = document.querySelector('aside');
     if(aside) aside.style.zIndex = "100";
 });
-function loadTheme() {
-    const savedTheme = localStorage.getItem("theme");
 
-    const body = document.body;
-    const icon = document.getElementById("themeIcon");
-
-    if (savedTheme === "dark") {
-    body.classList.add("dark-mode");
-
-    if (icon) {
-        icon.classList.remove("fa-moon");
-        icon.classList.add("fa-sun");
-    }
-}
-}
-
-loadTheme();
 document.addEventListener("DOMContentLoaded", function() {
     const trigger = document.getElementById('profileTrigger');
     const dropdown = document.getElementById('profileDropdown');

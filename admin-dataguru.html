@@ -38,23 +38,6 @@
         --dropdown-bg: #ffffff;
       }
 
-      .dark-mode {
-        /* Mapping Dark Mode */
-        --bg-body: #0f0f12;
-        --bg-sidebar: #000000;
-        --text-main: #ffffff;
-        --accent: var(--accent-blue);
-        --card-bg: rgba(30, 30, 35, 0.8);
-        --border: rgba(255, 255, 255, 0.15);
-        --dropdown-bg: #1a1a1d;
-        --table-head: #1e1e24;
-        background: radial-gradient(
-          circle at 80% 0%,
-          #432e1f 0%,
-          #0f0f12 50%
-        ) !important;
-      }
-
       body {
         background-color: var(--bg-body);
         color: var(--text-main);
@@ -83,9 +66,6 @@
         font-weight: 700;
       }
 
-      .dark-mode .nav-link {
-        color: #9ca3af;
-      }
       .nav-link:hover {
         background: rgba(0, 0, 0, 0.05);
         color: var(--accent);
@@ -103,6 +83,12 @@
         letter-spacing: 1.5px;
         color: var(--accent-blue);
         margin: 25px 0 10px 16px;
+      }
+
+      /* Sidebar Prominent Styling */
+      aside {
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 0 1px rgba(0, 0, 0, 0.1) !important;
+        border: 1px solid rgba(0, 0, 0, 0.08);
       }
 
       /* Custom Scrollbar for Table */
@@ -124,10 +110,6 @@
         font-size: 0.875rem;
       }
 
-      .dark-mode .custom-input {
-        background: rgba(255, 255, 255, 0.05);
-        color: white;
-      }
       .custom-input:focus {
         border-color: var(--accent);
         outline: none;
@@ -214,13 +196,6 @@ thead th:last-child {
     background-color: rgba(99, 164, 255, 0.05);
 }
 
-/* Perbaikan untuk Dark Mode */
-.dark-mode thead tr {
-    background-color: #4a8df3 !important; /* Biru sedikit lebih gelap untuk DM */
-}
-.dark-mode #teacherTableBody td {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
     </style>
   </head>
 
@@ -290,16 +265,13 @@ thead th:last-child {
       </aside>
 
       <div class="flex-1 space-y-6">
-       <header class="flex justify-between items-center glass-card px-8 py-5 relative z-50">
+       <header class="flex justify-between items-center glass-card px-8 py-5 sticky top-0 z-50">
     <div>
         <h2 class="text-2xl font-black uppercase tracking-tight">Data Tenaga Pengajar</h2>
         <p class="text-xs font-bold opacity-50 uppercase tracking-widest italic">SDN Ganting - Manajemen Pendidik</p>
     </div>
 
     <div class="flex items-center gap-5">
-        <button onclick="toggleTheme()" class="w-11 h-11 flex items-center justify-center rounded-2xl bg-gray-100 dark:bg-white/10 border border-[var(--border)] transition-all hover:scale-110">
-            <i id="themeIcon" class="fas fa-moon text-[var(--accent)] text-lg"></i>
-        </button>
 
         <div class="relative">
             <button id="profileTrigger" class="flex items-center gap-3 p-1.5 pr-5 bg-gray-100 dark:bg-white/10 rounded-full border border-[var(--border)] hover:bg-gray-200 dark:hover:bg-white/20 transition-all cursor-pointer">
@@ -647,24 +619,6 @@ thead th:last-child {
     <script src="admin.js"></script>
 
     <script>
-      // Theme Control
-      function toggleTheme() {
-        const body = document.body;
-        const icon = document.getElementById("themeIcon");
-
-        body.classList.toggle("dark-mode");
-
-        const isDark = body.classList.contains("dark-mode");
-
-        // simpan ke localStorage
-        localStorage.setItem("theme", isDark ? "dark" : "light");
-
-        if (icon) {
-          icon.classList.toggle("fa-moon");
-          icon.classList.toggle("fa-sun");
-        }
-      }
-
       // Fungsi pembantu untuk setel modal ke mode Tambah
       function prepareAddMode() {
         editMode = false;
@@ -758,23 +712,6 @@ thead th:last-child {
         });
       });
 
-      function loadTheme() {
-        const savedTheme = localStorage.getItem("theme");
-
-        const body = document.body;
-        const icon = document.getElementById("themeIcon");
-
-        if (savedTheme === "dark") {
-          body.classList.add("dark-mode");
-
-          if (icon) {
-            icon.classList.remove("fa-moon");
-            icon.classList.add("fa-sun");
-          }
-        }
-      }
-      loadTheme();
-
       // Fungsi Navigasi Halaman
 let currentPage = 1;
 
@@ -797,8 +734,8 @@ function changePage(action) {
         title: `Membuka Halaman ${currentPage}`,
         showConfirmButton: false,
         timer: 1500,
-        background: document.body.classList.contains('dark-mode') ? '#1a1a1d' : '#fff',
-        color: document.body.classList.contains('dark-mode') ? '#fff' : '#000'
+        background: '#fff',
+        color: '#000'
     });
 }
     </script>
