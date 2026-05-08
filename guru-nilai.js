@@ -4,24 +4,17 @@ const DAFTAR_MAPEL = [
     "PPKN",
     "BAHASA INDONESIA",
     "MATEMATIKA",
-    "IPA",
-    "IPS",
+    "IPAS",
     "SBDP",
     "PJOK",
     "BAHASA INGGRIS",
     "BAHASA JAWA / MULOK",
     "TIK",
-    "BK",
-    "SENI BUDAYA",
-    "INFORMATIKA",
-    "KEWIRAUSAHAAN",
-    "BAHASA ARAB"
 ];
 
 // Fungsi untuk mencocokkan mapel yang tersimpan (terima nama pendek atau panjang, ubah ke panjang)
 function cocokkanMapel(mapelDariStorage) {
     if (!mapelDariStorage) return DAFTAR_MAPEL[0];
-    // Mapping singkatan ke nama lengkap
     const mapping = {
         "indo": "BAHASA INDONESIA",
         "ing": "BAHASA INGGRIS",
@@ -29,9 +22,10 @@ function cocokkanMapel(mapelDariStorage) {
         "matematika": "MATEMATIKA",
         "pkn": "PPKN",
         "sbk": "SBDP",
-        "ipas": "IPA",
+        "ipas": "IPAS",
         "pjok": "PJOK",
-        "pai": "PAI"
+        "pai": "PAI",
+        "informatika": "TIK"
     };
     const lower = mapelDariStorage.toLowerCase();
     if (mapping[lower]) return mapping[lower];
@@ -39,15 +33,49 @@ function cocokkanMapel(mapelDariStorage) {
     return ditemukan || DAFTAR_MAPEL[0];
 }
 
-// ==================== DATA GURU DARI LOCALSTORAGE ====================
-let guruData = {
-    nama: localStorage.getItem("userName") || "Guru",
-    role: localStorage.getItem("userRole") || "guru",
-    waliKelas: localStorage.getItem("waliKelas") || "",
-    userId: localStorage.getItem("userId") || "",
-    mapel: cocokkanMapel(localStorage.getItem("userMapel") || "MATEMATIKA"),
-    email: localStorage.getItem("userEmail") || ""
+// ==================== MAPPING USERNAME -> MAPEL UNTUK GURU MAPEL ====================
+const MAPEL_GURU_BY_USERNAME = {
+    "lailulnuroh": "PAI",
+    "ahmadahlul": "PAI",
+    "aninur": "BAHASA INGGRIS",
+    "abdirachmadani": "PJOK",
+    "mohma'ruf": "PJOK",
+    "ferryadi": "TIK"
 };
+
+function getMapelByUsername(username) {
+    return MAPEL_GURU_BY_USERNAME[username] || "";
+}
+
+
+// ==================== DATA GURU ====================
+let guruData = {
+    nama: "Guru",
+    role: "guru",
+    waliKelas: "",
+    userId: "",
+    mapel: "",
+    email: ""
+};
+
+let guruwaliKelas = "";
+let currentUserRole = "mapel";
+
+// Elemen DOM
+const searchInput = document.getElementById("search-siswa");
+const filterKelasSelect = document.getElementById("filter-kelas");
+const filterSemesterSelect = document.getElementById("filter-semester");
+const filterMapelSelect = document.getElementById("filter-mapel");
+const tableBody = document.getElementById("table-body-nilai");
+const btnSimpan = document.getElementById("btn-simpan-nilai");
+const btnExportPDF = document.getElementById("btn-export-pdf");
+
+let allSiswa = [], allNilai = [];
+let currentKelas = "all";
+let currentSemester = "";
+let currentMapel = "";
+let isFormReady = false;
+let statusIndicator = null;
 
 // ==================== AUTO-LOAD JSPDF & AUTOTABLE ====================
 window.loadPDFLibraries = function() {
@@ -238,31 +266,6 @@ if (profileBtn && profileDropdownElem) {
     });
 }
 
-// ==================== SEMUA FUNGSI NILAI ====================
-const userName = localStorage.getItem("userName");
-const guruwaliKelas = localStorage.getItem("waliKelas");
-
-const searchInput = document.getElementById("search-siswa");
-const filterKelasSelect = document.getElementById("filter-kelas");
-const filterSemesterSelect = document.getElementById("filter-semester");
-const filterMapelSelect = document.getElementById("filter-mapel");
-const tableBody = document.getElementById("table-body-nilai");
-const btnSimpan = document.getElementById("btn-simpan-nilai");
-const btnExportPDF = document.getElementById("btn-export-pdf");
-
-let allSiswa = [];
-let allNilai = [];
-let currentKelas = "all";
-let currentSemester = "";
-let currentMapel = "";
-let currentUserRole = guruwaliKelas ? "walas" : "mapel";
-
-if (currentUserRole === "mapel") {
-    currentMapel = guruData.mapel;
-} else {
-    currentMapel = "";
-}
-
 // ==================== GROQ API ====================
 let GROQ_API_KEY = localStorage.getItem("groq_api_key");
 console.log("Groq API Key tersedia?", !!GROQ_API_KEY);
@@ -342,6 +345,10 @@ function fallbackNaratif(siswa, nilai) {
 
 // ==================== LOAD DATA ====================
 async function loadSiswa() {
+    if (currentUserRole !== "walas" && currentKelas === "all") {
+    tableBody.innerHTML = `<tr><td colspan="7" class="text-center py-8 text-amber-600">Silakan pilih kelas terlebih dahulu untuk melihat/mengisi nilai.</td></tr>`;
+    return;
+}
     try {
         let query = db.collection("students").orderBy("nama", "asc");
         if (currentUserRole === "walas") query = query.where("kelas", "==", guruwaliKelas);
@@ -471,9 +478,6 @@ async function simpanNilai() {
 }
 
 // ==================== INDIKATOR STATUS FORM (MIRIP CETAK PDF) ====================
-let isFormReady = false;
-let statusIndicator = null;
-
 function createStatusIndicator() {
     const container = document.querySelector('.flex.flex-wrap.gap-4.items-end');
     if (!container) return;
@@ -738,11 +742,67 @@ async function exportToPDF() {
     });
 }
 
-// ==================== DROPDOWN MAPEL DINAMIS (MENGAMBIL DARI JADWAL_GURU DENGAN PEMETAAN KE NAMA LENGKAP) ====================
+// ==================== DROPDOWN MAPEL DINAMIS (DISEDERHANAKAN UNTUK GURU MAPEL) ====================
 async function loadDynamicMapelOptions() {
     if (!filterMapelSelect) return;
 
-    if (currentUserRole === "mapel") {
+    if (currentUserRole === "walas") {
+        // Wali Kelas: ambil mapel dari jadwal_guru
+        if (!guruwaliKelas) {
+            filterMapelSelect.innerHTML = '<option value="">Kelas wali tidak ditemukan</option>';
+            filterMapelSelect.disabled = true;
+            return;
+        }
+        filterMapelSelect.disabled = false;
+        filterMapelSelect.innerHTML = '';
+        const placeholder = document.createElement('option');
+        placeholder.value = "";
+        placeholder.textContent = "📚 Pilih Mata Pelajaran";
+        placeholder.disabled = true;
+        placeholder.selected = true;
+        filterMapelSelect.appendChild(placeholder);
+
+        const mapping = {
+            "INDO": "BAHASA INDONESIA", "ING": "BAHASA INGGRIS", "JAWA": "BAHASA JAWA / MULOK",
+            "MATEMATIKA": "MATEMATIKA", "PKN": "PPKN", "SBK": "SBDP", "IPAS": "IPAS",
+            "PJOK": "PJOK", "PAI": "PAI", "INFORMATIKA": "TIK"
+        };
+        try {
+            let normalizedKelas = guruwaliKelas.replace(/[-\s]/g, "").toUpperCase();
+            const snapshot = await db.collection("jadwal_guru").where("kelaswalas", "==", normalizedKelas).get();
+            const mapelSet = new Set();
+            snapshot.forEach(doc => {
+                const data = doc.data();
+                if (data.jadwal && typeof data.jadwal === 'object') {
+                    for (let hari in data.jadwal) {
+                        if (Array.isArray(data.jadwal[hari])) {
+                            data.jadwal[hari].forEach(ev => {
+                                if (ev.mapel) {
+                                    let namaLengkap = mapping[ev.mapel] || ev.mapel;
+                                    mapelSet.add(namaLengkap);
+                                }
+                            });
+                        }
+                    }
+                }
+            });
+            if (mapelSet.size === 0) {
+                DAFTAR_MAPEL.forEach(m => { const opt = document.createElement('option'); opt.value=m; opt.textContent=m; filterMapelSelect.appendChild(opt); });
+            } else {
+                Array.from(mapelSet).sort().forEach(m => { const opt = document.createElement('option'); opt.value=m; opt.textContent=m; filterMapelSelect.appendChild(opt); });
+            }
+        } catch (err) {
+            console.error(err);
+            DAFTAR_MAPEL.forEach(m => { const opt = document.createElement('option'); opt.value=m; opt.textContent=m; filterMapelSelect.appendChild(opt); });
+        }
+    } 
+    else {
+        // Guru Mapel: dropdown mapel terkunci dengan nilai mapel guru
+        if (!guruData.mapel) {
+            filterMapelSelect.innerHTML = '<option value="">Mapel tidak ditemukan</option>';
+            filterMapelSelect.disabled = true;
+            return;
+        }
         filterMapelSelect.innerHTML = '';
         const option = document.createElement('option');
         option.value = guruData.mapel;
@@ -750,85 +810,71 @@ async function loadDynamicMapelOptions() {
         filterMapelSelect.appendChild(option);
         filterMapelSelect.disabled = true;
         currentMapel = guruData.mapel;
-        return;
-    }
-
-    if (!guruwaliKelas) return;
-
-    filterMapelSelect.disabled = false;
-    filterMapelSelect.innerHTML = '';
-    const placeholder = document.createElement('option');
-    placeholder.value = "";
-    placeholder.textContent = "📚 Pilih Mata Pelajaran";
-    placeholder.disabled = true;
-    placeholder.selected = true;
-    filterMapelSelect.appendChild(placeholder);
-
-    const mapping = {
-        "INDO": "BAHASA INDONESIA",
-        "ING": "BAHASA INGGRIS",
-        "JAWA": "BAHASA JAWA / MULOK",
-        "MATEMATIKA": "MATEMATIKA",
-        "PKN": "PPKN",
-        "SBK": "SBDP",
-        "IPAS": "IPA",
-        "PJOK": "PJOK",
-        "PAI": "PAI"
-    };
-
-    try {
-        let normalizedKelas = guruwaliKelas.replace(/[-\s]/g, "").toUpperCase();
-        const snapshot = await db.collection("jadwal_guru").where("kelaswalas", "==", normalizedKelas).get();
-        const mapelSet = new Set();
-
-        snapshot.forEach(doc => {
-            const data = doc.data();
-            if (data.jadwal && typeof data.jadwal === 'object') {
-                for (let hari in data.jadwal) {
-                    if (Array.isArray(data.jadwal[hari])) {
-                        data.jadwal[hari].forEach(ev => {
-                            if (ev.mapel) {
-                                let singkatan = ev.mapel;
-                                let namaLengkap = mapping[singkatan] || singkatan;
-                                mapelSet.add(namaLengkap);
-                            }
-                        });
-                    }
-                }
-            }
-        });
-
-        if (mapelSet.size === 0) {
-            DAFTAR_MAPEL.forEach(m => { const opt = document.createElement('option'); opt.value=m; opt.textContent=m; filterMapelSelect.appendChild(opt); });
-        } else {
-            Array.from(mapelSet).sort().forEach(m => { const opt = document.createElement('option'); opt.value=m; opt.textContent=m; filterMapelSelect.appendChild(opt); });
-        }
-    } catch (err) {
-        console.error(err);
-        DAFTAR_MAPEL.forEach(m => { const opt = document.createElement('option'); opt.value=m; opt.textContent=m; filterMapelSelect.appendChild(opt); });
+        // Trigger perubahan agar nilai bisa dimuat
+        if (currentSemester) await loadNilai();
+        updateFormReady();
     }
 }
-
 // ==================== SETUP FILTERS ====================
 function setupFilters() {
+    // Setup dropdown kelas
     if (filterKelasSelect) {
-        if (currentUserRole === "walas") { filterKelasSelect.value = guruwaliKelas; filterKelasSelect.disabled = true; }
-        else { filterKelasSelect.disabled = false; filterKelasSelect.addEventListener("change", async (e)=>{ currentKelas=e.target.value; await loadSiswa(); }); }
+        filterKelasSelect.innerHTML = '';
+        const allOption = document.createElement('option');
+        allOption.value = "all";
+        allOption.textContent = "Semua Kelas";
+        filterKelasSelect.appendChild(allOption);
+        const kelasList = ['1-A','1-B','2-A','2-B','3-A','3-B','4-A','4-B','5-A','5-B','6-A','6-B'];
+        kelasList.forEach(k => { const opt = document.createElement('option'); opt.value=k; opt.innerText=k; filterKelasSelect.appendChild(opt); });
+        
+        if (currentUserRole === "walas") {
+            filterKelasSelect.value = guruwaliKelas;
+            filterKelasSelect.disabled = true;
+            currentKelas = guruwaliKelas;
+        } else {
+            filterKelasSelect.disabled = false;
+            filterKelasSelect.value = "all";
+            currentKelas = "all";
+            filterKelasSelect.addEventListener("change", async (e) => {
+                currentKelas = e.target.value;
+                await loadSiswa();
+            });
+        }
     }
+
+    // Setup semester
     if (filterSemesterSelect) {
         filterSemesterSelect.innerHTML = '';
-        const ph = document.createElement('option'); ph.value=""; ph.textContent="📚 Pilih Semester"; ph.disabled=true; ph.selected=true; filterSemesterSelect.appendChild(ph);
-        ["Ganjil","Genap"].forEach(sem=>{ const opt=document.createElement('option'); opt.value=sem; opt.textContent=sem; filterSemesterSelect.appendChild(opt); });
+        const ph = document.createElement('option'); ph.value=""; ph.textContent="📚 Pilih Semester"; ph.disabled=true; ph.selected=true;
+        filterSemesterSelect.appendChild(ph);
+        ["Ganjil","Genap"].forEach(sem => {
+            const opt = document.createElement('option'); opt.value=sem; opt.textContent=sem;
+            filterSemesterSelect.appendChild(opt);
+        });
         currentSemester = "";
-        filterSemesterSelect.addEventListener("change", async (e)=>{ currentSemester = e.target.value; await loadNilai(); updateFormReady(); });
-    }
-    if (filterMapelSelect) {
-        loadDynamicMapelOptions().then(() => {
-            if (currentUserRole !== "mapel") {
-                filterMapelSelect.addEventListener("change", async (e)=>{ currentMapel = e.target.value; await loadNilai(); updateFormReady(); });
-            }
+        filterSemesterSelect.addEventListener("change", async (e) => {
+            currentSemester = e.target.value;
+            await loadNilai();
+            updateFormReady();
         });
     }
+
+    // Setup mapel
+    if (filterMapelSelect) {
+        (async () => {
+            await loadDynamicMapelOptions();
+            // Hanya pasang event listener jika dropdown tidak disabled (walas)
+            if (currentUserRole !== "mapel") {
+                filterMapelSelect.addEventListener("change", async (e) => {
+                    currentMapel = e.target.value;
+                    await loadNilai();
+                    updateFormReady();
+                });
+            }
+        })();
+    }
+
+    // Status tombol export
     function updateExportButtonState() {
         if (!btnExportPDF) return;
         const semesterValid = filterSemesterSelect && (filterSemesterSelect.value === "Ganjil" || filterSemesterSelect.value === "Genap");
@@ -851,34 +897,81 @@ function setupFilters() {
         }
         if (statusMsg) {
             if (enabled) statusMsg.innerHTML = '<i class="fas fa-check-circle text-green-500"></i> <span class="text-green-600 font-bold">Siap cetak</span>';
-            else statusMsg.innerHTML = '<i class="fas fa-exclamation-triangle text-amber-500"></i> <span class="text-amber-600 font-bold">Pilih Semester dan Mata Pelajaran</span>';
+            else statusMsg.innerHTML = '<i class="fas fa-exclamation-triangle text-amber-500"></i> <span class="text-amber-600 font-bold">Pilih Semester dan Mapel</span>';
         }
         updateFormReady();
     }
     if (filterSemesterSelect) filterSemesterSelect.addEventListener("change", updateExportButtonState);
-    if (filterMapelSelect) filterMapelSelect.addEventListener("change", updateExportButtonState);
+    if (filterMapelSelect && currentUserRole !== "mapel") filterMapelSelect.addEventListener("change", updateExportButtonState);
     if (btnExportPDF) { btnExportPDF.disabled = true; updateExportButtonState(); }
     if (searchInput) searchInput.addEventListener("input", ()=>renderTable());
     if (btnSimpan) btnSimpan.addEventListener("click", simpanNilai);
     if (btnExportPDF) btnExportPDF.addEventListener("click", exportToPDF);
 }
 
+
 // ==================== INISIALISASI ====================
-firebase.auth().onAuthStateChanged((user) => {
+firebase.auth().onAuthStateChanged(async (user) => {
     if (user && user.email) {
         guruData.email = user.email;
         localStorage.setItem("userEmail", user.email);
+        
+        try {
+            const userQuery = await db.collection("users").where("email", "==", user.email).limit(1).get();
+            if (!userQuery.empty) {
+                const doc = userQuery.docs[0];
+                const data = doc.data();
+                guruData.nama = data.nama || user.email.split('@')[0];
+                const kelasField = data.kelas || "";
+                const username = data.username || "";
+                
+                if (kelasField && kelasField !== "-" && kelasField !== "") {
+                    // Wali Kelas
+                    guruData.waliKelas = kelasField;
+                    guruData.mapel = "";
+                    guruData.role = "walas";
+                } else {
+                    // Guru Mapel: cari mapel dari mapping
+                    guruData.waliKelas = "";
+                    let mapelDariMapping = getMapelByUsername(username);
+                    if (!mapelDariMapping) {
+                        // fallback ke localStorage atau default
+                        mapelDariMapping = localStorage.getItem("userMapel") || "";
+                    }
+                    guruData.mapel = cocokkanMapel(mapelDariMapping);
+                    guruData.role = "guru";
+                }
+                guruData.userId = doc.id;
+                
+                localStorage.setItem("userName", guruData.nama);
+                localStorage.setItem("waliKelas", guruData.waliKelas);
+                localStorage.setItem("userRole", guruData.role);
+                if (guruData.mapel) localStorage.setItem("userMapel", guruData.mapel);
+            } else {
+                // Fallback ke localStorage
+                guruData.nama = localStorage.getItem("userName") || user.email.split('@')[0];
+                guruData.mapel = cocokkanMapel(localStorage.getItem("userMapel") || "");
+                guruData.waliKelas = localStorage.getItem("waliKelas") || "";
+                guruData.role = guruData.waliKelas ? "walas" : "guru";
+            }
+        } catch (err) {
+            console.error("Gagal mengambil data user:", err);
+            guruData.nama = localStorage.getItem("userName") || user.email.split('@')[0];
+            guruData.mapel = cocokkanMapel(localStorage.getItem("userMapel") || "");
+            guruData.waliKelas = localStorage.getItem("waliKelas") || "";
+            guruData.role = guruData.waliKelas ? "walas" : "guru";
+        }
+        
+        guruwaliKelas = guruData.waliKelas;
+        currentUserRole = guruData.role;
+        
+        updateHeaderProfile();
+        renderProfileDropdown();
+        setupFilters();
+        createStatusIndicator();
+        updateFormStatus();
+        loadSiswa();
     } else {
-        guruData.email = localStorage.getItem("userEmail") || "";
+        window.location.href = "login.html";
     }
-    updateHeaderProfile();
-    renderProfileDropdown();
-    if (filterKelasSelect && filterKelasSelect.options.length <= 1) {
-        const kelasList = ['1-A','1-B','2-A','2-B','3-A','3-B','4-A','4-B','5-A','5-B','6-A','6-B'];
-        kelasList.forEach(k => { const opt = document.createElement('option'); opt.value=k; opt.innerText=k; filterKelasSelect.appendChild(opt); });
-    }
-    setupFilters();
-    createStatusIndicator();
-    updateFormStatus();
-    loadSiswa();
 });
