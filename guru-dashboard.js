@@ -133,6 +133,9 @@ async function loadTodaySchedule() {
     const container = document.getElementById("schedule-container");
     if (!container) return;
 
+    const scheduleCountSpan = document.getElementById("schedule-count");
+    if (scheduleCountSpan) scheduleCountSpan.innerText = "Memuat...";
+
     let query;
     if (guruData.waliKelas) {
         let normalizedKelas = guruData.waliKelas.replace(/[-\s]/g, "").toUpperCase();
@@ -146,12 +149,14 @@ async function loadTodaySchedule() {
     const snapshot = await query.get();
     if (snapshot.empty) {
         container.innerHTML = `<div class="bg-slate-100 p-6 rounded-2xl text-center text-slate-500">Tidak ada jadwal mengajar.</div>`;
+        if (scheduleCountSpan) scheduleCountSpan.innerText = "Tidak ada jadwal";
         return;
     }
     let data = null;
     snapshot.forEach(doc => { data = doc.data(); });
     if (!data || !data.jadwal) {
         container.innerHTML = `<div class="bg-slate-100 p-6 rounded-2xl text-center text-slate-500">Struktur jadwal tidak valid.</div>`;
+        if (scheduleCountSpan) scheduleCountSpan.innerText = "Error struktur";
         return;
     }
 
@@ -161,6 +166,7 @@ async function loadTodaySchedule() {
     const hariKey = hariMap[todayName];
     if (!hariKey || !data.jadwal[hariKey] || data.jadwal[hariKey].length === 0) {
         container.innerHTML = `<div class="bg-slate-100 p-6 rounded-2xl text-center text-slate-500">Tidak ada jadwal untuk hari ${todayName}.</div>`;
+        if (scheduleCountSpan) scheduleCountSpan.innerText = "Tidak ada jadwal";
         return;
     }
 
@@ -169,20 +175,28 @@ async function loadTodaySchedule() {
 
     const now = new Date();
     const currentMinutes = now.getHours() * 60 + now.getMinutes();
-    // Filter jadwal yang belum lewat
+    
+    // Ambil hanya jadwal yang BELUM LEWAT (waktu mulai > sekarang)
     let upcoming = events.filter(ev => {
         let [h, m] = ev.jam.split("-")[0].trim().split(":").map(Number);
         return (h * 60 + m) > currentMinutes;
     });
-    // Jika tidak ada upcoming, tampilkan semua (opsional, bisa tampilkan pesan khusus)
-    let jadwalToShow = upcoming.length > 0 ? upcoming : events;
-    // Ambil maksimal 2 sesi
-    jadwalToShow = jadwalToShow.slice(0, 2);
 
-    if (jadwalToShow.length === 0) {
-        container.innerHTML = `<div class="bg-slate-100 p-6 rounded-2xl text-center text-slate-500">Tidak ada jadwal mendekati.</div>`;
+    // Jika tidak ada jadwal yang tersisa
+    if (upcoming.length === 0) {
+        container.innerHTML = `
+            <div class="bg-slate-100 p-6 rounded-2xl text-center">
+                <i class="fas fa-check-circle text-green-500 text-2xl mb-2"></i>
+                <p class="text-slate-600 font-medium">Semua sesi mengajar hari ini telah selesai.</p>
+                <p class="text-xs text-slate-400 mt-1">Selamat istirahat, Bapak/Ibu Guru.</p>
+            </div>
+        `;
+        if (scheduleCountSpan) scheduleCountSpan.innerText = "Semua sesi selesai";
         return;
     }
+
+    // Ambil maksimal 2 sesi yang akan datang
+    let jadwalToShow = upcoming.slice(0, 2);
 
     let html = '';
     jadwalToShow.forEach(ev => {
@@ -200,6 +214,10 @@ async function loadTodaySchedule() {
     });
     container.innerHTML = html;
 
+    if (scheduleCountSpan) {
+        scheduleCountSpan.innerText = `${jadwalToShow.length} dari ${upcoming.length} sesi tersisa`;
+    }
+
     // Tombol lihat semua jadwal (pastikan tidak duplikat)
     const scheduleSection = document.querySelector("#today-schedule");
     if (scheduleSection && !document.getElementById("btn-lihat-semua-jadwal")) {
@@ -210,7 +228,19 @@ async function loadTodaySchedule() {
     }
 }
 
+function updateCurrentDate() {
+    const dateSpan = document.getElementById("currentDate");
+    if (dateSpan) {
+        const today = new Date();
+        const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+        dateSpan.innerText = today.toLocaleDateString('id-ID', options);
+    }
+}
+
 // ==================== PAGING SISWA (MAJU & MUNDUR) ====================
+// Ganti cursorHistory dengan pageCursors (array of objects)
+let pageCursors = []; // menyimpan { firstDoc, lastDoc } untuk setiap halaman
+
 async function loadStudentsPage(reset = true, direction = 'next') {
     if (isLoading) return;
     isLoading = true;
@@ -222,7 +252,7 @@ async function loadStudentsPage(reset = true, direction = 'next') {
         return;
     }
 
-    bodyDaftar.innerHTML = `<tr><td colspan="4" class="text-center py-10"><i class="fas fa-spinner fa-pulse"></i> Memuat...</td></tr>`;
+    bodyDaftar.innerHTML = `<tr><td colspan="4" class="text-center py-10"><i class="fas fa-spinner fa-pulse"></i> Memuat...</td></td>`;
     bodyDataDiri.innerHTML = `<tr><td colspan="6" class="text-center py-10"><i class="fas fa-spinner fa-pulse"></i> Memuat...</td></tr>`;
 
     try {
@@ -235,43 +265,39 @@ async function loadStudentsPage(reset = true, direction = 'next') {
         }
         currentFilterKelas = selectedKelas;
 
-        let query = db.collection("students").orderBy("nama", "asc");
+        let baseQuery = db.collection("students").orderBy("nama", "asc");
         if (selectedKelas !== "all") {
-            query = query.where("kelas", "==", selectedKelas);
+            baseQuery = baseQuery.where("kelas", "==", selectedKelas);
         }
 
+        let query;
+        let newPage = currentPage;
+
         if (reset) {
+            // Reset semua state
             currentPage = 1;
+            newPage = 1;
             lastDoc = null;
             firstDoc = null;
-            cursorHistory = [];
-            query = query.limit(pageSize);
+            pageCursors = [];
+            query = baseQuery.limit(pageSize);
         } else {
             if (direction === 'next' && lastDoc) {
-                query = query.startAfter(lastDoc).limit(pageSize);
-                currentPage++;
-                // simpan cursor untuk memungkinkan kembali
-                cursorHistory.push({ page: currentPage-1, lastDoc: lastDoc, firstDoc: firstDoc });
-            } else if (direction === 'prev' && cursorHistory.length > 0) {
-                const prev = cursorHistory.pop();
-                currentPage = prev.page;
-                // Untuk mundur, kita harus query ulang dari awal sampai halaman prev
-                let baseQuery = db.collection("students").orderBy("nama", "asc");
-                if (selectedKelas !== "all") baseQuery = baseQuery.where("kelas", "==", selectedKelas);
-                const prevSnapshot = await baseQuery.limit(pageSize * currentPage).get();
-                const docs = prevSnapshot.docs;
-                const startIdx = (currentPage-1)*pageSize;
-                const pageDocs = docs.slice(startIdx, startIdx+pageSize);
-                if (pageDocs.length > 0) {
-                    lastDoc = pageDocs[pageDocs.length-1];
-                    firstDoc = pageDocs[0];
-                    renderStudentTables(pageDocs);
-                    updatePaginationControls(pageDocs.length, selectedKelas);
-                    isLoading = false;
-                    return;
+                // Simpan cursor halaman saat ini
+                pageCursors[currentPage] = { firstDoc, lastDoc };
+                query = baseQuery.startAfter(lastDoc).limit(pageSize);
+                newPage = currentPage + 1;
+            } else if (direction === 'prev' && currentPage > 1) {
+                const prevCursor = pageCursors[currentPage - 1];
+                if (prevCursor && prevCursor.firstDoc) {
+                    // Gunakan startAt untuk mengambil halaman sebelumnya
+                    query = baseQuery.startAt(prevCursor.firstDoc).limit(pageSize);
+                    newPage = currentPage - 1;
                 } else {
-                    isLoading = false;
-                    return;
+                    // Fallback (seharusnya tidak terjadi)
+                    console.warn("Cursor tidak ditemukan, gunakan startAfter(null)");
+                    query = baseQuery.limit(pageSize);
+                    newPage = 1;
                 }
             } else {
                 isLoading = false;
@@ -289,17 +315,23 @@ async function loadStudentsPage(reset = true, direction = 'next') {
             return;
         }
 
+        // Update cursor untuk halaman baru
         if (docs.length > 0) {
-            lastDoc = docs[docs.length-1];
             firstDoc = docs[0];
+            lastDoc = docs[docs.length-1];
+            pageCursors[newPage] = { firstDoc, lastDoc };
+        } else {
+            firstDoc = null;
+            lastDoc = null;
         }
 
+        currentPage = newPage;
         renderStudentTables(docs);
         updatePaginationControls(docs.length, selectedKelas);
 
     } catch (err) {
         console.error(err);
-        Swal.fire("Error", "Gagal memuat data: "+err.message, "error");
+        Swal.fire("Error", "Gagal memuat data: " + err.message, "error");
     } finally {
         isLoading = false;
     }
@@ -468,6 +500,7 @@ function handleImportExcel(file) {
 
 // ==================== INISIALISASI ====================
 document.addEventListener("DOMContentLoaded", () => {
+    updateCurrentDate();
     updateHeaderProfile();
     renderProfileDropdown();
     loadTodaySchedule();
