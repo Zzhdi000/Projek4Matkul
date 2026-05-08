@@ -544,46 +544,57 @@ function renderDaftarSiswa(keyword = "") {
 window.handleSave = async function () {
   const containers = document.querySelectorAll(".presence-container");
   if (containers.length === 0) return;
+
   Swal.fire({
     title: "Menyimpan...",
     allowOutsideClick: false,
     showConfirmButton: false,
     didOpen: () => Swal.showLoading(),
   });
+
   try {
-    const batch = db.batch();
+    // Kumpulkan siswaId dan status yang dipilih
+    const siswaStatusMap = new Map();
     for (let container of containers) {
       const siswaId = container.getAttribute("data-siswa-id");
       const statusValue = container.querySelector(
-        `input[name="status-${siswaId}"]:checked`,
+        `input[name="status-${siswaId}"]:checked`
       ).value;
-      const existing = await db
-        .collection("presensi")
-        .where("siswaId", "==", siswaId)
-        .where("tanggal", "==", selectedDate)
-        .get();
-      if (!existing.empty) {
-        batch.update(existing.docs[0].ref, {
-          status: statusValue,
-          updatedAt: new Date(),
-        });
+      siswaStatusMap.set(siswaId, statusValue);
+    }
+    const siswaIds = Array.from(siswaStatusMap.keys());
+
+    // Ambil semua presensi yang sudah ada untuk tanggal dan siswa-siswa ini
+    const existingSnap = await db
+      .collection("presensi")
+      .where("tanggal", "==", selectedDate)
+      .where("siswaId", "in", siswaIds)
+      .get();
+
+    const existingMap = new Map();
+    existingSnap.forEach(doc => {
+      const data = doc.data();
+      existingMap.set(data.siswaId, { ref: doc.ref, status: data.status });
+    });
+
+    const batch = db.batch();
+    for (let siswaId of siswaIds) {
+      const newStatus = siswaStatusMap.get(siswaId);
+      if (existingMap.has(siswaId)) {
+        batch.update(existingMap.get(siswaId).ref, { status: newStatus, updatedAt: new Date() });
       } else {
         batch.set(db.collection("presensi").doc(), {
           siswaId,
           tanggal: selectedDate,
-          status: statusValue,
+          status: newStatus,
           createdAt: new Date(),
         });
       }
     }
     await batch.commit();
-    Swal.fire({
-      icon: "success",
-      title: "Berhasil disimpan",
-      timer: 1000,
-      showConfirmButton: false,
-    });
+    Swal.fire({ icon: "success", title: "Berhasil disimpan", timer: 1000, showConfirmButton: false });
   } catch (e) {
+    console.error(e);
     Swal.fire("Gagal!", "Terjadi kesalahan.", "error");
   }
 };
