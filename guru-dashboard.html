@@ -3,8 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Guru Dashboard - SIAKAD PRO</title>
+    <title>Guru Dashboard - SDN GANTING</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
     <link
@@ -12,19 +13,148 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
     />
     <style>
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(10px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
+      :root {
+        --accent-blue: #63a4ff;
+        --p-rose: #a5b4fc;
+        --p-yellow: #e6b85c;
+        --p-green: #86efac;
+        --bg-body: #fdfdfb;
+        --bg-sidebar: #ffffff;
+        --text-main: #2d2d2d;
+        --card-bg: #ffffff;
+        --border: rgba(0, 0, 0, 0.1);
+        --p-red: #c9494c;
+        --p-rose: #ff9178;
+        --p-yellow: #f7ea7f;
+        --p-orange: #f25a2d;
+        --p-green: #82c697;
+        --p-blue: #057711;
+
+        --bg-body: #fdfdfb;
+        --bg-sidebar: #ffffff;
+        --text-main: #2d2d2d;
+        --accent: var(--accent-blue);
+        --card-bg: #ffffff;
+        --border: rgba(0, 0, 0, 0.1);
+        --dropdown-bg: #ffffff;
       }
+
+      .nav-link:hover {
+        background: rgba(0, 0, 0, 0.05);
+        color: var(--accent);
+      }
+      .nav-link.active {
+        background-color: var(--accent);
+        color: white !important;
+        box-shadow: 0 8px 20px -6px var(--accent);
+      }
+
+      body {
+        background-color: var(--bg-body);
+        color: var(--text-main);
+        transition: all 0.4s ease;
+        font-family: "Inter", sans-serif;
+        margin: 0;
+        padding: 20px;
+      }
+
+      .glass-card {
+        background-color: var(--card-bg);
+        backdrop-filter: blur(12px);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+      }
+
+      /* Navigasi Sidebar */
+      .nav-link {
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 16px;
+        border-radius: 14px;
+        font-size: 13px;
+        color: #555;
+        font-weight: 700;
+      }
+
+      .nav-link.active {
+        background-color: var(--accent-blue);
+        color: white !important;
+        box-shadow: 0 8px 20px -6px var(--accent-blue);
+      }
+
+      .group-label {
+        font-size: 10px;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--accent-blue);
+        margin: 25px 0 10px 16px;
+      }
+
+      /* Card Gradients */
+      .grad-red {
+        background: linear-gradient(135deg, #60a5fa, #a5b4fc);
+      }
+      .grad-orange {
+        background: linear-gradient(135deg, #a78bfa, #c4b5fd);
+      }
+      .grad-green {
+        background: linear-gradient(135deg, #e6b85c, #f2d184);
+      }
+
+      .btn-logout {
+        color: #ef4444 !important;
+        border: 1.5px solid transparent;
+      }
+      .btn-logout:hover {
+        background-color: #fef2f2 !important;
+        border-color: #fee2e2;
+      }
+
+      /* Sidebar Prominent Styling */
+      aside {
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 0 1px rgba(0, 0, 0, 0.1) !important;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+      }
+
+      .dark-mode aside {
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 1px rgba(255, 255, 255, 0.1) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .dropdown-solid {
+        background-color: var(--dropdown-bg);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      }
+
+      #profileDropdown {
+        backdrop-filter: blur(20px);
+        transform-origin: top right;
+      }
+
+      .show-dropdown {
+        display: block !important;
+        animation: profilePop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+
+      @keyframes profilePop {
+        from { opacity: 0; transform: scale(0.9) translateY(-10px); }
+        to { opacity: 1; transform: scale(1) translateY(0); }
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
       .animate-fadeIn {
         animation: fadeIn 0.3s ease-out forwards;
       }
+
       .swal2-popup {
         border-radius: 2rem !important;
         padding: 2rem !important;
@@ -41,165 +171,108 @@
         border: 1px solid #e2e8f0 !important;
         padding: 0 1rem !important;
       }
-      .custom-scrollbar::-webkit-scrollbar {
-        width: 4px;
-      }
-      .custom-scrollbar::-webkit-scrollbar-track {
-        background: #0f172a;
-      }
-      .custom-scrollbar::-webkit-scrollbar-thumb {
-        background: #334155;
-        border-radius: 10px;
-      }
     </style>
   </head>
-  <body class="bg-slate-50 font-sans text-slate-900">
-    <div class="flex min-h-screen">
+  <body class="font-sans antialiased min-h-screen p-5">
+    <div class="flex p-5 gap-5 min-h-screen">
       <aside
-        class="w-64 bg-[#0f172a] text-white flex-shrink-0 hidden md:flex flex-col h-screen sticky top-0"
+        class="w-72 flex flex-col justify-between bg-[var(--bg-sidebar)] rounded-[30px] p-7 shadow-xl sticky top-5 h-[calc(100vh-40px)]"
       >
-        <div class="p-6 border-b border-slate-800 flex items-center space-x-3">
-          <i class="fas fa-user-shield text-2xl text-blue-400"></i>
-          <span class="text-xl font-bold tracking-tight">BAGIAN GURU</span>
+        <div>
+          <div class="flex items-center gap-4 mb-10 px-2">
+            <div class="w-11 h-11 flex items-center justify-center">
+              <img
+                src="asset/logogtg.png"
+                alt="Logo"
+                class="w-full h-full object-contain"
+              />
+            </div>
+            <div>
+              <h1 class="text-xl font-black leading-tight tracking-tight">
+                SDN GANTING
+              </h1>
+              <p
+                class="text-[9px] font-bold text-gray-400 uppercase tracking-widest"
+              >
+                Bagian Guru
+              </p>
+            </div>
+          </div>
+
+          <nav>
+            <p class="group-label">Navigasi Utama</p>
+            <a href="guru-dashboard.html" class="nav-link active"
+              ><i class="fas fa-th-large w-5"></i> Beranda</a
+            >
+
+            <p class="group-label">Manajemen</p>
+            <a href="guru-presensi.html" class="nav-link"
+              ><i class="fas fa-user-check w-5"></i> Presensi Siswa</a
+            >
+            <a href="guru-nilai.html" class="nav-link"
+              ><i class="fas fa-file-invoice w-5"></i> Nilai Siswa</a
+            >
+            <a href="guru-jadwal.html" class="nav-link"
+              ><i class="fas fa-clipboard-list w-5"></i> Jadwal Mengajar</a
+            >
+          </nav>
         </div>
-        <nav
-          class="flex-1 mt-6 px-4 space-y-2 overflow-y-auto custom-scrollbar"
-        >
-          <a
-            href="guru-dashboard.html"
-            class="flex items-center py-3 px-4 bg-[#2563eb] text-white rounded-xl transition shadow-lg shadow-blue-900/20"
+
+        <div class="pt-6 border-t border-[var(--border)] relative z-[999]">
+          <button
+            type="button"
+            onclick="handleLogout()"
+            class="w-full flex items-center gap-3 py-3 px-4 btn-logout font-black rounded-xl transition-all cursor-pointer bg-transparent"
           >
-            <i class="fas fa-database mr-3"></i> Beranda
-          </a>
-          <a
-            href="guru-presensi.html"
-            class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition"
-          >
-            <i class="fas fa-user-check mr-3"></i> Presensi Siswa
-          </a>
-          <a
-            href="guru-nilai.html"
-            class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition"
-          >
-            <i class="fas fa-file-invoice mr-3"></i> Nilai Siswa
-          </a>
-          <a
-            href="guru-jadwal.html"
-            class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition"
-          >
-            <i class="fas fa-calendar-alt mr-3"></i> Jadwal Mengajar
-          </a>
-        </nav>
-        <div class="p-6 border-t border-slate-800 bg-[#0f172a]">
-          <a
-            href="login.html#login"
-            class="flex items-center text-red-400 hover:text-red-300 font-bold transition"
-          >
-            <i class="fas fa-sign-out-alt mr-3"></i> Keluar
-          </a>
+            <i class="fas fa-sign-out-alt w-5"></i>
+            <span>Keluar Sistem</span>
+          </button>
         </div>
       </aside>
 
-      <div class="flex-1 flex flex-col">
+
+      <div class="flex-1 space-y-6">
         <header
-          class="bg-white shadow-sm py-4 px-8 flex justify-between items-center sticky top-0 z-40"
+          class="flex justify-between items-center glass-card px-8 py-5 sticky top-0 z-50"
         >
-          <div class="flex items-center gap-4">
-            <h2 class="text-xl font-bold text-slate-800 tracking-tight">
-              Data Siswa:
-            </h2>
-            <select
-              id="filter-kelas-global"
-              onchange="loadDataSiswa()"
-              class="p-2 bg-slate-100 border-none rounded-xl text-sm font-bold outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
+          <div>
+            <h2 class="text-2xl font-black uppercase">Beranda Guru</h2>
+            <p
+              class="text-xs font-bold opacity-50 uppercase tracking-widest"
+              id="headerSub"
             >
-              <option value="all">Semua Kelas</option>
-              <option value="1-A">Kelas 1-A</option>
-              <option value="1-B">Kelas 1-B</option>
-              <option value="2-A">Kelas 2-A</option>
-              <option value="2-B">Kelas 2-B</option>
-              <option value="3-A">Kelas 3-A</option>
-              <option value="3-B">Kelas 3-B</option>
-              <option value="4-A">Kelas 4-A</option>
-              <option value="4-B">Kelas 4-B</option>
-              <option value="5-A">Kelas 5-A</option>
-              <option value="5-B">Kelas 5-B</option>
-              <option value="6-A">Kelas 6-A</option>
-              <option value="6-B">Kelas 6-B</option>
-            </select>
+              SDN GANTING - Sistem Informasi Sekolah
+            </p>
           </div>
 
-          <div class="relative">
-            <button
-              id="profileBtn"
-              class="flex items-center space-x-3 focus:outline-none group"
-            >
-              <div class="text-right mr-2 hidden sm:block">
-                <p
-                  class="text-[10px] font-bold bg-blue-100 text-blue-700 px-2 py-0.5 rounded-md uppercase inline-block mb-1"
-                >
-                  Guru Pengampu
-                </p>
-                <p
-                  class="text-xs font-bold text-slate-800 uppercase group-hover:text-blue-600 transition"
-                ></p>
+          <div class="flex items-center gap-5">
+            <div class="relative">
+              <button id="profileTrigger" class="flex items-center gap-3 p-1.5 pr-5 bg-gray-100 dark:bg-white/10 rounded-full border border-[var(--border)] hover:bg-gray-200 dark:hover:bg-white/20 transition-all cursor-pointer">
+                <div class="w-10 h-10 rounded-full bg-blue-400 flex items-center justify-center text-white font-bold text-sm" id="profileInitial">GU</div>
+                <span class="text-sm font-black italic" id="profileName">Guru</span>
+                <i class="fas fa-chevron-down text-[10px] opacity-50"></i>
+              </button>
+
+              <div id="profileDropdown" class="absolute right-0 mt-4 w-72 bg-[var(--card-bg)] rounded-[30px] shadow-2xl border border-[var(--border)] overflow-hidden hidden animate-fadeIn z-[999]">
+                <div class="p-8 flex flex-col items-center text-center">
+                  <div class="w-24 h-24 bg-blue-400 rounded-3xl flex items-center justify-center text-white text-4xl font-black shadow-lg mb-6" id="profileAvatarDropdown">GU</div>
+                  
+                  <h3 class="text-xl font-black text-[var(--text-main)]" id="profileNameDropdown">Guru Pengampu</h3>
+                  <p class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-6" id="profileRoleDropdown">Guru Kelas</p>
+                  
+                  <hr class="w-full border-[var(--border)] mb-6">
+
+                  <div class="w-full bg-gray-50 dark:bg-white/5 rounded-2xl p-4 flex justify-between items-center mb-4">
+                    <span class="text-[10px] font-black opacity-40 uppercase">Status</span>
+                    <span class="text-[11px] font-black">Aktif</span>
+                  </div>
+                </div>
               </div>
-              <div
-                class="w-10 h-10 rounded-full bg-[#0091d5] flex items-center justify-center text-white font-bold text-sm border-2 border-white shadow-md group-hover:scale-105 transition-all"
-              ></div>
-            </button>
-            <div
-              id="profileDropdown"
-              class="absolute right-0 mt-3 w-72 bg-white rounded-[2rem] shadow-2xl border border-slate-100 p-6 hidden animate-fadeIn z-50"
-            >
-              <div class="text-center mb-4">
-                <div
-                  class="w-16 h-16 bg-blue-50 rounded-full mx-auto flex items-center justify-center text-[#0091d5] text-xl font-black border-4 border-blue-100 mb-2"
-                ></div>
-                <h4 class="text-sm font-black text-slate-800"></h4>
-                <p
-                  class="text-[10px] text-slate-400 font-bold uppercase tracking-widest"
-                ></p>
-              </div>
-              <div class="space-y-3" id="dropdownContent"></div>
             </div>
           </div>
         </header>
 
-        <main class="p-8">
-          <div class="mb-10">
-            <div class="flex items-center justify-between mb-6">
-              <div>
-                <h3
-                  class="text-xl font-black text-slate-800 uppercase tracking-tight"
-                >
-                  Jadwal Mengajar Hari Ini
-                </h3>
-                <p class="text-sm text-slate-500 font-medium">
-                  <span id="currentDate" class="font-bold text-blue-600"
-                    >...</span
-                  >
-                  <span class="mx-2 text-slate-300">|</span>
-                  <span
-                    id="schedule-count"
-                    class="font-bold text-slate-700 italic italic"
-                    >Mengecek sesi...</span
-                  >
-                </p>
-              </div>
-              <div
-                id="live-clock"
-                class="px-6 py-2 bg-white border border-slate-100 rounded-2xl shadow-sm text-lg font-black text-slate-700 min-w-[120px] text-center"
-              >
-                00:00:00
-              </div>
-            </div>
-            <div
-              id="schedule-container"
-              class="grid grid-cols-1 md:grid-cols-3 gap-6"
-            ></div>
-          </div>
-
+        
           <div
             class="bg-white rounded-[2.5rem] shadow-sm border border-slate-200 overflow-hidden"
           >
@@ -267,27 +340,6 @@
                       class="pl-11 pr-4 py-3 bg-slate-100 border-none rounded-2xl text-sm w-full outline-none focus:ring-2 focus:ring-blue-500 transition shadow-inner"
                     />
                   </div>
-                  <div class="flex gap-3">
-                    <input
-                      type="file"
-                      id="upload-excel"
-                      class="hidden"
-                      accept=".xlsx, .xls, .csv"
-                      onchange="handleImportExcel(event)"
-                    />
-                    <button
-                      onclick="document.getElementById('upload-excel').click()"
-                      class="bg-blue-600 text-white px-6 py-3 rounded-2xl text-xs font-black uppercase tracking-widest shadow-lg shadow-blue-100 hover:bg-blue-700 transition-all flex items-center"
-                    >
-                      <i class="fas fa-file-import mr-2"></i> Import Excel
-                    </button>
-                    <button
-                      onclick="tambahSiswa()"
-                      class="bg-emerald-600 text-white px-6 py-3 rounded-2xl text-xs font-black uppercase tracking-widest shadow-lg shadow-emerald-100 hover:bg-emerald-700 transition-all flex items-center"
-                    >
-                      <i class="fas fa-plus mr-2"></i> Tambah Manual
-                    </button>
-                  </div>
                 </div>
                 <div class="overflow-x-auto">
                   <table
@@ -319,6 +371,102 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="firebase-config.js"></script>
+
+    <script>
+      // Profile Logic
+      document.addEventListener("DOMContentLoaded", function() {
+        const trigger = document.getElementById('profileTrigger');
+        const dropdown = document.getElementById('profileDropdown');
+
+        // Toggle Dropdown saat tombol diklik
+        trigger.addEventListener('click', function(e) {
+          e.stopPropagation();
+          dropdown.classList.toggle('hidden');
+          dropdown.classList.toggle('show-dropdown');
+        });
+
+        // Tutup dropdown jika user klik di mana saja di luar card
+        document.addEventListener('click', function(e) {
+          if (!dropdown.contains(e.target) && !trigger.contains(e.target)) {
+            dropdown.classList.add('hidden');
+            dropdown.classList.remove('show-dropdown');
+          }
+        });
+      });
+
+      function handleLogout() {
+        Swal.fire({
+          title: "Yakin Keluar?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Ya, Keluar",
+          confirmButtonColor: "#ef4444",
+          borderRadius: "20px",
+        }).then((res) => {
+          if (res.isConfirmed) window.location.href = "login.html";
+        });
+      }
+
+      function switchTab(tab) {
+        const d = document.getElementById("content-daftar");
+        const r = document.getElementById("content-data-diri");
+        const td = document.getElementById("tab-daftar");
+        const tr = document.getElementById("tab-data-diri");
+
+        if (tab === "daftar") {
+          d.classList.remove("hidden");
+          r.classList.add("hidden");
+          td.className =
+            "px-8 py-4 text-sm font-bold border-b-2 border-blue-600 text-blue-600 bg-white transition-all";
+          tr.className =
+            "px-8 py-4 text-sm font-bold text-slate-400 hover:text-slate-600 transition-all";
+        } else {
+          d.classList.add("hidden");
+          r.classList.remove("hidden");
+          tr.className =
+            "px-8 py-4 text-sm font-bold border-b-2 border-blue-600 text-blue-600 bg-white transition-all";
+          td.className =
+            "px-8 py-4 text-sm font-bold text-slate-400 hover:text-slate-600 transition-all";
+        }
+      }
+
+      // Notes Logic (sama seperti admin)
+      const notesElement = document.getElementById("notesText");
+      const notesDateLabel = document.getElementById("notesDateLabel");
+      const saveNoteBtn = document.getElementById("saveNoteBtn");
+
+      if (notesElement && notesDateLabel && saveNoteBtn) {
+        // Initialize date label
+        const today = new Date();
+        const dateStr = today.toLocaleDateString("id-ID", {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
+        notesDateLabel.textContent = dateStr;
+
+        // Load notes from localStorage
+        const savedNotes = localStorage.getItem("guru_notes_" + today.toDateString());
+        if (savedNotes) {
+          notesElement.textContent = savedNotes;
+        }
+
+        // Save notes to localStorage
+        saveNoteBtn.addEventListener("click", function() {
+          const notes = notesElement.textContent;
+          localStorage.setItem("guru_notes_" + today.toDateString(), notes);
+          Swal.fire({
+            title: "Berhasil",
+            text: "Agenda telah disimpan",
+            icon: "success",
+            timer: 1500,
+          });
+        });
+      }
+    </script>
     <script src="guru-dashboard.js"></script>
+
+    
   </body>
 </html>

@@ -351,7 +351,7 @@ function renderStudentTables(docs) {
         const v = doc.data();
         const id = doc.id;
         htmlDaftar += `
-            <tr class="hover:bg-slate-50 border-b border-slate-100">
+    <tr class="item-daftar hover:bg-slate-50 border-b border-slate-100">
                 <td class="px-6 py-4 font-bold">${escapeHtml(v.nama)}</td>
                 <td class="px-6 py-4 font-mono">${v.nisn || '-'}</td>
                 <td class="px-6 py-4"><span class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-[10px] font-bold uppercase">${v.status || 'Aktif'}</span></td>
@@ -534,6 +534,26 @@ document.addEventListener("DOMContentLoaded", () => {
         if (e.target.files.length) handleImportExcel(e.target.files[0]);
         e.target.value = '';
     });
+
+    const searchInput = document.getElementById("search-daftar");
+
+if (searchInput) {
+    searchInput.addEventListener("input", function () {
+        const keyword = this.value.toLowerCase();
+
+        const rows = document.querySelectorAll("#body-daftar .item-daftar");
+
+        rows.forEach((row) => {
+            const text = row.textContent.toLowerCase();
+
+            if (text.includes(keyword)) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
+        });
+    });
+}
 
     // Tab switching
     window.switchTab = function(tab) {

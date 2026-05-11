@@ -3,20 +3,115 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Input Nilai Siswa - Guru Panel</title>
+    <title>Input Nilai Siswa - SDN GANTING</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <style>
+      :root {
+        --accent-blue: #63a4ff;
+        --bg-body: #fdfdfb;
+        --bg-sidebar: #ffffff;
+        --text-main: #2d2d2d;
+        --card-bg: #ffffff;
+        --border: rgba(0, 0, 0, 0.1);
+        --dropdown-bg: #ffffff;
+      }
+
+      body {
+        background-color: var(--bg-body);
+        color: var(--text-main);
+        font-family: "Inter", sans-serif;
+        margin: 0;
+        padding: 20px;
+      }
+
+      .glass-card {
+        background-color: var(--card-bg);
+        backdrop-filter: blur(12px);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+      }
+
+      .nav-link {
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 16px;
+        border-radius: 14px;
+        font-size: 13px;
+        color: #555;
+        font-weight: 700;
+      }
+
+      .nav-link.active {
+        background-color: var(--accent-blue);
+        color: white !important;
+        box-shadow: 0 8px 20px -6px var(--accent-blue);
+      }
+
+      .nav-link:hover {
+        background: rgba(0, 0, 0, 0.05);
+        color: var(--accent-blue);
+      }
+
+      .group-label {
+        font-size: 10px;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--accent-blue);
+        margin: 25px 0 10px 16px;
+      }
+
+      .btn-logout {
+        color: #ef4444 !important;
+      }
+
+      .btn-logout:hover {
+        background-color: #fef2f2 !important;
+      }
+
+      aside {
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 0 1px rgba(0, 0, 0, 0.1) !important;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+      }
+
+      #profileDropdown {
+        backdrop-filter: blur(20px);
+        transform-origin: top right;
+      }
+
+      .show-dropdown {
+        display: block !important;
+        animation: profilePop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+
+      @keyframes profilePop {
+        from { opacity: 0; transform: scale(0.9) translateY(-10px); }
+        to { opacity: 1; transform: scale(1) translateY(0); }
+      }
+
       @keyframes fadeIn {
         from { opacity: 0; transform: translateY(10px); }
         to { opacity: 1; transform: translateY(0); }
       }
-      .animate-fadeIn { animation: fadeIn 0.3s ease-out forwards; }
-      .swal2-popup { border-radius: 2rem !important; padding: 2rem !important; }
-      .swal2-title { font-weight: 800 !important; color: #1e293b !important; }
+
+      .animate-fadeIn {
+        animation: fadeIn 0.3s ease-out forwards;
+      }
+
+      .swal2-popup {
+        border-radius: 2rem !important;
+        padding: 2rem !important;
+      }
+      .swal2-title {
+        font-weight: 800 !important;
+        color: #1e293b !important;
+      }
       .swal2-input, .swal2-textarea {
         border-radius: 1rem !important;
         font-size: 0.9rem !important;
@@ -39,53 +134,98 @@
       }
     </style>
   </head>
-  <body class="bg-slate-50 font-sans text-slate-900">
-    <div class="flex min-h-screen">
+  <body class="font-sans antialiased min-h-screen p-5">
+    <div class="flex p-5 gap-5 min-h-screen">
       <!-- SIDEBAR -->
-      <aside class="w-64 bg-[#0f172a] text-white flex-shrink-0 hidden md:flex flex-col h-screen sticky top-0">
-        <div class="p-6 border-b border-slate-800 flex items-center space-x-3">
-          <i class="fas fa-user-shield text-2xl text-blue-400"></i>
-          <span class="text-xl font-bold tracking-tight">BAGIAN GURU</span>
+      <aside class="w-72 flex flex-col justify-between bg-[var(--bg-sidebar)] rounded-[30px] p-7 shadow-xl sticky top-5 h-[calc(100vh-40px)]">
+        <div>
+          <div class="flex items-center gap-4 mb-10 px-2">
+            <div class="w-11 h-11 flex items-center justify-center">
+              <img
+                src="asset/logogtg.png"
+                alt="Logo"
+                class="w-full h-full object-contain"
+              />
+            </div>
+            <div>
+              <h1 class="text-xl font-black leading-tight tracking-tight">
+                SDN GANTING
+              </h1>
+              <p
+                class="text-[9px] font-bold text-gray-400 uppercase tracking-widest"
+              >
+                Bagian Guru
+              </p>
+            </div>
+          </div>
+
+          <nav>
+            <p class="group-label">Navigasi Utama</p>
+            <a href="guru-dashboard.html" class="nav-link"
+              ><i class="fas fa-th-large w-5"></i> Beranda</a
+            >
+
+            <p class="group-label">Manajemen</p>
+            <a href="guru-presensi.html" class="nav-link"
+              ><i class="fas fa-user-check w-5"></i> Presensi Siswa</a
+            >
+            <a href="guru-nilai.html" class="nav-link active"
+              ><i class="fas fa-file-invoice w-5"></i> Nilai Siswa</a
+            >
+            <a href="guru-jadwal.html" class="nav-link"
+              ><i class="fas fa-clipboard-list w-5"></i> Jadwal Mengajar</a
+            >
+          </nav>
         </div>
-        <nav class="flex-1 mt-6 px-4 space-y-2 overflow-y-auto custom-scrollbar">
-          <a href="guru-dashboard.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
-            <i class="fas fa-database mr-3"></i> Beranda
-          </a>
-          <a href="guru-presensi.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
-            <i class="fas fa-user-check mr-3"></i> Presensi Siswa
-          </a>
-          <a href="guru-nilai.html" class="flex items-center py-3 px-4 bg-[#2563eb] text-white rounded-xl transition shadow-lg shadow-blue-900/20">
-            <i class="fas fa-file-invoice mr-3"></i> Nilai Siswa
-          </a>
-          <a href="guru-jadwal.html" class="flex items-center py-3 px-4 text-slate-400 hover:bg-slate-800 hover:text-white rounded-xl transition">
-            <i class="fas fa-calendar-alt mr-3"></i> Jadwal Mengajar
-          </a>
-        </nav>
-        <div class="p-6 border-t border-slate-800 bg-[#0f172a]">
-          <a href="login.html#login" class="flex items-center text-red-400 hover:text-red-300 font-bold transition">
-            <i class="fas fa-sign-out-alt mr-3"></i> Keluar
-          </a>
+
+        <div class="pt-6 border-t border-[var(--border)] relative z-[999]">
+          <button
+            type="button"
+            onclick="handleLogout()"
+            class="w-full flex items-center gap-3 py-3 px-4 btn-logout font-black rounded-xl transition-all cursor-pointer bg-transparent"
+          >
+            <i class="fas fa-sign-out-alt w-5"></i>
+            <span>Keluar Sistem</span>
+          </button>
         </div>
       </aside>
 
       <div class="flex-1 flex flex-col">
-        <header class="bg-white shadow-sm py-4 px-8 flex justify-between items-center sticky top-0 z-40">
-          <h2 class="text-xl font-bold text-slate-800 tracking-tight">Nilai Siswa</h2>
-          <div class="relative">
-            <button id="profileBtn" class="flex items-center space-x-3 focus:outline-none group">
-              <div class="text-right mr-2 hidden sm:block">
-                <p class="text-[10px] font-bold bg-blue-100 text-blue-700 px-2 py-0.5 rounded-md uppercase inline-block mb-1">Guru Pengampu</p>
-                <p class="text-xs font-bold text-slate-800 uppercase group-hover:text-blue-600 transition" id="nama-guru-header"></p>
+        <header class="flex justify-between items-center glass-card px-8 py-5 sticky top-0 z-50">
+          <div>
+            <h2 class="text-2xl font-black uppercase">Nilai Siswa</h2>
+            <p class="text-xs font-bold opacity-50 uppercase tracking-widest">
+              Kelola Input Nilai Siswa
+            </p>
+          </div>
+          <div class="flex items-center gap-5">
+            <div class="relative">
+              <button id="profileTrigger" class="flex items-center gap-3 p-1.5 pr-5 bg-gray-100 dark:bg-white/10 rounded-full border border-[var(--border)] hover:bg-gray-200 dark:hover:bg-white/20 transition-all cursor-pointer">
+                <div class="w-10 h-10 rounded-full bg-blue-400 flex items-center justify-center text-white font-bold text-sm" id="profileInitial">GU</div>
+                <span class="text-sm font-black italic" id="profileName">Guru</span>
+                <i class="fas fa-chevron-down text-[10px] opacity-50"></i>
+              </button>
+
+              <div id="profileDropdown" class="absolute right-0 mt-4 w-72 bg-[var(--card-bg)] rounded-[30px] shadow-2xl border border-[var(--border)] overflow-hidden hidden animate-fadeIn z-[999]">
+                <div class="p-8 flex flex-col items-center text-center">
+                  <div class="w-24 h-24 bg-blue-400 rounded-3xl flex items-center justify-center text-white text-4xl font-black shadow-lg mb-6" id="profileAvatarDropdown">GU</div>
+                  
+                  <h3 class="text-xl font-black text-[var(--text-main)]" id="profileNameDropdown">Guru Pengampu</h3>
+                  <p class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-6" id="profileRoleDropdown">Guru Kelas</p>
+                  
+                  <hr class="w-full border-[var(--border)] mb-6">
+
+                  <div class="w-full bg-gray-50 dark:bg-white/5 rounded-2xl p-4 flex justify-between items-center mb-4">
+                    <span class="text-[10px] font-black opacity-40 uppercase">Status</span>
+                    <span class="text-[11px] font-black">Aktif</span>
+                  </div>
+                </div>
               </div>
-              <div class="w-10 h-10 rounded-full bg-[#0091d5] flex items-center justify-center text-white font-bold text-sm border-2 border-white shadow-md group-hover:scale-105 transition-all" id="initial-guru-header"></div>
-            </button>
-            <div id="profileDropdown" class="absolute right-0 mt-3 w-72 bg-white rounded-[2rem] shadow-2xl border border-slate-100 p-6 hidden animate-fadeIn z-50">
-                <div id="dropdownContent"></div>
             </div>
           </div>
         </header>
 
-        <main class="p-8">
+        <main class="flex-1 space-y-6 p-8">
           <div class="max-w-[1600px] mx-auto space-y-6 animate-fadeIn">
             <!-- FILTER BAR -->
 <div class="bg-white p-5 rounded-[2rem] shadow-sm border border-slate-100 flex flex-wrap gap-4 items-center">
@@ -153,6 +293,40 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="firebase-config.js"></script>
+
+    <script>
+      // Profile Logic
+      document.addEventListener("DOMContentLoaded", function() {
+        const trigger = document.getElementById('profileTrigger');
+        const dropdown = document.getElementById('profileDropdown');
+
+        trigger.addEventListener('click', function(e) {
+          e.stopPropagation();
+          dropdown.classList.toggle('hidden');
+          dropdown.classList.toggle('show-dropdown');
+        });
+
+        document.addEventListener('click', function(e) {
+          if (!dropdown.contains(e.target) && !trigger.contains(e.target)) {
+            dropdown.classList.add('hidden');
+            dropdown.classList.remove('show-dropdown');
+          }
+        });
+      });
+
+      function handleLogout() {
+        Swal.fire({
+          title: "Yakin Keluar?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Ya, Keluar",
+          confirmButtonColor: "#ef4444",
+          borderRadius: "20px",
+        }).then((res) => {
+          if (res.isConfirmed) window.location.href = "login.html";
+        });
+      }
+    </script>
     <script src="guru-nilai.js"></script>
   </body>
 </html>
