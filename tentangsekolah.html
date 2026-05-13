@@ -10,7 +10,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
     />
     <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap"
       rel="stylesheet"
     />
  
@@ -26,20 +26,31 @@
         background-color: #ffffff;
         overflow-x: hidden;
       }
-      .glass-nav {
-        background: rgba(255, 255, 255, 0.9);
-        backdrop-filter: blur(15px);
-        border-bottom: 3px solid var(--secondary-yellow);
+      header {
+        /* Header tetap fixed, tapi kita pastikan nempel paling atas */
+        top: 0;
+        left: 0;
+        right: 0;
       }
+
       .hero-blue {
         background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
         position: relative;
         overflow: hidden;
+        /* Tambahkan padding atas di sini SEBAGAI GANTI padding body */
+        /* 80px (tinggi header) + 40px (jarak konten) */
+        padding-top: 120px;
+        padding-bottom: 60px;
       }
 
-      body {
-        font-family: "Poppins", sans-serif;
-        background-color: #f8fafc;
+      .nav-parent.active {
+        background: #eff6ff;
+        border: 1px solid #2563eb;
+        border-radius: 0.75rem;
+        box-shadow: 0 4px 15px rgba(37, 99, 235, 0.1);
+      }
+      .nav-parent.active button {
+        color: #2563eb;
       }
 
       /* --- CSS SIDEBAR ALA KESISWAAN --- */
@@ -122,32 +133,33 @@
   </head>
   <body>
      <header class="fixed w-full z-[100] bg-white/90 backdrop-blur-md shadow-sm border-b-2 border-yellow-400">
-  <div class="container mx-auto px-6 py-2 flex justify-between items-center"> <a href="index.html" class="flex items-center gap-3 group">
+  <div class="container mx-auto px-6 py-3 flex justify-between items-center"> <a href="index.html" class="flex items-center gap-3 group">
       <img
         src="asset/logogtg.png"
         alt="Logo SD Negeri Ganting"
-        class="h-9 w-auto object-contain" 
+        class="h-10 w-auto object-contain" 
       /> <div>
-        <h1 class="font-black text-base tracking-tight text-blue-900 leading-none uppercase"> SD NEGERI GANTING
+        <h1 class="font-black text-lg tracking-tight text-blue-900 leading-none uppercase"> SD NEGERI GANTING
         </h1>
-        <p class="text-[8px] font-bold text-blue-600 uppercase tracking-widest mt-0.5 italic"> BERIMAN, BERILMU, BERPRESTASI
+        <p class="text-[9px] font-bold text-blue-600 uppercase tracking-widest mt-1 italic"> BERIMAN, BERILMU, BERPRESTASI
         </p>
       </div>
     </a>
 
-    <div class="hidden lg:flex items-center space-x-1 font-bold text-[13px] text-slate-700"> <a
+    <div class="hidden lg:flex items-center space-x-2 font-bold text-[14px] text-slate-700"> <a
         href="index.html"
+        class="nav-link px-4 py-2 text-slate-700 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition-all"
       > Beranda
       </a>
 
-      <div class="relative group px-1 py-1.5">
+      <div id="navTentang" class="relative group nav-parent px-3 py-2">
   <button
-    class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-blue-50 text-blue-700 border border-blue-100 transition-all cursor-pointer"
+    class="flex items-center gap-1 group-hover:text-blue-700 transition cursor-pointer"
   >
     Tentang Sekolah
     <i class="fas fa-chevron-down text-[8px] transition-transform group-hover:rotate-180"></i>
   </button>
-        <div class="absolute left-0 mt-2 w-60 bg-white rounded-xl shadow-2xl py-2 border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+        <div class="absolute left-0 mt-2 w-64 bg-white rounded-xl shadow-2xl py-3 border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
           <a href="tentangsekolah.html#sejarah" class="block px-5 py-2 hover:bg-blue-50 hover:text-blue-700 transition font-medium">Sejarah Sekolah</a>
           <a href="tentangsekolah.html#visi" class="block px-5 py-2 hover:bg-blue-50 hover:text-blue-700 transition font-medium">Visi & Misi</a>
           <a href="tentangsekolah.html#struktur" class="block px-5 py-2 hover:bg-blue-50 hover:text-blue-700 transition font-medium">Struktur Organisasi</a>
@@ -155,29 +167,29 @@
         </div>
       </div>
 
-      <div class="relative group px-2 py-1.5"> <button class="flex items-center gap-1 group-hover:text-blue-700 transition cursor-pointer">
+      <div class="relative group px-3 py-2"> <button class="flex items-center gap-1 group-hover:text-blue-700 transition cursor-pointer">
           Kesiswaan
           <i class="fas fa-chevron-down text-[10px] transition-transform group-hover:rotate-180"></i>
         </button>
-        <div class="absolute left-0 mt-2 w-52 bg-white rounded-xl shadow-2xl py-2 border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+        <div class="absolute left-0 mt-2 w-56 bg-white rounded-xl shadow-2xl py-3 border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
           <a href="kesiswaan.html#ekskul" class="block px-5 py-2 hover:bg-blue-50 hover:text-blue-700 transition font-medium">Ekstrakurikuler</a>
           <a href="kesiswaan.html#prestasi" class="block px-5 py-2 hover:bg-blue-50 hover:text-blue-700 transition font-medium">Prestasi Siswa</a>
         </div>
       </div>
 
-      <a href="index.html#berita" class="px-3 py-1.5 hover:text-blue-700 transition">Berita</a>
-      <a href="index.html#kontak" class="px-3 py-1.5 hover:text-blue-700 transition">Hubungi Kami</a>
+      <a href="index.html#berita" class="nav-link px-4 py-2 text-slate-700 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition-all">Berita</a>
+      <a href="index.html#kontak" class="nav-link px-4 py-2 text-slate-700 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition-all">Hubungi Kami</a>
     </div>
 
     <a
       href="login.html#login"
-      class="bg-blue-800 text-white px-4 py-2 rounded-lg hover:bg-blue-900 shadow-lg transition-all text-[10px] font-black tracking-widest flex items-center gap-2"
+      class="bg-blue-800 text-white px-6 py-2.5 rounded-xl hover:bg-blue-900 shadow-lg transition-all text-[11px] font-black tracking-widest flex items-center gap-2"
     > <i class="fas fa-user-shield"></i> PORTAL SIAKAD
     </a>
   </div>
 </header>
 
-    <header class="hero-blue py-16 px-6 text-white relative">
+    <header class="hero-blue px-6 text-white relative">
       <div class="max-w-7xl mx-auto relative">
         <a
           href="index.html"
@@ -551,8 +563,83 @@
       </div>
     </main>
 
-    <footer class="bg-gray-900 text-gray-400 py-10 text-center text-sm italic">
-      &copy; 2026 SD NEGERI GANTING. All Rights Reserved.
+    <footer id="kontak" class="bg-[#0f172a] text-white pt-24 pb-12">
+      <div class="container mx-auto px-6 max-w-6xl">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-20">
+          <div data-aos="fade-up">
+            <h4
+              class="text-2xl font-bold mb-8 border-l-4 border-blue-600 pl-4 tracking-tight"
+            >
+              Tentang Kami
+            </h4>
+            <p class="text-slate-400 leading-relaxed text-base text-left">
+              SD NEGERI GANTING berkomitmen tinggi dalam mencetak generasi
+              penerus bangsa yang berakhlak mulia dan melek teknologi informasi.
+            </p>
+          </div>
+
+          <div data-aos="fade-up" data-aos-delay="100">
+            <h4
+              class="text-2xl font-bold mb-8 border-l-4 border-blue-600 pl-4 tracking-tight"
+            >
+              Hubungi Kami
+            </h4>
+            <ul class="space-y-5 text-slate-400 text-left">
+              <li class="flex items-start">
+                <i
+                  class="fas fa-map-marker-alt text-blue-600 mt-1.5 mr-4 text-lg"
+                ></i>
+                <span
+                  >Jl. Sukodono No.36, GANTING, Kec. Gedangan, Kab. Sidoarjo,
+                  Jawa Timur.</span
+                >
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-phone-alt text-blue-600 mr-4 text-lg"></i>
+                <span>+62 31 8912495</span>
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-envelope text-blue-600 mr-4 text-lg"></i>
+                <span>sdnegeriganting79@gmail.com</span>
+              </li>
+            </ul>
+          </div>
+
+          <div data-aos="fade-up" data-aos-delay="200">
+            <h4
+              class="text-2xl font-bold mb-8 border-l-4 border-blue-600 pl-4 tracking-tight"
+            >
+              Media Sosial
+            </h4>
+            <div class="flex space-x-4 justify-start">
+              <a
+                href="#"
+                class="w-12 h-12 bg-slate-800/50 rounded-full flex items-center justify-center hover:bg-blue-600 transition-all duration-300 group"
+              >
+                <i class="fab fa-facebook-f text-lg group-hover:scale-110"></i>
+              </a>
+              <a
+                href="#"
+                class="w-12 h-12 bg-slate-800/50 rounded-full flex items-center justify-center hover:bg-pink-600 transition-all duration-300 group"
+              >
+                <i class="fab fa-instagram text-lg group-hover:scale-110"></i>
+              </a>
+              <a
+                href="#"
+                class="w-12 h-12 bg-slate-800/50 rounded-full flex items-center justify-center hover:bg-red-600 transition-all duration-300 group"
+              >
+                <i class="fab fa-youtube text-lg group-hover:scale-110"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-20 pt-8 border-t border-slate-800/50 text-center">
+          <p class="text-slate-500 text-xs italic tracking-widest uppercase">
+            &copy; 2026 SD NEGERI GANTING. Created with passion for education.
+          </p>
+        </div>
+      </div>
     </footer>
 
 
@@ -593,6 +680,15 @@
             behavior: 'smooth'
           });
         }, 300);
+      }
+    }
+
+    // Set active state nav menu untuk halaman ini
+    const path = window.location.pathname.split('/').pop();
+    if (path === 'tentangsekolah.html') {
+      const navTentang = document.getElementById('navTentang');
+      if (navTentang) {
+        navTentang.classList.add('active');
       }
     }
   });

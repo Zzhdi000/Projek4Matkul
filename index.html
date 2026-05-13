@@ -123,6 +123,12 @@
       .animate-gentle-float {
         animation: gentle-float 4s ease-in-out infinite;
       }
+      .nav-link.active {
+        background: #eff6ff;
+        color: #2563eb;
+        border: 1px solid #2563eb;
+        box-shadow: 0 4px 15px rgba(37, 99, 235, 0.1);
+      }
     </style>
   </head>
   <body class="antialiased">
@@ -237,13 +243,10 @@
           </a>
         </div>
 
-        <a
-          href="login.html#login"
-          class="bg-blue-800 text-white px-6 py-2.5 rounded-xl hover:bg-blue-900 shadow-lg transition-all text-[11px] font-black tracking-widest flex items-center gap-2"
-        >
-          <i class="fas fa-user-shield"></i> PORTAL SIAKAD
-        </a>
-      </div>
+       <a href="portal.html" class="bg-blue-800 text-white px-6 py-2.5 rounded-xl hover:bg-blue-900 shadow-lg transition-all text-[11px] font-black tracking-widest flex items-center gap-2">
+  <i class="fas fa-user-shield"></i> PORTAL SIAKAD
+</a>
+        </div>
     </header>
 
     <!-- home -->
@@ -894,6 +897,37 @@
 
 
 
+    <script>
+      // Script untuk active navbar berdasarkan scroll menggunakan Intersection Observer
+      const sections = document.querySelectorAll('section[id], footer[id]');
+      const navLinks = document.querySelectorAll('.nav-link');
+
+      const observerOptions = {
+        root: null,
+        rootMargin: '-80px 0px -50% 0px', // Adjust untuk header fixed
+        threshold: 0
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const id = entry.target.getAttribute('id');
+            navLinks.forEach(link => {
+              link.classList.remove('active');
+            });
+            const activeLink = document.querySelector(`.nav-link[href="#${id}"]`);
+            if (activeLink) {
+              activeLink.classList.add('active');
+            }
+          }
+        });
+      }, observerOptions);
+
+      sections.forEach(section => {
+        observer.observe(section);
+      });
+    </script>
+
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
       AOS.init({ duration: 1000, once: true });
@@ -1033,6 +1067,7 @@ Pertanyaan: ${message}`;
     </script>
 
     <!-- FIREBASE & DYNAMIC NEWS SCRIPT -->
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
