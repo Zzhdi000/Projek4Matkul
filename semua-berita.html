@@ -76,6 +76,12 @@
         background: var(--secondary-yellow);
         width: 40px;
       }
+      
+      /* CSS untuk memastikan warna teks dari editor ditampilkan */
+      #modalContent {
+        color: #374151; /* slate-700 */
+      }
+      
       .choosing-card {
         transition: all 0.4s ease;
       }
@@ -153,8 +159,8 @@
         .img-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
         .news-card:hover .img-wrapper img { transform: scale(1.1); }
 
-        .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-        .line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+        .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; line-clamp: 2; overflow: hidden; }
+        .line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; line-clamp: 3; overflow: hidden; }
         
         /* Gaya Button Filter agar senada dengan Sidebar Tab */
         .filter-btn {
@@ -432,13 +438,15 @@
 
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="firebase-config.js"></script>
 
     <script>
         let currentCategory = 'Semua';
         let currentPage = 1;
-        const pageSize = 9;
-        let lastDoc = null;
+        const pageSize = 6;
+        let pageHistory = [null]; // Array untuk menyimpan lastDoc setiap halaman
+        let pageData = {}; // Object untuk menyimpan data setiap halaman
         let isLoading = false;
 
         async function loadBerita(reset = true) {
@@ -448,8 +456,18 @@
 
             if (reset) {
                 currentPage = 1;
-                lastDoc = null;
+                pageHistory = [null];
+                pageData = {};
                 container.innerHTML = '<div class="col-span-full text-center py-16"><i class="fas fa-spinner fa-pulse text-blue-600"></i></div>';
+            }
+
+            // Cek apakah data halaman sudah ada di cache
+            const cacheKey = `${currentCategory}_${currentPage}`;
+            if (pageData[cacheKey] && !reset) {
+                renderBerita(pageData[cacheKey], false);
+                renderPagination(pageData[cacheKey].length);
+                isLoading = false;
+                return;
             }
 
             try {
@@ -462,13 +480,26 @@
                     query = query.where('kategori', '==', kategoriValue);
                 }
 
-                if (!reset && lastDoc) query = query.startAfter(lastDoc);
+                // Gunakan lastDoc dari pageHistory untuk halaman saat ini
+                if (pageHistory[currentPage - 1]) {
+                    query = query.startAfter(pageHistory[currentPage - 1]);
+                }
                 query = query.limit(pageSize);
 
                 const snapshot = await query.get();
                 const docs = snapshot.docs;
 
-                if (docs.length > 0) lastDoc = docs[docs.length-1];
+                // Simpan data ke cache
+                pageData[cacheKey] = docs;
+                
+                if (docs.length > 0) {
+                    const lastDoc = docs[docs.length-1];
+                    // Pastikan pageHistory cukup besar
+                    while (pageHistory.length <= currentPage) {
+                        pageHistory.push(null);
+                    }
+                    pageHistory[currentPage] = lastDoc;
+                }
                 
                 renderBerita(docs, reset);
                 renderPagination(docs.length);
@@ -492,7 +523,7 @@
                 const data = doc.data();
                 const badgeClass = data.kategori === 'Pengumuman' ? 'bg-red-50 text-red-600' : 'bg-green-50 text-green-600';
                 html += `
-                    <div class="news-card cursor-pointer" onclick="openNewsModal(this)" data-id="${doc.id}" data-title="${data.judul.replace(/"/g, '&quot;')}" data-category="${data.kategori || 'Berita'}" data-author="${data.penulis}" data-date="${data.tanggal}" data-image="${data.urlGambar || 'https://via.placeholder.com/400x220?text=No+Image'}" data-content="${data.isi.replace(/"/g, '&quot;').replace(/\n/g, '\\n')}">
+                    <div class="news-card cursor-pointer" onclick="openNewsModal(this)" data-id="${doc.id}" data-title="${data.judul.replace(/"/g, '&quot;')}" data-category="${data.kategori || 'Berita'}" data-author="${data.penulis}" data-date="${data.tanggal}" data-image="${data.urlGambar || 'https://via.placeholder.com/400x220?text=No+Image'}">
                         <div class="img-wrapper">
                             <img src="${data.urlGambar || 'https://via.placeholder.com/400x220?text=No+Image'}">
                         </div>
@@ -522,8 +553,16 @@
         }
 
         function changePage(dir) {
-            currentPage += dir;
+            const newPage = currentPage + dir;
+            
+            // Pastikan halaman valid
+            if (newPage < 1) return;
+            
+            currentPage = newPage;
+            
+            // Load data untuk halaman baru
             loadBerita(false);
+            
             window.scrollTo({ top: 400, behavior: 'smooth' });
         }
 
@@ -531,6 +570,9 @@
             currentCategory = cat;
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
             document.getElementById(id).classList.add('active');
+            // Reset cache dan halaman ketika filter berubah
+            pageData = {};
+            pageHistory = [null];
             loadBerita(true);
         }
 
@@ -546,22 +588,25 @@
           if (beritaLink) beritaLink.classList.add('active');
         }
 
-        function openNewsModal(element) {
+        async function openNewsModal(element) {
             const id = element.dataset.id;
-            const title = element.dataset.title;
-            const category = element.dataset.category;
-            const author = element.dataset.author;
-            const date = element.dataset.date;
-            const image = element.dataset.image;
-            const content = element.dataset.content.replace(/\\n/g, '\n');
-            
+            const doc = await db.collection('berita').doc(id).get();
+            if (!doc.exists) return;
+            const data = doc.data();
+            const title = data.judul || element.dataset.title;
+            const category = data.kategori || element.dataset.category || 'Berita';
+            const author = data.penulis || element.dataset.author || '';
+            const date = data.tanggal || element.dataset.date || '';
+            const image = data.urlGambar || element.dataset.image || 'https://via.placeholder.com/400x220?text=No+Image';
+            const content = data.isi || '';
+
             document.getElementById('modalTitle').textContent = title;
             document.getElementById('modalBadge').textContent = category;
             document.getElementById('modalBadge').className = `text-sm font-bold px-3 py-1 rounded-full uppercase ${category === 'Pengumuman' ? 'bg-red-50 text-red-600' : 'bg-green-50 text-green-600'}`;
             document.getElementById('modalAuthor').textContent = author;
             document.getElementById('modalDate').textContent = date;
             document.getElementById('modalImage').src = image;
-            document.getElementById('modalContent').textContent = content;
+            document.getElementById('modalContent').innerHTML = content;
             document.getElementById('newsModal').classList.remove('hidden');
             document.body.style.overflow = 'hidden';
         }

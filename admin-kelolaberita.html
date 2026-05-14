@@ -485,10 +485,9 @@
                 <label class="tool-label">Warna Teks & Elemen</label>
                 <div class="flex items-center gap-4 p-3 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
                     <div class="relative w-12 h-12">
-                        <input type="color" id="eyedropper" onchange="applyStyle('foreColor', this.value)" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
-                        <div class="w-full h-full rounded-xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center text-white shadow-lg">
+                        <button onmousedown="saveSelection()" onclick="openColorModal()" class="w-full h-full rounded-xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center text-white shadow-lg hover:scale-105 transition-all">
                             <i class="fas fa-eye-dropper"></i>
-                        </div>
+                        </button>
                     </div>
                     <div>
                         <p class="text-xs font-black text-gray-700">Pilih Warna</p>
@@ -588,6 +587,25 @@
                         <p id="leafDate" class="text-sm font-bold text-gray-900">-- --- 2026</p>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Color Picker Modal -->
+<div id="colorModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[1000] hidden">
+    <div class="bg-white rounded-3xl p-6 max-w-sm w-full mx-4 shadow-2xl">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-black text-gray-800">Pilih Warna Teks</h3>
+            <button onclick="closeColorModal()" class="w-8 h-8 rounded-full bg-red-50 text-red-500 hover:bg-red-500 hover:text-white transition-all">
+                <i class="fas fa-times text-xs"></i>
+            </button>
+        </div>
+        <div class="flex flex-col items-center gap-4">
+            <input type="color" id="colorPicker" value="#000000" class="w-32 h-32 rounded-2xl border-4 border-gray-200 cursor-pointer">
+            <div class="flex gap-3 w-full">
+                <button onclick="closeColorModal()" class="flex-1 py-3 bg-gray-100 text-gray-600 rounded-xl font-bold text-sm hover:bg-gray-200 transition-all">Batal</button>
+                <button onclick="applyColor()" class="flex-1 py-3 bg-blue-600 text-white rounded-xl font-bold text-sm hover:bg-blue-700 transition-all">OK</button>
             </div>
         </div>
     </div>
@@ -807,6 +825,7 @@ async function editNews(id) {
     document.getElementById('editorOverlay').style.display = 'flex';
     document.body.style.overflow = 'hidden';
     document.getElementById('leafDate').innerText = new Date().toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'});
+    document.getElementById('colorPicker').value = '#000000'; // reset color picker
     // Sesuaikan kategori editor kalau perlu
     currentCategory = data.kategori;
 }
@@ -855,6 +874,7 @@ function openEditorSelection() {
         document.getElementById('editorOverlay').style.display = 'flex';
         document.body.style.overflow = 'hidden';
         document.getElementById('leafDate').innerText = new Date().toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'});
+        document.getElementById('colorPicker').value = '#000000'; // reset color picker
     });
 }
 
@@ -888,8 +908,67 @@ function changeOrientation(mode) {
     }
 }
 
+let savedSelection = null;
+
+function saveSelection() {
+    const selection = window.getSelection();
+    if (selection.rangeCount > 0) {
+        savedSelection = selection.getRangeAt(0).cloneRange();
+    }
+}
+
+function restoreSelection() {
+    const selection = window.getSelection();
+    if (savedSelection) {
+        selection.removeAllRanges();
+        selection.addRange(savedSelection);
+    }
+}
+
 function applyStyle(cmd, val = null) {
-    document.execCommand(cmd, false, val);
+    if (cmd === 'foreColor' && val) {
+        restoreSelection();
+        try {
+            const success = document.execCommand('foreColor', false, val);
+            if (!success) {
+                const selection = window.getSelection();
+                if (selection.rangeCount > 0) {
+                    const range = selection.getRangeAt(0);
+                    const selectedText = range.toString();
+                    if (selectedText.length > 0) {
+                        const span = document.createElement('span');
+                        span.style.color = val;
+                        span.textContent = selectedText;
+                        range.deleteContents();
+                        range.insertNode(span);
+                        range.setStartAfter(span);
+                        range.setEndAfter(span);
+                        selection.removeAllRanges();
+                        selection.addRange(range);
+                    }
+                }
+            }
+        } catch (error) {
+            console.error('Error applying color:', error);
+        }
+    } else {
+        document.execCommand(cmd, false, val);
+    }
+}
+
+function openColorModal() {
+    document.getElementById('colorModal').classList.remove('hidden');
+}
+
+function closeColorModal() {
+    document.getElementById('colorModal').classList.add('hidden');
+}
+
+function applyColor() {
+    restoreSelection();
+    const color = document.getElementById('colorPicker').value;
+    applyStyle('foreColor', color);
+    closeColorModal();
 }
 
 function changeFontSize(size) {

@@ -10,7 +10,10 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
-const auth = firebase.auth();
+let auth = null;
+if (typeof firebase.auth === 'function') {
+  auth = firebase.auth();
+}
 
 // ==================== KONFIRMASI LOGOUT UNTUK SEMUA HALAMAN ====================
 document.addEventListener('click', function(e) {
