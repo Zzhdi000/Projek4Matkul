@@ -58,7 +58,13 @@
       .transition-smooth {
         transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
       }
-
+      img {
+        max-width: 100%;
+        height: auto;
+      }
+      * {
+        box-sizing: border-box;
+      }
       /* UI ELEMENTS */
       .dropdown-menu {
         opacity: 0;
@@ -110,7 +116,18 @@
         opacity: 1;
         pointer-events: auto;
       }
+      @keyframes marquee {
+        0% {
+          transform: translateX(0);
+        }
+        100% {
+          transform: translateX(calc(-100% - 40px));
+        }
+      }
 
+      .animate-marquee {
+        animation: marquee 30s linear infinite;
+      }
       @keyframes gentle-float {
         0%,
         100% {
@@ -243,10 +260,13 @@
           </a>
         </div>
 
-       <a href="portal.html" class="bg-blue-800 text-white px-6 py-2.5 rounded-xl hover:bg-blue-900 shadow-lg transition-all text-[11px] font-black tracking-widest flex items-center gap-2">
-  <i class="fas fa-user-shield"></i> PORTAL SIAKAD
-</a>
-        </div>
+        <a
+          href="portal.html"
+          class="bg-blue-800 text-white px-6 py-2.5 rounded-xl hover:bg-blue-900 shadow-lg transition-all text-[11px] font-black tracking-widest flex items-center gap-2"
+        >
+          <i class="fas fa-user-shield"></i> PORTAL SIAKAD
+        </a>
+      </div>
     </header>
 
     <!-- home -->
@@ -262,7 +282,7 @@
           >
             <div class="max-w-3xl text-white">
               <h2
-                class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight"
+                class="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold mb-6 leading-tight"
               >
                 <span class="block text-2xl font-semibold text-white/80 mb-2">
                   Mari Menjadi
@@ -288,7 +308,7 @@
           ></div>
           <div class="slide-overlay"></div>
           <div
-            class="container mx-auto px-6 h-full flex items-center relative z-10 text-white"
+            class="container mx-auto px-6 h-full flex items-end pb-32 relative z-10 text-white"
           >
             <div class="max-w-3xl">
               <h2
@@ -311,7 +331,7 @@
           ></div>
           <div class="slide-overlay"></div>
           <div
-            class="container mx-auto px-6 h-full flex items-center relative z-10 text-white"
+            class="container mx-auto px-6 h-full flex items-end pb-32 relative z-10 text-white"
           >
             <div class="max-w-3xl">
               <h2
@@ -356,7 +376,6 @@
         ></div>
       </div>
     </section>
-
     <section class="py-24 bg-white relative overflow-hidden">
       <div class="container mx-auto px-6 relative z-10">
         <div class="text-center mb-20" data-aos="fade-up">
@@ -367,17 +386,18 @@
         </div>
 
         <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          <!-- 1 -->
           <div
-            class="choosing-card bg-white p-8 rounded-2xl border border-slate-100 shadow-lg"
+            class="choosing-card bg-white p-8 rounded-2xl border border-slate-100 shadow-lg transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:border-blue-100 group"
             data-aos="fade-up"
           >
             <div
-              class="w-16 h-16 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center text-3xl mb-8"
+              class="w-16 h-16 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center text-3xl mb-8 transition-transform duration-300 group-hover:scale-110"
             >
               <i class="fas fa-user-tie"></i>
             </div>
-            <h3 class="text-xl font-bold text-blue-900 mb-3">
+            <h3
+              class="text-xl font-bold text-blue-900 mb-3 group-hover:text-blue-600 transition-colors duration-300"
+            >
               Guru Profesional
             </h3>
             <p class="text-slate-600 text-sm">
@@ -385,18 +405,19 @@
             </p>
           </div>
 
-          <!-- 2 -->
           <div
-            class="choosing-card bg-white p-8 rounded-2xl border border-slate-100 shadow-lg"
+            class="choosing-card bg-white p-8 rounded-2xl border border-slate-100 shadow-lg transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:border-yellow-100 group"
             data-aos="fade-up"
             data-aos-delay="100"
           >
             <div
-              class="w-16 h-16 bg-yellow-100 text-yellow-600 rounded-2xl flex items-center justify-center text-3xl mb-8"
+              class="w-16 h-16 bg-yellow-100 text-yellow-600 rounded-2xl flex items-center justify-center text-3xl mb-8 transition-transform duration-300 group-hover:scale-110"
             >
               <i class="fas fa-school"></i>
             </div>
-            <h3 class="text-xl font-bold text-blue-900 mb-3">
+            <h3
+              class="text-xl font-bold text-blue-900 mb-3 group-hover:text-yellow-600 transition-colors duration-300"
+            >
               Fasilitas Lengkap
             </h3>
             <p class="text-slate-600 text-sm">
@@ -404,18 +425,19 @@
             </p>
           </div>
 
-          <!-- 3 -->
           <div
-            class="choosing-card bg-white p-8 rounded-2xl border border-slate-100 shadow-lg"
+            class="choosing-card bg-white p-8 rounded-2xl border border-slate-100 shadow-lg transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:border-blue-100 group"
             data-aos="fade-up"
             data-aos-delay="200"
           >
             <div
-              class="w-16 h-16 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center text-3xl mb-8"
+              class="w-16 h-16 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center text-3xl mb-8 transition-transform duration-300 group-hover:scale-110"
             >
               <i class="fas fa-heart"></i>
             </div>
-            <h3 class="text-xl font-bold text-blue-900 mb-3">
+            <h3
+              class="text-xl font-bold text-blue-900 mb-3 group-hover:text-blue-600 transition-colors duration-300"
+            >
               Pendidikan Berkarakter
             </h3>
             <p class="text-slate-600 text-sm">
@@ -423,18 +445,19 @@
             </p>
           </div>
 
-          <!-- 4 -->
           <div
-            class="choosing-card bg-white p-8 rounded-2xl border border-slate-100 shadow-lg"
+            class="choosing-card bg-white p-8 rounded-2xl border border-slate-100 shadow-lg transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:border-yellow-100 group"
             data-aos="fade-up"
             data-aos-delay="300"
           >
             <div
-              class="w-16 h-16 bg-yellow-100 text-yellow-600 rounded-2xl flex items-center justify-center text-3xl mb-8"
+              class="w-16 h-16 bg-yellow-100 text-yellow-600 rounded-2xl flex items-center justify-center text-3xl mb-8 transition-transform duration-300 group-hover:scale-110"
             >
               <i class="fas fa-trophy"></i>
             </div>
-            <h3 class="text-xl font-bold text-blue-900 mb-3">
+            <h3
+              class="text-xl font-bold text-blue-900 mb-3 group-hover:text-yellow-600 transition-colors duration-300"
+            >
               Aktif & Berprestasi
             </h3>
             <p class="text-slate-600 text-sm">
@@ -446,25 +469,25 @@
     </section>
 
     <section class="py-24 bg-slate-50 overflow-hidden">
-      <div class="container mx-auto px-6">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6">
         <div class="flex flex-col lg:flex-row items-center gap-16">
           <div class="w-full lg:w-5/12 relative" data-aos="fade-right">
             <div class="relative z-10">
               <img
-                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800"
+                src="asset/kepsek.png"
                 alt="Kepsek"
-                class="rounded-3xl shadow-2xl w-full h-[500px] object-cover border-8 border-white"
+                class="rounded-3xl shadow-2xl w-full h-[300px] md:h-[400px] lg:h-[500px] object-cover border-8 border-white"
               />
               <div
                 class="absolute -bottom-6 -right-6 bg-blue-900 text-white p-8 rounded-2xl shadow-2xl hidden md:block"
               >
                 <h4 class="text-xl font-extrabold text-yellow-400">
-                  M. HANAFI S.Pd.SD
+                  M. KANAFI S.Pd.SD
                 </h4>
                 <p
                   class="text-xs text-blue-200 uppercase tracking-widest mt-1 font-bold"
                 >
-                  Kepala Sekolah SMK Telkom Malang
+                  Kepala Sekolah SD Negeri Ganting
                 </p>
               </div>
             </div>
@@ -489,215 +512,196 @@
               <p>Assalamu’alaikum Warahmatullahi Wabarakatuh,</p>
 
               <p>
-                Puji syukur ke hadirat Allah SWT atas segala rahmat dan
-                karunia-Nya, sehingga kita semua dapat terus berkontribusi dalam
-                dunia pendidikan. Selamat datang di website resmi SD Negeri
-                Ganting sebagai sarana informasi dan komunikasi bagi seluruh
-                warga sekolah dan masyarakat.
+                Selamat datang di website resmi SD Negeri Ganting sebagai sarana
+                informasi dan komunikasi bagi seluruh warga sekolah dan
+                masyarakat.
               </p>
 
               <p>
-                Kami berkomitmen untuk memberikan pendidikan terbaik dengan
-                mengedepankan pembelajaran yang aktif, kreatif, dan
-                menyenangkan, serta membentuk karakter siswa yang beriman,
-                disiplin, dan berakhlak mulia.
+                Kami berkomitmen menghadirkan lingkungan belajar yang aman,
+                kondusif, dan menyenangkan untuk membentuk generasi yang tidak
+                hanya cerdas secara akademik, tetapi juga beriman, berkarakter
+                mulia, dan siap mengukir prestasi.
               </p>
 
               <p>
-                Dengan dukungan tenaga pendidik yang profesional serta
-                lingkungan belajar yang kondusif, kami berharap dapat mencetak
-                generasi yang berilmu, berkarakter, dan mampu meraih prestasi.
+                Bersama tenaga pendidik yang profesional dan berdedikasi, kami
+                siap membimbing putra-putri Anda menemukan potensi terbaiknya.
+                Mari bergabung menjadi bagian dari keluarga besar SD Negeri
+                Ganting. Mari bersama-sama kita persiapkan masa depan anak-anak
+                kita dengan pendidikan terbaik yang berkarakte
               </p>
 
               <p class="pt-4 border-t border-slate-200 font-bold text-blue-900">
                 Wassalamu’alaikum Warahmatullahi Wabarakatuh.
               </p>
-
-              <p class="font-semibold text-blue-900">Kepala Sekolah</p>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="layanan" class="py-24 bg-white">
-      <div class="container mx-auto px-6">
-        <div class="text-center mb-16" data-aos="fade-up">
-          <h2 class="text-4xl font-extrabold text-blue-900">
-            Layanan <span class="text-yellow-400">Akademik</span>
+    <section
+      id="galeri"
+      class="py-20 bg-gradient-to-b from-white to-blue-50 overflow-hidden"
+    >
+      <div class="container mx-auto px-6 mb-12">
+        <div class="text-center" data-aos="fade-up">
+          <h2 class="text-4xl font-black text-blue-900 tracking-wide">
+            📸 Intip
+            <span
+              class="text-yellow-500 underline decoration-wavy decoration-orange-400"
+              >Keseruan Kita</span
+            >
+            Yuk!
           </h2>
-          <div class="w-24 h-1.5 bg-blue-600 mx-auto mt-4 rounded-full"></div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          <div
-            class="choosing-card bg-white p-8 rounded-[2rem] border-b-4 border-blue-700 shadow-xl group"
-            data-aos="fade-up"
-          >
-            <div
-              class="w-16 h-16 bg-blue-50 text-blue-700 rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:bg-blue-700 group-hover:text-white transition-all duration-300"
-            >
-              <i class="fas fa-calendar-alt"></i>
-            </div>
-            <h3 class="text-xl font-bold text-blue-900 mb-3">Kalender</h3>
-            <p class="text-slate-500 text-sm leading-relaxed">
-              Cek jadwal ujian, kegiatan sekolah, dan hari libur nasional.
-            </p>
-          </div>
-
-          <div
-            class="choosing-card bg-white p-8 rounded-[2rem] border-b-4 border-green-500 shadow-xl group"
-            data-aos="fade-up"
-            data-aos-delay="100"
-          >
-            <div
-              class="w-16 h-16 bg-green-50 text-green-500 rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:bg-green-500 group-hover:text-white transition-all duration-300"
-            >
-              <i class="fas fa-book-open"></i>
-            </div>
-            <h3 class="text-xl font-bold text-blue-900 mb-3">E-Learning</h3>
-            <p class="text-slate-500 text-sm leading-relaxed">
-              Akses materi pembelajaran dan tugas sekolah secara online.
-            </p>
-          </div>
-
-          <div
-            class="choosing-card bg-white p-8 rounded-[2rem] border-b-4 border-yellow-500 shadow-xl group"
-            data-aos="fade-up"
-            data-aos-delay="200"
-          >
-            <div
-              class="w-16 h-16 bg-yellow-50 text-yellow-500 rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:bg-yellow-500 group-hover:text-white transition-all duration-300"
-            >
-              <i class="fas fa-chart-line"></i>
-            </div>
-            <h3 class="text-xl font-bold text-blue-900 mb-3">E-Rapor</h3>
-            <p class="text-slate-500 text-sm leading-relaxed">
-              Pantau perkembangan hasil belajar siswa tiap semester.
-            </p>
-          </div>
-
-          <div
-            class="choosing-card bg-white p-8 rounded-[2rem] border-b-4 border-red-500 shadow-xl group"
-            data-aos="fade-up"
-            data-aos-delay="300"
-          >
-            <div
-              class="w-16 h-16 bg-red-50 text-red-500 rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:bg-red-500 group-hover:text-white transition-all duration-300"
-            >
-              <i class="fas fa-wallet"></i>
-            </div>
-            <h3 class="text-xl font-bold text-blue-900 mb-3">Keuangan</h3>
-            <p class="text-slate-500 text-sm leading-relaxed">
-              Informasi administrasi pembayaran SPP dan iuran lainnya.
-            </p>
-          </div>
+          <p class="text-slate-600 mt-3 font-medium">
+            Dokumentasi kegiatan dan keceriaan teman-teman di sekolah
+          </p>
         </div>
       </div>
-    </section>
 
-    <section id="portal-siakad" class="py-24 bg-[#1e40af]">
-      <div class="container mx-auto px-6">
+      <div class="relative w-full flex overflow-x-hidden group/marquee py-12">
         <div
-          class="flex flex-col lg:flex-row items-center justify-between gap-12"
+          class="animate-marquee flex gap-10 whitespace-nowrap min-w-full flex-shrink-0 list-none pr-10 group-hover/marquee:[animation-play-state:paused]"
         >
-          <div class="w-full lg:w-1/2 text-white" data-aos="fade-right">
-            <h2 class="text-4xl md:text-5xl font-extrabold mb-6 leading-tight">
-              Portal Digital <br />
-              <span class="text-white">SIAKAD SD Negeri Ganting</span>
-            </h2>
-            <p class="text-blue-100 text-lg mb-8 leading-relaxed">
-              Gunakan Nomor Induk Siswa (NIS) atau NIP untuk masuk ke sistem
-              monitoring absensi dan nilai secara realtime.
-            </p>
-
-            <ul class="space-y-4">
-              <li class="flex items-center gap-3">
-                <div
-                  class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-[10px]"
-                >
-                  <i class="fas fa-check"></i>
-                </div>
-                <span class="font-semibold text-blue-50"
-                  >Monitoring Nilai Siswa</span
-                >
-              </li>
-              <li class="flex items-center gap-3">
-                <div
-                  class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-[10px]"
-                >
-                  <i class="fas fa-check"></i>
-                </div>
-                <span class="font-semibold text-blue-50">Absensi Realtime</span>
-              </li>
-              <li class="flex items-center gap-3">
-                <div
-                  class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-[10px]"
-                >
-                  <i class="fas fa-check"></i>
-                </div>
-                <span class="font-semibold text-blue-50"
-                  >Pengumuman Sekolah</span
-                >
-              </li>
-            </ul>
+          <div
+            class="w-72 flex-shrink-0 bg-white p-4 rounded-[2rem] shadow-lg border-2 border-dashed border-blue-400 -rotate-2 hover:rotate-0 hover:scale-105 transition-all duration-300"
+          >
+            <img
+              src="asset/scout.jpg"
+              alt="pramuka"
+              class="w-full h-48 object-cover rounded-[1.5rem] mb-3"
+            />
+            <span class="block text-center font-bold text-blue-800 text-base"
+              >Kegiatan Pramuka!</span
+            >
           </div>
 
-          <div class="w-full lg:w-[450px]" data-aos="fade-left">
-            <div class="bg-white p-10 rounded-[2.5rem] shadow-2xl">
-              <form action="#" class="space-y-6">
-                <div>
-                  <label
-                    class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2"
-                    >Username / NIS</label
-                  >
-                  <input
-                    type="text"
-                    placeholder="Masukkan ID Anda"
-                    class="w-full px-5 py-4 bg-slate-50 border border-slate-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-sm"
-                  />
-                </div>
+          <div
+            class="w-72 flex-shrink-0 bg-white p-4 rounded-[2rem] shadow-lg border-2 border-dashed border-green-400 rotate-3 hover:rotate-0 hover:scale-105 transition-all duration-300"
+          >
+            <img
+              src="asset/halbil.jpg"
+              alt="Upacara"
+              class="w-full h-48 object-cover rounded-[1.5rem] mb-3"
+            />
+            <span class="block text-center font-bold text-green-700 text-base"
+              >Upacara Bendera 🇮🇩</span
+            >
+          </div>
 
-                <div>
-                  <label
-                    class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2"
-                    >Password</label
-                  >
-                  <input
-                    type="password"
-                    placeholder="••••••••"
-                    class="w-full px-5 py-4 bg-slate-50 border border-slate-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-sm"
-                  />
-                </div>
+          <div
+            class="w-72 flex-shrink-0 bg-white p-4 rounded-[2rem] shadow-lg border-2 border-dashed border-yellow-400 -rotate-1 hover:rotate-0 hover:scale-105 transition-all duration-300"
+          >
+            <img
+              src="asset/pawai.jpg"
+              alt="Pawai"
+              class="w-full h-48 object-cover rounded-[1.5rem] mb-3"
+            />
+            <span class="block text-center font-bold text-yellow-600 text-base"
+              >Pawai Tahun baru islam
+            </span>
+          </div>
 
-                <button
-                  type="submit"
-                  class="w-full bg-[#1e40af] text-white py-4 rounded-xl font-black text-sm tracking-widest hover:bg-blue-800 hover:shadow-lg transition-all transform hover:-translate-y-1"
-                >
-                  MASUK KE DASHBOARD
-                </button>
-              </form>
-            </div>
+          <div
+            class="w-72 flex-shrink-0 bg-white p-4 rounded-[2rem] shadow-lg border-2 border-dashed border-red-400 rotate-2 hover:rotate-0 hover:scale-105 transition-all duration-300"
+          >
+            <img
+              src="asset/pentas.jpg"
+              alt="pentas seni"
+              class="w-full h-48 object-cover rounded-[1.5rem] mb-3"
+            />
+            <span class="block text-center font-bold text-red-600 text-base"
+              >Pentas Seni</span
+            >
+          </div>
+
+          <div
+            class="w-72 flex-shrink-0 bg-white p-4 rounded-[2rem] shadow-lg border-2 border-dashed border-purple-400 -rotate-3 hover:rotate-0 hover:scale-105 transition-all duration-300"
+          >
+            <img
+              src="asset/market.jpg"
+              alt="market day"
+              class="w-full h-48 object-cover rounded-[1.5rem] mb-3"
+            />
+            <span class="block text-center font-bold text-purple-700 text-base"
+              >Market Day</span
+            >
+          </div>
+        </div>
+
+        <div
+          class="animate-marquee flex gap-10 whitespace-nowrap min-w-full flex-shrink-0 list-none pr-10 group-hover/marquee:[animation-play-state:paused]"
+          aria-hidden="true"
+        >
+          <div
+            class="w-72 flex-shrink-0 bg-white p-4 rounded-[2rem] shadow-lg border-2 border-dashed border-blue-400 -rotate-2 hover:rotate-0 hover:scale-105 transition-all duration-300"
+          >
+            <img
+              src="asset/pondok.jpg"
+              alt="pondok ramadan"
+              class="w-full h-48 object-cover rounded-[1.5rem] mb-3"
+            />
+            <span class="block text-center font-bold text-blue-800 text-base"
+              >Pondok Ramadan</span
+            >
+          </div>
+
+          <div
+            class="w-72 flex-shrink-0 bg-white p-4 rounded-[2rem] shadow-lg border-2 border-dashed border-green-400 rotate-3 hover:rotate-0 hover:scale-105 transition-all duration-300"
+          >
+            <img
+              src="asset/muludan.jpg"
+              alt="Maulud Nabi"
+              class="w-full h-48 object-cover rounded-[1.5rem] mb-3"
+            />
+            <span class="block text-center font-bold text-green-700 text-base"
+              >Maulud Nabi</span
+            >
+          </div>
+
+          <div
+            class="w-72 flex-shrink-0 bg-white p-4 rounded-[2rem] shadow-lg border-2 border-dashed border-yellow-400 -rotate-1 hover:rotate-0 hover:scale-105 transition-all duration-300"
+          >
+            <img
+              src="asset/karya.jpg"
+              alt="Karya Seni"
+              class="w-full h-48 object-cover rounded-[1.5rem] mb-3"
+            />
+            <span class="block text-center font-bold text-yellow-600 text-base"
+              >Karya P5</span
+            >
+          </div>
+
+          <div
+            class="w-72 flex-shrink-0 bg-white p-4 rounded-[2rem] shadow-lg border-2 border-dashed border-red-400 rotate-2 hover:rotate-0 hover:scale-105 transition-all duration-300"
+          >
+            <img
+              src="asset/salim.jpg"
+              alt="pembiasaan pagi"
+              class="w-full h-48 object-cover rounded-[1.5rem] mb-3"
+            />
+            <span class="block text-center font-bold text-red-600 text-base"
+              >Pembiasaan Salam Pagi</span
+            >
+          </div>
+
+          <div
+            class="w-72 flex-shrink-0 bg-white p-4 rounded-[2rem] shadow-lg border-2 border-dashed border-purple-400 -rotate-3 hover:rotate-0 hover:scale-105 transition-all duration-300"
+          >
+            <img
+              src="asset/senam.jpg"
+              alt="senam pagi"
+              class="w-full h-48 object-cover rounded-[1.5rem] mb-3"
+            />
+            <span class="block text-center font-bold text-purple-700 text-base"
+              >Senam Pagi</span
+            >
           </div>
         </div>
       </div>
     </section>
-
-   <section id="berita" class="py-24 bg-slate-50">
-  <div class="container mx-auto px-6">
-    <div class="flex flex-col md:flex-row justify-between items-end mb-12" data-aos="fade-up">
-      <div>
-        <div class="flex items-center gap-4 mb-4">
-          <div class="w-12 h-[2px] bg-blue-900"></div>
-          <span class="text-yellow-600 font-bold uppercase tracking-widest text-sm">Update Terkini</span>
-        </div>
-        <h2 class="text-4xl font-extrabold text-blue-900">Berita & <span class="text-blue-600">Kegiatan</span></h2>
-      </div>
-      <a href="semua-berita.html" class="mt-6 md:mt-0 bg-blue-900 text-white px-6 py-3 rounded-full font-bold flex items-center gap-2 hover:bg-blue-700 transition-all shadow-lg">Lihat Semua Berita <i class="fas fa-arrow-right text-yellow-400"></i></a>
-    </div>
-    <div id="newsContainer" class="grid lg:grid-cols-12 gap-8"></div>
-  </div>
-</section>
 
     <footer id="kontak" class="bg-[#0f172a] text-white pt-24 pb-12">
       <div class="container mx-auto px-6 max-w-6xl">
@@ -749,22 +753,31 @@
             </h4>
             <div class="flex space-x-4 justify-start">
               <a
-                href="#"
+                href="https://web.facebook.com/p/SDN-Ganting-100054483069154/?_rdc=1&_rdr#"
+                target="_blank"
                 class="w-12 h-12 bg-slate-800/50 rounded-full flex items-center justify-center hover:bg-blue-600 transition-all duration-300 group"
               >
-                <i class="fab fa-facebook-f text-lg group-hover:scale-110"></i>
+                <i
+                  class="fab fa-facebook-f text-lg text-white group-hover:scale-110 transition-transform duration-300"
+                ></i>
               </a>
               <a
-                href="#"
+                href="https://www.instagram.com/sdn.ganting/"
+                target="_blank"
                 class="w-12 h-12 bg-slate-800/50 rounded-full flex items-center justify-center hover:bg-pink-600 transition-all duration-300 group"
               >
-                <i class="fab fa-instagram text-lg group-hover:scale-110"></i>
+                <i
+                  class="fab fa-instagram text-lg text-white group-hover:scale-110 transition-transform duration-300"
+                ></i>
               </a>
               <a
-                href="#"
+                href="https://www.youtube.com/@kitabelajar2846"
+                target="_blank"
                 class="w-12 h-12 bg-slate-800/50 rounded-full flex items-center justify-center hover:bg-red-600 transition-all duration-300 group"
               >
-                <i class="fab fa-youtube text-lg group-hover:scale-110"></i>
+                <i
+                  class="fab fa-youtube text-lg text-white group-hover:scale-110 transition-transform duration-300"
+                ></i>
               </a>
             </div>
           </div>
@@ -800,9 +813,7 @@
           class="absolute inset-0 bg-red-400/20 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity"
         ></div>
 
-        <div
-          class="w-32 h-auto drop-shadow-[0_10px_15px_rgba(0,0,0,0.2)] group-hover:drop-shadow-[0_20px_25px_rgba(0,0,0,0.3)] transition-all duration-300"
-        >
+        <div class="w-20 sm:w-24 md:w-28 lg:w-32 h-auto">
           <img
             src="asset/AI (1).png"
             class="w-full h-full object-contain animate-gentle-float"
@@ -814,7 +825,7 @@
 
     <div
       id="chatWindow"
-      class="fixed bottom-24 right-6 z-[100] w-[350px] h-[500px] bg-white rounded-3xl shadow-2xl border border-slate-100 flex flex-col overflow-hidden transition-all duration-500 scale-0 opacity-0 origin-bottom-right"
+      class="fixed bottom-24 right-4 z-[100] w-[90%] max-w-[350px] h-[70vh] max-h-[500px]"
     >
       <div class="bg-blue-800 p-4 text-white flex items-center justify-between">
         <div class="flex items-center gap-3">
@@ -895,35 +906,35 @@
       }
     </style>
 
-
-
     <script>
       // Script untuk active navbar berdasarkan scroll menggunakan Intersection Observer
-      const sections = document.querySelectorAll('section[id], footer[id]');
-      const navLinks = document.querySelectorAll('.nav-link');
+      const sections = document.querySelectorAll("section[id], footer[id]");
+      const navLinks = document.querySelectorAll(".nav-link");
 
       const observerOptions = {
         root: null,
-        rootMargin: '-80px 0px -50% 0px', // Adjust untuk header fixed
-        threshold: 0
+        rootMargin: "-80px 0px -50% 0px", // Adjust untuk header fixed
+        threshold: 0,
       };
 
       const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
+        entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const id = entry.target.getAttribute('id');
-            navLinks.forEach(link => {
-              link.classList.remove('active');
+            const id = entry.target.getAttribute("id");
+            navLinks.forEach((link) => {
+              link.classList.remove("active");
             });
-            const activeLink = document.querySelector(`.nav-link[href="#${id}"]`);
+            const activeLink = document.querySelector(
+              `.nav-link[href="#${id}"]`,
+            );
             if (activeLink) {
-              activeLink.classList.add('active');
+              activeLink.classList.add("active");
             }
           }
         });
       }, observerOptions);
 
-      sections.forEach(section => {
+      sections.forEach((section) => {
         observer.observe(section);
       });
     </script>
@@ -992,7 +1003,7 @@
       }
     </script>
 
-  <script type="module">
+    <script type="module">
       import { GoogleGenerativeAI } from "@google/generative-ai";
       import { GEMINI_API_KEY } from "./config.js";
       const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
@@ -1050,7 +1061,11 @@ Pertanyaan: ${message}`;
           addMessage("Kak AI", reply, false);
         } catch (error) {
           loadingDiv.remove();
-          addMessage("Kak AI", "Maaf, terjadi kesalahan. Coba lagi nanti ya.", false);
+          addMessage(
+            "Kak AI",
+            "Maaf, terjadi kesalahan. Coba lagi nanti ya.",
+            false,
+          );
           console.error(error);
         }
       }
@@ -1060,14 +1075,14 @@ Pertanyaan: ${message}`;
         if (e.key === "Enter") sendToGemini();
       });
 
-      window.toggleAIChat = function() {
+      window.toggleAIChat = function () {
         const chatWindow = document.getElementById("chatWindow");
         if (chatWindow) chatWindow.classList.toggle("chat-active");
       };
     </script>
 
     <!-- FIREBASE & DYNAMIC NEWS SCRIPT -->
-     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
@@ -1075,40 +1090,45 @@ Pertanyaan: ${message}`;
     <script>
       // Fungsi untuk memuat berita dari Firestore
       async function loadNews() {
-        const container = document.getElementById('newsContainer');
-        container.innerHTML = '<div class="lg:col-span-12 text-center py-10"><i class="fas fa-spinner fa-pulse mr-2"></i> Memuat berita...</div>';
+        const container = document.getElementById("newsContainer");
+        container.innerHTML =
+          '<div class="lg:col-span-12 text-center py-10"><i class="fas fa-spinner fa-pulse mr-2"></i> Memuat berita...</div>';
 
         try {
           // Ambil berita yang sudah dipublikasi, urutkan dari yang terbaru
-          const snapshot = await firebase.firestore()
-            .collection('berita')
-            .where('status', '==', 'published')
-            .orderBy('tanggal', 'desc')
-            .limit(6)   // ambil maksimal 6 berita terbaru
+          const snapshot = await firebase
+            .firestore()
+            .collection("berita")
+            .where("status", "==", "published")
+            .orderBy("tanggal", "desc")
+            .limit(6) // ambil maksimal 6 berita terbaru
             .get();
 
           if (snapshot.empty) {
-            container.innerHTML = '<div class="lg:col-span-12 text-center py-10 text-slate-400">Belum ada berita terbaru.</div>';
+            container.innerHTML =
+              '<div class="lg:col-span-12 text-center py-10 text-slate-400">Belum ada berita terbaru.</div>';
             return;
           }
 
           const newsData = [];
-          snapshot.forEach(doc => newsData.push({ id: doc.id, ...doc.data() }));
+          snapshot.forEach((doc) =>
+            newsData.push({ id: doc.id, ...doc.data() }),
+          );
 
           // Tampilkan 1 berita utama (terbaru) dan sisanya sebagai list kecil
           const featured = newsData[0];
           const others = newsData.slice(1, 4); // maksimal 3 berita kecil (sesuai layout)
 
-          let html = '';
+          let html = "";
 
           // Kolom utama (featured)
           html += `
             <div class="lg:col-span-7 group cursor-pointer" data-aos="fade-right">
               <div class="relative overflow-hidden rounded-[2.5rem] mb-6 shadow-2xl">
-                <img src="${featured.urlGambar || 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1200'}" class="w-full h-[450px] object-cover group-hover:scale-105 transition-transform duration-700">
+                <img src="${featured.urlGambar || "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1200"}" class="w-full h-[250px] md:h-[350px] lg:h-[450px] object-cover">
                 <div class="absolute inset-0 bg-gradient-to-t from-blue-900 via-transparent to-transparent opacity-80"></div>
                 <div class="absolute bottom-8 left-8 right-8">
-                  <span class="bg-yellow-400 text-blue-900 px-4 py-1 rounded-full text-xs font-black mb-4 inline-block uppercase">${featured.kategori || 'Berita'}</span>
+                  <span class="bg-yellow-400 text-blue-900 px-4 py-1 rounded-full text-xs font-black mb-4 inline-block uppercase">${featured.kategori || "Berita"}</span>
                   <h3 class="text-3xl font-bold text-white leading-tight group-hover:text-yellow-300 transition-colors line-clamp-2">${escapeHtml(featured.judul)}</h3>
                   <p class="text-white/80 text-sm mt-2">${escapeHtml(featured.penulis)} • ${formatTanggal(featured.tanggal)}</p>
                 </div>
@@ -1121,12 +1141,12 @@ Pertanyaan: ${message}`;
           if (others.length === 0) {
             html += `<div class="text-slate-400 p-4 bg-white rounded-3xl">Tidak ada berita lainnya</div>`;
           } else {
-            others.forEach(item => {
+            others.forEach((item) => {
               html += `
                 <div class="flex gap-4 p-4 bg-white rounded-3xl hover:shadow-xl transition-all border border-slate-100 group">
-                  <img src="${item.urlGambar || 'https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=400'}" class="w-28 h-28 rounded-2xl object-cover">
+                  <img src="${item.urlGambar || "https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=400"}" class="w-28 h-28 rounded-2xl object-cover">
                   <div>
-                    <span class="text-blue-600 text-[10px] font-bold uppercase tracking-widest">${item.kategori || 'Event'}</span>
+                    <span class="text-blue-600 text-[10px] font-bold uppercase tracking-widest">${item.kategori || "Event"}</span>
                     <h4 class="font-bold text-blue-900 text-sm line-clamp-2 group-hover:text-blue-600">${escapeHtml(item.judul)}</h4>
                     <p class="text-slate-400 text-[11px] mt-2"><i class="far fa-calendar mr-1"></i> ${formatTanggal(item.tanggal)}</p>
                   </div>
@@ -1146,25 +1166,29 @@ Pertanyaan: ${message}`;
 
           container.innerHTML = html;
         } catch (err) {
-          console.error('Gagal memuat berita:', err);
-          container.innerHTML = '<div class="lg:col-span-12 text-center py-10 text-red-500">Gagal memuat berita. Coba refresh halaman.</div>';
+          console.error("Gagal memuat berita:", err);
+          container.innerHTML =
+            '<div class="lg:col-span-12 text-center py-10 text-red-500">Gagal memuat berita. Coba refresh halaman.</div>';
         }
       }
 
       function escapeHtml(str) {
-        if (!str) return '';
-        return str.replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m]));
+        if (!str) return "";
+        return str.replace(
+          /[&<>]/g,
+          (m) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[m],
+        );
       }
 
       function formatTanggal(tanggalISO) {
-        if (!tanggalISO) return 'Tanggal tidak tersedia';
-        const parts = tanggalISO.split('-');
+        if (!tanggalISO) return "Tanggal tidak tersedia";
+        const parts = tanggalISO.split("-");
         if (parts.length === 3) return `${parts[2]}/${parts[1]}/${parts[0]}`;
         return tanggalISO;
       }
 
       // Panggil saat halaman selesai dimuat
-      window.addEventListener('DOMContentLoaded', loadNews);
+      window.addEventListener("DOMContentLoaded", loadNews);
     </script>
   </body>
 </html>

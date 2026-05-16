@@ -5,21 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SIAKAD PRO - SD NEGERI GANTING</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap');
-      
+      @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap");
+
       :root {
-        --primary: #1e3a8a; 
-        --accent: #facc15;  
+        --primary: #1e3a8a;
+        --accent: #facc15;
       }
 
       body {
-        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-family: "Plus Jakarta Sans", sans-serif;
         background: #f1f5f9;
-        background-image: 
-          radial-gradient(at 0% 0%, rgba(30, 58, 138, 0.04) 0px, transparent 50%),
-          radial-gradient(at 100% 100%, rgba(250, 204, 21, 0.04) 0px, transparent 50%);
+        background-image:
+          radial-gradient(
+            at 0% 0%,
+            rgba(30, 58, 138, 0.04) 0px,
+            transparent 50%
+          ),
+          radial-gradient(
+            at 100% 100%,
+            rgba(250, 204, 21, 0.04) 0px,
+            transparent 50%
+          );
         min-height: 100vh;
         display: flex;
         align-items: center;
@@ -27,37 +38,37 @@
       }
 
       .main-container {
-        width: 70%; 
-        max-width: 1100px; 
+        width: 70%;
+        max-width: 1100px;
         display: flex;
         flex-direction: column;
-        border-radius: 2.5rem; 
+        border-radius: 2.5rem;
         overflow: hidden;
         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
         background: white;
       }
 
       input[type="password"]::-ms-reveal,
-input[type="password"]::-ms-clear {
-  display: none;
-}
+      input[type="password"]::-ms-clear {
+        display: none;
+      }
 
-input[type="password"]::-webkit-credentials-auto-fill-button,
-input[type="password"]::-webkit-textfield-decoration-container {
-  display: none !important;
-}
-
-
+      input[type="password"]::-webkit-credentials-auto-fill-button,
+      input[type="password"]::-webkit-textfield-decoration-container {
+        display: none !important;
+      }
 
       @media (min-width: 768px) {
         .main-container {
           flex-direction: row;
-          height: 95vh; 
+          height: 95vh;
         }
       }
 
       .bg-branding {
-        background-image: linear-gradient(rgba(30, 58, 138, 0.4), rgba(30, 58, 138, 0.7)), url('asset/bg.png');
+        background-image:
+          linear-gradient(rgba(30, 58, 138, 0.4), rgba(30, 58, 138, 0.7)),
+          url("asset/bg.png");
         background-size: cover;
         background-position: center;
         transition: all 0.5s ease;
@@ -75,58 +86,86 @@ input[type="password"]::-webkit-textfield-decoration-container {
     </style>
   </head>
   <body class="p-4">
-
     <div class="main-container relative z-10">
-      
-     <!-- Sisi Kiri: Visual Branding (Lebar 45%) -->
-<div class="md:w-[45%] w-full bg-branding p-10 flex flex-col justify-between text-white relative">
-  
-  <!-- Bagian Atas: Logo & Nama Sekolah -->
-  <div class="relative z-10">
-    <div class="flex items-center gap-3 mb-10">
-      <div class="p-2 bg-white/20 backdrop-blur-md rounded-xl border border-white/30">
-        <img src="asset/logogtg.png" alt="Logo" class="w-10 h-10 object-contain" />
+      <!-- Sisi Kiri: Visual Branding (Lebar 45%) -->
+      <div
+        class="md:w-[45%] w-full bg-branding p-10 flex flex-col justify-between text-white relative"
+      >
+        <!-- Bagian Atas: Logo & Nama Sekolah -->
+        <div class="relative z-10">
+          <div class="flex items-center gap-3 mb-10">
+            <div
+              class="p-2 bg-white/20 backdrop-blur-md rounded-xl border border-white/30"
+            >
+              <img
+                src="asset/logogtg.png"
+                alt="Logo"
+                class="w-10 h-10 object-contain"
+              />
+            </div>
+            <div>
+              <h1 class="text-xl font-extrabold tracking-tight">
+                SIAKAD<span class="text-yellow-400">PRO</span>
+              </h1>
+              <p
+                class="text-[9px] text-blue-100 font-bold uppercase tracking-widest"
+              >
+                SD Negeri Ganting
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bagian Bawah: Teks Utama & Slogan (Ditempatkan di sini agar tidak menutupi wajah) -->
+        <div class="relative z-10 space-y-6">
+          <div>
+            <h2 class="text-3xl lg:text-4xl font-black leading-tight mb-4">
+              Masa Depan <br />
+              Dimulai dari <span class="text-yellow-400 italic">Sini.</span>
+            </h2>
+            <p
+              class="text-white/90 text-sm leading-relaxed max-w-xs font-medium drop-shadow-md"
+            >
+              Akses dashboard akademik Anda untuk melihat nilai, absensi, dan
+              pengumuman terbaru secara real-time.
+            </p>
+          </div>
+
+          <div>
+            <p
+              class="text-[10px] font-bold tracking-widest bg-black/30 backdrop-blur-sm inline-block px-4 py-2 rounded-full border border-white/10 uppercase"
+            >
+              Beriman, Berilmu, Berprestasi
+            </p>
+          </div>
+        </div>
       </div>
-      <div>
-        <h1 class="text-xl font-extrabold tracking-tight">SIAKAD<span class="text-yellow-400">PRO</span></h1>
-        <p class="text-[9px] text-blue-100 font-bold uppercase tracking-widest">SD Negeri Ganting</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- Bagian Bawah: Teks Utama & Slogan (Ditempatkan di sini agar tidak menutupi wajah) -->
-  <div class="relative z-10 space-y-6">
-    <div>
-      <h2 class="text-3xl lg:text-4xl font-black leading-tight mb-4">
-        Masa Depan <br> Dimulai dari <span class="text-yellow-400 italic">Sini.</span>
-      </h2>
-      <p class="text-white/90 text-sm leading-relaxed max-w-xs font-medium drop-shadow-md">
-        Akses dashboard akademik Anda untuk melihat nilai, absensi, dan pengumuman terbaru secara real-time.
-      </p>
-    </div>
-
-    <div>
-       <p class="text-[10px] font-bold tracking-widest bg-black/30 backdrop-blur-sm inline-block px-4 py-2 rounded-full border border-white/10 uppercase">
-         Beriman, Berilmu, Berprestasi
-       </p>
-    </div>
-  </div>
-
-</div>
 
       <!-- Sisi Kanan: Form Login (Lebar 55%) -->
-       <div id="login" class="md:w-[55%] w-full bg-white p-8 md:p-12 lg:p-16 flex items-center justify-center">
+      <div
+        id="login"
+        class="md:w-[55%] w-full bg-white p-8 md:p-12 lg:p-16 flex items-center justify-center"
+      >
         <div class="w-[85%] max-w-[400px]">
           <div class="mb-8">
-            <h3 class="text-2xl font-extrabold text-slate-800 mb-2">Portal Masuk</h3>
-            <p class="text-slate-400 text-sm font-medium">Silahkan autentikasi identitas Anda.</p>
+            <h3 class="text-2xl font-extrabold text-slate-800 mb-2">
+              Portal Masuk
+            </h3>
+            <p class="text-slate-400 text-sm font-medium">
+              Silahkan autentikasi identitas Anda.
+            </p>
           </div>
 
           <form id="loginForm" class="space-y-5">
             <div class="space-y-2">
-              <label class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em] ml-1">Username / NISN</label>
+              <label
+                class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em] ml-1"
+                >Username / NISN</label
+              >
               <div class="relative">
-                <div class="absolute inset-y-0 left-0 flex items-center pl-5 text-slate-300">
+                <div
+                  class="absolute inset-y-0 left-0 flex items-center pl-5 text-slate-300"
+                >
                   <i class="fas fa-id-badge text-sm"></i>
                 </div>
                 <input
@@ -141,12 +180,22 @@ input[type="password"]::-webkit-textfield-decoration-container {
 
             <div class="space-y-2">
               <div class="flex justify-between px-1">
-                <label class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em]">Password</label>
+                <label
+                  class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em]"
+                  >Password</label
+                >
                 <!-- Tambahan Lupa Kata Sandi -->
-                <a href="index.html#kontak" id="forgotPassword" class="text-[10px] font-bold text-[#1e3a8a] uppercase tracking-[0.05em] hover:underline">Lupa Kata Sandi?</a>
+                <a
+                  href="index.html#kontak"
+                  id="forgotPassword"
+                  class="text-[10px] font-bold text-[#1e3a8a] uppercase tracking-[0.05em] hover:underline"
+                  >Lupa Kata Sandi?</a
+                >
               </div>
               <div class="relative">
-                <div class="absolute inset-y-0 left-0 flex items-center pl-5 text-slate-300">
+                <div
+                  class="absolute inset-y-0 left-0 flex items-center pl-5 text-slate-300"
+                >
                   <i class="fas fa-lock text-sm"></i>
                 </div>
                 <input
@@ -156,7 +205,11 @@ input[type="password"]::-webkit-textfield-decoration-container {
                   class="w-full pl-12 pr-12 py-4 bg-slate-50 border-2 border-transparent rounded-2xl outline-none focus:border-[#1e3a8a]/20 focus:bg-white transition-all font-semibold text-slate-700"
                   required
                 />
-                <button type="button" id="togglePassword" class="absolute inset-y-0 right-0 pr-5 text-slate-300 hover:text-[#1e3a8a]">
+                <button
+                  type="button"
+                  id="togglePassword"
+                  class="absolute inset-y-0 right-0 pr-5 text-slate-300 hover:text-[#1e3a8a]"
+                >
                   <i class="far fa-eye" id="eyeIcon"></i>
                 </button>
               </div>
@@ -172,7 +225,12 @@ input[type="password"]::-webkit-textfield-decoration-container {
 
           <div class="mt-3 pt-5 border-t border-slate-50 text-center">
             <p class="text-slate-400 text-[10px]">
-              Mengalami kendala login? <a href="index.html#kontak" class="text-[#1e3a8a] font-bold hover:underline">Hubungi Operator</a>
+              Mengalami kendala login?
+              <a
+                href="index.html#kontak"
+                class="text-[#1e3a8a] font-bold hover:underline"
+                >Hubungi Operator</a
+              >
             </p>
           </div>
         </div>
@@ -180,7 +238,7 @@ input[type="password"]::-webkit-textfield-decoration-container {
     </div>
 
     <!-- Script Database -->
-     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
@@ -190,22 +248,27 @@ input[type="password"]::-webkit-textfield-decoration-container {
     <!-- Script Tambahan untuk Fungsi UI -->
     <script>
       // Fungsi Lihat/Sembunyikan Password
-      const togglePassword = document.querySelector('#togglePassword');
-      const password = document.querySelector('#password');
-      const eyeIcon = document.querySelector('#eyeIcon');
+      const togglePassword = document.querySelector("#togglePassword");
+      const password = document.querySelector("#password");
+      const eyeIcon = document.querySelector("#eyeIcon");
 
-      togglePassword.addEventListener('click', function (e) {
-        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-        password.setAttribute('type', type);
-        eyeIcon.classList.toggle('fa-eye');
-        eyeIcon.classList.toggle('fa-eye-slash');
+      togglePassword.addEventListener("click", function (e) {
+        const type =
+          password.getAttribute("type") === "password" ? "text" : "password";
+        password.setAttribute("type", type);
+        eyeIcon.classList.toggle("fa-eye");
+        eyeIcon.classList.toggle("fa-eye-slash");
       });
 
       // Logika Sederhana Lupa Password
-      document.getElementById('forgotPassword').addEventListener('click', function(e) {
-        e.preventDefault();
-        alert('Silahkan hubungi operator sekolah untuk reset kata sandi Anda.');
-      });
+      document
+        .getElementById("forgotPassword")
+        .addEventListener("click", function (e) {
+          e.preventDefault();
+          alert(
+            "Silahkan hubungi operator sekolah untuk reset kata sandi Anda.",
+          );
+        });
     </script>
   </body>
 </html>
