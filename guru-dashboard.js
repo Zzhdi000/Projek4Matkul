@@ -18,6 +18,7 @@ let currentFilterKelas = "all";
 let isLoading = false;
 let allStudentsCache = []; // cache untuk tombol prev/next (simpan cursor)
 let cursorHistory = [];    // menyimpan lastDoc per halaman (forward)
+let currentStudentDocs = []; // data dokumen siswa yang sedang ditampilkan (halaman saat ini)
 
 // ==================== HELPER ====================
 function escapeHtml(str) {
@@ -25,108 +26,6 @@ function escapeHtml(str) {
     return str.replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m]));
 }
 
-// ==================== UPDATE HEADER PROFILE ====================
-function updateHeaderProfile() {
-    const namaHeader = document.querySelector("#profileBtn .text-right p:last-child");
-    if (namaHeader && guruData.nama) namaHeader.innerText = guruData.nama;
-    const avatarHeader = document.querySelector("#profileBtn .rounded-full");
-    if (avatarHeader && guruData.nama) {
-        const inisial = guruData.nama.split(" ").map(n => n[0]).join("").substring(0,2).toUpperCase();
-        avatarHeader.innerText = inisial;
-    }
-    const avatarDropdown = document.querySelector("#profileDropdown .w-16.h-16");
-    if (avatarDropdown && guruData.nama) {
-        const inisial = guruData.nama.split(" ").map(n => n[0]).join("").substring(0,2).toUpperCase();
-        avatarDropdown.innerText = inisial;
-    }
-    const namaDropdown = document.querySelector("#profileDropdown h4");
-    if (namaDropdown && guruData.nama) namaDropdown.innerText = guruData.nama;
-}
-
-// ==================== PROFILE DROPDOWN ====================
-function renderProfileDropdown() {
-    const dropdownContent = document.getElementById("dropdownContent");
-    if (!dropdownContent) return;
-    const isWaliKelas = (guruData.waliKelas && guruData.waliKelas !== "");
-    const tugasText = isWaliKelas ? `Wali Kelas ${guruData.waliKelas}` : (guruData.mapel !== "-" ? guruData.mapel : "Guru Mata Pelajaran");
-    const emailText = guruData.email || "email@sekolah.com";
-    const nipText = (guruData.nip && guruData.nip !== "-") ? guruData.nip : "-";
-    dropdownContent.innerHTML = `
-        <div class="animate-fadeIn">
-            <div class="mb-3">
-                <label class="text-[10px] font-bold text-slate-400 uppercase ml-2">Tugas</label>
-                <div class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 text-sm font-bold text-slate-500 cursor-not-allowed">${escapeHtml(tugasText)}</div>
-            </div>
-            <div class="mb-3">
-                <label class="text-[10px] font-bold text-slate-400 uppercase ml-2">NIP</label>
-                <div class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 text-sm font-bold text-slate-500 cursor-not-allowed">${escapeHtml(nipText)}</div>
-            </div>
-            <div class="mb-3">
-                <label class="text-[10px] font-bold text-slate-400 uppercase ml-2">Email</label>
-                <div class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 text-sm font-bold text-slate-500 cursor-not-allowed">${escapeHtml(emailText)}</div>
-            </div>
-            <button onclick="window.openChangePasswordForm(event)" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-xl text-xs font-bold transition shadow-lg shadow-blue-200 mt-2">Ganti Password</button>
-            <hr class="border-slate-50 my-2">
-            <a href="login.html" class="flex items-center justify-center text-red-500 text-[11px] font-bold hover:bg-red-50 py-2 rounded-lg transition uppercase"><i class="fas fa-sign-out-alt mr-2"></i> KELUAR SISTEM</a>
-        </div>`;
-}
-
-// ==================== FUNGSI GANTI PASSWORD ====================
-window.openChangePasswordForm = function(e) {
-    if (e) e.stopPropagation();
-    const dropdownContent = document.getElementById("dropdownContent");
-    if (!dropdownContent) return;
-    dropdownContent.innerHTML = `
-        <div class="animate-fadeIn">
-            <div class="flex items-center mb-4">
-                <button onclick="window.renderProfileDropdown(); event.stopPropagation();" class="text-slate-400 hover:text-slate-800 mr-2"><i class="fas fa-arrow-left text-xs"></i></button>
-                <h4 class="text-xs font-black text-slate-800 uppercase">Ganti Password</h4>
-            </div>
-            <div class="mb-3 relative">
-                <input type="password" id="oldPass" placeholder="Password Lama" class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 text-sm">
-            </div>
-            <div class="mb-3 relative">
-                <input type="password" id="newPass" placeholder="Password Baru" class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 text-sm">
-            </div>
-            <div class="mb-3 relative">
-                <input type="password" id="confirmPass" placeholder="Konfirmasi Password Baru" class="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 text-sm">
-            </div>
-            <button onclick="window.submitChangePassword()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-xl text-xs font-bold transition uppercase">Simpan Password Baru</button>
-        </div>`;
-};
-
-window.submitChangePassword = async function() {
-    const oldPass = document.getElementById("oldPass").value;
-    const newPass = document.getElementById("newPass").value;
-    const confirmPass = document.getElementById("confirmPass").value;
-    if (!oldPass || !newPass || !confirmPass) {
-        Swal.fire("Error", "Semua field harus diisi", "error");
-        return;
-    }
-    if (newPass.length < 6) {
-        Swal.fire("Error", "Password baru minimal 6 karakter", "error");
-        return;
-    }
-    if (newPass !== confirmPass) {
-        Swal.fire("Error", "Password baru dan konfirmasi tidak cocok", "error");
-        return;
-    }
-    try {
-        const user = firebase.auth().currentUser;
-        if (!user) throw new Error("User tidak terautentikasi");
-        const credential = firebase.auth.EmailAuthProvider.credential(user.email, oldPass);
-        await user.reauthenticateWithCredential(credential);
-        await user.updatePassword(newPass);
-        Swal.fire({ title: "Berhasil!", text: "Password telah diperbarui.", icon: "success", timer: 1500, showConfirmButton: false });
-        renderProfileDropdown();
-        const profileDropdown = document.getElementById("profileDropdown");
-        if (profileDropdown) profileDropdown.classList.add("hidden");
-    } catch (error) {
-        let pesan = "Gagal mengganti password. Periksa password lama.";
-        if (error.code === 'auth/wrong-password') pesan = "Password lama salah.";
-        Swal.fire("Error", pesan, "error");
-    }
-};
 
 // ==================== JADWAL HARI INI (2 SESI TERDEKAT) ====================
 async function loadTodaySchedule() {
@@ -326,7 +225,13 @@ async function loadStudentsPage(reset = true, direction = 'next') {
         }
 
         currentPage = newPage;
-        renderStudentTables(docs);
+        currentStudentDocs = docs;
+        const searchQuery = ((document.getElementById("search-daftar")?.value || document.getElementById("search-data-diri")?.value) || "").trim();
+        if (searchQuery) {
+            applyStudentSearch();
+        } else {
+            renderStudentTables(docs);
+        }
         updatePaginationControls(docs.length, selectedKelas);
 
     } catch (err) {
@@ -371,6 +276,23 @@ function renderStudentTables(docs) {
     });
     bodyDaftar.innerHTML = htmlDaftar;
     bodyDataDiri.innerHTML = htmlDataDiri;
+}
+
+function applyStudentSearch() {
+    const searchDaftar = document.getElementById("search-daftar");
+    const searchDataDiri = document.getElementById("search-data-diri");
+    const query = ((searchDaftar && searchDaftar.value) || (searchDataDiri && searchDataDiri.value) || "").trim().toLowerCase();
+    if (!query) {
+        renderStudentTables(currentStudentDocs);
+        return;
+    }
+    const filteredDocs = currentStudentDocs.filter(doc => {
+        const v = doc.data();
+        const nama = (v.nama || "").toLowerCase();
+        const nisn = (v.nisn || "").toLowerCase();
+        return nama.includes(query) || nisn.includes(query);
+    });
+    renderStudentTables(filteredDocs);
 }
 
 function updatePaginationControls(loadedCount, kelasFilter) {
@@ -501,8 +423,7 @@ function handleImportExcel(file) {
 // ==================== INISIALISASI ====================
 document.addEventListener("DOMContentLoaded", () => {
     updateCurrentDate();
-    updateHeaderProfile();
-    renderProfileDropdown();
+    initGuruProfile();
     loadTodaySchedule();
     loadStudentsPage(true);
 
@@ -527,6 +448,11 @@ document.addEventListener("DOMContentLoaded", () => {
         filterSelect.value = guruData.waliKelas;
         filterSelect.disabled = true;
     }
+
+    const searchDaftar = document.getElementById("search-daftar");
+    const searchDataDiri = document.getElementById("search-data-diri");
+    if (searchDaftar) searchDaftar.addEventListener("input", applyStudentSearch);
+    if (searchDataDiri) searchDataDiri.addEventListener("input", applyStudentSearch);
 
     document.getElementById("btnTambahSiswa")?.addEventListener("click", () => window.tambahSiswa());
     document.getElementById("btnImportExcel")?.addEventListener("click", () => document.getElementById("upload-excel").click());
@@ -579,7 +505,6 @@ if (searchInput) {
 // Firebase auth state
 firebase.auth().onAuthStateChanged((user) => {
     if (user && user.email) guruData.email = user.email;
-    updateHeaderProfile();
-    renderProfileDropdown();
+    initGuruProfile();
     loadTodaySchedule();
 });

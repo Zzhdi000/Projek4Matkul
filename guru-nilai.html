@@ -10,6 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <style>
+      /* (semua style tetap sama seperti kode Anda) */
       :root {
         --accent-blue: #63a4ff;
         --bg-body: #fdfdfb;
@@ -136,89 +137,56 @@
   </head>
   <body class="font-sans antialiased min-h-screen p-5">
     <div class="flex p-5 gap-5 min-h-screen">
-      <!-- SIDEBAR -->
+      <!-- SIDEBAR (sama seperti kode Anda) -->
       <aside class="w-72 flex flex-col justify-between bg-[var(--bg-sidebar)] rounded-[30px] p-7 shadow-xl sticky top-5 h-[calc(100vh-40px)]">
         <div>
           <div class="flex items-center gap-4 mb-10 px-2">
             <div class="w-11 h-11 flex items-center justify-center">
-              <img
-                src="asset/logogtg.png"
-                alt="Logo"
-                class="w-full h-full object-contain"
-              />
+              <img src="asset/logogtg.png" alt="Logo" class="w-full h-full object-contain" />
             </div>
             <div>
-              <h1 class="text-xl font-black leading-tight tracking-tight">
-                SDN GANTING
-              </h1>
-              <p
-                class="text-[9px] font-bold text-gray-400 uppercase tracking-widest"
-              >
-                Bagian Guru
-              </p>
+              <h1 class="text-xl font-black leading-tight tracking-tight">SDN GANTING</h1>
+              <p class="text-[9px] font-bold text-gray-400 uppercase tracking-widest">Bagian Guru</p>
             </div>
           </div>
 
           <nav>
             <p class="group-label">Navigasi Utama</p>
-            <a href="guru-dashboard.html" class="nav-link"
-              ><i class="fas fa-th-large w-5"></i> Beranda</a
-            >
-
+            <a href="guru-dashboard.html" class="nav-link"><i class="fas fa-th-large w-5"></i> Beranda</a>
             <p class="group-label">Manajemen</p>
-            <a href="guru-presensi.html" class="nav-link"
-              ><i class="fas fa-user-check w-5"></i> Presensi Siswa</a
-            >
-            <a href="guru-nilai.html" class="nav-link active"
-              ><i class="fas fa-file-invoice w-5"></i> Nilai Siswa</a
-            >
-            <a href="guru-jadwal.html" class="nav-link"
-              ><i class="fas fa-clipboard-list w-5"></i> Jadwal Mengajar</a
-            >
+            <a href="guru-presensi.html" class="nav-link"><i class="fas fa-user-check w-5"></i> Presensi Siswa</a>
+            <a href="guru-nilai.html" class="nav-link active"><i class="fas fa-file-invoice w-5"></i> Nilai Siswa</a>
+            <a href="guru-jadwal.html" class="nav-link"><i class="fas fa-clipboard-list w-5"></i> Jadwal Mengajar</a>
           </nav>
         </div>
 
         <div class="pt-6 border-t border-[var(--border)] relative z-[999]">
-          <button
-            type="button"
-            onclick="handleLogout()"
-            class="w-full flex items-center gap-3 py-3 px-4 btn-logout font-black rounded-xl transition-all cursor-pointer bg-transparent"
-          >
-            <i class="fas fa-sign-out-alt w-5"></i>
-            <span>Keluar Sistem</span>
+          <button type="button" onclick="handleLogout()" class="w-full flex items-center gap-3 py-3 px-4 btn-logout font-black rounded-xl transition-all cursor-pointer bg-transparent">
+            <i class="fas fa-sign-out-alt w-5"></i> <span>Keluar Sistem</span>
           </button>
         </div>
       </aside>
 
       <div class="flex-1 flex flex-col">
-        <header class="flex justify-between items-center glass-card px-8 py-5 sticky top-0 z-50">
-          <div>
-            <h2 class="text-2xl font-black uppercase">Nilai Siswa</h2>
-            <p class="text-xs font-bold opacity-50 uppercase tracking-widest">
-              Kelola Input Nilai Siswa
-            </p>
-          </div>
-          <div class="flex items-center gap-5">
-            <div class="relative">
-              <button id="profileTrigger" class="flex items-center gap-3 p-1.5 pr-5 bg-gray-100 dark:bg-white/10 rounded-full border border-[var(--border)] hover:bg-gray-200 dark:hover:bg-white/20 transition-all cursor-pointer">
-                <div class="w-10 h-10 rounded-full bg-blue-400 flex items-center justify-center text-white font-bold text-sm" id="profileInitial">GU</div>
-                <span class="text-sm font-black italic" id="profileName">Guru</span>
-                <i class="fas fa-chevron-down text-[10px] opacity-50"></i>
-              </button>
+        <!-- HEADER dengan profile yang disamakan seperti guru-dashboard -->
+        <header class="bg-white shadow-sm py-4 px-8 flex justify-between items-center sticky top-0 z-40">
+          <h2 class="text-xl font-bold text-slate-800 tracking-tight">Nilai Siswa</h2>
+          <div class="relative">
+            <button id="profileTrigger" class="flex items-center gap-3 p-1.5 pr-5 bg-gray-100 dark:bg-white/10 rounded-full border border-[var(--border)] hover:bg-gray-200 dark:hover:bg-white/20 transition-all cursor-pointer">
+              <div class="w-10 h-10 rounded-full bg-blue-400 flex items-center justify-center text-white font-bold text-sm" id="profileInitial">GU</div>
+              <span class="text-sm font-black italic" id="profileName">Guru</span>
+              <i class="fas fa-chevron-down text-[10px] opacity-50"></i>
+            </button>
 
-              <div id="profileDropdown" class="absolute right-0 mt-4 w-72 bg-[var(--card-bg)] rounded-[30px] shadow-2xl border border-[var(--border)] overflow-hidden hidden animate-fadeIn z-[999]">
-                <div class="p-8 flex flex-col items-center text-center">
-                  <div class="w-24 h-24 bg-blue-400 rounded-3xl flex items-center justify-center text-white text-4xl font-black shadow-lg mb-6" id="profileAvatarDropdown">GU</div>
-                  
-                  <h3 class="text-xl font-black text-[var(--text-main)]" id="profileNameDropdown">Guru Pengampu</h3>
-                  <p class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-6" id="profileRoleDropdown">Guru Kelas</p>
-                  
-                  <hr class="w-full border-[var(--border)] mb-6">
-
-                  <div class="w-full bg-gray-50 dark:bg-white/5 rounded-2xl p-4 flex justify-between items-center mb-4">
-                    <span class="text-[10px] font-black opacity-40 uppercase">Status</span>
-                    <span class="text-[11px] font-black">Aktif</span>
-                  </div>
+            <div id="profileDropdown" class="absolute right-0 mt-4 w-72 bg-[var(--card-bg)] rounded-[30px] shadow-2xl border border-[var(--border)] overflow-hidden hidden animate-fadeIn z-[999]">
+              <div class="p-8 flex flex-col items-center text-center">
+                <div class="w-24 h-24 bg-blue-400 rounded-3xl flex items-center justify-center text-white text-4xl font-black shadow-lg mb-6" id="profileAvatarDropdown">GU</div>
+                <h3 class="text-xl font-black text-[var(--text-main)]" id="profileNameDropdown">Guru Pengampu</h3>
+                <p class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-6" id="profileRoleDropdown">Guru Kelas</p>
+                <hr class="w-full border-[var(--border)] mb-6">
+                <div class="w-full bg-gray-50 dark:bg-white/5 rounded-2xl p-4 flex justify-between items-center mb-4">
+                  <span class="text-[10px] font-black opacity-40 uppercase">Status</span>
+                  <span class="text-[11px] font-black">Aktif</span>
                 </div>
               </div>
             </div>
@@ -227,37 +195,34 @@
 
         <main class="flex-1 space-y-6 p-8">
           <div class="max-w-[1600px] mx-auto space-y-6 animate-fadeIn">
-            <!-- FILTER BAR -->
-<div class="bg-white p-5 rounded-[2rem] shadow-sm border border-slate-100 flex flex-wrap gap-4 items-center">
-  <div class="flex-1 min-w-[250px] relative">
-    <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-    <input type="text" id="search-siswa" placeholder="Cari Nama Siswa..." class="w-full pl-11 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 transition-all text-sm" />
-  </div>
-  <div class="flex flex-wrap gap-3 items-center">
-    <select id="filter-kelas" class="p-2.5 bg-white border border-slate-200 rounded-xl text-sm font-semibold outline-none focus:ring-2 focus:ring-blue-500 min-w-[100px]">
-      <option value="all">Semua Kelas</option>
-    </select>
-    <select id="filter-semester" class="p-2.5 bg-white border border-slate-200 rounded-xl text-sm font-semibold outline-none focus:ring-2 focus:ring-blue-500 min-w-[150px]">
-      <option value="">Pilih Semester</option>
-      <option value="Ganjil">Ganjil</option>
-      <option value="Genap">Genap</option>
-    </select>
-    <select id="filter-mapel" class="p-2.5 bg-white border border-slate-200 rounded-xl text-sm font-semibold outline-none focus:ring-2 focus:ring-blue-500 min-w-[150px]">
-      <option value="Mapel">Pilih Mapel</option>
-    </select> 
-    
-    <div class="relative flex flex-col justify-center">
-      <button id="btn-export-pdf" class="bg-slate-800 text-white px-6 py-2.5 rounded-xl text-sm font-bold hover:bg-slate-900 transition flex items-center shadow-md active:scale-95">
-        <i class="fas fa-file-pdf mr-2"></i> Cetak PDF
-      </button>
-      <div id="export-status-msg" class="text-[10px] absolute -bottom-4 left-0 w-max text-amber-600 font-medium"></div>
-    </div>
-    
-  </div>
-</div>
+            <!-- FILTER BAR (sama seperti kode Anda) -->
+            <div class="bg-white p-5 rounded-[2rem] shadow-sm border border-slate-100 flex flex-wrap gap-4 items-center">
+              <div class="flex-1 min-w-[250px] relative">
+                <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                <input type="text" id="search-siswa" placeholder="Cari Nama Siswa..." class="w-full pl-11 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 transition-all text-sm" />
+              </div>
+              <div class="flex flex-wrap gap-3 items-center">
+                <select id="filter-kelas" class="p-2.5 bg-white border border-slate-200 rounded-xl text-sm font-semibold outline-none focus:ring-2 focus:ring-blue-500 min-w-[100px]">
+                  <option value="all">Semua Kelas</option>
+                </select>
+                <select id="filter-semester" class="p-2.5 bg-white border border-slate-200 rounded-xl text-sm font-semibold outline-none focus:ring-2 focus:ring-blue-500 min-w-[150px]">
+                  <option value="">Pilih Semester</option>
+                  <option value="Ganjil">Ganjil</option>
+                  <option value="Genap">Genap</option>
+                </select>
+                <select id="filter-mapel" class="p-2.5 bg-white border border-slate-200 rounded-xl text-sm font-semibold outline-none focus:ring-2 focus:ring-blue-500 min-w-[150px]">
+                  <option value="Mapel">Pilih Mapel</option>
+                </select>
+                <div class="relative flex flex-col justify-center">
+                  <button id="btn-export-pdf" class="bg-slate-800 text-white px-6 py-2.5 rounded-xl text-sm font-bold hover:bg-slate-900 transition flex items-center shadow-md active:scale-95">
+                    <i class="fas fa-file-pdf mr-2"></i> Cetak PDF
+                  </button>
+                  <div id="export-status-msg" class="text-[10px] absolute -bottom-4 left-0 w-max text-amber-600 font-medium"></div>
+                </div>
+              </div>
             </div>
 
-            <!-- TABLE CARD -->
+            <!-- TABLE CARD (sama seperti kode Anda) -->
             <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-100 overflow-hidden">
               <div class="p-8">
                 <div class="overflow-x-auto">
@@ -271,10 +236,9 @@
                         <th class="px-4 py-3 text-center w-[90px]">UH2</th>
                         <th class="px-4 py-3 text-center w-[90px]">UTS</th>
                         <th class="px-4 py-3 text-center w-[120px]">Rata-Rata</th>
-                       </tr>
+                      </tr>
                     </thead>
-                    <tbody id="table-body-nilai" class="text-sm">
-                    </tbody>
+                    <tbody id="table-body-nilai" class="text-sm"></tbody>
                   </table>
                 </div>
               </div>
@@ -294,39 +258,8 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="firebase-config.js"></script>
 
-    <script>
-      // Profile Logic
-      document.addEventListener("DOMContentLoaded", function() {
-        const trigger = document.getElementById('profileTrigger');
-        const dropdown = document.getElementById('profileDropdown');
 
-        trigger.addEventListener('click', function(e) {
-          e.stopPropagation();
-          dropdown.classList.toggle('hidden');
-          dropdown.classList.toggle('show-dropdown');
-        });
-
-        document.addEventListener('click', function(e) {
-          if (!dropdown.contains(e.target) && !trigger.contains(e.target)) {
-            dropdown.classList.add('hidden');
-            dropdown.classList.remove('show-dropdown');
-          }
-        });
-      });
-
-      function handleLogout() {
-        Swal.fire({
-          title: "Yakin Keluar?",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonText: "Ya, Keluar",
-          confirmButtonColor: "#ef4444",
-          borderRadius: "20px",
-        }).then((res) => {
-          if (res.isConfirmed) window.location.href = "login.html";
-        });
-      }
-    </script>
     <script src="guru-nilai.js"></script>
+    <script src="guru-profile.js"></script>
   </body>
 </html>

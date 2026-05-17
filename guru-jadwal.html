@@ -420,39 +420,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="firebase-config.js"></script>
 
-    <script>
-      // Profile Logic
-      document.addEventListener("DOMContentLoaded", function() {
-        const trigger = document.getElementById('profileTrigger');
-        const dropdown = document.getElementById('profileDropdown');
-
-        trigger.addEventListener('click', function(e) {
-          e.stopPropagation();
-          dropdown.classList.toggle('hidden');
-          dropdown.classList.toggle('show-dropdown');
-        });
-
-        document.addEventListener('click', function(e) {
-          if (!dropdown.contains(e.target) && !trigger.contains(e.target)) {
-            dropdown.classList.add('hidden');
-            dropdown.classList.remove('show-dropdown');
-          }
-        });
-      });
-
-      function handleLogout() {
-        Swal.fire({
-          title: "Yakin Keluar?",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonText: "Ya, Keluar",
-          confirmButtonColor: "#ef4444",
-          borderRadius: "20px",
-        }).then((res) => {
-          if (res.isConfirmed) window.location.href = "login.html";
-        });
-      }
-    </script>
+    <script src="guru-profile.js"></script>
     <script src="guru-jadwal.js"></script>
   </body>
 </html>

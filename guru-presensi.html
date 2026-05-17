@@ -345,7 +345,7 @@
                     <input
                       type="text"
                       id="search-input"
-                      placeholder="Cari Nama Siswa atau NISN ..."
+                      placeholder="Cari Nama Siswa atau NISN ..." autocomplete="off"
                       class="block w-full pl-12 pr-4 py-3 bg-slate-100 border border-transparent rounded-2xl text-sm font-medium outline-none focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 shadow-sm transition-all duration-300"
                     />
                   </div>
@@ -578,64 +578,7 @@
       </div>
     </div>
 
-    <script>
-      function switchTab(tab) {
-        const d = document.getElementById("content-daftar");
-        const r = document.getElementById("content-rekap");
-        const td = document.getElementById("tab-daftar");
-        const tr = document.getElementById("tab-rekap");
-
-        if (tab === "daftar") {
-          d.classList.remove("hidden");
-          r.classList.add("hidden");
-          td.className =
-            "px-8 py-4 text-sm font-bold border-b-2 border-blue-600 text-blue-600 bg-white transition-all";
-          tr.className =
-            "px-8 py-4 text-sm font-bold text-slate-400 hover:text-slate-600 transition-all";
-        } else {
-          d.classList.add("hidden");
-          r.classList.remove("hidden");
-          tr.className =
-            "px-8 py-4 text-sm font-bold border-b-2 border-blue-600 text-blue-600 bg-white transition-all";
-          td.className =
-            "px-8 py-4 text-sm font-bold text-slate-400 hover:text-slate-600 transition-all";
-          if (typeof loadRekapPresensi === "function") {
-            loadRekapPresensi();
-          }
-        }
-      }
-
-      // Profile Logic
-      document.addEventListener("DOMContentLoaded", function() {
-        const trigger = document.getElementById('profileTrigger');
-        const dropdown = document.getElementById('profileDropdown');
-
-        trigger.addEventListener('click', function(e) {
-          e.stopPropagation();
-          dropdown.classList.toggle('hidden');
-          dropdown.classList.toggle('show-dropdown');
-        });
-
-        document.addEventListener('click', function(e) {
-          if (!dropdown.contains(e.target) && !trigger.contains(e.target)) {
-            dropdown.classList.add('hidden');
-            dropdown.classList.remove('show-dropdown');
-          }
-        });
-      });
-
-      function handleLogout() {
-        Swal.fire({
-          title: "Yakin Keluar?",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonText: "Ya, Keluar",
-          confirmButtonColor: "#ef4444",
-          borderRadius: "20px",
-        }).then((res) => {
-          if (res.isConfirmed) window.location.href = "login.html";
-        });
-      }
+    <script src="guru-profile.js">
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
